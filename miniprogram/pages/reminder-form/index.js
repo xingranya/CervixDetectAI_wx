@@ -1,5 +1,12 @@
 const { request } = require("../../utils/request");
 
+function getTodayDate() {
+  const date = new Date();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
 const defaultForm = {
   title: "",
   date: "",
@@ -20,8 +27,7 @@ Page({
       this.loadReminder(query.id);
       return;
     }
-    const today = new Date().toISOString().slice(0, 10);
-    this.setData({ form: { ...defaultForm, date: today } });
+    this.setData({ form: { ...defaultForm, date: getTodayDate() } });
   },
 
   async loadReminder(id) {

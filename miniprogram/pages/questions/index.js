@@ -29,7 +29,7 @@ Page({
 
   toggleQuestion(event) {
     const text = event.currentTarget.dataset.text;
-    const selected = this.data.selected.includes(text)
+    const selected = this.data.selected.indexOf(text) > -1
       ? this.data.selected.filter((item) => item !== text)
       : [...this.data.selected, text];
     this.setData({ selected });
@@ -65,10 +65,9 @@ Page({
   onAnswerInput(event) {
     const id = event.currentTarget.dataset.id;
     const answerText = event.detail.value;
-    const questions = this.data.questions.map((item) =>
-      item.id === id ? { ...item, answerText } : item
-    );
-    this.setData({ questions });
+    const index = this.data.questions.findIndex((item) => item.id === id);
+    if (index === -1) return;
+    this.setData({ [`questions[${index}].answerText`]: answerText });
   },
 
   async saveAnswer(event) {
@@ -99,7 +98,9 @@ Page({
         try {
           await request(`/questions/${id}`, { method: "DELETE" });
           wx.showToast({ title: "已删除", icon: "success" });
-          this.loadData();
+          this.setData({
+            questions: this.data.questions.filter((item) => item.id !== id)
+          });
         } catch (error) {
           wx.showToast({ title: error.message || "删除失败", icon: "none" });
         }

@@ -41,7 +41,9 @@ Page({
         try {
           await request(`/records/${id}`, { method: "DELETE" });
           wx.showToast({ title: "已删除", icon: "success" });
-          this.loadRecords();
+          this.setData({
+            records: this.data.records.filter((item) => item.id !== id)
+          });
         } catch (error) {
           wx.showToast({ title: error.message || "删除失败", icon: "none" });
         }

@@ -1,19 +1,49 @@
-<view class="page">
+<view class="page profile-page">
   <view class="profile-hero">
-    <text class="profile-title">{{appName}}</text>
-    <text class="profile-desc">管理检查摘要、复查提醒和就诊前问题。</text>
-    <text wx:if="{{user}}" class="profile-user">当前用户：{{user.nickname}}</text>
+    <view class="profile-user-row">
+      <image wx:if="{{user.avatarUrl}}" class="profile-avatar" src="{{user.avatarUrl}}" mode="aspectFill" />
+      <view wx:else class="profile-avatar profile-avatar-default">
+        <image class="profile-avatar-icon" src="/assets/icons/profile-white.png" mode="aspectFit" />
+      </view>
+      <view class="profile-user-body">
+        <text class="profile-label">{{appName}}</text>
+        <text class="profile-title">{{user.nickname || '微信用户'}}</text>
+        <text class="profile-desc">健康记录与复查安排已为你整理</text>
+      </view>
+    </view>
+
+    <view class="profile-metrics">
+      <view wx:for="{{metrics}}" wx:key="label" class="profile-metric">
+        <text class="profile-metric-value">{{item.value}}</text>
+        <text class="profile-metric-label">{{item.label}}</text>
+      </view>
+    </view>
   </view>
 
-  <view class="card menu-card" bindtap="openQuestions">
-    <text class="menu-title">问题整理</text>
-    <text class="menu-desc">查看已整理的线下咨询问题</text>
+  <view class="profile-section-head">
+    <text class="profile-section-title">常用功能</text>
+    <text class="profile-section-desc">快速进入你的健康管理事项</text>
   </view>
 
-  <view class="card menu-card" bindtap="openPrivacy">
-    <text class="menu-title">隐私与服务说明</text>
-    <text class="menu-desc">查看数据用途、服务边界和反馈方式</text>
+  <view class="profile-menu-grid">
+    <view
+      wx:for="{{menus}}"
+      wx:key="title"
+      class="profile-menu-card"
+      bind:tap="openMenu"
+      data-path="{{item.path}}"
+      data-tab="{{item.tab}}"
+    >
+      <image class="profile-menu-icon" src="{{item.icon}}" mode="aspectFit" />
+      <view class="profile-menu-body">
+        <text class="menu-title">{{item.title}}</text>
+        <text class="menu-desc">{{item.desc}}</text>
+      </view>
+    </view>
   </view>
 
-  <button class="logout-button" bindtap="logout">退出登录</button>
+  <button class="logout-button" bind:tap="logout">
+    <image class="button-icon" src="/assets/icons/logout-danger.png" mode="aspectFit" />
+    退出登录
+  </button>
 </view>

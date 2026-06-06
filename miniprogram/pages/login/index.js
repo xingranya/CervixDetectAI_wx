@@ -12,6 +12,7 @@ function wxLoginCode() {
 Page({
   data: {
     nickname: "微信用户",
+    avatarUrl: "",
     loading: false
   },
 
@@ -25,6 +26,10 @@ Page({
     this.setData({ nickname: event.detail.value });
   },
 
+  onChooseAvatar(event) {
+    this.setData({ avatarUrl: event.detail.avatarUrl || "" });
+  },
+
   async submitLogin() {
     if (this.data.loading) return;
 
@@ -35,7 +40,8 @@ Page({
       const res = await login({
         code,
         deviceId,
-        nickname: this.data.nickname || "微信用户"
+        nickname: this.data.nickname || "微信用户",
+        avatarUrl: this.data.avatarUrl
       });
 
       wx.setStorageSync("token", res.data.token);

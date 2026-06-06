@@ -1,6 +1,12 @@
+.detail-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
 .detail-title {
   display: block;
-  margin-top: 24rpx;
   color: #1e293b;
   font-size: 40rpx;
   font-weight: 800;

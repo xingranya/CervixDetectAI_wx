@@ -32,7 +32,10 @@ Page({
       await request(`/reminders/${id}/done`, { method: "PATCH" });
       wx.showToast({ title: "已完成", icon: "success" });
       if (wx.vibrateShort) wx.vibrateShort({ type: "light" });
-      this.loadReminders();
+      const index = this.data.reminders.findIndex((item) => item.id === id);
+      if (index > -1) {
+        this.setData({ [`reminders[${index}].done`]: true });
+      }
     } catch (error) {
       wx.showToast({ title: error.message || "操作失败", icon: "none" });
     }
@@ -49,7 +52,9 @@ Page({
         try {
           await request(`/reminders/${id}`, { method: "DELETE" });
           wx.showToast({ title: "已删除", icon: "success" });
-          this.loadReminders();
+          this.setData({
+            reminders: this.data.reminders.filter((item) => item.id !== id)
+          });
         } catch (error) {
           wx.showToast({ title: error.message || "删除失败", icon: "none" });
         }

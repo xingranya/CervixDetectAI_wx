@@ -1,3 +1,13 @@
+.privacy-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 18rpx;
+}
+
+.privacy-body {
+  flex: 1;
+}
+
 .privacy-title {
   display: block;
   color: #1e293b;

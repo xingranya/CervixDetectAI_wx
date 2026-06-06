@@ -5,6 +5,8 @@
 }
 
 .question-item {
+  display: flex;
+  align-items: center;
   margin-bottom: 18rpx;
   padding: 26rpx;
   border-radius: 18rpx;
@@ -14,6 +16,10 @@
   line-height: 1.55;
   text-align: left;
   box-shadow: 0 12rpx 32rpx rgba(15, 23, 42, 0.06);
+}
+
+.question-choice-icon {
+  margin-right: 12rpx;
 }
 
 .question-item-active {

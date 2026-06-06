@@ -1,13 +1,22 @@
 <view class="page" wx:if="{{record}}">
   <view class="card detail-card">
     <text class="pill">{{record.date}}</text>
-    <text class="detail-title">{{record.title}}</text>
+    <view class="detail-title-row">
+      <image class="title-icon" src="/assets/icons/detail-active.png" mode="aspectFit" />
+      <text class="detail-title">{{record.title}}</text>
+    </view>
     <text class="detail-row">项目：{{record.project}}</text>
     <text class="detail-row">摘要：{{record.summary}}</text>
     <text class="detail-row">提醒：{{record.suggestion}}</text>
     <view class="detail-actions">
-      <button class="ghost-button" bindtap="editRecord">编辑记录</button>
-      <button class="delete-button" bindtap="deleteRecord">删除记录</button>
+      <button class="ghost-button" bind:tap="editRecord">
+        <image class="button-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+        编辑记录
+      </button>
+      <button class="delete-button" bind:tap="deleteRecord">
+        <image class="button-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+        删除记录
+      </button>
     </view>
   </view>
   <view class="safe-note">如对检查内容有疑问，请携带记录到线下医疗机构咨询专业人员。</view>

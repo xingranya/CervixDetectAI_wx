@@ -1,3 +1,13 @@
+.article-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18rpx;
+}
+
+.article-body {
+  flex: 1;
+}
+
 .article-title {
   display: block;
   color: #1e293b;

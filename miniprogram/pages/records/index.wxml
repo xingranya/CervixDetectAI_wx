@@ -1,14 +1,23 @@
 <view class="page">
   <view class="page-head">
-    <text class="section-title">检查记录</text>
-    <button class="mini-primary" bindtap="createRecord">新增</button>
+    <view class="title-row">
+      <image class="title-icon" src="/assets/icons/records-active.png" mode="aspectFit" />
+      <text class="section-title">检查记录</text>
+    </view>
+    <button class="mini-primary" bind:tap="createRecord">
+      <image class="small-icon" src="/assets/icons/plus-white.png" mode="aspectFit" />
+      新增
+    </button>
   </view>
   <view wx:if="{{!records.length}}" class="card empty-card">
     <text class="empty-title">还没有检查记录</text>
     <text class="empty-desc">可以先添加一次检查摘要，后续复查时更方便查看。</text>
-    <button class="primary-button" bindtap="createRecord">添加第一条记录</button>
+    <button class="primary-button" bind:tap="createRecord">
+      <image class="button-icon" src="/assets/icons/plus-white.png" mode="aspectFit" />
+      添加第一条记录
+    </button>
   </view>
-  <view wx:for="{{records}}" wx:key="id" class="card record-card" bindtap="openDetail" data-id="{{item.id}}">
+  <view wx:for="{{records}}" wx:key="id" class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
     <view class="record-top">
       <text class="record-title">{{item.title}}</text>
       <text class="pill">{{item.status}}</text>
@@ -16,8 +25,14 @@
     <text class="record-date">{{item.date}} · {{item.project}}</text>
     <text class="record-summary">{{item.summary}}</text>
     <view class="record-actions">
-      <button class="text-button" catchtap="editRecord" data-id="{{item.id}}">编辑</button>
-      <button class="text-button danger" catchtap="deleteRecord" data-id="{{item.id}}">删除</button>
+      <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
+        <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+        编辑
+      </button>
+      <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
+        <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+        删除
+      </button>
     </view>
   </view>
   <view class="safe-note">记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。</view>

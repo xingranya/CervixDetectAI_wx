@@ -83,11 +83,37 @@
   margin-top: 28rpx;
 }
 
+.state-card {
+  margin-top: 120rpx;
+}
+
+.state-title,
+.state-desc {
+  display: block;
+}
+
+.state-title {
+  color: #0f172a;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.state-desc {
+  margin: 14rpx 0 24rpx;
+  color: #64748b;
+  font-size: 26rpx;
+  line-height: 1.6;
+}
+
 .card-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 20rpx;
+}
+
+.card-title-row {
+  flex: 1;
 }
 
 .latest-desc {
@@ -113,6 +139,14 @@
   padding: 26rpx 24rpx;
   box-sizing: border-box;
   line-height: 1.3;
+}
+
+.action-icon {
+  float: right;
+  width: 52rpx;
+  height: 52rpx;
+  margin-left: 12rpx;
+  opacity: 0.92;
 }
 
 .action-card-green {

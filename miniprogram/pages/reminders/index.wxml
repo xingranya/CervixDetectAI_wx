@@ -1,13 +1,22 @@
 <view class="page">
   <view class="page-head">
-    <text class="section-title">复查提醒</text>
-    <button class="mini-primary" bindtap="createReminder">新增</button>
+    <view class="title-row">
+      <image class="title-icon" src="/assets/icons/reminders-active.png" mode="aspectFit" />
+      <text class="section-title">复查提醒</text>
+    </view>
+    <button class="mini-primary" bind:tap="createReminder">
+      <image class="small-icon" src="/assets/icons/plus-white.png" mode="aspectFit" />
+      新增
+    </button>
   </view>
 
   <view wx:if="{{!reminders.length}}" class="card empty-card">
     <text class="empty-title">还没有提醒</text>
     <text class="empty-desc">添加复查或资料准备提醒，把后续安排放进计划里。</text>
-    <button class="primary-button" bindtap="createReminder">添加提醒</button>
+    <button class="primary-button" bind:tap="createReminder">
+      <image class="button-icon" src="/assets/icons/reminders-white.png" mode="aspectFit" />
+      添加提醒
+    </button>
   </view>
 
   <view wx:for="{{reminders}}" wx:key="id" class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
@@ -15,10 +24,19 @@
     <text class="reminder-title">{{item.title}}</text>
     <text class="reminder-desc">{{item.desc}}</text>
     <view class="reminder-actions">
-      <button wx:if="{{!item.done}}" class="ghost-button small-button" bindtap="markDone" data-id="{{item.id}}">标记完成</button>
+      <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
+        <image class="small-icon" src="/assets/icons/reminders-active.png" mode="aspectFit" />
+        标记完成
+      </button>
       <text wx:else class="done-text">已完成</text>
-      <button class="text-button" bindtap="editReminder" data-id="{{item.id}}">编辑</button>
-      <button class="text-button danger" bindtap="deleteReminder" data-id="{{item.id}}">删除</button>
+      <button class="text-button" bind:tap="editReminder" data-id="{{item.id}}">
+        <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+        编辑
+      </button>
+      <button class="text-button danger" bind:tap="deleteReminder" data-id="{{item.id}}">
+        <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+        删除
+      </button>
     </view>
   </view>
 </view>

@@ -1,4 +1,16 @@
-<view class="page home-page" wx:if="{{home}}">
+<view class="page home-page">
+  <view wx:if="{{loading}}" class="card state-card">
+    <text class="state-title">正在加载健康记录</text>
+    <text class="state-desc">请稍候，正在同步你的健康管理信息。</text>
+  </view>
+
+  <view wx:elif="{{errorMessage}}" class="card state-card">
+    <text class="state-title">暂时无法加载首页</text>
+    <text class="state-desc">{{errorMessage}}</text>
+    <button class="primary-button" bind:tap="loadHome">重新加载</button>
+  </view>
+
+  <block wx:else>
   <view class="hero">
     <view class="hero-top">
       <text class="eyebrow">女性健康管理助手</text>
@@ -16,19 +28,27 @@
 
   <view class="card latest-card">
     <view class="card-head">
-      <text class="section-title">{{home.latestTitle}}</text>
+      <view class="card-title-row">
+        <image class="card-icon" src="/assets/icons/detail-active.png" mode="aspectFit" />
+        <text class="section-title">{{home.latestTitle}}</text>
+      </view>
       <text class="pill">{{home.latestDate}}</text>
     </view>
     <text class="latest-desc">{{home.nextReminder}}</text>
-    <button class="primary-button" bindtap="goPage" data-path="/pages/records/index" data-tab="{{true}}">查看检查记录</button>
+    <button class="primary-button" bind:tap="goPage" data-path="/pages/records/index">
+      <image class="button-icon" src="/assets/icons/records-white.png" mode="aspectFit" />
+      查看检查记录
+    </button>
   </view>
 
   <view class="action-grid">
-    <button wx:for="{{actions}}" wx:key="label" class="action-card action-card-{{item.tone}}" bindtap="goPage" data-path="{{item.path}}" data-tab="{{item.tab}}">
+    <button wx:for="{{actions}}" wx:key="label" class="action-card action-card-{{item.tone}}" bind:tap="goPage" data-path="{{item.path}}">
+      <image class="action-icon" src="{{item.icon}}" mode="aspectFit" />
       <text class="action-title">{{item.label}}</text>
       <text class="action-desc">{{item.desc}}</text>
     </button>
   </view>
 
   <view class="safe-note">{{home.disclaimer}}</view>
+  </block>
 </view>

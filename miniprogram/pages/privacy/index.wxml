@@ -1,15 +1,33 @@
 <view class="page">
-  <text class="section-title">隐私与服务说明</text>
-  <view class="card">
-    <text class="privacy-title">我们收集什么</text>
-    <text class="privacy-text">仅在你使用记录、提醒、反馈等功能时保存必要信息。手机号等信息仅在你主动授权或填写时使用。</text>
+  <view class="title-row">
+    <image class="title-icon" src="/assets/icons/privacy-active.png" mode="aspectFit" />
+    <text class="section-title">隐私与服务说明</text>
   </view>
   <view class="card">
-    <text class="privacy-title">服务边界</text>
-    <text class="privacy-text">本小程序用于健康信息记录、复查提醒和就诊前问题整理，具体健康问题请前往线下正规机构咨询。</text>
+    <view class="privacy-row">
+      <image class="card-icon" src="/assets/icons/privacy-active.png" mode="aspectFit" />
+      <view class="privacy-body">
+        <text class="privacy-title">我们收集什么</text>
+        <text class="privacy-text">仅在你使用记录、提醒、反馈等功能时保存必要信息。手机号等信息仅在你主动授权或填写时使用。</text>
+      </view>
+    </view>
   </view>
   <view class="card">
-    <text class="privacy-title">联系我们</text>
-    <text class="privacy-text">如需反馈问题，可在比赛演示环境中联系项目开发者。</text>
+    <view class="privacy-row">
+      <image class="card-icon" src="/assets/icons/check-active.png" mode="aspectFit" />
+      <view class="privacy-body">
+        <text class="privacy-title">服务边界</text>
+        <text class="privacy-text">本小程序用于健康信息记录、复查提醒和就诊前问题整理，具体健康问题请前往线下正规机构咨询。</text>
+      </view>
+    </view>
+  </view>
+  <view class="card">
+    <view class="privacy-row">
+      <image class="card-icon" src="/assets/icons/questions-active.png" mode="aspectFit" />
+      <view class="privacy-body">
+        <text class="privacy-title">联系我们</text>
+        <text class="privacy-text">如需反馈问题，可在比赛演示环境中联系项目开发者。</text>
+      </view>
+    </view>
   </view>
 </view>

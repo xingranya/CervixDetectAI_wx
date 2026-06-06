@@ -1,5 +1,8 @@
 <view class="page">
-  <text class="section-title">就诊前问题整理</text>
+  <view class="title-row">
+    <image class="title-icon" src="/assets/icons/questions-active.png" mode="aspectFit" />
+    <text class="section-title">就诊前问题整理</text>
+  </view>
   <view class="card">
     <text class="intro">选择或填写想在线下咨询时确认的问题，保存后可继续补充咨询记录备忘。</text>
   </view>
@@ -8,26 +11,39 @@
     wx:for="{{templates}}"
     wx:key="*this"
     class="question-item {{selected.indexOf(item) > -1 ? 'question-item-active' : ''}}"
-    bindtap="toggleQuestion"
+    bind:tap="toggleQuestion"
     data-text="{{item}}"
   >
+    <image class="small-icon question-choice-icon" src="/assets/icons/questions-active.png" mode="aspectFit" />
     {{item}}
   </button>
 
   <view class="card custom-card">
     <text class="form-label">自定义问题</text>
-    <textarea class="form-textarea" value="{{customQuestion}}" bindinput="onCustomInput" maxlength="255" placeholder="例如：复查前需要准备哪些历史资料？" />
-    <button class="primary-button save-button" bindtap="saveSelected">保存到问题清单</button>
+    <textarea class="form-textarea" value="{{customQuestion}}" bind:input="onCustomInput" maxlength="255" placeholder="例如：复查前需要准备哪些历史资料？" />
+    <button class="primary-button save-button" bind:tap="saveSelected">
+      <image class="button-icon" src="/assets/icons/questions-white.png" mode="aspectFit" />
+      保存到问题清单
+    </button>
   </view>
 
   <view class="card" wx:if="{{questions.length}}">
-    <text class="section-title">已保存问题</text>
+    <view class="title-row">
+      <image class="title-icon" src="/assets/icons/detail-active.png" mode="aspectFit" />
+      <text class="section-title">已保存问题</text>
+    </view>
     <view wx:for="{{questions}}" wx:key="id" class="saved-question">
       <text class="saved-title">{{index + 1}}. {{item.questionText}}</text>
-      <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bindinput="onAnswerInput" maxlength="1000" placeholder="线下咨询后，可在这里记录自己的备忘。" />
+      <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bind:input="onAnswerInput" maxlength="1000" placeholder="线下咨询后，可在这里记录自己的备忘。" />
       <view class="question-actions">
-        <button class="text-button" bindtap="saveAnswer" data-id="{{item.id}}">保存备忘</button>
-        <button class="text-button danger" bindtap="deleteQuestion" data-id="{{item.id}}">删除</button>
+        <button class="text-button" bind:tap="saveAnswer" data-id="{{item.id}}">
+          <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+          保存备忘
+        </button>
+        <button class="text-button danger" bind:tap="deleteQuestion" data-id="{{item.id}}">
+          <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+          删除
+        </button>
       </view>
     </view>
   </view>
