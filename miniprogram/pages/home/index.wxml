@@ -22,7 +22,7 @@
         </view>
         <view class="follow-card">
           <text class="follow-label">下次提醒</text>
-          <text class="follow-date">{{home.metrics[2].value}}</text>
+          <text class="follow-date">{{home.nextReminderValue}}</text>
         </view>
       </view>
       <text class="hero-title">{{home.userName}}，请按计划管理健康记录</text>

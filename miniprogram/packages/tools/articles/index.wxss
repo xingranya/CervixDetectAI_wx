@@ -10,15 +10,15 @@
 
 .article-title {
   display: block;
-  color: #1e293b;
+  color: #0b1c30;
   font-size: 32rpx;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .article-summary {
   display: block;
   margin-top: 14rpx;
-  color: #64748b;
+  color: #66748a;
   font-size: 27rpx;
   line-height: 1.65;
 }

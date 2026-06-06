@@ -8,18 +8,46 @@ const {
 } = require("../../utils/request");
 const { ROUTES, openRoute } = require("../../utils/navigation");
 
+const DEFAULT_USER = {
+  nickname: "微信用户",
+  avatarUrl: ""
+};
+
+const DEFAULT_METRICS = [
+  { label: "检查记录", value: "--" },
+  { label: "待关注", value: "--" },
+  { label: "下次提醒", value: "--" }
+];
+
+function normalizeUser(user) {
+  const source = user || {};
+  return {
+    nickname: source.nickname || "微信用户",
+    avatarUrl: source.avatarUrl || ""
+  };
+}
+
+function normalizeMetric(metric, fallback) {
+  const source = metric || {};
+  const value = source.value === undefined || source.value === null || source.value === ""
+    ? fallback.value
+    : source.value;
+  return {
+    label: source.label || fallback.label,
+    value
+  };
+}
+
+function normalizeMetrics(metrics) {
+  const list = Array.isArray(metrics) ? metrics : [];
+  return DEFAULT_METRICS.map((fallback, index) => normalizeMetric(list[index], fallback));
+}
+
 Page({
   data: {
     appName: "云端智诊",
-    user: {
-      nickname: "微信用户",
-      avatarUrl: ""
-    },
-    metrics: [
-      { label: "检查记录", value: "--" },
-      { label: "待关注", value: "--" },
-      { label: "下次提醒", value: "--" }
-    ],
+    user: DEFAULT_USER,
+    metrics: DEFAULT_METRICS,
     menus: [
       {
         title: "检查记录",
@@ -50,14 +78,11 @@ Page({
 
   onShow() {
     this.setData({
-      user: wx.getStorageSync("user") || {
-        nickname: "微信用户",
-        avatarUrl: ""
-      }
+      user: normalizeUser(wx.getStorageSync("user"))
     });
     const cachedHome = getCachedData(CACHE_KEYS.home);
     if (cachedHome && cachedHome.data && Array.isArray(cachedHome.data.metrics)) {
-      this.setData({ metrics: cachedHome.data.metrics });
+      this.setData({ metrics: normalizeMetrics(cachedHome.data.metrics) });
     }
 
     const shouldRefresh = !cachedHome
@@ -76,7 +101,7 @@ Page({
         maxAge: 60 * 1000
       });
       if (res.data && res.data.metrics) {
-        this.setData({ metrics: res.data.metrics });
+        this.setData({ metrics: normalizeMetrics(res.data.metrics) });
       }
     } catch (_error) {
       // 首页概览加载失败时保留默认占位，不影响个人中心操作。

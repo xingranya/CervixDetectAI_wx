@@ -57,35 +57,37 @@
     bind:action="createRecord"
   />
 
-  <view wx:else class="timeline">
-    <view wx:for="{{records}}" wx:key="id" class="timeline-item">
-      <view class="timeline-rail">
-        <view class="timeline-node {{index === 0 ? 'timeline-node-active' : ''}}"></view>
-        <view class="timeline-line" wx:if="{{index < records.length - 1}}"></view>
-      </view>
-      <view class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
-        <view class="record-top">
-          <view class="record-title-block">
-            <text class="record-date">{{item.date}}</text>
-            <text class="record-title">{{item.title}}</text>
-          </view>
-          <text class="pill">{{item.status}}</text>
+  <block wx:else>
+    <view class="timeline">
+      <view wx:for="{{records}}" wx:key="id" class="timeline-item">
+        <view class="timeline-rail">
+          <view class="timeline-node {{index === 0 ? 'timeline-node-active' : ''}}"></view>
+          <view class="timeline-line" wx:if="{{index < records.length - 1}}"></view>
         </view>
-        <text class="record-project">{{item.project}}</text>
-        <text class="record-summary">{{item.summary}}</text>
-        <view class="record-actions">
-          <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
-            <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
-            编辑
-          </button>
-          <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
-            <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
-            删除
-          </button>
+        <view class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
+          <view class="record-top">
+            <view class="record-title-block">
+              <text class="record-date">{{item.date}}</text>
+              <text class="record-title">{{item.title}}</text>
+            </view>
+            <text class="pill">{{item.status}}</text>
+          </view>
+          <text class="record-project">{{item.project}}</text>
+          <text class="record-summary">{{item.summary}}</text>
+          <view class="record-actions">
+            <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
+              <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+              编辑
+            </button>
+            <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
+              <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+              删除
+            </button>
+          </view>
         </view>
       </view>
     </view>
-  </view>
+  </block>
 
   <view class="safe-note">记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。</view>
 </view>

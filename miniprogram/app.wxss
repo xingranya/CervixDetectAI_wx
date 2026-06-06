@@ -202,7 +202,7 @@ page {
   color: #66748a;
   font-size: 22rpx;
   font-weight: 800;
-  letter-spacing: 1rpx;
+  letter-spacing: 0;
 }
 
 .page-head {

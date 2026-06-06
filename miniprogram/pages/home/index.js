@@ -9,6 +9,43 @@ const { ROUTES, openRoute } = require("../../utils/navigation");
 const { PAGE_STATUS, resolveDetailStatus } = require("../../utils/page-state");
 const { getErrorMessage } = require("../../utils/feedback");
 
+const DEFAULT_METRICS = [
+  { label: "已记录", value: "0次" },
+  { label: "待关注", value: "0项" },
+  { label: "下次提醒", value: "暂无" }
+];
+
+function normalizeMetric(metric, fallback) {
+  const source = metric || {};
+  const value = source.value === undefined || source.value === null || source.value === ""
+    ? fallback.value
+    : source.value;
+  return {
+    label: source.label || fallback.label,
+    value
+  };
+}
+
+function normalizeMetrics(metrics) {
+  const list = Array.isArray(metrics) ? metrics : [];
+  return DEFAULT_METRICS.map((fallback, index) => normalizeMetric(list[index], fallback));
+}
+
+function normalizeHome(home) {
+  const source = home || {};
+  const metrics = normalizeMetrics(source.metrics);
+  return {
+    userName: source.userName || "微信用户",
+    latestTitle: source.latestTitle || "还没有检查记录",
+    latestDate: source.latestDate || "",
+    latestSummary: source.latestSummary || "可以先添加一次检查摘要，后续复查时更方便查看。",
+    nextReminder: source.nextReminder || "添加复查或资料准备提醒，把后续安排放进计划里。",
+    nextReminderValue: metrics[2].value,
+    disclaimer: source.disclaimer || "记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。",
+    metrics
+  };
+}
+
 Page({
   data: {
     home: null,
@@ -27,9 +64,10 @@ Page({
     const hasCachedHome = !!(cachedHome && cachedHome.data);
 
     if (hasCachedHome) {
+      const normalizedHome = normalizeHome(cachedHome.data);
       this.setData({
-        home: cachedHome.data,
-        pageStatus: resolveDetailStatus(cachedHome.data),
+        home: normalizedHome,
+        pageStatus: resolveDetailStatus(normalizedHome),
         errorMessage: ""
       });
     }
@@ -57,10 +95,11 @@ Page({
         cacheKey: CACHE_KEYS.home,
         maxAge: 60 * 1000
       });
+      const normalizedHome = normalizeHome(res.data);
       this.setData({
-        home: res.data,
+        home: normalizedHome,
         errorMessage: "",
-        pageStatus: resolveDetailStatus(res.data)
+        pageStatus: resolveDetailStatus(normalizedHome)
       });
     } catch (error) {
       if (this.data.home) return;

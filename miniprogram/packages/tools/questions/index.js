@@ -15,9 +15,17 @@ function resolveQuestionsStatus(templates, questions) {
   return templates.length || questions.length ? PAGE_STATUS.READY : PAGE_STATUS.EMPTY;
 }
 
+function buildTemplateOptions(templates, selected) {
+  return templates.map((text) => ({
+    text,
+    selected: selected.indexOf(text) > -1
+  }));
+}
+
 Page({
   data: {
     templates: [],
+    templateOptions: [],
     selected: [],
     questions: [],
     customQuestion: "",
@@ -37,6 +45,7 @@ Page({
     if (templates.length || questions.length) {
       this.setData({
         templates,
+        templateOptions: buildTemplateOptions(templates, this.data.selected),
         questions,
         pageStatus: resolveQuestionsStatus(templates, questions),
         errorMessage: ""
@@ -77,6 +86,7 @@ Page({
       const questions = questionRes.data || [];
       this.setData({
         templates,
+        templateOptions: buildTemplateOptions(templates, this.data.selected),
         questions,
         pageStatus: resolveQuestionsStatus(templates, questions),
         errorMessage: ""
@@ -95,7 +105,10 @@ Page({
     const selected = this.data.selected.indexOf(text) > -1
       ? this.data.selected.filter((item) => item !== text)
       : [...this.data.selected, text];
-    this.setData({ selected });
+    this.setData({
+      selected,
+      templateOptions: buildTemplateOptions(this.data.templates, selected)
+    });
   },
 
   onCustomInput(event) {
@@ -125,6 +138,7 @@ Page({
       });
       this.setData({
         selected: [],
+        templateOptions: buildTemplateOptions(this.data.templates, []),
         customQuestion: "",
         questions: nextQuestions,
         pageStatus: resolveQuestionsStatus(this.data.templates, nextQuestions),

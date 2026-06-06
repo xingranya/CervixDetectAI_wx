@@ -12,12 +12,12 @@ const ROUTES = {
   privacy: "/packages/profile/privacy/index"
 };
 
-const TAB_ROUTES = new Set([
+const TAB_ROUTES = [
   ROUTES.home,
   ROUTES.records,
   ROUTES.reminders,
   ROUTES.profile
-]);
+];
 
 function buildUrl(route, query = {}) {
   const segments = Object.keys(query)
@@ -34,7 +34,7 @@ function openRoute(route, query = {}, options = {}) {
   if (options.redirect) {
     return wx.redirectTo({ url: buildUrl(route, query) });
   }
-  if (TAB_ROUTES.has(route)) {
+  if (TAB_ROUTES.indexOf(route) > -1) {
     return wx.switchTab({ url: route });
   }
   return wx.navigateTo({ url: buildUrl(route, query) });

@@ -24,6 +24,15 @@ function buildReminderSummary(reminders) {
   };
 }
 
+function sortReminders(reminders) {
+  return reminders.slice().sort((left, right) => {
+    if (left.done !== right.done) {
+      return left.done ? 1 : -1;
+    }
+    return String(left.date).localeCompare(String(right.date));
+  });
+}
+
 Page({
   data: {
     reminders: [],
@@ -50,10 +59,11 @@ Page({
   },
 
   applyReminders(reminders) {
+    const nextReminders = sortReminders(reminders);
     this.setData({
-      reminders,
-      summary: buildReminderSummary(reminders),
-      pageStatus: resolveListStatus(reminders),
+      reminders: nextReminders,
+      summary: buildReminderSummary(nextReminders),
+      pageStatus: resolveListStatus(nextReminders),
       errorMessage: ""
     });
   },

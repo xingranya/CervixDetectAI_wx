@@ -52,28 +52,30 @@
     bind:action="createReminder"
   />
 
-  <view wx:else wx:for="{{reminders}}" wx:key="id" class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
-    <view class="reminder-top">
-      <view>
-        <text class="reminder-date">{{item.date}}</text>
-        <text class="reminder-title">{{item.title}}</text>
+  <block wx:else>
+    <view wx:for="{{reminders}}" wx:key="id" class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
+      <view class="reminder-top">
+        <view>
+          <text class="reminder-date">{{item.date}}</text>
+          <text class="reminder-title">{{item.title}}</text>
+        </view>
+        <text class="pill">{{item.done ? '已完成' : '待处理'}}</text>
       </view>
-      <text class="pill">{{item.done ? '已完成' : '待处理'}}</text>
+      <text class="reminder-desc">{{item.desc}}</text>
+      <view class="reminder-actions">
+        <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
+          <image class="small-icon" src="/assets/icons/reminders-active.png" mode="aspectFit" />
+          标记完成
+        </button>
+        <button class="text-button" bind:tap="editReminder" data-id="{{item.id}}">
+          <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+          编辑
+        </button>
+        <button class="text-button danger" bind:tap="deleteReminder" data-id="{{item.id}}">
+          <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+          删除
+        </button>
+      </view>
     </view>
-    <text class="reminder-desc">{{item.desc}}</text>
-    <view class="reminder-actions">
-      <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
-        <image class="small-icon" src="/assets/icons/reminders-active.png" mode="aspectFit" />
-        标记完成
-      </button>
-      <button class="text-button" bind:tap="editReminder" data-id="{{item.id}}">
-        <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
-        编辑
-      </button>
-      <button class="text-button danger" bind:tap="deleteReminder" data-id="{{item.id}}">
-        <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
-        删除
-      </button>
-    </view>
-  </view>
+  </block>
 </view>

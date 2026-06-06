@@ -18,8 +18,8 @@ let isRedirectingLogin = false;
 let runtimeInfoCache = null;
 let baseUrlCache = "";
 
-const responseCache = new Map();
-const inflightRequests = new Map();
+const responseCache = {};
+const inflightRequests = {};
 
 function cloneData(data) {
   if (data === undefined) return undefined;
@@ -28,7 +28,7 @@ function cloneData(data) {
 
 function getCacheEntry(key) {
   if (!key) return null;
-  return responseCache.get(String(key)) || null;
+  return responseCache[String(key)] || null;
 }
 
 function getCachedData(key) {
@@ -38,16 +38,16 @@ function getCachedData(key) {
 
 function setCachedData(key, data) {
   if (!key) return;
-  responseCache.set(String(key), {
+  responseCache[String(key)] = {
     data: cloneData(data),
     updatedAt: Date.now(),
     dirty: false
-  });
+  };
 }
 
 function clearCachedData(key) {
   if (!key) return;
-  responseCache.delete(String(key));
+  delete responseCache[String(key)];
 }
 
 function isCacheFresh(key, maxAge = DEFAULT_CACHE_MAX_AGE) {
@@ -63,11 +63,11 @@ function markCacheDirty(key) {
     entry.dirty = true;
     return;
   }
-  responseCache.set(cacheKey, {
+  responseCache[cacheKey] = {
     data: undefined,
     updatedAt: 0,
     dirty: true
-  });
+  };
 }
 
 function consumeCacheDirty(key) {
@@ -250,8 +250,8 @@ function request(path, options = {}) {
   }
 
   const inflightKey = buildInflightKey(path, options, baseUrl);
-  if (isGetRequest && inflightRequests.has(inflightKey)) {
-    return inflightRequests.get(inflightKey);
+  if (isGetRequest && inflightRequests[inflightKey]) {
+    return inflightRequests[inflightKey];
   }
 
   const promise = new Promise((resolve, reject) => {
@@ -284,19 +284,23 @@ function request(path, options = {}) {
       fail: (error) => reject(normalizeRequestError(error, baseUrl))
     });
   }).finally(() => {
-    inflightRequests.delete(inflightKey);
+    delete inflightRequests[inflightKey];
   });
 
   if (isGetRequest) {
-    inflightRequests.set(inflightKey, promise);
+    inflightRequests[inflightKey] = promise;
   }
 
   return promise;
 }
 
 function clearAllCaches() {
-  responseCache.clear();
-  inflightRequests.clear();
+  Object.keys(responseCache).forEach((key) => {
+    delete responseCache[key];
+  });
+  Object.keys(inflightRequests).forEach((key) => {
+    delete inflightRequests[key];
+  });
 }
 
 function login(payload) {

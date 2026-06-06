@@ -22,14 +22,14 @@
   <block wx:else>
     <view class="template-list">
       <button
-        wx:for="{{templates}}"
-        wx:key="*this"
-        class="question-item {{selected.indexOf(item) > -1 ? 'question-item-active' : ''}}"
+        wx:for="{{templateOptions}}"
+        wx:key="text"
+        class="question-item {{item.selected ? 'question-item-active' : ''}}"
         bind:tap="toggleQuestion"
-        data-text="{{item}}"
+        data-text="{{item.text}}"
       >
         <image class="small-icon question-choice-icon" src="/assets/icons/questions-active.png" mode="aspectFit" />
-        {{item}}
+        {{item.text}}
       </button>
     </view>
 

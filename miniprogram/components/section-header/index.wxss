@@ -24,15 +24,15 @@
 }
 
 .section-title {
-  color: #1e293b;
+  color: #0b1c30;
   font-size: 34rpx;
-  font-weight: 700;
+  font-weight: 900;
 }
 
 .section-desc {
   display: block;
   margin-top: 8rpx;
-  color: #64748b;
+  color: #66748a;
   font-size: 25rpx;
   line-height: 1.6;
 }

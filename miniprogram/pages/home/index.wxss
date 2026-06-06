@@ -227,19 +227,39 @@
 }
 
 .action-card-green {
-  border-left: 8rpx solid #1976d2;
+  border-color: rgba(31, 83, 201, 0.18);
+  background: rgba(255, 255, 255, 0.76);
 }
 
 .action-card-blue {
-  border-left: 8rpx solid #2563eb;
+  border-color: rgba(64, 109, 228, 0.2);
+  background: rgba(239, 244, 255, 0.76);
 }
 
 .action-card-gold {
-  border-left: 8rpx solid #26a69a;
+  border-color: rgba(38, 166, 154, 0.22);
+  background: rgba(239, 255, 252, 0.72);
 }
 
 .action-card-mint {
-  border-left: 8rpx solid #31ccec;
+  border-color: rgba(49, 204, 236, 0.22);
+  background: rgba(239, 250, 255, 0.74);
+}
+
+.action-card-green .action-icon-wrap {
+  background: rgba(219, 225, 255, 0.62);
+}
+
+.action-card-blue .action-icon-wrap {
+  background: rgba(211, 228, 254, 0.66);
+}
+
+.action-card-gold .action-icon-wrap {
+  background: rgba(210, 242, 237, 0.68);
+}
+
+.action-card-mint .action-icon-wrap {
+  background: rgba(211, 246, 255, 0.68);
 }
 
 .action-title,

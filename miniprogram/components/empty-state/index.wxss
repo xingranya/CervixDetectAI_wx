@@ -12,14 +12,14 @@
 }
 
 .empty-title {
-  color: #1e293b;
+  color: #0b1c30;
   font-size: 32rpx;
-  font-weight: 700;
+  font-weight: 900;
 }
 
 .empty-desc {
   margin-top: 12rpx;
-  color: #64748b;
+  color: #66748a;
   font-size: 26rpx;
   line-height: 1.7;
 }
