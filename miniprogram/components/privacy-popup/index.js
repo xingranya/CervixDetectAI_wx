@@ -15,7 +15,6 @@ Component({
       wx.onNeedPrivacyAuthorization((resolve) => {
         this.resolvePrivacyAuthorization = resolve;
         this.setData({ visible: true });
-        resolve({ event: "exposureAuthorization" });
       });
     },
 
