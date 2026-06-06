@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "登录云端智诊"
+  "navigationBarTitleText": "登录云端智诊",
+  "usingComponents": {
+    "privacy-popup": "/components/privacy-popup/index"
+  }
 }

@@ -23,8 +23,9 @@ function buildTemplateOptions(templates, selected) {
 }
 
 Page({
+  templateTexts: [],
+
   data: {
-    templates: [],
     templateOptions: [],
     selected: [],
     questions: [],
@@ -41,10 +42,10 @@ Page({
 
     const templates = hasCachedTemplates ? cachedTemplates.data : [];
     const questions = hasCachedQuestions ? cachedQuestions.data : [];
+    this.templateTexts = templates;
 
     if (templates.length || questions.length) {
       this.setData({
-        templates,
         templateOptions: buildTemplateOptions(templates, this.data.selected),
         questions,
         pageStatus: resolveQuestionsStatus(templates, questions),
@@ -84,15 +85,15 @@ Page({
       ]);
       const templates = templateRes.data || [];
       const questions = questionRes.data || [];
+      this.templateTexts = templates;
       this.setData({
-        templates,
         templateOptions: buildTemplateOptions(templates, this.data.selected),
         questions,
         pageStatus: resolveQuestionsStatus(templates, questions),
         errorMessage: ""
       });
     } catch (error) {
-      if (this.data.templates.length || this.data.questions.length) return;
+      if (this.data.templateOptions.length || this.data.questions.length) return;
       this.setData({
         pageStatus: PAGE_STATUS.ERROR,
         errorMessage: getErrorMessage(error, "加载失败")
@@ -107,7 +108,7 @@ Page({
       : [...this.data.selected, text];
     this.setData({
       selected,
-      templateOptions: buildTemplateOptions(this.data.templates, selected)
+      templateOptions: buildTemplateOptions(this.templateTexts, selected)
     });
   },
 
@@ -138,10 +139,10 @@ Page({
       });
       this.setData({
         selected: [],
-        templateOptions: buildTemplateOptions(this.data.templates, []),
+        templateOptions: buildTemplateOptions(this.templateTexts, []),
         customQuestion: "",
         questions: nextQuestions,
-        pageStatus: resolveQuestionsStatus(this.data.templates, nextQuestions),
+        pageStatus: resolveQuestionsStatus(this.templateTexts, nextQuestions),
         errorMessage: ""
       });
       showSuccessToast("已保存");
@@ -193,7 +194,7 @@ Page({
           const nextQuestions = this.data.questions.filter((item) => item.id !== id);
           this.setData({
             questions: nextQuestions,
-            pageStatus: resolveQuestionsStatus(this.data.templates, nextQuestions)
+            pageStatus: resolveQuestionsStatus(this.templateTexts, nextQuestions)
           });
           showSuccessToast("已删除");
         } catch (error) {

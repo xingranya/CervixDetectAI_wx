@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "编辑检查记录"
+  "navigationBarTitleText": "编辑检查记录",
+  "usingComponents": {
+    "section-header": "/components/section-header/index"
+  }
 }

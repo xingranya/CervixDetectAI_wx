@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "编辑复查提醒"
+  "navigationBarTitleText": "编辑复查提醒",
+  "usingComponents": {
+    "section-header": "/components/section-header/index"
+  }
 }

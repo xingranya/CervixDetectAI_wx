@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "问题整理"
+  "navigationBarTitleText": "问题整理",
+  "usingComponents": {
+    "section-header": "/components/section-header/index"
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "libVersion": "3.15.2",
+  "libVersion": "3.8.12",
   "projectname": "CervixDetectAI_wx",
   "condition": {},
   "setting": {
@@ -8,7 +8,7 @@
     "lazyloadPlaceholderEnable": false,
     "skylineRenderEnable": false,
     "preloadBackgroundData": false,
-    "autoAudits": false,
+    "autoAudits": true,
     "useApiHook": true,
     "showShadowRootInWxmlPanel": false,
     "useStaticServer": false,

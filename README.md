@@ -49,6 +49,10 @@ npm run dev
 
 登录链路遵循微信官方流程：小程序端调用 `wx.login()` 获取 code，后端通过 `code2Session` 换取 OpenID，再生成自定义登录态。头像昵称使用微信头像昵称填写能力：头像按钮使用 `open-type="chooseAvatar"`，昵称输入框使用 `type="nickname"`。
 
+头像选择得到的是小程序临时文件路径，不能直接长期保存到数据库。当前实现会在用户登录成功后，把已选择头像上传到后端 `/api/miniapp/me/avatar`，后端保存到 `server/uploads/avatars/` 并把永久访问地址写入用户资料。部署到公网时，建议在 `server/.env` 配置 `MINIAPP_PUBLIC_BASE_URL` 为后端 HTTPS 域名。
+
+如果开发者工具或真机报错 `chooseAvatar:fail api scope is not declared in the privacy agreement`，需要在微信公众平台的小程序用户隐私保护指引里补充头像、昵称用途声明，并发布/同步隐私协议配置。代码侧只能做提示和兜底，微信不会在隐私用途未声明时放行头像选择能力。
+
 开发阶段接口地址在 `miniprogram/config/app.js` 中维护：
 
 - 开发者工具：`devtoolsApiBaseUrl`

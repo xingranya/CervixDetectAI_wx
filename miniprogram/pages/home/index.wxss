@@ -162,7 +162,10 @@
 }
 
 .card-title-row {
+  display: flex;
+  align-items: center;
   flex: 1;
+  gap: 14rpx;
   min-width: 0;
 }
 

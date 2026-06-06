@@ -56,6 +56,10 @@
 }
 
 .delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   height: 76rpx;
   border: 1rpx solid rgba(186, 26, 26, 0.2);
   border-radius: 18rpx;
@@ -64,4 +68,8 @@
   font-size: 28rpx;
   line-height: 76rpx;
   font-weight: 700;
+}
+
+.delete-button::after {
+  border: 0;
 }

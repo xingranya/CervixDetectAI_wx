@@ -4,6 +4,13 @@
   gap: 18rpx;
 }
 
+.card-icon {
+  display: block;
+  width: 50rpx;
+  height: 50rpx;
+  flex: 0 0 auto;
+}
+
 .article-body {
   flex: 1;
 }

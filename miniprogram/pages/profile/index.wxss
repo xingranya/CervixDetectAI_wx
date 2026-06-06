@@ -202,6 +202,10 @@
 }
 
 .logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   width: 100%;
   height: 78rpx;
   margin-top: 34rpx;
@@ -212,4 +216,8 @@
   font-size: 28rpx;
   line-height: 78rpx;
   font-weight: 700;
+}
+
+.logout-button::after {
+  border: 0;
 }

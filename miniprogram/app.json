@@ -74,10 +74,6 @@
   },
   "style": "v2",
   "lazyCodeLoading": "requiredComponents",
-  "usingComponents": {
-    "section-header": "/components/section-header/index",
-    "empty-state": "/components/empty-state/index"
-  },
   "sitemapLocation": "sitemap.json",
   "__usePrivacyCheck__": true
 }

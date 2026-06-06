@@ -1,0 +1,21 @@
+<view wx:if="{{visible}}" class="privacy-mask">
+  <view class="privacy-panel">
+    <image class="privacy-icon" src="/assets/icons/privacy-active.png" mode="aspectFit" />
+    <text class="privacy-title">隐私保护提示</text>
+    <text class="privacy-desc">
+      为完成微信登录、头像昵称填写、健康记录保存和复查提醒管理，请先阅读并同意隐私保护指引。
+    </text>
+    <navigator class="privacy-link" url="/packages/profile/privacy/index">查看隐私保护指引</navigator>
+    <view class="privacy-actions">
+      <button class="privacy-cancel" bind:tap="handleDisagree">暂不同意</button>
+      <button
+        id="agree-btn"
+        class="privacy-agree"
+        open-type="agreePrivacyAuthorization"
+        bindagreeprivacyauthorization="handleAgree"
+      >
+        同意并继续
+      </button>
+    </view>
+  </view>
+</view>
