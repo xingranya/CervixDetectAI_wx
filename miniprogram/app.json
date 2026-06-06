@@ -3,14 +3,36 @@
     "pages/login/index",
     "pages/home/index",
     "pages/records/index",
-    "pages/record-form/index",
-    "pages/record-detail/index",
     "pages/reminders/index",
-    "pages/reminder-form/index",
-    "pages/questions/index",
-    "pages/articles/index",
-    "pages/profile/index",
-    "pages/privacy/index"
+    "pages/profile/index"
+  ],
+  "subPackages": [
+    {
+      "root": "packages/records",
+      "pages": [
+        "record-detail/index",
+        "record-form/index"
+      ]
+    },
+    {
+      "root": "packages/reminders",
+      "pages": [
+        "reminder-form/index"
+      ]
+    },
+    {
+      "root": "packages/tools",
+      "pages": [
+        "questions/index",
+        "articles/index"
+      ]
+    },
+    {
+      "root": "packages/profile",
+      "pages": [
+        "privacy/index"
+      ]
+    }
   ],
   "window": {
     "navigationBarTitleText": "云端智诊",
@@ -52,6 +74,10 @@
   },
   "style": "v2",
   "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {
+    "section-header": "/components/section-header/index",
+    "empty-state": "/components/empty-state/index"
+  },
   "sitemapLocation": "sitemap.json",
   "__usePrivacyCheck__": true
 }

@@ -1,0 +1,43 @@
+.privacy-list {
+  overflow: hidden;
+  border: 1rpx solid rgba(255, 255, 255, 0.86);
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 16rpx 38rpx rgba(31, 83, 201, 0.06);
+}
+
+.privacy-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 18rpx;
+  padding: 28rpx 24rpx;
+  border-bottom: 1rpx solid rgba(195, 198, 214, 0.26);
+}
+
+.privacy-row:last-child {
+  border-bottom: 0;
+}
+
+.privacy-icon {
+  width: 72rpx;
+  height: 72rpx;
+}
+
+.privacy-body {
+  flex: 1;
+}
+
+.privacy-title {
+  display: block;
+  color: #0b1c30;
+  font-size: 31rpx;
+  font-weight: 900;
+}
+
+.privacy-text {
+  display: block;
+  margin-top: 12rpx;
+  color: #66748a;
+  font-size: 27rpx;
+  line-height: 1.7;
+}

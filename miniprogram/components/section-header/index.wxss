@@ -1,0 +1,42 @@
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.section-header-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.title-icon {
+  width: 58rpx;
+  height: 58rpx;
+  flex: 0 0 auto;
+}
+
+.section-title {
+  color: #1e293b;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.section-desc {
+  display: block;
+  margin-top: 8rpx;
+  color: #64748b;
+  font-size: 25rpx;
+  line-height: 1.6;
+}
+
+.section-extra {
+  flex: 0 0 auto;
+}

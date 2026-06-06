@@ -1,0 +1,12 @@
+<view class="section-header">
+  <view class="section-header-main">
+    <view class="title-row">
+      <image wx:if="{{icon}}" class="title-icon" src="{{icon}}" mode="aspectFit" />
+      <text class="section-title">{{title}}</text>
+    </view>
+    <text wx:if="{{desc}}" class="section-desc">{{desc}}</text>
+  </view>
+  <view class="section-extra">
+    <slot name="extra"></slot>
+  </view>
+</view>

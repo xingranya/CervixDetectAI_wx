@@ -1,0 +1,24 @@
+.article-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18rpx;
+}
+
+.article-body {
+  flex: 1;
+}
+
+.article-title {
+  display: block;
+  color: #1e293b;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.article-summary {
+  display: block;
+  margin-top: 14rpx;
+  color: #64748b;
+  font-size: 27rpx;
+  line-height: 1.65;
+}

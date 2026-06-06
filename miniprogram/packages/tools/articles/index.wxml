@@ -1,0 +1,33 @@
+<view class="page">
+  <section-header title="健康知识" icon="/assets/icons/articles-active.png" />
+
+  <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
+    <text class="state-title">正在加载知识内容</text>
+    <text class="state-desc">请稍候，正在整理适合阅读的内容。</text>
+  </view>
+
+  <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
+    <text class="state-title">暂时无法加载知识内容</text>
+    <text class="state-desc">{{errorMessage}}</text>
+    <button class="primary-button" bind:tap="loadArticles">重新加载</button>
+  </view>
+
+  <empty-state
+    wx:elif="{{pageStatus === 'empty'}}"
+    title="暂时还没有内容"
+    desc="稍后会在这里补充适合日常查看的健康管理文章。"
+    icon="/assets/icons/articles-active.png"
+  />
+
+  <block wx:else>
+    <view wx:for="{{articles}}" wx:key="id" class="card article-card">
+      <image class="card-icon" src="/assets/icons/articles-active.png" mode="aspectFit" />
+      <view class="article-body">
+        <text class="article-title">{{item.title}}</text>
+        <text class="article-summary">{{item.summary}}</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="safe-note">知识内容用于日常健康管理参考，不能替代专业医疗意见。</view>
+</view>

@@ -1,24 +1,25 @@
 page {
-  background: #f8fafc;
-  color: #1e293b;
+  background: #f8f9ff;
+  color: #0b1c30;
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
 .page {
   min-height: 100vh;
-  padding: 32rpx 28rpx 48rpx;
+  padding: 32rpx 28rpx 60rpx;
   box-sizing: border-box;
   background:
-    radial-gradient(circle at 6% 4%, rgba(59, 130, 246, 0.1), transparent 32%),
-    radial-gradient(circle at 92% 2%, rgba(16, 185, 129, 0.1), transparent 28%),
-    linear-gradient(180deg, #f8fafc 0%, #eef4ff 100%);
+    radial-gradient(circle at 0 0, rgba(31, 83, 201, 0.11), transparent 34%),
+    radial-gradient(circle at 100% 14%, rgba(166, 192, 255, 0.34), transparent 30%),
+    radial-gradient(circle at 100% 100%, rgba(145, 68, 70, 0.05), transparent 34%),
+    linear-gradient(180deg, #f8f9ff 0%, #eff4ff 52%, #f8f9ff 100%);
 }
 
 .section-title {
   margin: 0 0 20rpx;
   font-size: 34rpx;
-  font-weight: 700;
-  color: #1e293b;
+  font-weight: 800;
+  color: #0b1c30;
 }
 
 .title-row {
@@ -37,8 +38,8 @@ page {
 }
 
 .title-icon {
-  width: 58rpx;
-  height: 58rpx;
+  width: 54rpx;
+  height: 54rpx;
   flex: 0 0 auto;
 }
 
@@ -49,8 +50,8 @@ page {
 }
 
 .card-icon {
-  width: 52rpx;
-  height: 52rpx;
+  width: 50rpx;
+  height: 50rpx;
   flex: 0 0 auto;
 }
 
@@ -95,15 +96,15 @@ page {
 .card {
   margin-bottom: 24rpx;
   padding: 30rpx;
-  border: 1rpx solid #e3e9f2;
-  border-radius: 20rpx;
-  background: #ffffff;
-  box-shadow: 0 18rpx 46rpx rgba(15, 23, 42, 0.08);
+  border: 1rpx solid rgba(255, 255, 255, 0.86);
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18rpx 46rpx rgba(31, 83, 201, 0.07);
   box-sizing: border-box;
 }
 
 .muted {
-  color: #64748b;
+  color: #66748a;
 }
 
 .pill {
@@ -112,38 +113,112 @@ page {
   min-height: 44rpx;
   padding: 0 18rpx;
   border-radius: 999rpx;
-  background: #e3f2fd;
-  color: #1976d2;
+  background: rgba(219, 225, 255, 0.72);
+  color: #1f53c9;
   font-size: 24rpx;
+  font-weight: 700;
 }
 
 .primary-button {
   height: 86rpx;
-  border-radius: 16rpx;
-  background: linear-gradient(135deg, #1976d2 0%, #2563eb 100%);
+  border-radius: 18rpx;
+  background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
   color: #fff;
   font-size: 30rpx;
   line-height: 86rpx;
-  box-shadow: 0 14rpx 28rpx rgba(25, 118, 210, 0.22);
+  font-weight: 800;
+  box-shadow: 0 14rpx 30rpx rgba(31, 83, 201, 0.24);
+}
+
+.primary-button::after,
+.ghost-button::after,
+.mini-primary::after,
+.text-button::after,
+.delete-button::after,
+.logout-button::after,
+.plain-link::after {
+  border: 0;
 }
 
 .ghost-button {
   height: 76rpx;
-  border: 1rpx solid rgba(25, 118, 210, 0.24);
-  border-radius: 16rpx;
-  background: #fff;
-  color: #1976d2;
+  border: 1rpx solid rgba(31, 83, 201, 0.18);
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.68);
+  color: #1f53c9;
   font-size: 28rpx;
   line-height: 76rpx;
+  font-weight: 700;
+}
+
+.mini-primary {
+  min-width: 132rpx;
+  height: 64rpx;
+  margin: 0;
+  border-radius: 999rpx;
+  background: #1f53c9;
+  color: #fff;
+  font-size: 26rpx;
+  line-height: 64rpx;
+  font-weight: 700;
+}
+
+.text-button {
+  height: 58rpx;
+  margin: 0;
+  padding: 0 24rpx;
+  border-radius: 999rpx;
+  background: rgba(31, 83, 201, 0.08);
+  color: #1f53c9;
+  font-size: 24rpx;
+  line-height: 58rpx;
+  font-weight: 700;
+}
+
+.danger {
+  background: rgba(186, 26, 26, 0.08);
+  color: #ba1a1a;
+}
+
+.icon-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 20rpx;
+  background: rgba(219, 225, 255, 0.56);
+  flex: 0 0 auto;
+}
+
+.icon-chip image {
+  width: 40rpx;
+  height: 40rpx;
+  display: block;
+}
+
+.section-kicker {
+  display: block;
+  color: #66748a;
+  font-size: 22rpx;
+  font-weight: 800;
+  letter-spacing: 1rpx;
+}
+
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22rpx;
 }
 
 .safe-note {
   margin-top: 20rpx;
   padding: 20rpx;
-  border-radius: 14rpx;
-  background: rgba(255, 255, 255, 0.76);
-  border: 1rpx solid #e3e9f2;
-  color: #64748b;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1rpx solid rgba(195, 198, 214, 0.48);
+  color: #66748a;
   font-size: 24rpx;
   line-height: 1.6;
 }

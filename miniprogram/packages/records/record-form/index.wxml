@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="card form-card">
+    <section-header title="{{id ? '编辑检查记录' : '新增检查记录'}}" icon="/assets/icons/form-active.png" />
+
+    <text class="form-label">检查日期</text>
+    <picker mode="date" value="{{form.date}}" bind:change="onDateChange">
+      <view class="form-input picker-value">{{form.date || '请选择日期'}}</view>
+    </picker>
+
+    <text class="form-label">记录标题</text>
+    <input class="form-input" value="{{form.title}}" data-field="title" bind:input="onInput" maxlength="60" placeholder="例如：女性健康筛查记录" />
+
+    <text class="form-label">检查项目</text>
+    <input class="form-input" value="{{form.project}}" data-field="project" bind:input="onInput" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" />
+
+    <text class="form-label">摘要</text>
+    <textarea class="form-textarea" value="{{form.summary}}" data-field="summary" bind:input="onInput" maxlength="500" placeholder="记录检查摘要，便于后续查看。" />
+
+    <text class="form-label">提醒建议</text>
+    <textarea class="form-textarea" value="{{form.suggestion}}" data-field="suggestion" bind:input="onInput" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" />
+
+    <text class="form-label">状态</text>
+    <input class="form-input" value="{{form.status}}" data-field="status" bind:input="onInput" maxlength="20" placeholder="例如：已记录、待复查" />
+
+    <button class="primary-button form-submit" loading="{{loading}}" bind:tap="submitForm">
+      <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
+      保存记录
+    </button>
+  </view>
+
+  <view class="safe-note">请仅记录已有检查摘要和个人提醒，不填写诊断结论、处方或紧急求助内容。</view>
+</view>
