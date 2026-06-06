@@ -45,6 +45,18 @@ npm run dev
 
 根据项目要求，当前不会自动启动任何开发服务。
 
+## 真机调试登录
+
+登录链路遵循微信官方流程：小程序端调用 `wx.login()` 获取 code，后端通过 `code2Session` 换取 OpenID，再生成自定义登录态。头像昵称使用微信头像昵称填写能力：头像按钮使用 `open-type="chooseAvatar"`，昵称输入框使用 `type="nickname"`。
+
+开发阶段接口地址在 `miniprogram/config/app.js` 中维护：
+
+- 开发者工具：`devtoolsApiBaseUrl`
+- 同 WiFi 真机调试：`deviceApiBaseUrl`
+- 体验版/正式版：`productionApiBaseUrl`
+
+注意：手机真机不能访问电脑上的 `localhost`。同 WiFi 调试时，需把 `deviceApiBaseUrl` 改成电脑当前局域网 IP；体验版和正式版必须配置可公网访问的 HTTPS 域名，并在微信后台加入 request 合法域名。
+
 ## 数据库
 
 数据库名称：
