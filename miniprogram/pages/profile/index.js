@@ -2,7 +2,6 @@ const {
   request,
   CACHE_KEYS,
   getCachedData,
-  isCacheFresh,
   consumeCacheDirty,
   clearAllCaches
 } = require("../../utils/request");
@@ -88,22 +87,45 @@ Page({
     ]
   },
 
+  onLoad() {
+    this.renderProfileCache();
+    this.scheduleSummaryRefresh();
+  },
+
   onShow() {
-    this.setData({
-      user: normalizeUser(wx.getStorageSync("user"))
-    });
+    this.renderStoredUser();
+    if (consumeCacheDirty(CACHE_KEYS.home)) {
+      this.scheduleSummaryRefresh();
+    }
+  },
+
+  renderStoredUser() {
+    const nextUser = normalizeUser(wx.getStorageSync("user"));
+    if (
+      nextUser.nickname === this.data.user.nickname
+      && nextUser.avatarUrl === this.data.user.avatarUrl
+    ) {
+      return;
+    }
+    this.setData({ user: nextUser });
+  },
+
+  renderProfileCache() {
+    this.renderStoredUser();
     const cachedHome = getCachedData(CACHE_KEYS.home);
     if (cachedHome && cachedHome.data && Array.isArray(cachedHome.data.metrics)) {
       this.setData({ metrics: normalizeMetrics(cachedHome.data.metrics) });
     }
+  },
 
-    const shouldRefresh = !cachedHome
-      || consumeCacheDirty(CACHE_KEYS.home)
-      || !isCacheFresh(CACHE_KEYS.home, 60 * 1000);
+  scheduleSummaryRefresh() {
+    const run = () => this.loadSummary();
 
-    if (shouldRefresh) {
-      this.loadSummary();
+    if (typeof wx.nextTick === "function") {
+      wx.nextTick(run);
+      return;
     }
+    setTimeout(run, 0);
   },
 
   async loadSummary() {

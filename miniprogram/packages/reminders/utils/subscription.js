@@ -1,4 +1,4 @@
-const config = require("../config/app");
+const config = require("../../../config/app");
 
 function getReminderTemplateIds() {
   const ids = config.subscriptionTemplateIds && config.subscriptionTemplateIds.reminder;

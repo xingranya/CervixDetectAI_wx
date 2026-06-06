@@ -2,7 +2,6 @@ const {
   request,
   CACHE_KEYS,
   getCachedData,
-  isCacheFresh,
   consumeCacheDirty
 } = require("../../utils/request");
 const { ROUTES, openRoute } = require("../../utils/navigation");
@@ -59,7 +58,18 @@ Page({
     ]
   },
 
+  onLoad() {
+    this.renderCachedHome();
+    this.scheduleHomeRefresh();
+  },
+
   onShow() {
+    if (this.data.home && consumeCacheDirty(CACHE_KEYS.home)) {
+      this.scheduleHomeRefresh({ silent: true });
+    }
+  },
+
+  renderCachedHome() {
     const cachedHome = getCachedData(CACHE_KEYS.home);
     const hasCachedHome = !!(cachedHome && cachedHome.data);
 
@@ -72,13 +82,19 @@ Page({
       });
     }
 
-    const shouldRefresh = !hasCachedHome
-      || consumeCacheDirty(CACHE_KEYS.home)
-      || !isCacheFresh(CACHE_KEYS.home, 60 * 1000);
+    return hasCachedHome;
+  },
 
-    if (shouldRefresh) {
-      this.loadHome({ silent: hasCachedHome });
+  scheduleHomeRefresh(options = {}) {
+    const hasCachedHome = !!this.data.home;
+    const silent = options.silent === undefined ? hasCachedHome : options.silent;
+    const run = () => this.loadHome({ silent });
+
+    if (typeof wx.nextTick === "function") {
+      wx.nextTick(run);
+      return;
     }
+    setTimeout(run, 0);
   },
 
   async loadHome(options = {}) {

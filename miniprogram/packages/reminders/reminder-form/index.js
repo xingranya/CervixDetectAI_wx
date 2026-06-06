@@ -12,7 +12,7 @@ const { navigateBackLater } = require("../../../utils/navigation");
 const {
   hasReminderSubscriptionTemplate,
   requestReminderSubscription
-} = require("../../../utils/subscription");
+} = require("../utils/subscription");
 
 function getTodayDate() {
   const date = new Date();
