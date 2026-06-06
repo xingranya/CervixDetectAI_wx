@@ -1,0 +1,11 @@
+<view class="page">
+  <text class="section-title">复查提醒</text>
+  <view wx:for="{{reminders}}" wx:key="id" class="card reminder-card">
+    <view class="reminder-date">{{item.date}}</view>
+    <text class="reminder-title">{{item.title}}</text>
+    <text class="reminder-desc">{{item.desc}}</text>
+    <button wx:if="{{!item.done}}" class="ghost-button" bindtap="markDone" data-id="{{item.id}}">标记已完成</button>
+    <text wx:else class="done-text">已完成</text>
+  </view>
+</view>
+

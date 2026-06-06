@@ -1,0 +1,9 @@
+<view class="page">
+  <text class="section-title">健康知识</text>
+  <view wx:for="{{articles}}" wx:key="id" class="card article-card">
+    <text class="article-title">{{item.title}}</text>
+    <text class="article-summary">{{item.summary}}</text>
+  </view>
+  <view class="safe-note">知识内容用于日常健康管理参考，不能替代专业医疗意见。</view>
+</view>
+

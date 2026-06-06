@@ -1,0 +1,13 @@
+<view class="page">
+  <text class="section-title">检查记录</text>
+  <view wx:for="{{records}}" wx:key="id" class="card record-card" bindtap="openDetail" data-id="{{item.id}}">
+    <view class="record-top">
+      <text class="record-title">{{item.title}}</text>
+      <text class="pill">{{item.status}}</text>
+    </view>
+    <text class="record-date">{{item.date}} · {{item.project}}</text>
+    <text class="record-summary">{{item.summary}}</text>
+  </view>
+  <view class="safe-note">记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。</view>
+</view>
+

@@ -1,0 +1,14 @@
+.privacy-title {
+  display: block;
+  color: #1e293b;
+  font-size: 31rpx;
+  font-weight: 800;
+}
+
+.privacy-text {
+  display: block;
+  margin-top: 12rpx;
+  color: #64748b;
+  font-size: 27rpx;
+  line-height: 1.7;
+}

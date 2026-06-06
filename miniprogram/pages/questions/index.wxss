@@ -1,0 +1,31 @@
+.intro {
+  color: #64748b;
+  font-size: 28rpx;
+  line-height: 1.7;
+}
+
+.question-item {
+  margin-bottom: 18rpx;
+  padding: 26rpx;
+  border-radius: 18rpx;
+  background: #ffffff;
+  color: #1e293b;
+  font-size: 28rpx;
+  line-height: 1.55;
+  text-align: left;
+  box-shadow: 0 12rpx 32rpx rgba(15, 23, 42, 0.06);
+}
+
+.question-item-active {
+  background: #e3f2fd;
+  color: #1976d2;
+  font-weight: 700;
+}
+
+.selected-line {
+  display: block;
+  margin-top: 14rpx;
+  color: #64748b;
+  font-size: 27rpx;
+  line-height: 1.65;
+}

@@ -1,0 +1,21 @@
+<view class="page">
+  <text class="section-title">就诊前问题整理</text>
+  <view class="card">
+    <text class="intro">选择你想线下咨询的问题，复查前可以直接对照查看。</text>
+  </view>
+  <button
+    wx:for="{{templates}}"
+    wx:key="*this"
+    class="question-item {{selected.indexOf(item) > -1 ? 'question-item-active' : ''}}"
+    bindtap="toggleQuestion"
+    data-text="{{item}}"
+  >
+    {{item}}
+  </button>
+  <view class="card" wx:if="{{selected.length}}">
+    <text class="section-title">已选择</text>
+    <text wx:for="{{selected}}" wx:key="*this" class="selected-line">{{index + 1}}. {{item}}</text>
+  </view>
+  <view class="safe-note">本页只帮助整理沟通问题，不提供问诊、诊断或治疗建议。</view>
+</view>
+

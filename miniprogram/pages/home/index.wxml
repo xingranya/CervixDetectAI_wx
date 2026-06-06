@@ -1,0 +1,45 @@
+<view class="page home-page" wx:if="{{home}}">
+  <view class="hero">
+    <view class="hero-top">
+      <text class="eyebrow">女性健康管理助手</text>
+      <text class="hero-badge">记录中</text>
+    </view>
+    <text class="hero-title">{{home.userName}}，请按计划管理健康记录</text>
+    <text class="hero-desc">{{home.latestSummary}}</text>
+    <view class="metric-row">
+      <view wx:for="{{home.metrics}}" wx:key="label" class="metric-item">
+        <text class="metric-value">{{item.value}}</text>
+        <text class="metric-label">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card latest-card">
+    <view class="card-head">
+      <text class="section-title">{{home.latestTitle}}</text>
+      <text class="pill">{{home.latestDate}}</text>
+    </view>
+    <text class="latest-desc">{{home.nextReminder}}</text>
+    <button class="primary-button" bindtap="goPage" data-path="/pages/records/index">查看检查记录</button>
+  </view>
+
+  <view class="action-grid">
+    <button wx:for="{{actions}}" wx:key="label" class="action-card action-card-{{item.tone}}" bindtap="goPage" data-path="{{item.path}}">
+      <text class="action-title">{{item.label}}</text>
+      <text class="action-desc">{{item.desc}}</text>
+    </button>
+  </view>
+
+  <view class="card guide-card">
+    <text class="section-title">使用路径</text>
+    <view wx:for="{{home.steps}}" wx:key="title" class="guide-step">
+      <text class="guide-index">0{{index + 1}}</text>
+      <view class="guide-body">
+        <text class="guide-title">{{item.title}}</text>
+        <text class="guide-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="safe-note">{{home.disclaimer}}</view>
+</view>

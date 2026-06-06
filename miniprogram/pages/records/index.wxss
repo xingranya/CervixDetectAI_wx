@@ -1,0 +1,25 @@
+.record-card {
+  display: block;
+}
+
+.record-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18rpx;
+}
+
+.record-title {
+  color: #1e293b;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.record-date,
+.record-summary {
+  display: block;
+  margin-top: 14rpx;
+  color: #64748b;
+  font-size: 26rpx;
+  line-height: 1.65;
+}

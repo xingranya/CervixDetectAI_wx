@@ -1,0 +1,19 @@
+{
+  "name": "cervixdetectai-wx-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CervixDetectAI 微信小程序演示 API",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "node src/app.js",
+    "check": "node --check src/app.js src/config/env.js src/config/database.js src/routes/miniapp.js src/services/miniapp.service.js src/repositories/miniapp.repository.js src/data/demoStore.js src/middleware/auth.js src/middleware/errorHandler.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.18.3",
+    "helmet": "^7.1.0",
+    "mysql2": "^3.11.5",
+    "morgan": "^1.10.0"
+  }
+}

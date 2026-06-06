@@ -1,0 +1,27 @@
+.reminder-date {
+  color: #1976d2;
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.reminder-title {
+  display: block;
+  margin-top: 12rpx;
+  color: #1e293b;
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.reminder-desc {
+  display: block;
+  margin: 12rpx 0 24rpx;
+  color: #64748b;
+  font-size: 27rpx;
+  line-height: 1.65;
+}
+
+.done-text {
+  color: #1976d2;
+  font-size: 28rpx;
+  font-weight: 700;
+}

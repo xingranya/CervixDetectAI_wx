@@ -1,0 +1,15 @@
+.detail-title {
+  display: block;
+  margin-top: 24rpx;
+  color: #1e293b;
+  font-size: 40rpx;
+  font-weight: 800;
+}
+
+.detail-row {
+  display: block;
+  margin-top: 22rpx;
+  color: #64748b;
+  font-size: 28rpx;
+  line-height: 1.7;
+}
