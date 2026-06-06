@@ -395,21 +395,14 @@ async function saveQuestions(userId, questions) {
   if (!questions.length) {
     return { questions: [] };
   }
-
-  const values = questions.map((question) => [
-    userId,
-    question,
-    "",
-    new Date(),
-    new Date()
-  ]);
-
-  await db.getPool().query(
-    "INSERT INTO wx_user_questions (user_id, question_text, answer_text, created_at, updated_at) VALUES ?",
-    [values]
-  );
-
-  return { questions };
+  const createdQuestions = [];
+  for (const questionText of questions) {
+    createdQuestions.push(await createQuestion(userId, {
+      questionText,
+      answerText: ""
+    }));
+  }
+  return { questions: createdQuestions };
 }
 
 async function getQuestionById(userId, id) {
@@ -507,6 +500,7 @@ module.exports = {
   updateRecord,
   deleteRecord,
   listReminders,
+  getReminderById,
   createReminder,
   updateReminder,
   completeReminder,

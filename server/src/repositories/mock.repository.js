@@ -84,6 +84,10 @@ async function listReminders() {
   return store.reminders();
 }
 
+async function getReminderById(_userId, id) {
+  return store.getReminderById(id);
+}
+
 async function createReminder(_userId, payload) {
   const reminder = { id: createId(), ...payload };
   return store.createReminder(reminder);
@@ -110,16 +114,19 @@ async function listQuestions() {
 }
 
 async function saveQuestions(_userId, items) {
+  const createdQuestions = [];
   items.forEach((questionText) => {
-    questions.unshift({
+    const question = {
       id: createId(),
       questionText,
       answerText: "",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
-    });
+    };
+    questions.unshift(question);
+    createdQuestions.push(question);
   });
-  return { questions: items };
+  return { questions: createdQuestions };
 }
 
 async function createQuestion(_userId, payload) {
@@ -169,6 +176,7 @@ module.exports = {
   updateRecord,
   deleteRecord,
   listReminders,
+  getReminderById,
   createReminder,
   updateReminder,
   completeReminder,

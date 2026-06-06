@@ -60,6 +60,12 @@ router.get("/reminders", asyncRoute(async (req, res) => {
   ok(res, await miniappService.listReminders(req.user.id));
 }));
 
+router.get("/reminders/:id", asyncRoute(async (req, res) => {
+  const reminder = await miniappService.getReminderById(req.user.id, req.params.id);
+  if (!reminder) return res.status(404).json({ success: false, message: "未找到该提醒" });
+  ok(res, reminder);
+}));
+
 router.post("/reminders", asyncRoute(async (req, res) => {
   ok(res, await miniappService.createReminder(req.user.id, req.body));
 }));

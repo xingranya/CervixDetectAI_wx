@@ -84,6 +84,10 @@ function completeReminder(id) {
   return reminders.find((item) => item.id === id);
 }
 
+function getReminderById(id) {
+  return reminders.find((item) => item.id === id);
+}
+
 function createReminder(reminder) {
   reminders = [reminder, ...reminders];
   return reminder;
@@ -106,6 +110,7 @@ module.exports = {
   questionTemplates,
   articles,
   getRecordById,
+  getReminderById,
   completeReminder,
   createReminder,
   updateReminder,

@@ -1,7 +1,129 @@
 const mock = require("./mock-data");
 const config = require("../config/app");
 
+const DEFAULT_CACHE_MAX_AGE = 30 * 1000;
+
+const CACHE_KEYS = {
+  home: "home",
+  records: "records",
+  reminders: "reminders",
+  questions: "questions",
+  questionTemplates: "questionTemplates",
+  articles: "articles",
+  recordDetail: (id) => `record-detail:${id}`,
+  reminderDetail: (id) => `reminder-detail:${id}`
+};
+
 let isRedirectingLogin = false;
+let runtimeInfoCache = null;
+let baseUrlCache = "";
+
+const responseCache = new Map();
+const inflightRequests = new Map();
+
+function cloneData(data) {
+  if (data === undefined) return undefined;
+  return JSON.parse(JSON.stringify(data));
+}
+
+function getCacheEntry(key) {
+  if (!key) return null;
+  return responseCache.get(String(key)) || null;
+}
+
+function getCachedData(key) {
+  const entry = getCacheEntry(key);
+  return entry ? cloneData(entry.data) : undefined;
+}
+
+function setCachedData(key, data) {
+  if (!key) return;
+  responseCache.set(String(key), {
+    data: cloneData(data),
+    updatedAt: Date.now(),
+    dirty: false
+  });
+}
+
+function clearCachedData(key) {
+  if (!key) return;
+  responseCache.delete(String(key));
+}
+
+function isCacheFresh(key, maxAge = DEFAULT_CACHE_MAX_AGE) {
+  const entry = getCacheEntry(key);
+  if (!entry || entry.dirty) return false;
+  return Date.now() - entry.updatedAt <= maxAge;
+}
+
+function markCacheDirty(key) {
+  const cacheKey = String(key);
+  const entry = getCacheEntry(cacheKey);
+  if (entry) {
+    entry.dirty = true;
+    return;
+  }
+  responseCache.set(cacheKey, {
+    data: undefined,
+    updatedAt: 0,
+    dirty: true
+  });
+}
+
+function consumeCacheDirty(key) {
+  const entry = getCacheEntry(key);
+  if (!entry || !entry.dirty) return false;
+  entry.dirty = false;
+  return true;
+}
+
+function removeCachedListItem(key, id) {
+  const cached = getCachedData(key);
+  if (!cached || !Array.isArray(cached.data)) return;
+  setCachedData(key, {
+    ...cached,
+    data: cached.data.filter((item) => item.id !== id)
+  });
+}
+
+function upsertCachedListItem(key, item, options = {}) {
+  const cached = getCachedData(key);
+  if (!cached || !Array.isArray(cached.data) || !item) return;
+
+  const list = cached.data.slice();
+  const index = list.findIndex((current) => current.id === item.id);
+  if (index > -1) {
+    list[index] = item;
+  } else if (options.prepend) {
+    list.unshift(item);
+  } else {
+    list.push(item);
+  }
+
+  setCachedData(key, {
+    ...cached,
+    data: list
+  });
+}
+
+function updateCachedListItem(key, id, updater) {
+  const cached = getCachedData(key);
+  if (!cached || !Array.isArray(cached.data)) return;
+
+  const list = cached.data.slice();
+  const index = list.findIndex((item) => item.id === id);
+  if (index === -1) return;
+
+  const nextItem = typeof updater === "function"
+    ? updater(cloneData(list[index]))
+    : { ...list[index], ...updater };
+
+  list[index] = nextItem;
+  setCachedData(key, {
+    ...cached,
+    data: list
+  });
+}
 
 function getMock(path) {
   if (path === "/auth/login") {
@@ -22,10 +144,15 @@ function getMock(path) {
   if (path === "/records") return Promise.resolve({ data: mock.records });
   if (path.startsWith("/records/")) {
     const id = path.split("/").pop();
-    return Promise.resolve({ data: mock.records.find((item) => item.id === id) || mock.records[0] });
+    return Promise.resolve({ data: mock.records.find((item) => item.id === id) || null });
   }
   if (path === "/reminders") return Promise.resolve({ data: mock.reminders });
+  if (path.startsWith("/reminders/") && !path.endsWith("/done")) {
+    const id = path.split("/")[2];
+    return Promise.resolve({ data: mock.reminders.find((item) => item.id === id) || null });
+  }
   if (path === "/question-templates") return Promise.resolve({ data: mock.questionTemplates });
+  if (path === "/questions") return Promise.resolve({ data: [] });
   if (path === "/articles") return Promise.resolve({ data: mock.articles });
   return Promise.resolve({ data: null });
 }
@@ -37,6 +164,7 @@ function getToken() {
 function redirectLogin() {
   wx.removeStorageSync("token");
   wx.removeStorageSync("user");
+  clearAllCaches();
   if (isRedirectingLogin) return;
   isRedirectingLogin = true;
   wx.reLaunch({ url: "/pages/login/index" });
@@ -46,17 +174,23 @@ function redirectLogin() {
 }
 
 function getRuntimeInfo() {
+  if (runtimeInfoCache) return runtimeInfoCache;
+
   try {
-    return {
+    runtimeInfoCache = {
       system: wx.getSystemInfoSync(),
       account: wx.getAccountInfoSync ? wx.getAccountInfoSync() : null
     };
   } catch (_error) {
-    return { system: {}, account: null };
+    runtimeInfoCache = { system: {}, account: null };
   }
+
+  return runtimeInfoCache;
 }
 
 function resolveBaseUrl() {
+  if (baseUrlCache) return baseUrlCache;
+
   const app = getApp();
   const runtime = getRuntimeInfo();
   const account = runtime.account || {};
@@ -64,14 +198,17 @@ function resolveBaseUrl() {
   const envVersion = miniProgram.envVersion || "develop";
 
   if (config.productionApiBaseUrl && envVersion !== "develop") {
-    return config.productionApiBaseUrl;
+    baseUrlCache = config.productionApiBaseUrl;
+    return baseUrlCache;
   }
 
   if (runtime.system.platform === "devtools") {
-    return app.globalData.devtoolsApiBaseUrl || config.devtoolsApiBaseUrl || config.apiBaseUrl;
+    baseUrlCache = app.globalData.devtoolsApiBaseUrl || config.devtoolsApiBaseUrl || config.apiBaseUrl;
+    return baseUrlCache;
   }
 
-  return app.globalData.deviceApiBaseUrl || config.deviceApiBaseUrl || config.apiBaseUrl;
+  baseUrlCache = app.globalData.deviceApiBaseUrl || config.deviceApiBaseUrl || config.apiBaseUrl;
+  return baseUrlCache;
 }
 
 function normalizeRequestError(error, baseUrl) {
@@ -91,18 +228,36 @@ function getErrorMessage(body, fallback) {
   return fallback;
 }
 
+function buildInflightKey(path, options, baseUrl) {
+  const method = (options.method || "GET").toUpperCase();
+  return `${method}:${baseUrl}${path}:${options.cacheKey || ""}`;
+}
+
 function request(path, options = {}) {
   const app = getApp();
   const baseUrl = resolveBaseUrl();
+  const method = (options.method || "GET").toUpperCase();
+  const isGetRequest = method === "GET";
+  const cacheKey = isGetRequest ? options.cacheKey : "";
+  const maxAge = options.maxAge || DEFAULT_CACHE_MAX_AGE;
 
   if (app.globalData.useMock || config.useMock) {
     return getMock(path);
   }
 
-  return new Promise((resolve, reject) => {
+  if (cacheKey && !options.forceRefresh && isCacheFresh(cacheKey, maxAge)) {
+    return Promise.resolve(getCachedData(cacheKey));
+  }
+
+  const inflightKey = buildInflightKey(path, options, baseUrl);
+  if (isGetRequest && inflightRequests.has(inflightKey)) {
+    return inflightRequests.get(inflightKey);
+  }
+
+  const promise = new Promise((resolve, reject) => {
     wx.request({
       url: `${baseUrl}${path}`,
-      method: options.method || "GET",
+      method,
       data: options.data || {},
       timeout: options.timeout || config.requestTimeout || 12000,
       header: {
@@ -121,11 +276,27 @@ function request(path, options = {}) {
           reject(new Error(getErrorMessage(body, "请求失败，请稍后再试")));
           return;
         }
+        if (cacheKey) {
+          setCachedData(cacheKey, body);
+        }
         resolve(body);
       },
       fail: (error) => reject(normalizeRequestError(error, baseUrl))
     });
+  }).finally(() => {
+    inflightRequests.delete(inflightKey);
   });
+
+  if (isGetRequest) {
+    inflightRequests.set(inflightKey, promise);
+  }
+
+  return promise;
+}
+
+function clearAllCaches() {
+  responseCache.clear();
+  inflightRequests.clear();
 }
 
 function login(payload) {
@@ -143,8 +314,19 @@ function updateProfile(payload) {
 }
 
 module.exports = {
+  CACHE_KEYS,
   request,
   login,
   updateProfile,
-  getToken
+  getToken,
+  getCachedData,
+  setCachedData,
+  clearCachedData,
+  isCacheFresh,
+  markCacheDirty,
+  consumeCacheDirty,
+  removeCachedListItem,
+  upsertCachedListItem,
+  updateCachedListItem,
+  clearAllCaches
 };

@@ -135,6 +135,10 @@ async function listReminders(userId) {
   return repository.listReminders(userId);
 }
 
+async function getReminderById(userId, id) {
+  return repository.getReminderById(userId, cleanText(id, 64));
+}
+
 async function createReminder(userId, payload) {
   return repository.createReminder(userId, normalizeReminderPayload(payload));
 }
@@ -195,6 +199,7 @@ module.exports = {
   updateRecord,
   deleteRecord,
   listReminders,
+  getReminderById,
   createReminder,
   updateReminder,
   completeReminder,
