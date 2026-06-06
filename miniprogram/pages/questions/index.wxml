@@ -1,8 +1,9 @@
 <view class="page">
   <text class="section-title">就诊前问题整理</text>
   <view class="card">
-    <text class="intro">选择你想线下咨询的问题，复查前可以直接对照查看。</text>
+    <text class="intro">选择或填写想在线下咨询时确认的问题，保存后可继续补充咨询记录备忘。</text>
   </view>
+
   <button
     wx:for="{{templates}}"
     wx:key="*this"
@@ -12,10 +13,24 @@
   >
     {{item}}
   </button>
-  <view class="card" wx:if="{{selected.length}}">
-    <text class="section-title">已选择</text>
-    <text wx:for="{{selected}}" wx:key="*this" class="selected-line">{{index + 1}}. {{item}}</text>
-  </view>
-  <view class="safe-note">本页只帮助整理沟通问题，不提供问诊、诊断或治疗建议。</view>
-</view>
 
+  <view class="card custom-card">
+    <text class="form-label">自定义问题</text>
+    <textarea class="form-textarea" value="{{customQuestion}}" bindinput="onCustomInput" maxlength="255" placeholder="例如：复查前需要准备哪些历史资料？" />
+    <button class="primary-button save-button" bindtap="saveSelected">保存到问题清单</button>
+  </view>
+
+  <view class="card" wx:if="{{questions.length}}">
+    <text class="section-title">已保存问题</text>
+    <view wx:for="{{questions}}" wx:key="id" class="saved-question">
+      <text class="saved-title">{{index + 1}}. {{item.questionText}}</text>
+      <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bindinput="onAnswerInput" maxlength="1000" placeholder="线下咨询后，可在这里记录自己的备忘。" />
+      <view class="question-actions">
+        <button class="text-button" bindtap="saveAnswer" data-id="{{item.id}}">保存备忘</button>
+        <button class="text-button danger" bindtap="deleteQuestion" data-id="{{item.id}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="safe-note">本页只帮助整理线下沟通问题和个人备忘，不提供问诊、诊断或治疗建议。</view>
+</view>

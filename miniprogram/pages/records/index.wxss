@@ -1,3 +1,10 @@
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
 .record-card {
   display: block;
 }
@@ -22,4 +29,64 @@
   color: #64748b;
   font-size: 26rpx;
   line-height: 1.65;
+}
+
+.mini-primary {
+  min-width: 132rpx;
+  height: 64rpx;
+  margin: 0;
+  border-radius: 999rpx;
+  background: #1976d2;
+  color: #fff;
+  font-size: 26rpx;
+  line-height: 64rpx;
+}
+
+.record-actions {
+  display: flex;
+  gap: 18rpx;
+  margin-top: 22rpx;
+}
+
+.text-button {
+  height: 58rpx;
+  margin: 0;
+  padding: 0 24rpx;
+  border-radius: 999rpx;
+  background: rgba(25, 118, 210, 0.08);
+  color: #1976d2;
+  font-size: 24rpx;
+  line-height: 58rpx;
+}
+
+.text-button::after,
+.mini-primary::after {
+  border: 0;
+}
+
+.danger {
+  background: rgba(211, 47, 47, 0.08);
+  color: #d32f2f;
+}
+
+.empty-card {
+  text-align: left;
+}
+
+.empty-title,
+.empty-desc {
+  display: block;
+}
+
+.empty-title {
+  color: #0f172a;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.empty-desc {
+  margin: 16rpx 0 24rpx;
+  color: #64748b;
+  font-size: 26rpx;
+  line-height: 1.6;
 }

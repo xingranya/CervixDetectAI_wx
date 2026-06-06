@@ -84,6 +84,21 @@ function completeReminder(id) {
   return reminders.find((item) => item.id === id);
 }
 
+function createReminder(reminder) {
+  reminders = [reminder, ...reminders];
+  return reminder;
+}
+
+function updateReminder(id, payload) {
+  reminders = reminders.map((item) => (item.id === id ? { ...item, ...payload } : item));
+  return reminders.find((item) => item.id === id);
+}
+
+function deleteReminder(id) {
+  reminders = reminders.filter((item) => item.id !== id);
+  return { deleted: true };
+}
+
 module.exports = {
   home,
   records,
@@ -91,5 +106,8 @@ module.exports = {
   questionTemplates,
   articles,
   getRecordById,
-  completeReminder
+  completeReminder,
+  createReminder,
+  updateReminder,
+  deleteReminder
 };

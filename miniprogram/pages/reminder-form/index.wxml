@@ -1,0 +1,23 @@
+<view class="page">
+  <view class="card form-card">
+    <text class="section-title">{{id ? '编辑复查提醒' : '新增复查提醒'}}</text>
+
+    <text class="form-label">提醒标题</text>
+    <input class="form-input" value="{{form.title}}" data-field="title" bindinput="onInput" maxlength="60" placeholder="例如：复查提醒" />
+
+    <text class="form-label">提醒日期</text>
+    <picker mode="date" value="{{form.date}}" bindchange="onDateChange">
+      <view class="form-input picker-value">{{form.date || '请选择日期'}}</view>
+    </picker>
+
+    <text class="form-label">提醒内容</text>
+    <textarea class="form-textarea" value="{{form.desc}}" data-field="desc" bindinput="onInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" />
+
+    <label class="switch-row">
+      <text>标记为已完成</text>
+      <switch checked="{{form.done}}" color="#1976d2" bindchange="onDoneChange" />
+    </label>
+
+    <button class="primary-button form-submit" loading="{{loading}}" bindtap="submitForm">保存提醒</button>
+  </view>
+</view>

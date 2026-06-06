@@ -54,10 +54,12 @@ function normalizeQuestionPayload(payload = {}) {
 }
 
 async function login(payload) {
-  const code = cleanText(payload.code || "dev-login", 128);
+  const code = cleanText(payload.code, 128);
+  const deviceId = cleanText(payload.deviceId, 128);
+  const openid = cleanText(payload.openid, 128);
   const nickname = cleanText(payload.nickname || "微信用户", 80);
   const phone = cleanText(payload.phone, 32) || null;
-  return repository.login({ code, nickname, phone });
+  return repository.login({ code, deviceId, openid, nickname, phone });
 }
 
 async function getMe(userId) {
@@ -163,4 +165,3 @@ module.exports = {
   listArticles,
   createFeedback
 };
-

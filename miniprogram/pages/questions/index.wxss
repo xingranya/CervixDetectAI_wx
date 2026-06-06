@@ -29,3 +29,73 @@
   font-size: 27rpx;
   line-height: 1.65;
 }
+
+.form-label {
+  display: block;
+  margin-bottom: 12rpx;
+  color: #334155;
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.form-textarea,
+.answer-textarea {
+  width: 100%;
+  min-height: 150rpx;
+  padding: 22rpx 24rpx;
+  border: 1rpx solid #dbe5f0;
+  border-radius: 18rpx;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 28rpx;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.save-button {
+  margin-top: 24rpx;
+}
+
+.saved-question {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #e3e9f2;
+}
+
+.saved-question:last-child {
+  border-bottom: 0;
+}
+
+.saved-title {
+  display: block;
+  margin-bottom: 18rpx;
+  color: #0f172a;
+  font-size: 28rpx;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.question-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 18rpx;
+}
+
+.text-button {
+  height: 58rpx;
+  margin: 0;
+  padding: 0 24rpx;
+  border-radius: 999rpx;
+  background: rgba(25, 118, 210, 0.08);
+  color: #1976d2;
+  font-size: 24rpx;
+  line-height: 58rpx;
+}
+
+.text-button::after {
+  border: 0;
+}
+
+.danger {
+  background: rgba(211, 47, 47, 0.08);
+  color: #d32f2f;
+}

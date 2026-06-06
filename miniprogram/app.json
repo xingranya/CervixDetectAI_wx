@@ -1,9 +1,12 @@
 {
   "pages": [
+    "pages/login/index",
     "pages/home/index",
     "pages/records/index",
+    "pages/record-form/index",
     "pages/record-detail/index",
     "pages/reminders/index",
+    "pages/reminder-form/index",
     "pages/questions/index",
     "pages/articles/index",
     "pages/profile/index",

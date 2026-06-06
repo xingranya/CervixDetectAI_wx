@@ -7,6 +7,10 @@ module.exports = {
   allowedOrigin: process.env.MINIAPP_ALLOWED_ORIGIN || "*",
   dataSource,
   demoUserId: Number(process.env.DEMO_USER_ID || 1),
+  wechat: {
+    appId: process.env.WECHAT_APP_ID || "wx1f7b9852c47b2ffd",
+    appSecret: process.env.WECHAT_APP_SECRET || ""
+  },
   database: {
     host: process.env.DB_HOST || "127.0.0.1",
     port: Number(process.env.DB_PORT || 3306),
@@ -18,4 +22,3 @@ module.exports = {
     charset: "utf8mb4"
   }
 };
-

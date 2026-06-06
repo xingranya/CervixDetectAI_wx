@@ -5,7 +5,10 @@
     <text class="detail-row">项目：{{record.project}}</text>
     <text class="detail-row">摘要：{{record.summary}}</text>
     <text class="detail-row">提醒：{{record.suggestion}}</text>
+    <view class="detail-actions">
+      <button class="ghost-button" bindtap="editRecord">编辑记录</button>
+      <button class="delete-button" bindtap="deleteRecord">删除记录</button>
+    </view>
   </view>
   <view class="safe-note">如对检查内容有疑问，请携带记录到线下医疗机构咨询专业人员。</view>
 </view>
-

@@ -1,7 +1,8 @@
 <view class="page">
   <view class="profile-hero">
-    <text class="profile-title">晴护健康记录</text>
+    <text class="profile-title">{{appName}}</text>
     <text class="profile-desc">管理检查摘要、复查提醒和就诊前问题。</text>
+    <text wx:if="{{user}}" class="profile-user">当前用户：{{user.nickname}}</text>
   </view>
 
   <view class="card menu-card" bindtap="openQuestions">
@@ -13,5 +14,6 @@
     <text class="menu-title">隐私与服务说明</text>
     <text class="menu-desc">查看数据用途、服务边界和反馈方式</text>
   </view>
-</view>
 
+  <button class="logout-button" bindtap="logout">退出登录</button>
+</view>

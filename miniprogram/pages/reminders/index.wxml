@@ -1,11 +1,24 @@
 <view class="page">
-  <text class="section-title">复查提醒</text>
-  <view wx:for="{{reminders}}" wx:key="id" class="card reminder-card">
+  <view class="page-head">
+    <text class="section-title">复查提醒</text>
+    <button class="mini-primary" bindtap="createReminder">新增</button>
+  </view>
+
+  <view wx:if="{{!reminders.length}}" class="card empty-card">
+    <text class="empty-title">还没有提醒</text>
+    <text class="empty-desc">添加复查或资料准备提醒，把后续安排放进计划里。</text>
+    <button class="primary-button" bindtap="createReminder">添加提醒</button>
+  </view>
+
+  <view wx:for="{{reminders}}" wx:key="id" class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
     <view class="reminder-date">{{item.date}}</view>
     <text class="reminder-title">{{item.title}}</text>
     <text class="reminder-desc">{{item.desc}}</text>
-    <button wx:if="{{!item.done}}" class="ghost-button" bindtap="markDone" data-id="{{item.id}}">标记已完成</button>
-    <text wx:else class="done-text">已完成</text>
+    <view class="reminder-actions">
+      <button wx:if="{{!item.done}}" class="ghost-button small-button" bindtap="markDone" data-id="{{item.id}}">标记完成</button>
+      <text wx:else class="done-text">已完成</text>
+      <button class="text-button" bindtap="editReminder" data-id="{{item.id}}">编辑</button>
+      <button class="text-button danger" bindtap="deleteReminder" data-id="{{item.id}}">删除</button>
+    </view>
   </view>
 </view>
-

@@ -16,6 +16,18 @@ CREATE TABLE IF NOT EXISTS wx_users (
   UNIQUE KEY uk_wx_users_openid (openid)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='小程序用户表';
 
+CREATE TABLE IF NOT EXISTS wx_sessions (
+  token CHAR(64) NOT NULL,
+  user_id BIGINT UNSIGNED NOT NULL,
+  expires_at DATETIME NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (token),
+  KEY idx_wx_sessions_user_expires (user_id, expires_at),
+  CONSTRAINT fk_wx_sessions_user
+    FOREIGN KEY (user_id) REFERENCES wx_users (id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='小程序登录会话';
+
 CREATE TABLE IF NOT EXISTS wx_health_records (
   id VARCHAR(32) NOT NULL,
   user_id BIGINT UNSIGNED NOT NULL,
@@ -66,9 +78,11 @@ CREATE TABLE IF NOT EXISTS wx_user_questions (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id BIGINT UNSIGNED NOT NULL,
   question_text VARCHAR(255) NOT NULL,
+  answer_text TEXT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  KEY idx_wx_user_questions_user_time (user_id, created_at),
+  KEY idx_wx_user_questions_user_time (user_id, updated_at, created_at),
   CONSTRAINT fk_wx_user_questions_user
     FOREIGN KEY (user_id) REFERENCES wx_users (id)
     ON DELETE CASCADE
@@ -185,4 +199,3 @@ ON DUPLICATE KEY UPDATE
   sort_order = VALUES(sort_order),
   is_active = VALUES(is_active),
   updated_at = CURRENT_TIMESTAMP;
-

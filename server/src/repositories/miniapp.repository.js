@@ -2,7 +2,24 @@ const crypto = require("crypto");
 const db = require("../config/database");
 const env = require("../config/env");
 
-const userId = env.demoUserId;
+const SESSION_DAYS = 30;
+
+function createCompactId() {
+  return crypto.randomUUID().replace(/-/g, "");
+}
+
+function createToken() {
+  return crypto.randomBytes(32).toString("hex");
+}
+
+function mapUser(row) {
+  return {
+    id: row.id,
+    nickname: row.nickname,
+    phone: row.phone || "",
+    gender: row.gender || ""
+  };
+}
 
 function mapRecord(row) {
   return {
@@ -26,7 +43,106 @@ function mapReminder(row) {
   };
 }
 
-async function getHome() {
+function mapQuestion(row) {
+  return {
+    id: String(row.id),
+    questionText: row.question_text,
+    answerText: row.answer_text || "",
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+async function requestWechatOpenid(code) {
+  if (!code || !env.wechat.appId || !env.wechat.appSecret) return "";
+
+  const params = new URLSearchParams({
+    appid: env.wechat.appId,
+    secret: env.wechat.appSecret,
+    js_code: code,
+    grant_type: "authorization_code"
+  });
+
+  try {
+    const response = await fetch(`https://api.weixin.qq.com/sns/jscode2session?${params.toString()}`);
+    const data = await response.json();
+    if (data.openid) return data.openid;
+    return "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+async function findUserById(userId) {
+  const [row] = await db.query(
+    "SELECT id, nickname, phone, gender FROM wx_users WHERE id = ? LIMIT 1",
+    [userId]
+  );
+  return row || null;
+}
+
+async function login(payload = {}) {
+  const wxOpenid = await requestWechatOpenid(payload.code);
+  const openid = wxOpenid || payload.deviceId || payload.openid || payload.code || `dev-${createCompactId()}`;
+  const nickname = payload.nickname || "微信用户";
+  const phone = payload.phone || null;
+
+  await db.query(
+    `
+      INSERT INTO wx_users (openid, nickname, phone, created_at, updated_at)
+      VALUES (?, ?, ?, NOW(), NOW())
+      ON DUPLICATE KEY UPDATE
+        nickname = VALUES(nickname),
+        phone = COALESCE(VALUES(phone), phone),
+        updated_at = CURRENT_TIMESTAMP
+    `,
+    [openid, nickname, phone]
+  );
+
+  const [user] = await db.query(
+    "SELECT id, nickname, phone, gender FROM wx_users WHERE openid = ? LIMIT 1",
+    [openid]
+  );
+
+  const token = createToken();
+  await db.query(
+    `
+      INSERT INTO wx_sessions (token, user_id, expires_at, created_at)
+      VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ? DAY), NOW())
+    `,
+    [token, user.id, SESSION_DAYS]
+  );
+
+  return {
+    token,
+    user: mapUser(user)
+  };
+}
+
+async function getSessionByToken(token) {
+  const [row] = await db.query(
+    `
+      SELECT token, user_id, expires_at
+      FROM wx_sessions
+      WHERE token = ? AND expires_at > NOW()
+      LIMIT 1
+    `,
+    [token]
+  );
+  return row || null;
+}
+
+async function getMe(userId) {
+  const user = await findUserById(userId);
+  return user ? mapUser(user) : null;
+}
+
+async function getHome(userId) {
+  const [user] = await db.query(
+    "SELECT nickname FROM wx_users WHERE id = ? LIMIT 1",
+    [userId]
+  );
+
   const [latestRecord] = await db.query(
     `
       SELECT
@@ -71,7 +187,7 @@ async function getHome() {
     : "暂无待处理提醒";
 
   return {
-    userName: "张女士",
+    userName: user?.nickname || "微信用户",
     latestTitle: latest?.title || "最近一次健康检查摘要",
     latestDate: latest?.date || "",
     latestSummary: latest?.summary || "暂无检查摘要，可先添加健康记录。",
@@ -81,16 +197,11 @@ async function getHome() {
       { label: "已记录", value: `${recordCount.total || 0} 次` },
       { label: "待关注", value: `${pendingCount.total || 0} 项` },
       { label: "下次提醒", value: nextReminder?.remind_date ? nextReminder.remind_date.slice(5) : "暂无" }
-    ],
-    steps: [
-      { title: "核对摘要", desc: "确认日期、项目和记录内容是否准确。" },
-      { title: "设置提醒", desc: "把复查计划放进提醒列表，减少遗忘。" },
-      { title: "整理问题", desc: "线下咨询前先列出想确认的重点。" }
     ]
   };
 }
 
-async function listRecords() {
+async function listRecords(userId) {
   const rows = await db.query(
     `
       SELECT
@@ -110,7 +221,7 @@ async function listRecords() {
   return rows.map(mapRecord);
 }
 
-async function getRecordById(id) {
+async function getRecordById(userId, id) {
   const [row] = await db.query(
     `
       SELECT
@@ -130,25 +241,53 @@ async function getRecordById(id) {
   return row ? mapRecord(row) : null;
 }
 
-async function listReminders() {
+async function createRecord(userId, payload) {
+  const id = createCompactId();
+  await db.query(
+    `
+      INSERT INTO wx_health_records
+        (id, user_id, record_date, title, project, summary, suggestion, status, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    `,
+    [id, userId, payload.date, payload.title, payload.project, payload.summary, payload.suggestion, payload.status]
+  );
+  return getRecordById(userId, id);
+}
+
+async function updateRecord(userId, id, payload) {
+  await db.query(
+    `
+      UPDATE wx_health_records
+      SET record_date = ?, title = ?, project = ?, summary = ?, suggestion = ?, status = ?, updated_at = NOW()
+      WHERE id = ? AND user_id = ?
+    `,
+    [payload.date, payload.title, payload.project, payload.summary, payload.suggestion, payload.status, id, userId]
+  );
+  return getRecordById(userId, id);
+}
+
+async function deleteRecord(userId, id) {
+  await db.query(
+    "DELETE FROM wx_health_records WHERE id = ? AND user_id = ?",
+    [id, userId]
+  );
+  return { deleted: true };
+}
+
+async function listReminders(userId) {
   const rows = await db.query(
     `
       SELECT id, title, DATE_FORMAT(remind_date, '%Y-%m-%d') AS remind_date, description, done
       FROM wx_reminders
       WHERE user_id = ?
-      ORDER BY done ASC, remind_date ASC
+      ORDER BY done ASC, remind_date ASC, created_at DESC
     `,
     [userId]
   );
   return rows.map(mapReminder);
 }
 
-async function completeReminder(id) {
-  await db.query(
-    "UPDATE wx_reminders SET done = 1, completed_at = NOW(), updated_at = NOW() WHERE id = ? AND user_id = ?",
-    [id, userId]
-  );
-
+async function getReminderById(userId, id) {
   const [row] = await db.query(
     `
       SELECT id, title, DATE_FORMAT(remind_date, '%Y-%m-%d') AS remind_date, description, done
@@ -158,8 +297,53 @@ async function completeReminder(id) {
     `,
     [id, userId]
   );
-
   return row ? mapReminder(row) : null;
+}
+
+async function createReminder(userId, payload) {
+  const id = createCompactId();
+  await db.query(
+    `
+      INSERT INTO wx_reminders
+        (id, user_id, title, remind_date, description, done, completed_at, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, IF(? = 1, NOW(), NULL), NOW(), NOW())
+    `,
+    [id, userId, payload.title, payload.date, payload.desc, payload.done ? 1 : 0, payload.done ? 1 : 0]
+  );
+  return getReminderById(userId, id);
+}
+
+async function updateReminder(userId, id, payload) {
+  await db.query(
+    `
+      UPDATE wx_reminders
+      SET title = ?,
+          remind_date = ?,
+          description = ?,
+          done = ?,
+          completed_at = IF(? = 1, COALESCE(completed_at, NOW()), NULL),
+          updated_at = NOW()
+      WHERE id = ? AND user_id = ?
+    `,
+    [payload.title, payload.date, payload.desc, payload.done ? 1 : 0, payload.done ? 1 : 0, id, userId]
+  );
+  return getReminderById(userId, id);
+}
+
+async function completeReminder(userId, id) {
+  await db.query(
+    "UPDATE wx_reminders SET done = 1, completed_at = NOW(), updated_at = NOW() WHERE id = ? AND user_id = ?",
+    [id, userId]
+  );
+  return getReminderById(userId, id);
+}
+
+async function deleteReminder(userId, id) {
+  await db.query(
+    "DELETE FROM wx_reminders WHERE id = ? AND user_id = ?",
+    [id, userId]
+  );
+  return { deleted: true };
 }
 
 async function listQuestionTemplates() {
@@ -174,28 +358,92 @@ async function listQuestionTemplates() {
   return rows.map((row) => row.content);
 }
 
-async function saveQuestions(questions) {
-  const cleanQuestions = questions
-    .map((item) => String(item).trim())
-    .filter(Boolean)
-    .slice(0, 20);
+async function listQuestions(userId) {
+  const rows = await db.query(
+    `
+      SELECT
+        id,
+        question_text,
+        answer_text,
+        DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS created_at,
+        DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i:%s') AS updated_at
+      FROM wx_user_questions
+      WHERE user_id = ?
+      ORDER BY updated_at DESC, created_at DESC
+    `,
+    [userId]
+  );
+  return rows.map(mapQuestion);
+}
 
-  if (!cleanQuestions.length) {
+async function saveQuestions(userId, questions) {
+  if (!questions.length) {
     return { questions: [] };
   }
 
-  const values = cleanQuestions.map((question) => [
+  const values = questions.map((question) => [
     userId,
     question,
+    "",
+    new Date(),
     new Date()
   ]);
 
   await db.getPool().query(
-    "INSERT INTO wx_user_questions (user_id, question_text, created_at) VALUES ?",
+    "INSERT INTO wx_user_questions (user_id, question_text, answer_text, created_at, updated_at) VALUES ?",
     [values]
   );
 
-  return { questions: cleanQuestions };
+  return { questions };
+}
+
+async function getQuestionById(userId, id) {
+  const [row] = await db.query(
+    `
+      SELECT
+        id,
+        question_text,
+        answer_text,
+        DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS created_at,
+        DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i:%s') AS updated_at
+      FROM wx_user_questions
+      WHERE id = ? AND user_id = ?
+      LIMIT 1
+    `,
+    [id, userId]
+  );
+  return row ? mapQuestion(row) : null;
+}
+
+async function createQuestion(userId, payload) {
+  const result = await db.query(
+    `
+      INSERT INTO wx_user_questions (user_id, question_text, answer_text, created_at, updated_at)
+      VALUES (?, ?, ?, NOW(), NOW())
+    `,
+    [userId, payload.questionText, payload.answerText]
+  );
+  return getQuestionById(userId, result.insertId);
+}
+
+async function updateQuestion(userId, id, payload) {
+  await db.query(
+    `
+      UPDATE wx_user_questions
+      SET question_text = ?, answer_text = ?, updated_at = NOW()
+      WHERE id = ? AND user_id = ?
+    `,
+    [payload.questionText, payload.answerText, id, userId]
+  );
+  return getQuestionById(userId, id);
+}
+
+async function deleteQuestion(userId, id) {
+  await db.query(
+    "DELETE FROM wx_user_questions WHERE id = ? AND user_id = ?",
+    [id, userId]
+  );
+  return { deleted: true };
 }
 
 async function listArticles() {
@@ -210,7 +458,7 @@ async function listArticles() {
   return rows;
 }
 
-async function createFeedback(payload = {}) {
+async function createFeedback(userId, payload = {}) {
   const id = crypto.randomUUID();
   await db.query(
     `
@@ -233,14 +481,26 @@ async function createFeedback(payload = {}) {
 }
 
 module.exports = {
+  login,
+  getSessionByToken,
+  getMe,
   getHome,
   listRecords,
   getRecordById,
+  createRecord,
+  updateRecord,
+  deleteRecord,
   listReminders,
+  createReminder,
+  updateReminder,
   completeReminder,
+  deleteReminder,
   listQuestionTemplates,
+  listQuestions,
   saveQuestions,
+  createQuestion,
+  updateQuestion,
+  deleteQuestion,
   listArticles,
   createFeedback
 };
-

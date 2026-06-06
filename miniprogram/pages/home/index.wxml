@@ -20,25 +20,14 @@
       <text class="pill">{{home.latestDate}}</text>
     </view>
     <text class="latest-desc">{{home.nextReminder}}</text>
-    <button class="primary-button" bindtap="goPage" data-path="/pages/records/index">查看检查记录</button>
+    <button class="primary-button" bindtap="goPage" data-path="/pages/records/index" data-tab="{{true}}">查看检查记录</button>
   </view>
 
   <view class="action-grid">
-    <button wx:for="{{actions}}" wx:key="label" class="action-card action-card-{{item.tone}}" bindtap="goPage" data-path="{{item.path}}">
+    <button wx:for="{{actions}}" wx:key="label" class="action-card action-card-{{item.tone}}" bindtap="goPage" data-path="{{item.path}}" data-tab="{{item.tab}}">
       <text class="action-title">{{item.label}}</text>
       <text class="action-desc">{{item.desc}}</text>
     </button>
-  </view>
-
-  <view class="card guide-card">
-    <text class="section-title">使用路径</text>
-    <view wx:for="{{home.steps}}" wx:key="title" class="guide-step">
-      <text class="guide-index">0{{index + 1}}</text>
-      <view class="guide-body">
-        <text class="guide-title">{{item.title}}</text>
-        <text class="guide-desc">{{item.desc}}</text>
-      </view>
-    </view>
   </view>
 
   <view class="safe-note">{{home.disclaimer}}</view>

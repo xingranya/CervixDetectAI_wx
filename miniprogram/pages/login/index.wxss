@@ -1,0 +1,72 @@
+.login-page {
+  padding-top: 58rpx;
+}
+
+.login-hero {
+  padding: 20rpx 6rpx 34rpx;
+}
+
+.eyebrow {
+  display: inline-flex;
+  padding: 10rpx 18rpx;
+  border-radius: 999rpx;
+  background: rgba(25, 118, 210, 0.1);
+  color: #1976d2;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.login-title {
+  display: block;
+  margin-top: 28rpx;
+  color: #0f172a;
+  font-size: 52rpx;
+  font-weight: 900;
+  line-height: 1.16;
+}
+
+.login-desc {
+  display: block;
+  margin-top: 20rpx;
+  color: #64748b;
+  font-size: 28rpx;
+  line-height: 1.7;
+}
+
+.login-card {
+  padding: 34rpx;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 14rpx;
+  color: #334155;
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.form-input {
+  height: 88rpx;
+  padding: 0 24rpx;
+  border: 1rpx solid #dbe5f0;
+  border-radius: 18rpx;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 30rpx;
+  box-sizing: border-box;
+}
+
+.login-button {
+  margin-top: 28rpx;
+}
+
+.plain-link {
+  margin-top: 20rpx;
+  background: transparent;
+  color: #1976d2;
+  font-size: 26rpx;
+}
+
+.plain-link::after {
+  border: 0;
+}

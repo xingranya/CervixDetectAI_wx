@@ -1,0 +1,16 @@
+<view class="page login-page">
+  <view class="login-hero">
+    <text class="eyebrow">CervixDetectAI云端智诊</text>
+    <text class="login-title">女性健康记录与复查提醒助手</text>
+    <text class="login-desc">用于保存检查摘要、管理复查提醒、整理线下咨询前的问题。</text>
+  </view>
+
+  <view class="card login-card">
+    <text class="form-label">昵称</text>
+    <input class="form-input" value="{{nickname}}" bindinput="onNicknameInput" maxlength="20" placeholder="请输入昵称" />
+    <button class="primary-button login-button" loading="{{loading}}" bindtap="submitLogin">进入云端智诊</button>
+    <button class="plain-link" bindtap="openPrivacy">查看隐私与服务说明</button>
+  </view>
+
+  <view class="safe-note">产品仅用于健康信息记录与提醒，不提供在线诊断、治疗、处方或问诊服务。</view>
+</view>

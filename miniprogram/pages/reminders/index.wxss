@@ -1,3 +1,29 @@
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.mini-primary {
+  min-width: 132rpx;
+  height: 64rpx;
+  margin: 0;
+  border-radius: 999rpx;
+  background: #1976d2;
+  color: #fff;
+  font-size: 26rpx;
+  line-height: 64rpx;
+}
+
+.mini-primary::after {
+  border: 0;
+}
+
+.reminder-done {
+  opacity: 0.68;
+}
+
 .reminder-date {
   color: #1976d2;
   font-size: 26rpx;
@@ -21,7 +47,59 @@
 }
 
 .done-text {
+  display: inline-flex;
+  align-items: center;
+  height: 58rpx;
   color: #1976d2;
   font-size: 28rpx;
   font-weight: 700;
+}
+
+.reminder-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.small-button,
+.text-button {
+  height: 58rpx;
+  margin: 0;
+  padding: 0 22rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  line-height: 58rpx;
+}
+
+.text-button {
+  background: rgba(25, 118, 210, 0.08);
+  color: #1976d2;
+}
+
+.text-button::after {
+  border: 0;
+}
+
+.danger {
+  background: rgba(211, 47, 47, 0.08);
+  color: #d32f2f;
+}
+
+.empty-title,
+.empty-desc {
+  display: block;
+}
+
+.empty-title {
+  color: #0f172a;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.empty-desc {
+  margin: 16rpx 0 24rpx;
+  color: #64748b;
+  font-size: 26rpx;
+  line-height: 1.6;
 }

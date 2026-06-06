@@ -1,0 +1,42 @@
+.form-card {
+  padding-bottom: 36rpx;
+}
+
+.form-label {
+  display: block;
+  margin: 28rpx 0 12rpx;
+  color: #334155;
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  border: 1rpx solid #dbe5f0;
+  border-radius: 18rpx;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.form-input {
+  height: 88rpx;
+  padding: 0 24rpx;
+  line-height: 88rpx;
+}
+
+.form-textarea {
+  min-height: 180rpx;
+  padding: 22rpx 24rpx;
+  line-height: 1.6;
+}
+
+.picker-value {
+  color: #0f172a;
+}
+
+.form-submit {
+  margin-top: 34rpx;
+}

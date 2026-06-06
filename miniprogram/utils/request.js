@@ -1,4 +1,5 @@
 const mock = require("./mock-data");
+const config = require("../config/app");
 
 function getMock(path) {
   if (path === "/home") return Promise.resolve({ data: mock.home });
@@ -13,11 +14,21 @@ function getMock(path) {
   return Promise.resolve({ data: null });
 }
 
+function getToken() {
+  return wx.getStorageSync("token") || "";
+}
+
+function redirectLogin() {
+  wx.removeStorageSync("token");
+  wx.removeStorageSync("user");
+  wx.navigateTo({ url: "/pages/login/index" });
+}
+
 function request(path, options = {}) {
   const app = getApp();
-  const baseUrl = app.globalData.apiBaseUrl;
+  const baseUrl = app.globalData.apiBaseUrl || config.apiBaseUrl;
 
-  if (!baseUrl || baseUrl.includes("localhost")) {
+  if (app.globalData.useMock || config.useMock) {
     return getMock(path);
   }
 
@@ -28,15 +39,36 @@ function request(path, options = {}) {
       data: options.data || {},
       header: {
         "content-type": "application/json",
+        ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
         ...(options.header || {})
       },
-      success: (res) => resolve(res.data),
+      success: (res) => {
+        const body = res.data || {};
+        if (res.statusCode === 401) {
+          redirectLogin();
+          reject(new Error(body.message || "请先登录"));
+          return;
+        }
+        if (res.statusCode >= 400 || body.success === false) {
+          reject(new Error(body.message || "请求失败，请稍后再试"));
+          return;
+        }
+        resolve(body);
+      },
       fail: reject
     });
   });
 }
 
-module.exports = {
-  request
-};
+function login(payload) {
+  return request("/auth/login", {
+    method: "POST",
+    data: payload
+  });
+}
 
+module.exports = {
+  request,
+  login,
+  getToken
+};
