@@ -21,6 +21,77 @@ page {
   color: #1e293b;
 }
 
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.title-row .section-title {
+  margin: 0;
+}
+
+.page-head .title-row {
+  margin-bottom: 0;
+}
+
+.title-icon {
+  width: 58rpx;
+  height: 58rpx;
+  flex: 0 0 auto;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+
+.card-icon {
+  width: 52rpx;
+  height: 52rpx;
+  flex: 0 0 auto;
+}
+
+.button-icon {
+  width: 32rpx;
+  height: 32rpx;
+  max-width: 32rpx;
+  max-height: 32rpx;
+  margin-right: 10rpx;
+  flex: 0 0 auto;
+}
+
+.small-icon {
+  width: 28rpx;
+  height: 28rpx;
+  max-width: 28rpx;
+  max-height: 28rpx;
+  margin-right: 8rpx;
+  flex: 0 0 auto;
+}
+
+.title-icon,
+.card-icon,
+.button-icon,
+.small-icon {
+  display: block;
+}
+
+.primary-button,
+.ghost-button,
+.mini-primary,
+.text-button,
+.delete-button,
+.logout-button,
+.plain-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 .card {
   margin-bottom: 24rpx;
   padding: 30rpx;

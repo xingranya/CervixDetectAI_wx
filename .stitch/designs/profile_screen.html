@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CervixDetectAI - Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#747685",
+                      "primary-container": "#406de4",
+                      "on-error-container": "#93000a",
+                      "error": "#ba1a1a",
+                      "surface-bright": "#f8f9ff",
+                      "on-primary-fixed-variant": "#003daa",
+                      "on-background": "#0b1c30",
+                      "outline-variant": "#c3c6d6",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed": "#001a43",
+                      "on-primary-fixed": "#00174c",
+                      "surface-variant": "#d3e4fe",
+                      "secondary-fixed": "#d8e2ff",
+                      "on-primary": "#ffffff",
+                      "secondary": "#425d96",
+                      "on-secondary-container": "#324e85",
+                      "surface-dim": "#cbdbf5",
+                      "on-tertiary-fixed": "#3d040b",
+                      "on-secondary-fixed-variant": "#29457c",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-surface-variant": "#434654",
+                      "tertiary-fixed-dim": "#ffb3b2",
+                      "on-secondary": "#ffffff",
+                      "secondary-container": "#a6c0ff",
+                      "primary-fixed": "#dbe1ff",
+                      "on-tertiary-container": "#fffbff",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "tertiary": "#914446",
+                      "inverse-on-surface": "#eaf1ff",
+                      "background": "#f8f9ff",
+                      "surface-container": "#e5eeff",
+                      "primary": "#1f53c9",
+                      "tertiary-container": "#af5c5d",
+                      "on-primary-container": "#fefcff",
+                      "surface-container-high": "#dce9ff",
+                      "surface-tint": "#2355cc",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#213145",
+                      "tertiary-fixed": "#ffdad9",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#f8f9ff",
+                      "secondary-fixed-dim": "#aec6ff",
+                      "surface-container-low": "#eff4ff",
+                      "on-tertiary-fixed-variant": "#773032",
+                      "inverse-primary": "#b4c5ff",
+                      "on-surface": "#0b1c30"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "md": "16px",
+                      "gutter": "16px",
+                      "xs": "4px",
+                      "xl": "40px",
+                      "lg": "24px",
+                      "margin-mobile": "20px",
+                      "sm": "8px",
+                      "margin-desktop": "64px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top, #dbe1ff 0%, #f8f9ff 100%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body-md text-on-surface selection:bg-primary/20">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-surface/80 backdrop-blur-xl border-b border-white/40 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img alt="Sarah Evans" class="w-full h-full object-cover" data-alt="A close-up professional portrait of a smiling woman with a warm, empathetic expression. She is in a softly lit, modern medical office environment with soft blue and white accents. The lighting is high-key and clean, reflecting a clinical but welcoming atmosphere that builds trust and tranquility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALWIn-yfx2HfTHB6gp2bFTLQyJX6eU0dqbkDNp4P5w72aZ7SLmeuz1ggj7rQ5Rb4kn7YTTDLIakQCQ0t3U7pLaQeq3ATz-mw77YZxGCofTuO9TwjdRKRQobh0IDbxhL2Uu6jrqioJRKLRQ8rxAO-mkNPtHsAqCbnRjqd7fBE3ovf7zJNQZR8_GBhES4YluWaMOc8mUWDV8oy8NguOpTuQl7bf9UJyDyhTQ1ICuZgiSOlrNy_tsk3xzA7OI7vCjeXz4M-3x-ecg-in_"/>
+</div>
+<h1 class="text-headline-sm font-headline-sm font-bold text-primary">CervixDetectAI</h1>
+</div>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="pt-16 pb-24 min-h-screen">
+<!-- Hero Section -->
+<section class="hero-gradient px-margin-mobile pt-10 pb-8 flex flex-col items-center">
+<div class="relative mb-4">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-xl">
+<img alt="Sarah Evans" class="w-full h-full object-cover" data-alt="A high-quality, professional headshot of a woman named Sarah Evans, featuring soft, diffused lighting and a serene, confident smile. The background is a minimalist, out-of-focus wellness clinic with a color palette of whites and soft primary blues. The overall aesthetic is clean, medical, and empathetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY26wr_6gzZcvV2kIAr48xTo-Oynj37IKRxCFwAfDcOaJB8PMPsnJ6HTl_CmCjWPakVCjedl8TFhcuRDHfh5Ejl72iHrbqd_TtDe6slZj8zvVN2EXkNheCEdA4GRY751Rv_uEbujDO3ZNQ-pyZko-6HLlCxqLI90iHRsw4-sO7bCrSs9KvAeRNha9_BX_2Qp_3D7m5U89rGL1bH1MX9v97Hak4cmF9MvIB1e7wATppXQYIawVYkoK8uI8KRnUn2DRGMXkPSZqzBv_L"/>
+</div>
+<div class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-white shadow-md flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">Sarah Evans</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Active Member since Oct 2023</p>
+<div class="mt-6 flex gap-4 w-full max-w-sm">
+<div class="flex-1 glass-card p-4 rounded-xl text-center shadow-sm">
+<p class="font-label-md text-label-md text-primary uppercase tracking-wider mb-1">Status</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">Up to date</p>
+</div>
+<div class="flex-1 glass-card p-4 rounded-xl text-center shadow-sm">
+<p class="font-label-md text-label-md text-primary uppercase tracking-wider mb-1">Checks</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">12 Total</p>
+</div>
+</div>
+</section>
+<!-- Settings List -->
+<section class="px-margin-mobile mt-4 space-y-3">
+<h3 class="font-label-md text-label-md text-on-surface-variant px-2 mb-2">Account Settings</h3>
+<div class="glass-card rounded-2xl overflow-hidden shadow-sm border border-white/40">
+<!-- Privacy Policy -->
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container-highest/30 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="shield">shield</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Privacy Policy</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Feedback & Support -->
+<button class="w-full flex items-center justify-between p-4 border-t border-outline-variant/10 hover:bg-surface-container-highest/30 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Feedback &amp; Support</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Service Terms -->
+<button class="w-full flex items-center justify-between p-4 border-t border-outline-variant/10 hover:bg-surface-container-highest/30 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Service Terms</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- About -->
+<button class="w-full flex items-center justify-between p-4 border-t border-outline-variant/10 hover:bg-surface-container-highest/30 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">About CervixDetectAI</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Sign Out -->
+<button class="w-full mt-6 py-4 px-4 flex items-center justify-center gap-2 rounded-xl border border-error/20 bg-error-container/5 text-error hover:bg-error-container/10 transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Log Out</span>
+</button>
+</section>
+<!-- App Version -->
+<p class="text-center mt-12 mb-8 font-label-sm text-label-sm text-outline">Version 2.4.0 (Build 892)</p>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-2 bg-surface/80 backdrop-blur-xl border-t border-white/40 shadow-[0_-4px_24px_rgba(31,83,201,0.05)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest/50 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest/50 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-md text-label-md">Records</span>
+</a>
+<!-- Active Tab: Profile -->
+<a class="flex flex-col items-center justify-center bg-primary-container/20 text-primary rounded-xl px-4 py-1 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple touch feedback and micro-interactions
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('touchstart', () => {
+                el.style.opacity = '0.7';
+            });
+            el.addEventListener('touchend', () => {
+                el.style.opacity = '1';
+            });
+        });
+    </script>
+</body></html>

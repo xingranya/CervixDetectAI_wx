@@ -7,6 +7,9 @@ function createDeviceId() {
 App({
   globalData: {
     apiBaseUrl: config.apiBaseUrl,
+    devtoolsApiBaseUrl: config.devtoolsApiBaseUrl,
+    deviceApiBaseUrl: config.deviceApiBaseUrl,
+    productionApiBaseUrl: config.productionApiBaseUrl,
     appName: config.appName,
     shortName: config.shortName,
     useMock: config.useMock
