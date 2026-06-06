@@ -31,6 +31,16 @@ function getCacheEntry(key) {
   return responseCache[String(key)] || null;
 }
 
+function getStaleCachedData(key) {
+  const entry = getCacheEntry(key);
+  if (!entry || entry.data === undefined) return undefined;
+  return {
+    ...cloneData(entry.data),
+    fromCache: true,
+    cacheUpdatedAt: entry.updatedAt
+  };
+}
+
 function getCachedData(key) {
   const entry = getCacheEntry(key);
   return entry ? cloneData(entry.data) : undefined;
@@ -186,6 +196,10 @@ function getRuntimeInfo() {
   return runtimeInfoCache;
 }
 
+function isDevtoolsRuntime() {
+  return getRuntimeInfo().system.platform === "devtools";
+}
+
 function resolveBaseUrl() {
   if (baseUrlCache) return baseUrlCache;
 
@@ -214,8 +228,14 @@ function normalizeRequestError(error, baseUrl) {
   if (errMsg.indexOf("url not in domain list") > -1) {
     return new Error("接口域名未加入微信小程序合法域名，请配置 HTTPS 服务器域名。");
   }
+  if (errMsg.indexOf("timeout") > -1) {
+    return new Error("网络响应较慢，请稍后重试。");
+  }
   if (errMsg.indexOf("request:fail") > -1) {
-    return new Error(`无法连接后端服务，请确认手机与电脑在同一网络，并检查接口地址：${baseUrl}`);
+    if (isDevtoolsRuntime()) {
+      return new Error(`无法连接后端服务，请检查接口地址：${baseUrl}`);
+    }
+    return new Error("当前网络连接不稳定，请检查网络后重试。");
   }
   return error instanceof Error ? error : new Error("网络请求失败，请稍后再试");
 }
@@ -253,6 +273,14 @@ function request(path, options = {}) {
   }
 
   const promise = new Promise((resolve, reject) => {
+    const resolveWithStaleCache = () => {
+      if (!cacheKey) return false;
+      const cachedData = getStaleCachedData(cacheKey);
+      if (cachedData === undefined) return false;
+      resolve(cachedData);
+      return true;
+    };
+
     wx.request({
       url: `${baseUrl}${path}`,
       method,
@@ -271,6 +299,7 @@ function request(path, options = {}) {
           return;
         }
         if (res.statusCode >= 400 || body.success === false) {
+          if (isGetRequest && res.statusCode >= 500 && resolveWithStaleCache()) return;
           reject(new Error(getErrorMessage(body, "请求失败，请稍后再试")));
           return;
         }
@@ -279,7 +308,10 @@ function request(path, options = {}) {
         }
         resolve(body);
       },
-      fail: (error) => reject(normalizeRequestError(error, baseUrl))
+      fail: (error) => {
+        if (isGetRequest && resolveWithStaleCache()) return;
+        reject(normalizeRequestError(error, baseUrl));
+      }
     });
   }).finally(() => {
     delete inflightRequests[inflightKey];
@@ -322,12 +354,20 @@ function uploadAvatar(payload) {
   });
 }
 
+function createFeedback(payload) {
+  return request("/feedback", {
+    method: "POST",
+    data: payload
+  });
+}
+
 module.exports = {
   CACHE_KEYS,
   request,
   login,
   updateProfile,
   uploadAvatar,
+  createFeedback,
   getToken,
   getCachedData,
   setCachedData,

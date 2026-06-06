@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "问题整理",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
   "usingComponents": {
     "section-header": "/components/section-header/index"
   }

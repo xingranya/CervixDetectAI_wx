@@ -54,7 +54,12 @@
 
 `GET /articles`
 
-返回健康管理知识卡片。
+返回健康管理知识卡片和正文：
+
+- `id`
+- `title`
+- `summary`
+- `content`
 
 ## 反馈
 
@@ -62,12 +67,15 @@
 
 保存用户反馈。演示版当前直接返回收到状态。
 
+前端同时保留微信官方 `open-type="feedback"` 入口，方便用户提交带日志的反馈。
+
 ## 合规原则
 
 - API 不返回诊断结论字段。
 - API 不返回治疗方案字段。
 - API 不返回医生问诊内容。
 - API 不提供图片识别入口。
+- API 会拦截明显越界的医疗服务表达，例如在线问诊、诊断、治疗方案、处方代开等。
 - 如后续对接主系统报告，应先经过“患者安全摘要”映射，只输出健康记录摘要。
 
 ## 后端分层
@@ -77,4 +85,3 @@
 - `repositories/miniapp.repository.js`：负责 MySQL 访问。
 - `repositories/mock.repository.js`：负责无数据库演示兜底。
 - `config/env.js` 与 `config/database.js`：负责环境变量和连接池。
-

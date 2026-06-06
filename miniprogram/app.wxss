@@ -170,3 +170,59 @@ page {
   font-size: 24rpx;
   line-height: 1.6;
 }
+
+.form-error {
+  display: block;
+  margin-bottom: 22rpx;
+  padding: 18rpx 20rpx;
+  border: 1rpx solid rgba(186, 26, 26, 0.18);
+  border-radius: 18rpx;
+  background: rgba(255, 218, 214, 0.24);
+  color: #ba1a1a;
+  font-size: 24rpx;
+  line-height: 1.55;
+}
+
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  min-height: 108rpx;
+  padding: 22rpx 24rpx;
+  border-bottom: 1rpx solid rgba(195, 198, 214, 0.26);
+  box-sizing: border-box;
+}
+
+.link-card:last-child {
+  border-bottom: 0;
+}
+
+.link-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.link-card-title,
+.link-card-desc {
+  display: block;
+}
+
+.link-card-title {
+  color: #1e293b;
+  font-size: 29rpx;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.link-card-desc {
+  margin-top: 8rpx;
+  color: #64748b;
+  font-size: 24rpx;
+  line-height: 1.45;
+}
+
+.link-arrow {
+  color: #9aa6b8;
+  font-size: 44rpx;
+  line-height: 1;
+}

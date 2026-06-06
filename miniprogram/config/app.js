@@ -7,5 +7,8 @@ module.exports = {
   deviceApiBaseUrl: "https://xcx.hpvsc.icu/api/miniapp",
   productionApiBaseUrl: "https://xcx.hpvsc.icu/api/miniapp",
   requestTimeout: 12000,
+  subscriptionTemplateIds: {
+    reminder: ""
+  },
   useMock: false
 };

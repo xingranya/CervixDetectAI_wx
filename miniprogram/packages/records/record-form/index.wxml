@@ -2,6 +2,8 @@
   <view class="card form-card">
     <section-header title="{{id ? '编辑检查记录' : '新增检查记录'}}" icon="/assets/icons/form-active.png" />
 
+    <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
+
     <text class="form-label">检查日期</text>
     <picker mode="date" value="{{form.date}}" bind:change="onDateChange">
       <view class="form-input picker-value">{{form.date || '请选择日期'}}</view>
@@ -20,7 +22,9 @@
     <textarea class="form-textarea" value="{{form.suggestion}}" data-field="suggestion" bind:input="onInput" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" />
 
     <text class="form-label">状态</text>
-    <input class="form-input" value="{{form.status}}" data-field="status" bind:input="onInput" maxlength="20" placeholder="例如：已记录、待复查" />
+    <picker mode="selector" range="{{statusOptions}}" value="{{statusIndex}}" bind:change="onStatusChange">
+      <view class="form-input picker-value">{{form.status || '请选择状态'}}</view>
+    </picker>
 
     <button class="primary-button form-submit" loading="{{loading}}" bind:tap="submitForm">
       <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />

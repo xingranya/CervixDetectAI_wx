@@ -101,6 +101,11 @@ Page({
     }
   },
 
+  async onPullDownRefresh() {
+    await this.loadData({ silent: true });
+    wx.stopPullDownRefresh();
+  },
+
   toggleQuestion(event) {
     const text = event.currentTarget.dataset.text;
     const selected = this.data.selected.indexOf(text) > -1

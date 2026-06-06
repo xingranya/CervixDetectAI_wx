@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "检查记录",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
   "usingComponents": {
     "section-header": "/components/section-header/index",
     "empty-state": "/components/empty-state/index"

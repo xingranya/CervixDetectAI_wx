@@ -85,6 +85,11 @@ Page({
     }
   },
 
+  async onPullDownRefresh() {
+    await this.loadRecords({ silent: true });
+    wx.stopPullDownRefresh();
+  },
+
   openDetail(event) {
     openRoute(ROUTES.recordDetail, { id: event.currentTarget.dataset.id });
   },

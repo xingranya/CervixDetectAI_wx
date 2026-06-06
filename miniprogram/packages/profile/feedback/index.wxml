@@ -1,0 +1,47 @@
+<view class="page feedback-page">
+  <section-header title="意见反馈" icon="/assets/icons/questions-active.png" desc="遇到问题或有建议时，可以在这里告诉我们。" />
+
+  <view class="card feedback-card">
+    <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
+
+    <text class="form-label">反馈类型</text>
+    <picker mode="selector" range="{{feedbackTypes}}" value="{{feedbackTypeIndex}}" bind:change="onTypeChange">
+      <view class="form-input picker-value">{{form.type}}</view>
+    </picker>
+
+    <text class="form-label">反馈内容</text>
+    <textarea
+      class="form-textarea"
+      value="{{form.content}}"
+      data-field="content"
+      bind:input="onInput"
+      maxlength="1000"
+      placeholder="请描述你遇到的问题、希望改进的功能或隐私数据相关疑问。"
+    />
+
+    <text class="form-label">联系方式（选填）</text>
+    <input
+      class="form-input"
+      value="{{form.contact}}"
+      data-field="contact"
+      bind:input="onInput"
+      maxlength="120"
+      placeholder="可填写微信号或邮箱，便于后续联系"
+    />
+
+    <button class="primary-button form-submit" loading="{{loading}}" bind:tap="submitFeedback">
+      <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
+      提交反馈
+    </button>
+  </view>
+
+  <view class="card official-feedback-card">
+    <view class="official-copy">
+      <text class="official-title">也可以使用微信官方反馈入口</text>
+      <text class="official-desc">该入口会打开微信提供的意见反馈页面，可上传运行日志，方便排查问题。</text>
+    </view>
+    <button class="ghost-button" open-type="feedback">打开官方反馈</button>
+  </view>
+
+  <view class="safe-note">反馈内容仅用于改进小程序服务体验，请不要填写诊断结论、处方、身份证号等敏感信息。</view>
+</view>

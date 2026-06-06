@@ -20,14 +20,27 @@
   />
 
   <block wx:else>
-    <view wx:for="{{articles}}" wx:key="id" class="card article-card">
+    <view wx:for="{{articles}}" wx:key="id" class="card article-card" bind:tap="openArticle" data-id="{{item.id}}">
       <image class="card-icon" src="/assets/icons/articles-active.png" mode="aspectFit" />
       <view class="article-body">
         <text class="article-title">{{item.title}}</text>
         <text class="article-summary">{{item.summary}}</text>
       </view>
+      <text class="article-arrow">›</text>
     </view>
   </block>
 
   <view class="safe-note">知识内容用于日常健康管理参考，不能替代专业医疗意见。</view>
+
+  <view wx:if="{{activeArticle}}" class="article-mask" bind:tap="closeArticle">
+    <view class="article-panel" catch:tap="noop">
+      <view class="article-panel-head">
+        <text class="article-panel-title">{{activeArticle.title}}</text>
+        <button class="article-close" bind:tap="closeArticle">关闭</button>
+      </view>
+      <text class="article-panel-summary">{{activeArticle.summary}}</text>
+      <text class="article-panel-content">{{activeArticle.content || activeArticle.summary}}</text>
+      <view class="safe-note article-panel-note">以上内容仅用于健康管理参考，如需判断具体健康问题，请前往线下正规医疗机构咨询。</view>
+    </view>
+  </view>
 </view>

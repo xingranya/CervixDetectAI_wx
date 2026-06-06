@@ -59,6 +59,10 @@ MINIAPP_DATA_SOURCE=mock
 - `GET /api/miniapp/articles`
 - `POST /api/miniapp/feedback`
 
+`GET /api/miniapp/articles` 返回 `id/title/summary/content`，前端用于文章列表和正文弹层。
+
+`POST /api/miniapp/feedback` 会做基础内容清洗和健康服务边界校验；如果用户提交明显越界的医疗服务表达，会返回 400。
+
 ## 校验
 
 先安装依赖：

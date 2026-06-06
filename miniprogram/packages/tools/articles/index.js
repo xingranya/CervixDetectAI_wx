@@ -11,7 +11,8 @@ Page({
   data: {
     articles: [],
     pageStatus: PAGE_STATUS.LOADING,
-    errorMessage: ""
+    errorMessage: "",
+    activeArticle: null
   },
 
   onShow() {
@@ -59,5 +60,25 @@ Page({
         errorMessage: getErrorMessage(error, "加载失败")
       });
     }
+  },
+
+  async onPullDownRefresh() {
+    await this.loadArticles({ silent: true });
+    wx.stopPullDownRefresh();
+  },
+
+  openArticle(event) {
+    const id = event.currentTarget.dataset.id;
+    const article = this.data.articles.find((item) => item.id === id);
+    if (!article) return;
+    this.setData({ activeArticle: article });
+  },
+
+  closeArticle() {
+    this.setData({ activeArticle: null });
+  },
+
+  noop() {
+    return false;
   }
 });

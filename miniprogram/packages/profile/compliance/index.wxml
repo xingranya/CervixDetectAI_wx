@@ -1,0 +1,36 @@
+<view class="page compliance-page">
+  <section-header title="合规与服务边界" icon="/assets/icons/check-active.png" desc="清楚说明本小程序可以做什么、不会做什么。" />
+
+  <view class="card boundary-hero">
+    <view class="boundary-mark">
+      <image src="/assets/icons/check-white.png" mode="aspectFit" />
+    </view>
+    <text class="boundary-title">健康记录工具，不是医疗服务</text>
+    <text class="boundary-desc">云端智诊用于个人健康信息整理、复查计划管理和线下咨询前准备，不提供诊断、治疗、处方或在线问诊。</text>
+  </view>
+
+  <view class="compliance-grid">
+    <view wx:for="{{checklist}}" wx:key="label" class="compliance-cell">
+      <text class="cell-value">{{item.value}}</text>
+      <text class="cell-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="card boundary-card">
+    <text class="boundary-section-title">可以使用的功能</text>
+    <view wx:for="{{allowedItems}}" wx:key="*this" class="boundary-row">
+      <image class="small-icon" src="/assets/icons/check-active.png" mode="aspectFit" />
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <view class="card boundary-card warning-card">
+    <text class="boundary-section-title">明确不提供的服务</text>
+    <view wx:for="{{restrictedItems}}" wx:key="*this" class="boundary-row">
+      <image class="small-icon" src="/assets/icons/privacy-danger.png" mode="aspectFit" />
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <view class="safe-note">如出现明显不适或紧急情况，请及时联系线下正规医疗机构或当地急救服务。</view>
+</view>

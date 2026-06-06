@@ -5,8 +5,31 @@ const avatarStorage = require("./avatar-storage.service");
 
 const repository = env.dataSource === "mock" ? mockRepository : mysqlRepository;
 
+const PROHIBITED_SERVICE_TERMS = [
+  "AI诊断",
+  "辅助诊断",
+  "在线诊断",
+  "在线问诊",
+  "诊疗建议",
+  "治疗方案",
+  "处方代开",
+  "疾病预测",
+  "病变识别",
+  "挂号缴费"
+];
+
 function cleanText(value, maxLength = 500) {
   return String(value || "").trim().slice(0, maxLength);
+}
+
+function assertComplianceText(text, fieldName) {
+  const value = String(text || "");
+  const matchedTerm = PROHIBITED_SERVICE_TERMS.find((term) => value.indexOf(term) > -1);
+  if (!matchedTerm) return;
+
+  const error = new Error(`${fieldName}包含“${matchedTerm}”等本小程序不提供的服务内容，请改为健康记录或线下咨询准备描述`);
+  error.status = 400;
+  throw error;
 }
 
 function requireText(value, fieldName, maxLength = 500) {
@@ -16,6 +39,7 @@ function requireText(value, fieldName, maxLength = 500) {
     error.status = 400;
     throw error;
   }
+  assertComplianceText(text, fieldName);
   return text;
 }
 
@@ -88,6 +112,7 @@ async function login(payload) {
   const deviceId = cleanText(payload.deviceId, 128);
   const openid = cleanText(payload.openid, 128);
   const nickname = cleanText(payload.nickname || "微信用户", 80);
+  assertComplianceText(nickname, "昵称");
   const avatarUrl = cleanText(payload.avatarUrl, 500) || null;
   const phone = cleanText(payload.phone, 32) || null;
   return repository.login({ code, deviceId, openid, nickname, avatarUrl, phone });
@@ -102,6 +127,7 @@ async function getMe(userId) {
 }
 
 async function updateProfile(userId, payload = {}) {
+  assertComplianceText(payload.nickname, "昵称");
   return repository.updateProfile(userId, {
     nickname: cleanText(payload.nickname || "微信用户", 80),
     avatarUrl: cleanText(payload.avatarUrl, 500) || null
@@ -194,7 +220,12 @@ async function listArticles() {
 }
 
 async function createFeedback(userId, payload) {
-  return repository.createFeedback(userId, payload || {});
+  const content = requireText(payload?.content, "反馈内容", 1000);
+  assertComplianceText(payload?.contact, "联系方式");
+  return repository.createFeedback(userId, {
+    contact: cleanText(payload?.contact, 120),
+    content
+  });
 }
 
 module.exports = {

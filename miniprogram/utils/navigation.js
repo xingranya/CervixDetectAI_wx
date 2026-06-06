@@ -9,7 +9,9 @@ const ROUTES = {
   reminderForm: "/packages/reminders/reminder-form/index",
   questions: "/packages/tools/questions/index",
   articles: "/packages/tools/articles/index",
-  privacy: "/packages/profile/privacy/index"
+  privacy: "/packages/profile/privacy/index",
+  compliance: "/packages/profile/compliance/index",
+  feedback: "/packages/profile/feedback/index"
 };
 
 const TAB_ROUTES = [

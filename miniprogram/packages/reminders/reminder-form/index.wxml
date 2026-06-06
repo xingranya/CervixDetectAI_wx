@@ -2,6 +2,13 @@
   <view class="card form-card">
     <section-header title="{{id ? '编辑复查提醒' : '新增复查提醒'}}" icon="/assets/icons/form-active.png" />
 
+    <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
+
+    <text class="form-label">提醒类型</text>
+    <picker mode="selector" range="{{titleOptions}}" value="{{titleIndex}}" bind:change="onTitleTemplateChange">
+      <view class="form-input picker-value">{{titleOptions[titleIndex]}}</view>
+    </picker>
+
     <text class="form-label">提醒标题</text>
     <input class="form-input" value="{{form.title}}" data-field="title" bind:input="onInput" maxlength="60" placeholder="例如：复查提醒" />
 
@@ -18,9 +25,21 @@
       <switch checked="{{form.done}}" color="#1976d2" bind:change="onDoneChange" />
     </label>
 
+    <view class="subscribe-card">
+      <view class="subscribe-copy">
+        <text class="subscribe-title">微信服务通知</text>
+        <text class="subscribe-desc">{{subscriptionMessage}}</text>
+      </view>
+      <button wx:if="{{subscriptionEnabled}}" class="text-button" bind:tap="requestSubscription">
+        {{subscriptionAccepted ? '已开启' : '开启通知'}}
+      </button>
+      <text wx:else class="subscribe-status">保存到小程序内</text>
+    </view>
+
     <button class="primary-button form-submit" loading="{{loading}}" bind:tap="submitForm">
       <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
       保存提醒
     </button>
   </view>
+  <view class="safe-note">微信服务通知需用户主动授权；未开启时，提醒仍会保存在小程序内，方便你随时查看。</view>
 </view>

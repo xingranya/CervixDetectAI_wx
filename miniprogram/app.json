@@ -6,7 +6,7 @@
     "pages/reminders/index",
     "pages/profile/index"
   ],
-  "subPackages": [
+  "subpackages": [
     {
       "root": "packages/records",
       "pages": [
@@ -30,10 +30,28 @@
     {
       "root": "packages/profile",
       "pages": [
-        "privacy/index"
+        "privacy/index",
+        "compliance/index",
+        "feedback/index"
       ]
     }
   ],
+  "preloadRule": {
+    "pages/home/index": {
+      "network": "all",
+      "packages": [
+        "packages/records",
+        "packages/reminders",
+        "packages/tools"
+      ]
+    },
+    "pages/profile/index": {
+      "network": "all",
+      "packages": [
+        "packages/profile"
+      ]
+    }
+  },
   "window": {
     "navigationBarTitleText": "云端智诊",
     "navigationBarBackgroundColor": "#f8fafc",

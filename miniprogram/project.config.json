@@ -1,7 +1,7 @@
 {
   "description": "CervixDetectAI云端智诊 小程序",
   "setting": {
-    "urlCheck": false,
+    "urlCheck": true,
     "es6": true,
     "enhance": true,
     "postcss": true,

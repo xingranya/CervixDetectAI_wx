@@ -72,6 +72,18 @@ Page({
         desc: "查看数据用途和边界",
         icon: "/assets/icons/privacy-active.png",
         path: ROUTES.privacy
+      },
+      {
+        title: "合规与服务边界",
+        desc: "确认健康记录工具的使用范围",
+        icon: "/assets/icons/check-active.png",
+        path: ROUTES.compliance
+      },
+      {
+        title: "意见反馈",
+        desc: "提交使用问题和改进建议",
+        icon: "/assets/icons/questions-active.png",
+        path: ROUTES.feedback
       }
     ]
   },
@@ -106,6 +118,11 @@ Page({
     } catch (_error) {
       // 首页概览加载失败时保留默认占位，不影响个人中心操作。
     }
+  },
+
+  async onPullDownRefresh() {
+    await this.loadSummary();
+    wx.stopPullDownRefresh();
   },
 
   openMenu(event) {

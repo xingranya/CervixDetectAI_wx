@@ -26,10 +26,20 @@ const defaultForm = {
   status: "已记录"
 };
 
+const statusOptions = ["已记录", "待复查", "待关注", "已完成"];
+
+function findStatusIndex(status) {
+  const index = statusOptions.indexOf(status);
+  return index > -1 ? index : 0;
+}
+
 Page({
   data: {
     id: "",
     form: { ...defaultForm },
+    statusOptions,
+    statusIndex: findStatusIndex(defaultForm.status),
+    errorMessage: "",
     loading: false
   },
 
@@ -38,7 +48,10 @@ Page({
       this.setData({ id: query.id });
       const cachedDetail = getCachedData(CACHE_KEYS.recordDetail(query.id));
       if (cachedDetail && cachedDetail.data) {
-        this.setData({ form: cachedDetail.data });
+        this.setData({
+          form: cachedDetail.data,
+          statusIndex: findStatusIndex(cachedDetail.data.status)
+        });
       }
       this.loadRecord(query.id);
       return;
@@ -51,7 +64,10 @@ Page({
       const res = await request(`/records/${id}`, {
         cacheKey: CACHE_KEYS.recordDetail(id)
       });
-      this.setData({ form: res.data });
+      this.setData({
+        form: res.data,
+        statusIndex: findStatusIndex(res.data.status)
+      });
     } catch (error) {
       showErrorToast(error, "加载失败");
     }
@@ -59,11 +75,26 @@ Page({
 
   onInput(event) {
     const field = event.currentTarget.dataset.field;
-    this.setData({ [`form.${field}`]: event.detail.value });
+    this.setData({
+      [`form.${field}`]: event.detail.value,
+      errorMessage: ""
+    });
   },
 
   onDateChange(event) {
-    this.setData({ "form.date": event.detail.value });
+    this.setData({
+      "form.date": event.detail.value,
+      errorMessage: ""
+    });
+  },
+
+  onStatusChange(event) {
+    const index = Number(event.detail.value || 0);
+    this.setData({
+      statusIndex: index,
+      "form.status": statusOptions[index] || statusOptions[0],
+      errorMessage: ""
+    });
   },
 
   validateForm() {
@@ -78,9 +109,10 @@ Page({
 
     const missing = requiredFields.find(([field]) => !String(form[field] || "").trim());
     if (missing) {
-      showErrorToast(missing[1], "请补全表单内容");
+      this.setData({ errorMessage: missing[1] });
       return false;
     }
+    this.setData({ errorMessage: "" });
     return true;
   },
 

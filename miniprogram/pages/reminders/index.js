@@ -93,6 +93,11 @@ Page({
     }
   },
 
+  async onPullDownRefresh() {
+    await this.loadReminders({ silent: true });
+    wx.stopPullDownRefresh();
+  },
+
   createReminder() {
     openRoute(ROUTES.reminderForm);
   },

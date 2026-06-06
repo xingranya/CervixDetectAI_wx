@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "云端智诊"
+  "navigationBarTitleText": "云端智诊",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
 }

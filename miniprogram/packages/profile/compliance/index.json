@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "服务边界",
+  "usingComponents": {
+    "section-header": "/components/section-header/index"
+  }
+}

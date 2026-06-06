@@ -111,6 +111,11 @@ Page({
     }
   },
 
+  async onPullDownRefresh() {
+    await this.loadHome({ silent: true });
+    wx.stopPullDownRefresh();
+  },
+
   goPage(event) {
     const path = event.currentTarget.dataset.path;
     openRoute(path);

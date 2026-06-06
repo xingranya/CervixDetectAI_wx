@@ -489,7 +489,7 @@ async function deleteQuestion(userId, id) {
 async function listArticles() {
   const rows = await db.query(
     `
-      SELECT id, title, summary
+      SELECT id, title, summary, content
       FROM wx_articles
       WHERE is_active = 1
       ORDER BY sort_order ASC, created_at DESC
