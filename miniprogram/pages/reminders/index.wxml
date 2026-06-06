@@ -1,34 +1,71 @@
-<view class="page">
-  <view class="page-head">
-    <view class="title-row">
-      <image class="title-icon" src="/assets/icons/reminders-active.png" mode="aspectFit" />
-      <text class="section-title">复查提醒</text>
-    </view>
-    <button class="mini-primary" bind:tap="createReminder">
+<view class="page reminders-page">
+  <section-header title="复查提醒" icon="/assets/icons/reminders-active.png">
+    <button slot="extra" class="mini-primary" bind:tap="createReminder">
       <image class="small-icon" src="/assets/icons/plus-white.png" mode="aspectFit" />
       新增
     </button>
+  </section-header>
+
+  <view class="card reminder-summary-card">
+    <view class="reminder-summary-head">
+      <view>
+        <text class="section-kicker">提醒概览</text>
+        <text class="reminder-summary-title">{{summary.title}}</text>
+      </view>
+      <view class="icon-chip">
+        <image src="/assets/icons/reminders-active.png" mode="aspectFit" />
+      </view>
+    </view>
+    <view class="reminder-summary-grid">
+      <view class="summary-cell">
+        <text class="summary-value">{{summary.pending}}</text>
+        <text class="summary-label">待处理</text>
+      </view>
+      <view class="summary-cell">
+        <text class="summary-value">{{summary.total}}</text>
+        <text class="summary-label">全部提醒</text>
+      </view>
+      <view class="summary-cell">
+        <text class="summary-value">{{summary.nextDate}}</text>
+        <text class="summary-label">下一项</text>
+      </view>
+    </view>
   </view>
 
-  <view wx:if="{{!reminders.length}}" class="card empty-card">
-    <text class="empty-title">还没有提醒</text>
-    <text class="empty-desc">添加复查或资料准备提醒，把后续安排放进计划里。</text>
-    <button class="primary-button" bind:tap="createReminder">
-      <image class="button-icon" src="/assets/icons/reminders-white.png" mode="aspectFit" />
-      添加提醒
-    </button>
+  <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
+    <text class="state-title">正在加载复查提醒</text>
+    <text class="state-desc">请稍候，正在同步你的后续安排。</text>
   </view>
 
-  <view wx:for="{{reminders}}" wx:key="id" class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
-    <view class="reminder-date">{{item.date}}</view>
-    <text class="reminder-title">{{item.title}}</text>
+  <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
+    <text class="state-title">暂时无法加载复查提醒</text>
+    <text class="state-desc">{{errorMessage}}</text>
+    <button class="primary-button" bind:tap="loadReminders">重新加载</button>
+  </view>
+
+  <empty-state
+    wx:elif="{{pageStatus === 'empty'}}"
+    title="还没有提醒"
+    desc="添加复查或资料准备提醒，把后续安排放进计划里。"
+    icon="/assets/icons/reminders-active.png"
+    button-text="添加提醒"
+    bind:action="createReminder"
+  />
+
+  <view wx:else wx:for="{{reminders}}" wx:key="id" class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
+    <view class="reminder-top">
+      <view>
+        <text class="reminder-date">{{item.date}}</text>
+        <text class="reminder-title">{{item.title}}</text>
+      </view>
+      <text class="pill">{{item.done ? '已完成' : '待处理'}}</text>
+    </view>
     <text class="reminder-desc">{{item.desc}}</text>
     <view class="reminder-actions">
       <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
         <image class="small-icon" src="/assets/icons/reminders-active.png" mode="aspectFit" />
         标记完成
       </button>
-      <text wx:else class="done-text">已完成</text>
       <button class="text-button" bind:tap="editReminder" data-id="{{item.id}}">
         <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
         编辑

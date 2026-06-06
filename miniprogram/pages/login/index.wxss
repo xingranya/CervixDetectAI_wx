@@ -1,24 +1,34 @@
 .login-page {
-  padding-top: 58rpx;
+  padding-top: 48rpx;
 }
 
 .login-hero {
-  padding: 20rpx 6rpx 34rpx;
+  padding: 28rpx 8rpx 36rpx;
+  text-align: left;
+}
+
+.login-mark-wrap {
+  display: block;
+  width: 104rpx;
+  height: 104rpx;
+  margin-bottom: 22rpx;
+  border-radius: 28rpx;
+  background: rgba(219, 225, 255, 0.7);
+  box-shadow: 0 16rpx 36rpx rgba(31, 83, 201, 0.12);
 }
 
 .login-mark {
-  display: block;
-  width: 86rpx;
-  height: 86rpx;
-  margin-bottom: 22rpx;
+  width: 62rpx;
+  height: 62rpx;
+  margin: 21rpx;
 }
 
 .eyebrow {
   display: inline-flex;
   padding: 10rpx 18rpx;
   border-radius: 999rpx;
-  background: rgba(25, 118, 210, 0.1);
-  color: #1976d2;
+  background: rgba(31, 83, 201, 0.1);
+  color: #1f53c9;
   font-size: 24rpx;
   font-weight: 700;
 }
@@ -26,7 +36,7 @@
 .login-title {
   display: block;
   margin-top: 28rpx;
-  color: #0f172a;
+  color: #0b1c30;
   font-size: 52rpx;
   font-weight: 900;
   line-height: 1.16;
@@ -35,7 +45,7 @@
 .login-desc {
   display: block;
   margin-top: 20rpx;
-  color: #64748b;
+  color: #66748a;
   font-size: 28rpx;
   line-height: 1.7;
 }
@@ -50,9 +60,9 @@
   margin: 0 auto 12rpx;
   padding: 0;
   border-radius: 42rpx;
-  background: #e3f2fd;
+  background: rgba(219, 225, 255, 0.72);
   overflow: hidden;
-  box-shadow: 0 16rpx 36rpx rgba(25, 118, 210, 0.18);
+  box-shadow: 0 16rpx 36rpx rgba(31, 83, 201, 0.14);
 }
 
 .avatar-button::after {
@@ -73,7 +83,7 @@
 .avatar-tip {
   display: block;
   margin-bottom: 24rpx;
-  color: #64748b;
+  color: #66748a;
   font-size: 24rpx;
   text-align: center;
 }
@@ -81,7 +91,7 @@
 .form-label {
   display: block;
   margin-bottom: 14rpx;
-  color: #334155;
+  color: #0b1c30;
   font-size: 26rpx;
   font-weight: 700;
 }
@@ -89,9 +99,9 @@
 .form-input {
   height: 88rpx;
   padding: 0 24rpx;
-  border: 1rpx solid #dbe5f0;
-  border-radius: 18rpx;
-  background: #f8fafc;
+  border: 1rpx solid rgba(195, 198, 214, 0.52);
+  border-radius: 20rpx;
+  background: rgba(248, 249, 255, 0.72);
   color: #0f172a;
   font-size: 30rpx;
   box-sizing: border-box;
@@ -104,7 +114,7 @@
 .plain-link {
   margin-top: 20rpx;
   background: transparent;
-  color: #1976d2;
+  color: #1f53c9;
   font-size: 26rpx;
 }
 

@@ -20,24 +20,29 @@
     </view>
   </view>
 
-  <view class="profile-section-head">
-    <text class="profile-section-title">常用功能</text>
-    <text class="profile-section-desc">快速进入你的健康管理事项</text>
-  </view>
+  <view class="profile-section">
+    <view class="profile-section-head">
+      <text class="profile-section-title">常用功能</text>
+      <text class="profile-section-desc">快速进入你的健康管理事项</text>
+    </view>
 
-  <view class="profile-menu-grid">
-    <view
-      wx:for="{{menus}}"
-      wx:key="title"
-      class="profile-menu-card"
-      bind:tap="openMenu"
-      data-path="{{item.path}}"
-      data-tab="{{item.tab}}"
-    >
-      <image class="profile-menu-icon" src="{{item.icon}}" mode="aspectFit" />
-      <view class="profile-menu-body">
-        <text class="menu-title">{{item.title}}</text>
-        <text class="menu-desc">{{item.desc}}</text>
+    <view class="profile-menu-list">
+      <view
+        wx:for="{{menus}}"
+        wx:key="title"
+        class="profile-menu-row"
+        bind:tap="openMenu"
+        data-path="{{item.path}}"
+        data-tab="{{item.tab}}"
+      >
+        <view class="profile-menu-icon-wrap">
+          <image class="profile-menu-icon" src="{{item.icon}}" mode="aspectFit" />
+        </view>
+        <view class="profile-menu-body">
+          <text class="menu-title">{{item.title}}</text>
+          <text class="menu-desc">{{item.desc}}</text>
+        </view>
+        <text class="menu-arrow">›</text>
       </view>
     </view>
   </view>

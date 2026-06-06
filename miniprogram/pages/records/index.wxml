@@ -1,39 +1,91 @@
-<view class="page">
-  <view class="page-head">
-    <view class="title-row">
-      <image class="title-icon" src="/assets/icons/records-active.png" mode="aspectFit" />
-      <text class="section-title">检查记录</text>
-    </view>
-    <button class="mini-primary" bind:tap="createRecord">
+<view class="page records-page">
+  <section-header title="检查记录" icon="/assets/icons/records-active.png">
+    <button slot="extra" class="mini-primary" bind:tap="createRecord">
       <image class="small-icon" src="/assets/icons/plus-white.png" mode="aspectFit" />
       新增
     </button>
-  </view>
-  <view wx:if="{{!records.length}}" class="card empty-card">
-    <text class="empty-title">还没有检查记录</text>
-    <text class="empty-desc">可以先添加一次检查摘要，后续复查时更方便查看。</text>
-    <button class="primary-button" bind:tap="createRecord">
-      <image class="button-icon" src="/assets/icons/plus-white.png" mode="aspectFit" />
-      添加第一条记录
-    </button>
-  </view>
-  <view wx:for="{{records}}" wx:key="id" class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
-    <view class="record-top">
-      <text class="record-title">{{item.title}}</text>
-      <text class="pill">{{item.status}}</text>
+  </section-header>
+
+  <view class="card records-trend-card">
+    <view class="trend-head">
+      <view>
+        <text class="section-kicker">健康记录概览</text>
+        <text class="trend-title">{{summary.trendText}}</text>
+      </view>
+      <view class="icon-chip">
+        <image src="/assets/icons/records-active.png" mode="aspectFit" />
+      </view>
     </view>
-    <text class="record-date">{{item.date}} · {{item.project}}</text>
-    <text class="record-summary">{{item.summary}}</text>
-    <view class="record-actions">
-      <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
-        <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
-        编辑
-      </button>
-      <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
-        <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
-        删除
-      </button>
+    <view class="trend-line">
+      <view class="trend-dot trend-dot-start"></view>
+      <view class="trend-wave"></view>
+      <view class="trend-dot trend-dot-end"></view>
+    </view>
+    <view class="trend-metrics">
+      <view class="trend-metric">
+        <text class="trend-value">{{summary.total}}</text>
+        <text class="trend-label">全部记录</text>
+      </view>
+      <view class="trend-metric">
+        <text class="trend-value">{{summary.pending}}</text>
+        <text class="trend-label">待关注</text>
+      </view>
+      <view class="trend-metric">
+        <text class="trend-value">{{summary.latestDate}}</text>
+        <text class="trend-label">最近日期</text>
+      </view>
     </view>
   </view>
+
+  <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
+    <text class="state-title">正在加载检查记录</text>
+    <text class="state-desc">请稍候，正在同步你的历史摘要。</text>
+  </view>
+
+  <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
+    <text class="state-title">暂时无法加载检查记录</text>
+    <text class="state-desc">{{errorMessage}}</text>
+    <button class="primary-button" bind:tap="loadRecords">重新加载</button>
+  </view>
+
+  <empty-state
+    wx:elif="{{pageStatus === 'empty'}}"
+    title="还没有检查记录"
+    desc="可以先添加一次检查摘要，后续复查时更方便查看。"
+    icon="/assets/icons/plus-active.png"
+    button-text="添加第一条记录"
+    bind:action="createRecord"
+  />
+
+  <view wx:else class="timeline">
+    <view wx:for="{{records}}" wx:key="id" class="timeline-item">
+      <view class="timeline-rail">
+        <view class="timeline-node {{index === 0 ? 'timeline-node-active' : ''}}"></view>
+        <view class="timeline-line" wx:if="{{index < records.length - 1}}"></view>
+      </view>
+      <view class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
+        <view class="record-top">
+          <view class="record-title-block">
+            <text class="record-date">{{item.date}}</text>
+            <text class="record-title">{{item.title}}</text>
+          </view>
+          <text class="pill">{{item.status}}</text>
+        </view>
+        <text class="record-project">{{item.project}}</text>
+        <text class="record-summary">{{item.summary}}</text>
+        <view class="record-actions">
+          <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
+            <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+            编辑
+          </button>
+          <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
+            <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+            删除
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <view class="safe-note">记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。</view>
 </view>

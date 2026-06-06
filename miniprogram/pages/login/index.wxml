@@ -1,6 +1,8 @@
 <view class="page login-page">
   <view class="login-hero">
-    <image class="login-mark" src="/assets/icons/login-active.png" mode="aspectFit" />
+    <view class="login-mark-wrap">
+      <image class="login-mark" src="/assets/icons/login-active.png" mode="aspectFit" />
+    </view>
     <text class="eyebrow">CervixDetectAI云端智诊</text>
     <text class="login-title">女性健康记录与复查提醒助手</text>
     <text class="login-desc">用于保存检查摘要、管理复查提醒、整理线下咨询前的问题。</text>

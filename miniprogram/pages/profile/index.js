@@ -1,4 +1,12 @@
-const { request } = require("../../utils/request");
+const {
+  request,
+  CACHE_KEYS,
+  getCachedData,
+  isCacheFresh,
+  consumeCacheDirty,
+  clearAllCaches
+} = require("../../utils/request");
+const { ROUTES, openRoute } = require("../../utils/navigation");
 
 Page({
   data: {
@@ -17,27 +25,25 @@ Page({
         title: "检查记录",
         desc: "查看和维护历史摘要",
         icon: "/assets/icons/records-active.png",
-        path: "/pages/records/index",
-        tab: true
+        path: ROUTES.records
       },
       {
         title: "复查提醒",
         desc: "管理后续安排",
         icon: "/assets/icons/reminders-active.png",
-        path: "/pages/reminders/index",
-        tab: true
+        path: ROUTES.reminders
       },
       {
         title: "问题整理",
         desc: "保存线下咨询重点",
         icon: "/assets/icons/questions-active.png",
-        path: "/pages/questions/index"
+        path: ROUTES.questions
       },
       {
         title: "隐私与服务说明",
         desc: "查看数据用途和边界",
         icon: "/assets/icons/privacy-active.png",
-        path: "/pages/privacy/index"
+        path: ROUTES.privacy
       }
     ]
   },
@@ -49,12 +55,26 @@ Page({
         avatarUrl: ""
       }
     });
-    this.loadSummary();
+    const cachedHome = getCachedData(CACHE_KEYS.home);
+    if (cachedHome && cachedHome.data && Array.isArray(cachedHome.data.metrics)) {
+      this.setData({ metrics: cachedHome.data.metrics });
+    }
+
+    const shouldRefresh = !cachedHome
+      || consumeCacheDirty(CACHE_KEYS.home)
+      || !isCacheFresh(CACHE_KEYS.home, 60 * 1000);
+
+    if (shouldRefresh) {
+      this.loadSummary();
+    }
   },
 
   async loadSummary() {
     try {
-      const res = await request("/home");
+      const res = await request("/home", {
+        cacheKey: CACHE_KEYS.home,
+        maxAge: 60 * 1000
+      });
       if (res.data && res.data.metrics) {
         this.setData({ metrics: res.data.metrics });
       }
@@ -64,12 +84,8 @@ Page({
   },
 
   openMenu(event) {
-    const { path, tab } = event.currentTarget.dataset;
-    if (tab) {
-      wx.switchTab({ url: path });
-      return;
-    }
-    wx.navigateTo({ url: path });
+    const { path } = event.currentTarget.dataset;
+    openRoute(path);
   },
 
   logout() {
@@ -80,7 +96,8 @@ Page({
         if (!res.confirm) return;
         wx.removeStorageSync("token");
         wx.removeStorageSync("user");
-        wx.reLaunch({ url: "/pages/login/index" });
+        clearAllCaches();
+        openRoute(ROUTES.login, {}, { reLaunch: true });
       }
     });
   }

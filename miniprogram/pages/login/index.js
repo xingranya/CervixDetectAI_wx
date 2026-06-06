@@ -1,4 +1,7 @@
-const { login, getToken } = require("../../utils/request");
+const { login, getToken, clearAllCaches } = require("../../utils/request");
+const { ROUTES, openRoute } = require("../../utils/navigation");
+const { showErrorToast, showSuccessToast } = require("../../utils/feedback");
+const { withPageLoading } = require("../../utils/form");
 
 function wxLoginCode() {
   return new Promise((resolve) => {
@@ -18,7 +21,7 @@ Page({
 
   onLoad() {
     if (getToken()) {
-      wx.switchTab({ url: "/pages/home/index" });
+      openRoute(ROUTES.home);
     }
   },
 
@@ -31,10 +34,7 @@ Page({
   },
 
   async submitLogin() {
-    if (this.data.loading) return;
-
-    this.setData({ loading: true });
-    try {
+    await withPageLoading(this, async () => {
       const code = await wxLoginCode();
       const deviceId = wx.getStorageSync("deviceId");
       const res = await login({
@@ -44,21 +44,17 @@ Page({
         avatarUrl: this.data.avatarUrl
       });
 
+      clearAllCaches();
       wx.setStorageSync("token", res.data.token);
       wx.setStorageSync("user", res.data.user);
-      wx.showToast({ title: "已登录", icon: "success" });
-      wx.switchTab({ url: "/pages/home/index" });
-    } catch (error) {
-      wx.showToast({
-        title: error.message || "登录失败",
-        icon: "none"
-      });
-    } finally {
-      this.setData({ loading: false });
-    }
+      showSuccessToast("已登录");
+      openRoute(ROUTES.home);
+    }).catch((error) => {
+      showErrorToast(error, "登录失败");
+    });
   },
 
   openPrivacy() {
-    wx.navigateTo({ url: "/pages/privacy/index" });
+    openRoute(ROUTES.privacy);
   }
 });

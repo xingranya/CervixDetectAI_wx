@@ -1,43 +1,112 @@
-const { request } = require("../../utils/request");
+const {
+  request,
+  CACHE_KEYS,
+  getCachedData,
+  isCacheFresh,
+  consumeCacheDirty,
+  removeCachedListItem,
+  updateCachedListItem,
+  setCachedData,
+  clearCachedData,
+  markCacheDirty
+} = require("../../utils/request");
+const { ROUTES, openRoute } = require("../../utils/navigation");
+const { PAGE_STATUS, resolveListStatus } = require("../../utils/page-state");
+const { showErrorToast, showSuccessToast, getErrorMessage } = require("../../utils/feedback");
+
+function buildReminderSummary(reminders) {
+  const pending = reminders.filter((item) => !item.done);
+  return {
+    total: reminders.length,
+    pending: pending.length,
+    nextDate: pending.length ? pending[0].date : "暂无",
+    title: pending.length ? "按计划推进复查安排" : "当前没有待处理提醒"
+  };
+}
 
 Page({
   data: {
-    reminders: []
+    reminders: [],
+    summary: buildReminderSummary([]),
+    pageStatus: PAGE_STATUS.LOADING,
+    errorMessage: ""
   },
 
   onShow() {
-    this.loadReminders();
+    const cachedReminders = getCachedData(CACHE_KEYS.reminders);
+    const hasCachedReminders = !!(cachedReminders && Array.isArray(cachedReminders.data));
+
+    if (hasCachedReminders) {
+      this.applyReminders(cachedReminders.data);
+    }
+
+    const shouldRefresh = !hasCachedReminders
+      || consumeCacheDirty(CACHE_KEYS.reminders)
+      || !isCacheFresh(CACHE_KEYS.reminders);
+
+    if (shouldRefresh) {
+      this.loadReminders({ silent: hasCachedReminders });
+    }
   },
 
-  async loadReminders() {
+  applyReminders(reminders) {
+    this.setData({
+      reminders,
+      summary: buildReminderSummary(reminders),
+      pageStatus: resolveListStatus(reminders),
+      errorMessage: ""
+    });
+  },
+
+  async loadReminders(options = {}) {
+    const { silent = false } = options;
+    if (!silent) {
+      this.setData({
+        pageStatus: PAGE_STATUS.LOADING,
+        errorMessage: ""
+      });
+    }
+
     try {
-      const res = await request("/reminders");
-      this.setData({ reminders: res.data || [] });
-    } catch (_error) {
-      this.setData({ reminders: [] });
+      const res = await request("/reminders", {
+        cacheKey: CACHE_KEYS.reminders
+      });
+      this.applyReminders(res.data || []);
+    } catch (error) {
+      if (this.data.reminders.length) return;
+      this.setData({
+        reminders: [],
+        summary: buildReminderSummary([]),
+        pageStatus: PAGE_STATUS.ERROR,
+        errorMessage: getErrorMessage(error, "复查提醒加载失败，请稍后重试")
+      });
     }
   },
 
   createReminder() {
-    wx.navigateTo({ url: "/pages/reminder-form/index" });
+    openRoute(ROUTES.reminderForm);
   },
 
   editReminder(event) {
-    wx.navigateTo({ url: `/pages/reminder-form/index?id=${event.currentTarget.dataset.id}` });
+    openRoute(ROUTES.reminderForm, { id: event.currentTarget.dataset.id });
   },
 
   async markDone(event) {
     const id = event.currentTarget.dataset.id;
     try {
-      await request(`/reminders/${id}/done`, { method: "PATCH" });
-      wx.showToast({ title: "已完成", icon: "success" });
+      const res = await request(`/reminders/${id}/done`, { method: "PATCH" });
+      const reminder = res.data;
+      updateCachedListItem(CACHE_KEYS.reminders, id, reminder);
+      setCachedData(CACHE_KEYS.reminderDetail(id), res);
+      markCacheDirty(CACHE_KEYS.home);
+      showSuccessToast("已完成");
       if (wx.vibrateShort) wx.vibrateShort({ type: "light" });
-      const index = this.data.reminders.findIndex((item) => item.id === id);
-      if (index > -1) {
-        this.setData({ [`reminders[${index}].done`]: true });
-      }
+      const reminders = this.data.reminders.map((item) => (
+        item.id === id ? reminder : item
+      ));
+      this.applyReminders(reminders);
     } catch (error) {
-      wx.showToast({ title: error.message || "操作失败", icon: "none" });
+      showErrorToast(error, "操作失败");
     }
   },
 
@@ -51,12 +120,14 @@ Page({
         if (!res.confirm) return;
         try {
           await request(`/reminders/${id}`, { method: "DELETE" });
-          wx.showToast({ title: "已删除", icon: "success" });
-          this.setData({
-            reminders: this.data.reminders.filter((item) => item.id !== id)
-          });
+          removeCachedListItem(CACHE_KEYS.reminders, id);
+          clearCachedData(CACHE_KEYS.reminderDetail(id));
+          markCacheDirty(CACHE_KEYS.home);
+          const reminders = this.data.reminders.filter((item) => item.id !== id);
+          showSuccessToast("已删除");
+          this.applyReminders(reminders);
         } catch (error) {
-          wx.showToast({ title: error.message || "删除失败", icon: "none" });
+          showErrorToast(error, "删除失败");
         }
       }
     });

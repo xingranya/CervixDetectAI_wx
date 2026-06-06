@@ -1,12 +1,96 @@
-.page-head {
+.records-trend-card {
+  padding: 30rpx;
+  margin-bottom: 28rpx;
+}
+
+.trend-head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 20rpx;
+  gap: 20rpx;
+}
+
+.trend-title {
+  display: block;
+  margin-top: 8rpx;
+  color: #1f53c9;
+  font-size: 36rpx;
+  font-weight: 900;
+  line-height: 1.22;
+}
+
+.trend-line {
+  position: relative;
+  height: 86rpx;
+  margin: 28rpx 8rpx 18rpx;
+}
+
+.trend-wave {
+  position: absolute;
+  left: 24rpx;
+  right: 24rpx;
+  top: 39rpx;
+  height: 8rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, #dbe1ff 0%, #406de4 58%, #26a69a 100%);
+  box-shadow: 0 12rpx 22rpx rgba(31, 83, 201, 0.14);
+}
+
+.trend-dot {
+  position: absolute;
+  top: 29rpx;
+  z-index: 2;
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 8rpx solid #1f53c9;
+  box-sizing: border-box;
+}
+
+.trend-dot-start {
+  left: 0;
+  border-color: #d3e4fe;
+}
+
+.trend-dot-end {
+  right: 0;
+  border-color: #26a69a;
+}
+
+.trend-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14rpx;
+}
+
+.trend-metric {
+  padding: 18rpx 10rpx;
+  border-radius: 18rpx;
+  background: rgba(239, 244, 255, 0.72);
+  text-align: center;
+}
+
+.trend-value,
+.trend-label {
+  display: block;
+}
+
+.trend-value {
+  color: #0b1c30;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.trend-label {
+  margin-top: 8rpx;
+  color: #66748a;
+  font-size: 22rpx;
 }
 
 .record-card {
   display: block;
+  margin-bottom: 0;
 }
 
 .record-top {
@@ -17,29 +101,36 @@
 }
 
 .record-title {
+  display: block;
+  margin-top: 8rpx;
   color: #1e293b;
   font-size: 32rpx;
-  font-weight: 700;
+  font-weight: 900;
+  line-height: 1.35;
 }
 
 .record-date,
+.record-project,
 .record-summary {
   display: block;
-  margin-top: 14rpx;
-  color: #64748b;
+  color: #66748a;
   font-size: 26rpx;
   line-height: 1.65;
 }
 
-.mini-primary {
-  min-width: 132rpx;
-  height: 64rpx;
-  margin: 0;
-  border-radius: 999rpx;
-  background: #1976d2;
-  color: #fff;
-  font-size: 26rpx;
-  line-height: 64rpx;
+.record-date {
+  margin-top: 0;
+  color: #425d96;
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
+.record-project {
+  margin-top: 14rpx;
+}
+
+.record-summary {
+  margin-top: 10rpx;
 }
 
 .record-actions {
@@ -49,28 +140,64 @@
 }
 
 .text-button {
-  height: 58rpx;
-  margin: 0;
-  padding: 0 24rpx;
-  border-radius: 999rpx;
-  background: rgba(25, 118, 210, 0.08);
-  color: #1976d2;
-  font-size: 24rpx;
-  line-height: 58rpx;
+  margin-right: 0;
 }
 
-.text-button::after,
-.mini-primary::after {
-  border: 0;
+.timeline {
+  position: relative;
+  margin-top: 4rpx;
 }
 
-.danger {
-  background: rgba(211, 47, 47, 0.08);
-  color: #d32f2f;
+.timeline-item {
+  display: flex;
+  align-items: stretch;
+  gap: 18rpx;
+  margin-bottom: 20rpx;
+}
+
+.timeline-rail {
+  position: relative;
+  width: 42rpx;
+  flex: 0 0 42rpx;
+}
+
+.timeline-node {
+  position: relative;
+  z-index: 2;
+  width: 22rpx;
+  height: 22rpx;
+  margin: 40rpx auto 0;
+  border-radius: 50%;
+  background: #d3e4fe;
+  border: 6rpx solid #ffffff;
+  box-shadow: 0 0 0 1rpx rgba(31, 83, 201, 0.14);
+  box-sizing: border-box;
+}
+
+.timeline-node-active {
+  background: #1f53c9;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 52rpx;
+  bottom: -32rpx;
+  left: 20rpx;
+  width: 2rpx;
+  background: linear-gradient(180deg, rgba(31, 83, 201, 0.34), rgba(211, 228, 254, 0.4));
+}
+
+.timeline-item .record-card {
+  flex: 1;
+  min-width: 0;
 }
 
 .empty-card {
   text-align: left;
+}
+
+.empty-icon {
+  margin-bottom: 20rpx;
 }
 
 .empty-title,
