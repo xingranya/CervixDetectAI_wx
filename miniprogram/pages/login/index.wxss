@@ -112,6 +112,10 @@
 }
 
 .plain-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   margin-top: 20rpx;
   background: transparent;
   color: #1f53c9;

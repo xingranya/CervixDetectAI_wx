@@ -6,7 +6,7 @@
   "main": "src/app.js",
   "scripts": {
     "dev": "node src/app.js",
-    "check": "node --check src/app.js src/config/env.js src/config/database.js src/routes/miniapp.js src/services/miniapp.service.js src/repositories/miniapp.repository.js src/data/demoStore.js src/middleware/auth.js src/middleware/errorHandler.js"
+    "check": "node --check src/app.js src/config/env.js src/config/database.js src/routes/miniapp.js src/services/miniapp.service.js src/services/avatar-storage.service.js src/repositories/miniapp.repository.js src/data/demoStore.js src/middleware/auth.js src/middleware/errorHandler.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

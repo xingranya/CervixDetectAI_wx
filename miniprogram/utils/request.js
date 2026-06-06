@@ -14,7 +14,7 @@ const CACHE_KEYS = {
   reminderDetail: (id) => `reminder-detail:${id}`
 };
 
-let isRedirectingLogin = false;
+let lastLoginRedirectAt = 0;
 let runtimeInfoCache = null;
 let baseUrlCache = "";
 
@@ -165,12 +165,10 @@ function redirectLogin() {
   wx.removeStorageSync("token");
   wx.removeStorageSync("user");
   clearAllCaches();
-  if (isRedirectingLogin) return;
-  isRedirectingLogin = true;
+  const now = Date.now();
+  if (now - lastLoginRedirectAt < 800) return;
+  lastLoginRedirectAt = now;
   wx.reLaunch({ url: "/pages/login/index" });
-  setTimeout(() => {
-    isRedirectingLogin = false;
-  }, 800);
 }
 
 function getRuntimeInfo() {
@@ -317,11 +315,19 @@ function updateProfile(payload) {
   });
 }
 
+function uploadAvatar(payload) {
+  return request("/me/avatar", {
+    method: "POST",
+    data: payload
+  });
+}
+
 module.exports = {
   CACHE_KEYS,
   request,
   login,
   updateProfile,
+  uploadAvatar,
   getToken,
   getCachedData,
   setCachedData,

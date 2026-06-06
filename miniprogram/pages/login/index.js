@@ -49,6 +49,18 @@ Page({
     }
   },
 
+  onReady() {
+    this.requirePrivacyAuthorization().catch(() => {});
+  },
+
+  requirePrivacyAuthorization() {
+    const privacyPopup = this.selectComponent("#privacyPopup");
+    if (!privacyPopup || !privacyPopup.requireAuthorization) {
+      return Promise.resolve();
+    }
+    return privacyPopup.requireAuthorization();
+  },
+
   onNicknameInput(event) {
     this.setData({ nickname: event.detail.value });
   },
@@ -64,6 +76,8 @@ Page({
 
   async submitLogin(event) {
     await withPageLoading(this, async () => {
+      await this.requirePrivacyAuthorization();
+
       const nickname = String(event?.detail?.value?.nickname || this.data.nickname || "").trim();
       const avatarUrl = this.data.avatarUrl || "";
 

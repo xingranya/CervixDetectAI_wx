@@ -1,4 +1,7 @@
 {
-  "navigationBarTitleText": "复查提醒"
+  "navigationBarTitleText": "复查提醒",
+  "usingComponents": {
+    "section-header": "/components/section-header/index",
+    "empty-state": "/components/empty-state/index"
+  }
 }
-

@@ -1,6 +1,7 @@
 const env = require("../config/env");
 const mysqlRepository = require("../repositories/miniapp.repository");
 const mockRepository = require("../repositories/mock.repository");
+const avatarStorage = require("./avatar-storage.service");
 
 const repository = env.dataSource === "mock" ? mockRepository : mysqlRepository;
 
@@ -107,6 +108,15 @@ async function updateProfile(userId, payload = {}) {
   });
 }
 
+async function uploadAvatar(req, payload = {}) {
+  const user = await getMe(req.user.id);
+  const avatarUrl = await avatarStorage.saveAvatar(req, payload);
+  return repository.updateProfile(req.user.id, {
+    nickname: user?.nickname || "微信用户",
+    avatarUrl
+  });
+}
+
 async function getHome(userId) {
   return repository.getHome(userId);
 }
@@ -192,6 +202,7 @@ module.exports = {
   getSessionByToken,
   getMe,
   updateProfile,
+  uploadAvatar,
   getHome,
   listRecords,
   getRecordById,

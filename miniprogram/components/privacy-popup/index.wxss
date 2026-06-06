@@ -44,9 +44,13 @@
 
 .privacy-link {
   display: inline-flex;
+  margin-left: 0;
+  padding: 0;
   margin-top: 20rpx;
+  background: transparent;
   color: #1f53c9;
   font-size: 26rpx;
+  line-height: 1.4;
   font-weight: 700;
 }
 
@@ -78,6 +82,7 @@
 }
 
 .privacy-cancel::after,
-.privacy-agree::after {
+.privacy-agree::after,
+.privacy-link::after {
   border: 0;
 }

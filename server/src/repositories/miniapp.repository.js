@@ -12,6 +12,12 @@ function createToken() {
   return crypto.randomBytes(32).toString("hex");
 }
 
+function createStatusError(message, status = 500) {
+  const error = new Error(message);
+  error.status = status;
+  return error;
+}
+
 function mapUser(row) {
   return {
     id: row.id,
@@ -54,8 +60,14 @@ function mapQuestion(row) {
   };
 }
 
-async function requestWechatOpenid(code) {
-  if (!code || !env.wechat.appId || !env.wechat.appSecret) return "";
+async function requestWechatSession(code) {
+  if (!code) {
+    throw createStatusError("未获取到微信登录凭证，请重新点击登录", 400);
+  }
+
+  if (!env.wechat.appId || !env.wechat.appSecret) {
+    throw createStatusError("服务端未完成微信登录配置，请补充 AppID 和 AppSecret", 500);
+  }
 
   const params = new URLSearchParams({
     appid: env.wechat.appId,
@@ -66,11 +78,31 @@ async function requestWechatOpenid(code) {
 
   try {
     const response = await fetch(`https://api.weixin.qq.com/sns/jscode2session?${params.toString()}`);
+    if (!response.ok) {
+      throw createStatusError("微信登录服务暂时不可用，请稍后重试", 502);
+    }
+
     const data = await response.json();
-    if (data.openid) return data.openid;
-    return "";
-  } catch (_error) {
-    return "";
+    if (data.openid) {
+      return {
+        openid: data.openid,
+        sessionKey: data.session_key || "",
+        unionId: data.unionid || ""
+      };
+    }
+
+    if (data.errcode === 40029 || data.errcode === 40163) {
+      throw createStatusError("微信登录凭证已失效，请重新点击登录", 401);
+    }
+
+    if (data.errcode === 40125) {
+      throw createStatusError("服务端微信登录密钥无效，请检查 AppSecret 配置", 500);
+    }
+
+    throw createStatusError("微信登录失败，请稍后重试", 502);
+  } catch (error) {
+    if (error && error.status) throw error;
+    throw createStatusError("连接微信登录服务失败，请稍后重试", 502);
   }
 }
 
@@ -83,8 +115,8 @@ async function findUserById(userId) {
 }
 
 async function login(payload = {}) {
-  const wxOpenid = await requestWechatOpenid(payload.code);
-  const openid = wxOpenid || payload.deviceId || payload.openid || payload.code || `dev-${createCompactId()}`;
+  const wxSession = await requestWechatSession(payload.code);
+  const openid = wxSession.openid;
   const nickname = payload.nickname || "微信用户";
   const avatarUrl = payload.avatarUrl || null;
   const phone = payload.phone || null;

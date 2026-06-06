@@ -40,8 +40,8 @@ function openRoute(route, query = {}, options = {}) {
   return wx.navigateTo({ url: buildUrl(route, query) });
 }
 
-function navigateBackLater(delay = 500) {
-  setTimeout(() => wx.navigateBack(), delay);
+function navigateBackLater() {
+  wx.navigateBack();
 }
 
 module.exports = {

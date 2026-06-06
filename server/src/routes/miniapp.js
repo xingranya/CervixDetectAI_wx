@@ -28,6 +28,10 @@ router.put("/me/profile", asyncRoute(async (req, res) => {
   ok(res, await miniappService.updateProfile(req.user.id, req.body || {}));
 }));
 
+router.post("/me/avatar", asyncRoute(async (req, res) => {
+  ok(res, await miniappService.uploadAvatar(req, req.body || {}));
+}));
+
 router.get("/home", asyncRoute(async (req, res) => {
   ok(res, await miniappService.getHome(req.user.id));
 }));
