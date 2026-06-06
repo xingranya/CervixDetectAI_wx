@@ -8,32 +8,34 @@
     <text class="login-desc">用于保存检查摘要、管理复查提醒、整理线下咨询前的问题。</text>
   </view>
 
-  <form class="card login-card" bind:submit="submitLogin">
-    <button class="avatar-button" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-      <image wx:if="{{avatarUrl}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" />
-      <image wx:else class="avatar-placeholder" src="/assets/icons/profile-active.png" mode="aspectFit" />
-    </button>
-    <text class="avatar-tip">可选择微信头像，登录后同步到账号资料</text>
+  <view class="card login-card">
+    <form class="login-form" bind:submit="submitLogin">
+      <button class="avatar-button" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image wx:if="{{avatarUrl}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" />
+        <image wx:else class="avatar-placeholder" src="/assets/icons/profile-active.png" mode="aspectFit" />
+      </button>
+      <text class="avatar-tip">可选择微信头像，登录后同步到账号资料</text>
 
-    <text class="form-label">昵称</text>
-    <input
-      class="form-input"
-      type="nickname"
-      name="nickname"
-      value="{{nickname}}"
-      bind:input="onNicknameInput"
-      maxlength="20"
-      placeholder="请输入或选择微信昵称"
-    />
-    <button class="primary-button login-button" loading="{{loading}}" form-type="submit">
-      <image class="button-icon" src="/assets/icons/login-white.png" mode="aspectFit" />
-      进入云端智诊
-    </button>
-    <button class="plain-link" bind:tap="openPrivacy">
-      <image class="small-icon" src="/assets/icons/privacy-active.png" mode="aspectFit" />
-      查看隐私与服务说明
-    </button>
-  </form>
+      <text class="form-label">昵称</text>
+      <input
+        class="form-input"
+        type="nickname"
+        name="nickname"
+        value="{{nickname}}"
+        bind:input="onNicknameInput"
+        maxlength="20"
+        placeholder="请输入或选择微信昵称"
+      />
+      <button class="primary-button login-button" loading="{{loading}}" form-type="submit">
+        <image class="button-icon" src="/assets/icons/login-white.png" mode="aspectFit" />
+        进入云端智诊
+      </button>
+      <button class="plain-link" bind:tap="openPrivacy">
+        <image class="small-icon" src="/assets/icons/privacy-active.png" mode="aspectFit" />
+        查看隐私与服务说明
+      </button>
+    </form>
+  </view>
 
   <view class="safe-note">产品仅用于健康信息记录与提醒，不提供在线诊断、治疗、处方或问诊服务。</view>
   <privacy-popup id="privacyPopup" />

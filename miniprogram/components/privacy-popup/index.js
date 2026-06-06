@@ -1,6 +1,7 @@
 Component({
   data: {
-    visible: false
+    visible: false,
+    privacyContractName: "小程序隐私保护指引"
   },
 
   lifetimes: {
@@ -19,15 +20,26 @@ Component({
     },
 
     requireAuthorization() {
-      if (!wx.requirePrivacyAuthorize) {
+      if (!wx.getPrivacySetting) {
         return Promise.resolve();
       }
 
       return new Promise((resolve, reject) => {
-        this.requireResolve = resolve;
-        this.requireReject = reject;
-        wx.requirePrivacyAuthorize({
-          success: resolve,
+        wx.getPrivacySetting({
+          success: (res) => {
+            this.setData({
+              privacyContractName: res.privacyContractName || "小程序隐私保护指引"
+            });
+
+            if (!res.needAuthorization) {
+              resolve();
+              return;
+            }
+
+            this.requireResolve = resolve;
+            this.requireReject = reject;
+            this.setData({ visible: true });
+          },
           fail: reject
         });
       });

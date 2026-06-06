@@ -54,6 +54,10 @@
   padding: 34rpx;
 }
 
+.login-form {
+  display: block;
+}
+
 .avatar-button {
   width: 132rpx;
   height: 132rpx;
