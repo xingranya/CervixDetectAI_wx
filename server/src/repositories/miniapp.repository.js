@@ -16,6 +16,7 @@ function mapUser(row) {
   return {
     id: row.id,
     nickname: row.nickname,
+    avatarUrl: row.avatar_url || "",
     phone: row.phone || "",
     gender: row.gender || ""
   };
@@ -75,7 +76,7 @@ async function requestWechatOpenid(code) {
 
 async function findUserById(userId) {
   const [row] = await db.query(
-    "SELECT id, nickname, phone, gender FROM wx_users WHERE id = ? LIMIT 1",
+    "SELECT id, nickname, avatar_url, phone, gender FROM wx_users WHERE id = ? LIMIT 1",
     [userId]
   );
   return row || null;
@@ -85,22 +86,24 @@ async function login(payload = {}) {
   const wxOpenid = await requestWechatOpenid(payload.code);
   const openid = wxOpenid || payload.deviceId || payload.openid || payload.code || `dev-${createCompactId()}`;
   const nickname = payload.nickname || "微信用户";
+  const avatarUrl = payload.avatarUrl || null;
   const phone = payload.phone || null;
 
   await db.query(
     `
-      INSERT INTO wx_users (openid, nickname, phone, created_at, updated_at)
-      VALUES (?, ?, ?, NOW(), NOW())
+      INSERT INTO wx_users (openid, nickname, avatar_url, phone, created_at, updated_at)
+      VALUES (?, ?, ?, ?, NOW(), NOW())
       ON DUPLICATE KEY UPDATE
         nickname = VALUES(nickname),
+        avatar_url = COALESCE(VALUES(avatar_url), avatar_url),
         phone = COALESCE(VALUES(phone), phone),
         updated_at = CURRENT_TIMESTAMP
     `,
-    [openid, nickname, phone]
+    [openid, nickname, avatarUrl, phone]
   );
 
   const [user] = await db.query(
-    "SELECT id, nickname, phone, gender FROM wx_users WHERE openid = ? LIMIT 1",
+    "SELECT id, nickname, avatar_url, phone, gender FROM wx_users WHERE openid = ? LIMIT 1",
     [openid]
   );
 
@@ -135,6 +138,18 @@ async function getSessionByToken(token) {
 async function getMe(userId) {
   const user = await findUserById(userId);
   return user ? mapUser(user) : null;
+}
+
+async function updateProfile(userId, payload = {}) {
+  await db.query(
+    `
+      UPDATE wx_users
+      SET nickname = ?, avatar_url = COALESCE(?, avatar_url), updated_at = NOW()
+      WHERE id = ?
+    `,
+    [payload.nickname || "微信用户", payload.avatarUrl || null, userId]
+  );
+  return getMe(userId);
 }
 
 async function getHome(userId) {
@@ -484,6 +499,7 @@ module.exports = {
   login,
   getSessionByToken,
   getMe,
+  updateProfile,
   getHome,
   listRecords,
   getRecordById,

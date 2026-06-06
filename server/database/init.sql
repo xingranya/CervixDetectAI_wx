@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS wx_users (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   openid VARCHAR(128) NULL,
   nickname VARCHAR(80) NOT NULL DEFAULT '微信用户',
+  avatar_url VARCHAR(500) NULL,
   phone VARCHAR(32) NULL,
   gender VARCHAR(16) NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -114,10 +115,11 @@ CREATE TABLE IF NOT EXISTS wx_feedback (
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户反馈';
 
-INSERT INTO wx_users (id, openid, nickname, phone, gender)
-VALUES (1, 'demo-openid-001', '张女士', NULL, 'female')
+INSERT INTO wx_users (id, openid, nickname, avatar_url, phone, gender)
+VALUES (1, 'demo-openid-001', '张女士', NULL, NULL, 'female')
 ON DUPLICATE KEY UPDATE
   nickname = VALUES(nickname),
+  avatar_url = VALUES(avatar_url),
   updated_at = CURRENT_TIMESTAMP;
 
 INSERT INTO wx_health_records (id, user_id, record_date, title, project, summary, suggestion, status)

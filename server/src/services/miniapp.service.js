@@ -18,6 +18,35 @@ function requireText(value, fieldName, maxLength = 500) {
   return text;
 }
 
+function requireDate(value, fieldName) {
+  const text = requireText(value, fieldName, 20);
+  const match = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) {
+    const error = new Error(`${fieldName}格式不正确`);
+    error.status = 400;
+    throw error;
+  }
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  const isValid = date.getUTCFullYear() === year
+    && date.getUTCMonth() === month - 1
+    && date.getUTCDate() === day;
+
+  if (!isValid) {
+    const error = new Error(`${fieldName}格式不正确`);
+    error.status = 400;
+    throw error;
+  }
+  return text;
+}
+
+function normalizeDone(value) {
+  return value === true || value === 1 || value === "1" || value === "true";
+}
+
 function normalizeQuestions(questions) {
   if (!Array.isArray(questions)) return [];
   return questions
@@ -28,7 +57,7 @@ function normalizeQuestions(questions) {
 
 function normalizeRecordPayload(payload = {}) {
   return {
-    date: requireText(payload.date, "检查日期", 20),
+    date: requireDate(payload.date, "检查日期"),
     title: requireText(payload.title, "记录标题", 120),
     project: requireText(payload.project, "检查项目", 120),
     summary: requireText(payload.summary, "摘要", 500),
@@ -40,9 +69,9 @@ function normalizeRecordPayload(payload = {}) {
 function normalizeReminderPayload(payload = {}) {
   return {
     title: requireText(payload.title, "提醒标题", 120),
-    date: requireText(payload.date, "提醒日期", 20),
+    date: requireDate(payload.date, "提醒日期"),
     desc: requireText(payload.desc || payload.description, "提醒内容", 500),
-    done: Boolean(payload.done)
+    done: normalizeDone(payload.done)
   };
 }
 
@@ -58,12 +87,24 @@ async function login(payload) {
   const deviceId = cleanText(payload.deviceId, 128);
   const openid = cleanText(payload.openid, 128);
   const nickname = cleanText(payload.nickname || "微信用户", 80);
+  const avatarUrl = cleanText(payload.avatarUrl, 500) || null;
   const phone = cleanText(payload.phone, 32) || null;
-  return repository.login({ code, deviceId, openid, nickname, phone });
+  return repository.login({ code, deviceId, openid, nickname, avatarUrl, phone });
+}
+
+async function getSessionByToken(token) {
+  return repository.getSessionByToken(token);
 }
 
 async function getMe(userId) {
   return repository.getMe(userId);
+}
+
+async function updateProfile(userId, payload = {}) {
+  return repository.updateProfile(userId, {
+    nickname: cleanText(payload.nickname || "微信用户", 80),
+    avatarUrl: cleanText(payload.avatarUrl, 500) || null
+  });
 }
 
 async function getHome(userId) {
@@ -144,7 +185,9 @@ async function createFeedback(userId, payload) {
 
 module.exports = {
   login,
+  getSessionByToken,
   getMe,
+  updateProfile,
   getHome,
   listRecords,
   getRecordById,

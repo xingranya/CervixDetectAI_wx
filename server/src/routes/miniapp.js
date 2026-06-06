@@ -24,6 +24,10 @@ router.get("/me", asyncRoute(async (req, res) => {
   ok(res, await miniappService.getMe(req.user.id));
 }));
 
+router.put("/me/profile", asyncRoute(async (req, res) => {
+  ok(res, await miniappService.updateProfile(req.user.id, req.body || {}));
+}));
+
 router.get("/home", asyncRoute(async (req, res) => {
   ok(res, await miniappService.getHome(req.user.id));
 }));
@@ -111,4 +115,3 @@ router.post("/feedback", asyncRoute(async (req, res) => {
 }));
 
 module.exports = router;
-

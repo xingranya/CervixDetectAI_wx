@@ -4,6 +4,7 @@ const dataSource = (process.env.MINIAPP_DATA_SOURCE || "mysql").toLowerCase();
 
 module.exports = {
   port: Number(process.env.PORT || 3789),
+  host: process.env.HOST || "0.0.0.0",
   allowedOrigin: process.env.MINIAPP_ALLOWED_ORIGIN || "*",
   dataSource,
   demoUserId: Number(process.env.DEMO_USER_ID || 1),

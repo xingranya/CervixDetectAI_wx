@@ -13,6 +13,7 @@ async function login(payload = {}) {
   const user = {
     id: 1,
     nickname: payload.nickname || "微信用户",
+    avatarUrl: payload.avatarUrl || "",
     phone: payload.phone || "",
     gender: ""
   };
@@ -32,6 +33,17 @@ async function getMe() {
   return {
     id: 1,
     nickname: "微信用户",
+    avatarUrl: "",
+    phone: "",
+    gender: ""
+  };
+}
+
+async function updateProfile(_userId, payload = {}) {
+  return {
+    id: 1,
+    nickname: payload.nickname || "微信用户",
+    avatarUrl: payload.avatarUrl || "",
     phone: "",
     gender: ""
   };
@@ -149,6 +161,7 @@ module.exports = {
   login,
   getSessionByToken,
   getMe,
+  updateProfile,
   getHome,
   listRecords,
   getRecordById,

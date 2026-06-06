@@ -28,8 +28,8 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 if (require.main === module) {
-  app.listen(port, () => {
-    console.log(`CervixDetectAI wx server listening on http://localhost:${port}`);
+  app.listen(port, env.host, () => {
+    console.log(`CervixDetectAI wx server listening on http://${env.host}:${port}`);
   });
 }
 

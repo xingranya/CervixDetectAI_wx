@@ -21,6 +21,17 @@ BEGIN
     SELECT 1
     FROM INFORMATION_SCHEMA.COLUMNS
     WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = 'wx_users'
+      AND COLUMN_NAME = 'avatar_url'
+  ) THEN
+    ALTER TABLE wx_users
+      ADD COLUMN avatar_url VARCHAR(500) NULL AFTER nickname;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE()
       AND TABLE_NAME = 'wx_user_questions'
       AND COLUMN_NAME = 'answer_text'
   ) THEN

@@ -1,4 +1,4 @@
-const repository = require("../repositories/miniapp.repository");
+const miniappService = require("../services/miniapp.service");
 
 function getBearerToken(req) {
   const value = req.headers.authorization || "";
@@ -13,7 +13,7 @@ async function authenticate(req, res, next) {
       return res.status(401).json({ success: false, message: "请先登录" });
     }
 
-    const session = await repository.getSessionByToken(token);
+    const session = await miniappService.getSessionByToken(token);
     if (!session) {
       return res.status(401).json({ success: false, message: "登录状态已失效" });
     }
@@ -31,4 +31,3 @@ async function authenticate(req, res, next) {
 module.exports = {
   authenticate
 };
-
