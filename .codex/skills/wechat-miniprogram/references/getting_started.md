@@ -446,7 +446,7 @@ Linux 设备不运行小程序插件，请使用小程序音视频通话 SDK (Li
 wx.redirectTo({
   // 此处只需要传入 path 即可，如果开发者有其他参数需要传递给小程序，也可以自行拼接 query，并通过插件 getPluginOnloadOptions 接口获取。
   url: wmpfVoip.CALL_PAGE_PATH,
-  // 插件 2.3.9 开始支持 CALL_PAGE_PATH, 低版本请传入 'plugin-private://wxf830863afde621eb/pages/call-page-plugin/call-page-plugin',
+  // 插件 2.3.9 开始支持 CALL_PAGE_PATH, 低版本请传入 'plugin-private://your_plugin_appid/pages/call-page-plugin/call-page-plugin',
 })
 
 2.2 最大通话时长
@@ -470,7 +470,7 @@ Copyright © 2012-2026 Tencent. All Rights Reserved.
 wx.redirectTo({
   // 此处只需要传入 path 即可，如果开发者有其他参数需要传递给小程序，也可以自行拼接 query，并通过插件 getPluginOnloadOptions 接口获取。
   url: wmpfVoip.CALL_PAGE_PATH,
-  // 插件 2.3.9 开始支持 CALL_PAGE_PATH, 低版本请传入 'plugin-private://wxf830863afde621eb/pages/call-page-plugin/call-page-plugin',
+  // 插件 2.3.9 开始支持 CALL_PAGE_PATH, 低版本请传入 'plugin-private://your_plugin_appid/pages/call-page-plugin/call-page-plugin',
 })
 
 ```
@@ -935,4 +935,3 @@ Page({
 ```
 
 ---
-

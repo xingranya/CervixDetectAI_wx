@@ -1361,7 +1361,7 @@ Component({
 wx.request({
   url: 'example.php', //仅为示例，并非真实的接口地址
   enableHttpDNS: true,
-  httpDNSServiceId: 'wxa410372c837a5f26',
+  httpDNSServiceId: 'your_httpdns_service_id',
   success(res) {
     console.log('request success', res)
   },
@@ -1419,7 +1419,7 @@ Copyright © 2012-2026 Tencent. All Rights Reserved.
 wx.request({
   url: 'example.php', //仅为示例，并非真实的接口地址
   enableHttpDNS: true,
-  httpDNSServiceId: 'wxa410372c837a5f26',
+  httpDNSServiceId: 'your_httpdns_service_id',
   success(res) {
     console.log('request success', res)
   },
@@ -4677,4 +4677,3 @@ wx.authPrivateMessage({
 ```
 
 ---
-
