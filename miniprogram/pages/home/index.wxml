@@ -41,10 +41,10 @@
     </view>
 
     <view class="action-grid">
-      <button
+      <view
         wx:for="{{actions}}"
         wx:key="label"
-        class="action-card action-card-{{item.tone}}"
+        class="action-card action-card-{{item.tone}} action-card-{{item.side}}"
         hover-class="action-card-pressed"
         bind:tap="goPage"
         data-path="{{item.path}}"
@@ -54,7 +54,7 @@
         </view>
         <text class="action-title">{{item.label}}</text>
         <text class="action-desc">{{item.desc}}</text>
-      </button>
+      </view>
     </view>
 
     <view class="card latest-card">

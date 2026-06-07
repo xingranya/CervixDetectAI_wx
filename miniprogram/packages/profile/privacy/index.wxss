@@ -2,16 +2,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 76rpx;
-  height: 76rpx;
+  width: 84rpx;
+  height: 84rpx;
   border-radius: 20rpx;
   background: rgba(219, 225, 255, 0.56);
   flex: 0 0 auto;
 }
 
 .icon-chip image {
-  width: 52rpx;
-  height: 52rpx;
+  width: 58rpx;
+  height: 58rpx;
   display: block;
 }
 

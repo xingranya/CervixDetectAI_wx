@@ -18,8 +18,8 @@
 }
 
 .title-icon {
-  width: 68rpx;
-  height: 68rpx;
+  width: 74rpx;
+  height: 74rpx;
   flex: 0 0 auto;
 }
 
