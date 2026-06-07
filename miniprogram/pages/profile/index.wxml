@@ -3,11 +3,11 @@
     <view class="profile-user-row">
       <view class="profile-avatar-shell">
         <image
-          wx:if="{{user.avatarUrl && avatarLoadFailedUrl !== user.avatarUrl}}"
+          wx:if="{{activeAvatarUrl}}"
           class="profile-avatar"
-          src="{{user.avatarUrl}}"
+          src="{{activeAvatarUrl}}"
           mode="aspectFill"
-          data-url="{{user.avatarUrl}}"
+          data-url="{{activeAvatarUrl}}"
           bind:error="onAvatarLoadError"
         />
         <view wx:else class="profile-avatar-default">

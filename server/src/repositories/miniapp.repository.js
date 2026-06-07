@@ -18,11 +18,16 @@ function createStatusError(message, status = 500) {
   return error;
 }
 
+function normalizePersistentAvatarUrl(value) {
+  const avatarUrl = String(value || "").trim();
+  return /^https?:\/\//i.test(avatarUrl) ? avatarUrl : "";
+}
+
 function mapUser(row) {
   return {
     id: row.id,
     nickname: row.nickname,
-    avatarUrl: row.avatar_url || "",
+    avatarUrl: normalizePersistentAvatarUrl(row.avatar_url),
     phone: row.phone || "",
     gender: row.gender || ""
   };

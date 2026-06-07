@@ -2,6 +2,12 @@ const { login, uploadAvatar, getToken, clearAllCaches } = require("../../utils/r
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const { showErrorToast, showSuccessToast } = require("../../utils/feedback");
 const { withPageLoading } = require("../../utils/form");
+const {
+  normalizeStoredUser,
+  persistAvatarFile,
+  readFileBase64,
+  resolveAvatarFileType
+} = require("../../utils/avatar");
 
 function wxLoginCode() {
   return new Promise((resolve, reject) => {
@@ -16,24 +22,6 @@ function wxLoginCode() {
       fail: () => reject(new Error("微信登录授权失败，请稍后重试"))
     });
   });
-}
-
-function readFileBase64(filePath) {
-  return new Promise((resolve, reject) => {
-    wx.getFileSystemManager().readFile({
-      filePath,
-      encoding: "base64",
-      success: (res) => resolve(res.data || ""),
-      fail: () => reject(new Error("头像读取失败，请重新选择"))
-    });
-  });
-}
-
-function resolveAvatarFileType(filePath) {
-  const lowerPath = String(filePath || "").toLowerCase();
-  if (lowerPath.endsWith(".png")) return "image/png";
-  if (lowerPath.endsWith(".webp")) return "image/webp";
-  return "image/jpeg";
 }
 
 Page({
@@ -83,36 +71,38 @@ Page({
       await this.requirePrivacyAuthorization();
 
       const nickname = String(event?.detail?.value?.nickname || this.data.nickname || "").trim() || "微信用户";
-      const avatarUrl = this.data.avatarUrl || "";
+      const avatarTempPath = this.data.avatarUrl || "";
+      const avatarLocalPath = avatarTempPath ? await persistAvatarFile(avatarTempPath) : "";
 
       const code = await wxLoginCode();
       const res = await login({
         code,
-        nickname,
-        avatarUrl
+        nickname
       });
 
-      let user = {
+      let user = normalizeStoredUser({
         ...(res.data.user || {}),
         nickname,
-        avatarUrl
-      };
+        avatarLocalPath
+      });
 
       clearAllCaches();
       wx.setStorageSync("token", res.data.token);
       wx.setStorageSync("user", user);
 
-      if (avatarUrl) {
+      if (avatarLocalPath) {
         try {
-          const avatarBase64 = await readFileBase64(avatarUrl);
+          const avatarBase64 = await readFileBase64(avatarLocalPath);
           const avatarRes = await uploadAvatar({
             avatarBase64,
-            fileType: resolveAvatarFileType(avatarUrl)
+            fileType: resolveAvatarFileType(avatarLocalPath)
           });
-          user = {
+          user = normalizeStoredUser({
+            ...user,
             ...(avatarRes.data || user),
-            nickname
-          };
+            nickname,
+            avatarLocalPath
+          });
           wx.setStorageSync("user", user);
         } catch (_error) {
           // 头像同步失败不影响用户登录，后续可重新选择头像更新资料。

@@ -20,6 +20,11 @@ function cleanText(value, maxLength = 500) {
   return String(value || "").trim().slice(0, maxLength);
 }
 
+function normalizePersistentAvatarUrl(value) {
+  const avatarUrl = cleanText(value, 500);
+  return /^https?:\/\//i.test(avatarUrl) ? avatarUrl : null;
+}
+
 function assertComplianceText(text, fieldName) {
   const value = String(text || "");
   const matchedTerm = PROHIBITED_SERVICE_TERMS.find((term) => value.indexOf(term) > -1);
@@ -111,7 +116,7 @@ async function login(payload) {
   const openid = cleanText(payload.openid, 128);
   const nickname = cleanText(payload.nickname || "微信用户", 80);
   assertComplianceText(nickname, "昵称");
-  const avatarUrl = cleanText(payload.avatarUrl, 500) || null;
+  const avatarUrl = normalizePersistentAvatarUrl(payload.avatarUrl);
   const phone = cleanText(payload.phone, 32) || null;
   return repository.login({ code, deviceId, openid, nickname, avatarUrl, phone });
 }
@@ -128,7 +133,7 @@ async function updateProfile(userId, payload = {}) {
   assertComplianceText(payload.nickname, "昵称");
   return repository.updateProfile(userId, {
     nickname: cleanText(payload.nickname || "微信用户", 80),
-    avatarUrl: cleanText(payload.avatarUrl, 500) || null
+    avatarUrl: normalizePersistentAvatarUrl(payload.avatarUrl)
   });
 }
 

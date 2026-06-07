@@ -1,16 +1,23 @@
 const {
   request,
+  uploadAvatar,
   CACHE_KEYS,
   getCachedData,
   consumeCacheDirty,
   clearAllCaches
 } = require("../../utils/request");
 const { ROUTES, openRoute } = require("../../utils/navigation");
+const {
+  normalizeStoredUser,
+  readFileBase64,
+  resolveAvatarFileType
+} = require("../../utils/avatar");
 
-const DEFAULT_USER = {
+const DEFAULT_USER = normalizeStoredUser({
   nickname: "微信用户",
-  avatarUrl: ""
-};
+  avatarUrl: "",
+  avatarLocalPath: ""
+});
 
 const DEFAULT_METRICS = [
   { label: "检查记录", value: "--" },
@@ -19,11 +26,18 @@ const DEFAULT_METRICS = [
 ];
 
 function normalizeUser(user) {
-  const source = user || {};
-  return {
-    nickname: source.nickname || "微信用户",
-    avatarUrl: source.avatarUrl || ""
-  };
+  return normalizeStoredUser(user);
+}
+
+function resolveActiveAvatarUrl(user, failedUrl) {
+  const normalizedFailedUrl = String(failedUrl || "").trim();
+  if (user.avatarUrl && user.avatarUrl !== normalizedFailedUrl) {
+    return user.avatarUrl;
+  }
+  if (user.avatarLocalPath && user.avatarLocalPath !== normalizedFailedUrl) {
+    return user.avatarLocalPath;
+  }
+  return "";
 }
 
 function normalizeMetric(metric, fallback) {
@@ -46,6 +60,7 @@ Page({
   data: {
     appName: "云端智诊",
     user: DEFAULT_USER,
+    activeAvatarUrl: "",
     avatarLoadFailedUrl: "",
     metrics: DEFAULT_METRICS,
     menus: [
@@ -91,10 +106,12 @@ Page({
   onLoad() {
     this.renderProfileCache();
     this.scheduleSummaryRefresh();
+    this.syncProfile();
   },
 
   onShow() {
     this.renderStoredUser();
+    this.syncProfile();
     if (consumeCacheDirty(CACHE_KEYS.home)) {
       this.scheduleSummaryRefresh();
     }
@@ -103,24 +120,32 @@ Page({
   renderStoredUser() {
     const nextUser = normalizeUser(wx.getStorageSync("user"));
     const avatarLoadFailedUrl = nextUser.avatarUrl === this.data.user.avatarUrl
+      && nextUser.avatarLocalPath === this.data.user.avatarLocalPath
       ? this.data.avatarLoadFailedUrl
       : "";
+    const activeAvatarUrl = resolveActiveAvatarUrl(nextUser, avatarLoadFailedUrl);
     if (
       nextUser.nickname === this.data.user.nickname
       && nextUser.avatarUrl === this.data.user.avatarUrl
+      && nextUser.avatarLocalPath === this.data.user.avatarLocalPath
+      && activeAvatarUrl === this.data.activeAvatarUrl
       && avatarLoadFailedUrl === this.data.avatarLoadFailedUrl
     ) {
       return;
     }
     this.setData({
       user: nextUser,
+      activeAvatarUrl,
       avatarLoadFailedUrl
     });
   },
 
   onAvatarLoadError(event) {
     const failedUrl = event.currentTarget.dataset.url || "";
-    this.setData({ avatarLoadFailedUrl: failedUrl });
+    this.setData({
+      avatarLoadFailedUrl: failedUrl,
+      activeAvatarUrl: resolveActiveAvatarUrl(this.data.user, failedUrl)
+    });
   },
 
   renderProfileCache() {
@@ -156,8 +181,59 @@ Page({
   },
 
   async onPullDownRefresh() {
+    await this.syncProfile();
     await this.loadSummary();
     wx.stopPullDownRefresh();
+  },
+
+  async syncProfile() {
+    if (this.profileSyncing) return;
+    this.profileSyncing = true;
+    try {
+      const localUser = normalizeUser(wx.getStorageSync("user"));
+      const res = await request("/me");
+      const nextUser = normalizeUser({
+        ...localUser,
+        ...(res.data || {}),
+        avatarLocalPath: localUser.avatarLocalPath
+      });
+      wx.setStorageSync("user", nextUser);
+      this.renderStoredUser();
+      await this.syncPendingAvatar(nextUser);
+    } catch (_error) {
+      await this.syncPendingAvatar();
+    } finally {
+      this.profileSyncing = false;
+    }
+  },
+
+  async syncPendingAvatar(sourceUser) {
+    if (this.avatarUploading) return;
+
+    const currentUser = normalizeUser(sourceUser || wx.getStorageSync("user"));
+    if (!currentUser.avatarLocalPath || currentUser.avatarUrl) {
+      return;
+    }
+
+    this.avatarUploading = true;
+    try {
+      const avatarBase64 = await readFileBase64(currentUser.avatarLocalPath);
+      const avatarRes = await uploadAvatar({
+        avatarBase64,
+        fileType: resolveAvatarFileType(currentUser.avatarLocalPath)
+      });
+      const nextUser = normalizeUser({
+        ...currentUser,
+        ...(avatarRes.data || {}),
+        avatarLocalPath: currentUser.avatarLocalPath
+      });
+      wx.setStorageSync("user", nextUser);
+      this.renderStoredUser();
+    } catch (_error) {
+      // 上传重试失败时继续保留本地头像兜底，不阻断页面展示。
+    } finally {
+      this.avatarUploading = false;
+    }
   },
 
   openMenu(event) {
