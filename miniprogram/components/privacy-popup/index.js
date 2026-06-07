@@ -40,8 +40,33 @@ Component({
             this.requireReject = reject;
             this.setData({ visible: true });
           },
-          fail: reject
+          fail: () => {
+            this.setData({
+              privacyContractName: "小程序隐私保护指引"
+            });
+            resolve();
+          }
         });
+      });
+    },
+
+    openPrivacyContract() {
+      if (!wx.openPrivacyContract) {
+        wx.showToast({
+          title: "当前微信版本暂不支持打开隐私指引，请升级微信后重试",
+          icon: "none"
+        });
+        return;
+      }
+
+      wx.openPrivacyContract({
+        success: () => {},
+        fail: () => {
+          wx.showToast({
+            title: "暂时无法打开隐私指引，请稍后重试",
+            icon: "none"
+          });
+        }
       });
     },
 

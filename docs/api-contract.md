@@ -48,7 +48,7 @@
 
 `POST /questions`
 
-保存用户选择的问题清单。演示版当前直接回显。
+保存用户选择的问题清单。
 
 ## 健康知识
 
@@ -65,7 +65,7 @@
 
 `POST /feedback`
 
-保存用户反馈。演示版当前直接返回收到状态。
+保存用户反馈。
 
 前端同时保留微信官方 `open-type="feedback"` 入口，方便用户提交带日志的反馈。
 
@@ -81,7 +81,6 @@
 ## 后端分层
 
 - `routes/miniapp.js`：只负责 HTTP 入参、状态码和响应格式。
-- `services/miniapp.service.js`：负责业务校验、字段清洗和数据源选择。
+- `services/miniapp.service.js`：负责业务校验和字段清洗。
 - `repositories/miniapp.repository.js`：负责 MySQL 访问。
-- `repositories/mock.repository.js`：负责无数据库演示兜底。
 - `config/env.js` 与 `config/database.js`：负责环境变量和连接池。

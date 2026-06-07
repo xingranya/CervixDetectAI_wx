@@ -45,7 +45,6 @@ App({
     productionApiBaseUrl: config.productionApiBaseUrl,
     appName: config.appName,
     shortName: config.shortName,
-    useMock: config.useMock,
     networkType: "unknown",
     isOnline: true,
     hasNewVersion: false

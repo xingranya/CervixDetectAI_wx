@@ -9,6 +9,5 @@ module.exports = {
   requestTimeout: 12000,
   subscriptionTemplateIds: {
     reminder: ""
-  },
-  useMock: false
+  }
 };

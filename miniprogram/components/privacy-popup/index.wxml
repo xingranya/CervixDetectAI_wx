@@ -5,7 +5,7 @@
     <text class="privacy-desc">
       为完成微信登录、头像昵称填写、健康记录保存和复查提醒管理，请先阅读并同意《{{privacyContractName}}》。
     </text>
-    <button class="privacy-link" open-type="openPrivacyContract">查看隐私保护指引</button>
+    <button class="privacy-link" bind:tap="openPrivacyContract">查看隐私保护指引</button>
     <view class="privacy-actions">
       <button class="privacy-cancel" bind:tap="handleDisagree">暂不同意</button>
       <button
