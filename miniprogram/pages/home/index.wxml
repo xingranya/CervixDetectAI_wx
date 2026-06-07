@@ -41,7 +41,14 @@
     </view>
 
     <view class="action-grid">
-      <button wx:for="{{actions}}" wx:key="label" class="action-card action-card-{{item.tone}}" bind:tap="goPage" data-path="{{item.path}}">
+      <button
+        wx:for="{{actions}}"
+        wx:key="label"
+        class="action-card action-card-{{item.tone}}"
+        hover-class="action-card-pressed"
+        bind:tap="goPage"
+        data-path="{{item.path}}"
+      >
         <view class="action-icon-wrap">
           <image class="action-icon" src="{{item.icon}}" mode="aspectFit" />
         </view>

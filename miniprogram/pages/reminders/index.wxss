@@ -108,8 +108,8 @@
 }
 
 .icon-chip image {
-  width: 40rpx;
-  height: 40rpx;
+  width: 52rpx;
+  height: 52rpx;
   display: block;
 }
 
