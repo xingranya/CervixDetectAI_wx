@@ -1,14 +1,10 @@
 require("dotenv").config();
 
-const dataSource = (process.env.MINIAPP_DATA_SOURCE || "mysql").toLowerCase();
-
 module.exports = {
   port: Number(process.env.PORT || 3789),
   host: process.env.HOST || "0.0.0.0",
   allowedOrigin: process.env.MINIAPP_ALLOWED_ORIGIN || "*",
   publicBaseUrl: process.env.MINIAPP_PUBLIC_BASE_URL || "",
-  dataSource,
-  demoUserId: Number(process.env.DEMO_USER_ID || 1),
   wechat: {
     appId: process.env.WECHAT_APP_ID || "wx1f7b9852c47b2ffd",
     appSecret: process.env.WECHAT_APP_SECRET || ""

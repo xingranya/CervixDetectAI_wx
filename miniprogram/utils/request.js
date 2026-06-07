@@ -1,4 +1,3 @@
-const mock = require("./mock-data");
 const config = require("../config/app");
 
 const DEFAULT_CACHE_MAX_AGE = 30 * 1000;
@@ -135,38 +134,6 @@ function updateCachedListItem(key, id, updater) {
   });
 }
 
-function getMock(path) {
-  if (path === "/auth/login") {
-    return Promise.resolve({
-      data: {
-        token: "mock-token",
-        user: {
-          id: 1,
-          nickname: "微信用户",
-          avatarUrl: "",
-          phone: "",
-          gender: ""
-        }
-      }
-    });
-  }
-  if (path === "/home") return Promise.resolve({ data: mock.home });
-  if (path === "/records") return Promise.resolve({ data: mock.records });
-  if (path.startsWith("/records/")) {
-    const id = path.split("/").pop();
-    return Promise.resolve({ data: mock.records.find((item) => item.id === id) || null });
-  }
-  if (path === "/reminders") return Promise.resolve({ data: mock.reminders });
-  if (path.startsWith("/reminders/") && !path.endsWith("/done")) {
-    const id = path.split("/")[2];
-    return Promise.resolve({ data: mock.reminders.find((item) => item.id === id) || null });
-  }
-  if (path === "/question-templates") return Promise.resolve({ data: mock.questionTemplates });
-  if (path === "/questions") return Promise.resolve({ data: [] });
-  if (path === "/articles") return Promise.resolve({ data: mock.articles });
-  return Promise.resolve({ data: null });
-}
-
 function getToken() {
   return wx.getStorageSync("token") || "";
 }
@@ -252,16 +219,11 @@ function buildInflightKey(path, options, baseUrl) {
 }
 
 function request(path, options = {}) {
-  const app = getApp();
   const baseUrl = resolveBaseUrl();
   const method = (options.method || "GET").toUpperCase();
   const isGetRequest = method === "GET";
   const cacheKey = isGetRequest ? options.cacheKey : "";
   const maxAge = options.maxAge || DEFAULT_CACHE_MAX_AGE;
-
-  if (app.globalData.useMock || config.useMock) {
-    return getMock(path);
-  }
 
   if (cacheKey && !options.forceRefresh && isCacheFresh(cacheKey, maxAge)) {
     return Promise.resolve(getCachedData(cacheKey));

@@ -1,6 +1,6 @@
-# CervixDetectAI 微信小程序演示后端
+# CervixDetectAI 微信小程序后端
 
-该服务提供小程序演示用 API。接口只返回健康管理摘要，不返回超出个人健康记录范围的内容。
+该服务提供小程序 API，固定使用 MySQL 保存数据。接口只返回健康管理摘要，不返回超出个人健康记录范围的内容。
 
 ## 数据库
 
@@ -33,20 +33,6 @@ mysql -h mysql7.sqlpub.com -P 3312 -u xingranya666 -p cervixdetectai_wx < databa
 
 如果你已经在控制台手动创建了 `cervixdetectai_wx`，直接执行上面的初始化脚本即可。
 
-## 数据源切换
-
-`.env` 中默认使用 MySQL：
-
-```text
-MINIAPP_DATA_SOURCE=mysql
-```
-
-如果临时不想连接数据库，可以改成：
-
-```text
-MINIAPP_DATA_SOURCE=mock
-```
-
 ## API
 
 - `GET /api/miniapp/home`
@@ -61,7 +47,7 @@ MINIAPP_DATA_SOURCE=mock
 
 `GET /api/miniapp/articles` 返回 `id/title/summary/content`，前端用于文章列表和正文弹层。
 
-`POST /api/miniapp/feedback` 会做基础内容清洗和健康服务边界校验；如果用户提交明显越界的医疗服务表达，会返回 400。
+`POST /api/miniapp/feedback` 会写入 MySQL，并做基础内容清洗和健康服务边界校验；如果用户提交明显越界的医疗服务表达，会返回 400。
 
 ## 校验
 

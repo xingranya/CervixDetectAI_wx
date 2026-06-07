@@ -29,7 +29,7 @@ app.get("/health", (req, res) => {
   res.json({
     ok: true,
     service: "cervixdetectai-wx-server",
-    dataSource: env.dataSource,
+    mysql: "enabled",
     database: env.database.database
   });
 });

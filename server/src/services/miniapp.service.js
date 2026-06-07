@@ -1,9 +1,7 @@
-const env = require("../config/env");
 const mysqlRepository = require("../repositories/miniapp.repository");
-const mockRepository = require("../repositories/mock.repository");
 const avatarStorage = require("./avatar-storage.service");
 
-const repository = env.dataSource === "mock" ? mockRepository : mysqlRepository;
+const repository = mysqlRepository;
 
 const PROHIBITED_SERVICE_TERMS = [
   "AI诊断",
