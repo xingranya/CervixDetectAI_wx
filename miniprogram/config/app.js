@@ -1,5 +1,5 @@
 module.exports = {
-  appName: "CervixDetectAI云端智诊",
+  appName: "云端智诊",
   shortName: "云端智诊",
   appId: "wx1f7b9852c47b2ffd",
   apiBaseUrl: "https://xcx.hpvsc.icu/api/miniapp",

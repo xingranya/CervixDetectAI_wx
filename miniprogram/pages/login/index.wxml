@@ -3,7 +3,7 @@
     <view class="login-mark-wrap">
       <image class="login-mark" src="/assets/icons/login-active.png" mode="aspectFit" />
     </view>
-    <text class="eyebrow">CervixDetectAI云端智诊</text>
+    <text class="eyebrow">云端智诊</text>
     <text class="login-title">女性健康记录与复查提醒助手</text>
     <text class="login-desc">用于保存检查摘要、管理复查提醒、整理线下咨询前的问题。</text>
   </view>
@@ -14,7 +14,7 @@
         <image wx:if="{{avatarUrl}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" />
         <image wx:else class="avatar-placeholder" src="/assets/icons/profile-active.png" mode="aspectFit" />
       </button>
-      <text class="avatar-tip">可选择微信头像，登录后同步到账号资料</text>
+      <text class="avatar-tip">头像为选填，仅用于个人中心展示</text>
 
       <text class="form-label">昵称</text>
       <input
@@ -24,11 +24,11 @@
         value="{{nickname}}"
         bind:input="onNicknameInput"
         maxlength="20"
-        placeholder="请输入或选择微信昵称"
+        placeholder="可填写或选择微信昵称"
       />
       <button class="primary-button login-button" loading="{{loading}}" form-type="submit">
         <image class="button-icon" src="/assets/icons/login-white.png" mode="aspectFit" />
-        进入云端智诊
+        同意并进入
       </button>
       <button class="plain-link" bind:tap="openPrivacy">
         <image class="small-icon" src="/assets/icons/privacy-active.png" mode="aspectFit" />

@@ -8,7 +8,7 @@
 
 - 主体：个人主体
 - 服务类目：工具 / 健康管理
-- 小程序名称：CervixDetectAI云端智诊
+- 小程序名称：云端智诊
 - 小程序简称：云端智诊
 - 简介：女性用户的健康管理助手，记录检查摘要、管理复查提醒、整理就诊前问题。产品仅用于健康信息记录与提醒，不提供在线诊断、治疗或问诊服务。
 
@@ -52,7 +52,7 @@ npm run dev
 
 头像选择得到的是小程序临时文件路径，不能直接长期保存到数据库。当前实现会在用户登录成功后，把已选择头像上传到后端 `/api/miniapp/me/avatar`，后端保存到 `server/uploads/avatars/` 并把永久访问地址写入用户资料。部署到公网时，建议在 `server/.env` 配置 `MINIAPP_PUBLIC_BASE_URL` 为后端 HTTPS 域名。
 
-如果开发者工具或真机报错 `chooseAvatar:fail api scope is not declared in the privacy agreement`，需要在微信公众平台的小程序用户隐私保护指引里补充头像、昵称用途声明，并发布/同步隐私协议配置。代码侧只能做提示和兜底，微信不会在隐私用途未声明时放行头像选择能力。
+如果开发者工具或真机报错 `chooseAvatar:fail api scope is not declared in the privacy agreement`，需要在微信公众平台的小程序用户隐私保护指引里补充头像、昵称用途声明，并发布/同步隐私协议配置。代码侧只能做提示和兜底，微信不会在隐私用途未声明时放行头像选择能力。头像和昵称在提审版中为选填，用户不填写时使用“微信用户”作为默认展示名。
 
 开发阶段接口地址在 `miniprogram/config/app.js` 中维护：
 

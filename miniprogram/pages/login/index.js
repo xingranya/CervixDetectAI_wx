@@ -49,10 +49,6 @@ Page({
     }
   },
 
-  onReady() {
-    this.requirePrivacyAuthorization().catch(() => {});
-  },
-
   requirePrivacyAuthorization() {
     const privacyPopup = this.selectComponent("#privacyPopup");
     if (!privacyPopup || !privacyPopup.requireAuthorization) {
@@ -78,12 +74,8 @@ Page({
     await withPageLoading(this, async () => {
       await this.requirePrivacyAuthorization();
 
-      const nickname = String(event?.detail?.value?.nickname || this.data.nickname || "").trim();
+      const nickname = String(event?.detail?.value?.nickname || this.data.nickname || "").trim() || "微信用户";
       const avatarUrl = this.data.avatarUrl || "";
-
-      if (!nickname) {
-        throw new Error("请先填写微信昵称");
-      }
 
       const code = await wxLoginCode();
       const res = await login({

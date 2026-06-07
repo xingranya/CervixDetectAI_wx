@@ -7,7 +7,7 @@
       </view>
       <view class="privacy-body">
         <text class="privacy-title">我们收集什么</text>
-        <text class="privacy-text">仅在你主动使用登录、头像昵称、检查记录、复查提醒、问题整理和意见反馈功能时，保存完成服务所需的信息。</text>
+        <text class="privacy-text">仅在你主动使用登录、头像昵称、检查记录、复查提醒、问题整理和意见反馈功能时，保存完成服务所需的信息。头像和昵称为选填，不影响登录。</text>
       </view>
     </view>
     <view class="privacy-row">
@@ -43,7 +43,7 @@
       </view>
       <view class="privacy-body">
         <text class="privacy-title">反馈与删除</text>
-        <text class="privacy-text">你可以在“我的 - 意见反馈”提交使用问题，也可以自行删除检查记录、提醒和问题清单。</text>
+        <text class="privacy-text">你可以在“我的 - 意见反馈”提交使用问题，也可以自行删除检查记录、提醒和问题清单；如需删除账号资料，可通过反馈入口联系我们处理。</text>
       </view>
     </view>
   </view>
