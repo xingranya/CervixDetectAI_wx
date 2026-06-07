@@ -11,7 +11,7 @@
   <view class="card login-card">
     <form class="login-form" bind:submit="submitLogin">
       <button class="avatar-button" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-        <image wx:if="{{avatarUrl}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" />
+        <image wx:if="{{avatarUrl && !avatarPreviewFailed}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" bind:error="onAvatarLoadError" />
         <image wx:else class="avatar-placeholder" src="/assets/icons/profile-active.png" mode="aspectFit" />
       </button>
       <text class="avatar-tip">头像为选填，仅用于个人中心展示</text>

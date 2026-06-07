@@ -40,6 +40,7 @@ Page({
   data: {
     nickname: "",
     avatarUrl: "",
+    avatarPreviewFailed: false,
     loading: false
   },
 
@@ -67,7 +68,14 @@ Page({
       showErrorToast("微信头像获取失败，请先确认隐私协议中的头像用途声明");
       return;
     }
-    this.setData({ avatarUrl });
+    this.setData({
+      avatarUrl,
+      avatarPreviewFailed: false
+    });
+  },
+
+  onAvatarLoadError() {
+    this.setData({ avatarPreviewFailed: true });
   },
 
   async submitLogin(event) {

@@ -1,9 +1,18 @@
 <view class="page profile-page">
   <view class="profile-hero">
     <view class="profile-user-row">
-      <image wx:if="{{user.avatarUrl}}" class="profile-avatar" src="{{user.avatarUrl}}" mode="aspectFill" />
-      <view wx:else class="profile-avatar profile-avatar-default">
-        <image class="profile-avatar-icon" src="/assets/icons/profile-white.png" mode="aspectFit" />
+      <view class="profile-avatar-shell">
+        <image
+          wx:if="{{user.avatarUrl && avatarLoadFailedUrl !== user.avatarUrl}}"
+          class="profile-avatar"
+          src="{{user.avatarUrl}}"
+          mode="aspectFill"
+          data-url="{{user.avatarUrl}}"
+          bind:error="onAvatarLoadError"
+        />
+        <view wx:else class="profile-avatar-default">
+          <image class="profile-avatar-icon" src="/assets/icons/profile-white.png" mode="aspectFit" />
+        </view>
       </view>
       <view class="profile-user-body">
         <text class="profile-label">{{appName}}</text>

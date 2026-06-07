@@ -122,14 +122,22 @@
 }
 
 .avatar-button {
-  width: 132rpx;
-  height: 132rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 152rpx;
+  min-width: 152rpx;
+  height: 152rpx;
   margin: 0 auto 12rpx;
-  padding: 0;
-  border-radius: 42rpx;
-  background: rgba(219, 225, 255, 0.72);
+  padding: 8rpx;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.52) 42%, transparent 43%),
+    linear-gradient(135deg, rgba(219, 225, 255, 0.9), rgba(239, 244, 255, 0.78));
   overflow: hidden;
+  line-height: 1;
   box-shadow: 0 16rpx 36rpx rgba(31, 83, 201, 0.14);
+  box-sizing: border-box;
 }
 
 .avatar-button::after {
@@ -138,13 +146,17 @@
 
 .avatar-image,
 .avatar-placeholder {
-  width: 132rpx;
-  height: 132rpx;
+  display: block;
+  width: 136rpx;
+  height: 136rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .avatar-placeholder {
-  padding: 28rpx;
-  box-sizing: border-box;
+  padding: 30rpx;
+  background: rgba(255, 255, 255, 0.74);
 }
 
 .avatar-tip {

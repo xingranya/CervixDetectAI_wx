@@ -46,6 +46,7 @@ Page({
   data: {
     appName: "云端智诊",
     user: DEFAULT_USER,
+    avatarLoadFailedUrl: "",
     metrics: DEFAULT_METRICS,
     menus: [
       {
@@ -101,13 +102,25 @@ Page({
 
   renderStoredUser() {
     const nextUser = normalizeUser(wx.getStorageSync("user"));
+    const avatarLoadFailedUrl = nextUser.avatarUrl === this.data.user.avatarUrl
+      ? this.data.avatarLoadFailedUrl
+      : "";
     if (
       nextUser.nickname === this.data.user.nickname
       && nextUser.avatarUrl === this.data.user.avatarUrl
+      && avatarLoadFailedUrl === this.data.avatarLoadFailedUrl
     ) {
       return;
     }
-    this.setData({ user: nextUser });
+    this.setData({
+      user: nextUser,
+      avatarLoadFailedUrl
+    });
+  },
+
+  onAvatarLoadError(event) {
+    const failedUrl = event.currentTarget.dataset.url || "";
+    this.setData({ avatarLoadFailedUrl: failedUrl });
   },
 
   renderProfileCache() {

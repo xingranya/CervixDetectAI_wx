@@ -11,11 +11,19 @@ const app = express();
 const port = env.port;
 
 app.set("trust proxy", 1);
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use(cors({ origin: env.allowedOrigin }));
 app.use(express.json({ limit: "3mb" }));
 app.use(morgan("dev"));
-app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "..", "uploads"), {
+  setHeaders: (res) => {
+    // 头像会被小程序渲染层作为跨域图片加载，需允许资源跨域嵌入。
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  }
+}));
 
 app.get("/health", (req, res) => {
   res.json({
