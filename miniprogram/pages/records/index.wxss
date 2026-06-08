@@ -101,7 +101,7 @@
   flex: 0 0 auto;
 }
 
-.icon-chip image {
+.icon-chip-image {
   width: 52rpx;
   height: 52rpx;
   display: block;

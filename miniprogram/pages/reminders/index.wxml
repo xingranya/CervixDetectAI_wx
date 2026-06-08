@@ -64,7 +64,6 @@
           <text class="date-year">{{item.dateYear}}</text>
         </view>
         <view class="reminder-main">
-          <text class="reminder-date">{{item.date}}</text>
           <text class="reminder-title">{{item.title}}</text>
         </view>
         <text class="pill">{{item.statusText}}</text>
@@ -73,7 +72,7 @@
       <view class="reminder-actions">
         <button
           wx:if="{{item.canNotify}}"
-          class="primary-button notify-button"
+          class="primary-button notify-button {{sendingReminderId !== '' ? 'notify-button-disabled' : ''}}"
           loading="{{sendingReminderId === item.id}}"
           disabled="{{sendingReminderId !== ''}}"
           bind:tap="subscribeReminder"

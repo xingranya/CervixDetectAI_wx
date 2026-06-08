@@ -1,29 +1,35 @@
-<view class="page">
-  <view class="card form-card">
-    <section-header title="{{id ? '编辑复查提醒' : '新增复查提醒'}}" icon="/assets/icons/form-active.png" />
+<view class="page reminder-form-page">
+  <section-header title="{{id ? '编辑复查提醒' : '新增复查提醒'}}" icon="/assets/icons/form-active.png" desc="设置线下复查、资料准备或咨询前整理提醒。" />
 
-    <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
+  <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
 
-    <view wx:if="{{!id}}" class="quick-section">
-      <text class="section-label">常用提醒</text>
-      <view class="template-row">
-        <button class="template-card" data-template="复查" bind:tap="applyTemplate">
-          <text class="template-title">复查</text>
-          <text class="template-desc">到期前安排复查</text>
-        </button>
-        <button class="template-card" data-template="资料" bind:tap="applyTemplate">
-          <text class="template-title">资料</text>
-          <text class="template-desc">整理摘要和历史记录</text>
-        </button>
-        <button class="template-card" data-template="问题" bind:tap="applyTemplate">
-          <text class="template-title">问题</text>
-          <text class="template-desc">咨询前整理问题</text>
-        </button>
-      </view>
+  <view wx:if="{{!id}}" class="form-panel template-panel">
+    <view class="panel-heading">
+      <text class="panel-title">常用提醒</text>
+      <text class="panel-desc">选择后会自动填入提醒类型、内容和建议日期，可继续修改。</text>
     </view>
+    <view class="template-row">
+      <button class="template-card" data-template="复查" bind:tap="applyTemplate">
+        <text class="template-title">复查</text>
+        <text class="template-desc">到期前安排复查</text>
+      </button>
+      <button class="template-card" data-template="资料" bind:tap="applyTemplate">
+        <text class="template-title">资料</text>
+        <text class="template-desc">整理摘要和历史记录</text>
+      </button>
+      <button class="template-card" data-template="问题" bind:tap="applyTemplate">
+        <text class="template-title">问题</text>
+        <text class="template-desc">咨询前整理问题</text>
+      </button>
+    </view>
+  </view>
 
-    <text class="form-label">提醒类型</text>
-    <view class="chip-row">
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">提醒类型</text>
+      <text class="panel-desc">选择当前提醒最接近的用途。</text>
+    </view>
+    <view class="chip-row type-row">
       <button class="choice-chip {{currentTitle === '复查提醒' ? 'choice-chip-active' : ''}}" data-title="复查提醒" bind:tap="selectTitle">
         <text>复查提醒</text>
       </button>
@@ -38,37 +44,68 @@
       </button>
     </view>
 
-    <text class="form-label">提醒标题</text>
-    <input class="form-input" value="{{title}}" bind:input="onTitleInput" maxlength="60" placeholder="例如：复查提醒" />
+    <view class="field-block">
+      <text class="form-label">提醒标题</text>
+      <input class="form-input" value="{{title}}" bind:input="onTitleInput" maxlength="60" placeholder="例如：复查提醒" />
+    </view>
+  </view>
 
-    <text class="form-label">提醒日期</text>
-    <picker mode="date" value="{{date}}" bind:change="onDateChange">
-      <view class="form-input picker-value">{{date || '请选择日期'}}</view>
-    </picker>
-    <view class="chip-row">
-      <button class="choice-chip" data-offset="0" bind:tap="selectQuickDate">
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">时间安排</text>
+      <text class="panel-desc">可选择具体日期，也可以使用快捷时间。</text>
+    </view>
+
+    <view class="field-block">
+      <text class="form-label">提醒日期</text>
+      <picker mode="date" value="{{date}}" bind:change="onDateChange">
+        <view class="select-field">
+          <text class="select-value">{{date || '请选择日期'}}</text>
+          <text class="select-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="quick-date-row">
+      <button class="quick-date-chip" data-offset="0" bind:tap="selectQuickDate">
         <text>今天</text>
       </button>
-      <button class="choice-chip" data-offset="3" bind:tap="selectQuickDate">
+      <button class="quick-date-chip" data-offset="3" bind:tap="selectQuickDate">
         <text>3天后</text>
       </button>
-      <button class="choice-chip" data-offset="7" bind:tap="selectQuickDate">
+      <button class="quick-date-chip" data-offset="7" bind:tap="selectQuickDate">
         <text>1周后</text>
       </button>
-      <button class="choice-chip" data-offset="30" bind:tap="selectQuickDate">
+      <button class="quick-date-chip" data-offset="30" bind:tap="selectQuickDate">
         <text>1个月后</text>
       </button>
     </view>
+  </view>
 
-    <text class="form-label">提醒内容</text>
-    <textarea class="form-textarea" value="{{desc}}" bind:input="onDescInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" />
-    <text class="field-hint">{{descLength}} / 500</text>
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">提醒内容</text>
+      <text class="panel-desc">写清楚到时需要完成的准备事项。</text>
+    </view>
+
+    <view class="field-block">
+      <view class="label-row">
+        <text class="form-label">内容</text>
+        <text class="field-hint">{{descLength}} / 500</text>
+      </view>
+      <textarea class="form-textarea" value="{{desc}}" bind:input="onDescInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" />
+    </view>
 
     <label class="switch-row">
-      <text>标记为已完成</text>
-      <switch checked="{{done}}" color="#1976d2" bind:change="onDoneChange" />
+      <view class="switch-copy">
+        <text class="switch-title">标记为已完成</text>
+        <text class="switch-desc">适用于已经处理过的提醒。</text>
+      </view>
+      <switch checked="{{done}}" color="#1f53c9" bind:change="onDoneChange" />
     </label>
+  </view>
 
+  <view class="submit-panel">
     <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
         <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />

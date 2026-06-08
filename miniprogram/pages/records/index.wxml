@@ -15,7 +15,7 @@
         <text class="trend-title">{{summary.trendText}}</text>
       </view>
       <view class="icon-chip">
-        <image src="/assets/icons/records-active.png" mode="aspectFit" />
+        <image class="icon-chip-image" src="/assets/icons/records-active.png" mode="aspectFit" />
       </view>
     </view>
     <view class="trend-line">

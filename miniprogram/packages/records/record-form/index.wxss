@@ -1,84 +1,55 @@
-.card {
-  margin-bottom: 24rpx;
-  padding: 30rpx;
-  border: 1rpx solid rgba(255, 255, 255, 0.86);
-  border-radius: 24rpx;
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 18rpx 46rpx rgba(31, 83, 201, 0.07);
-  box-sizing: border-box;
+.record-form-page {
+  padding-bottom: 72rpx;
 }
 
-.primary-button {
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  height: 86rpx;
-  border-radius: 18rpx;
-  background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
-  color: #fff;
-  font-size: 30rpx;
-  line-height: normal;
-  font-weight: 800;
-  box-shadow: 0 14rpx 30rpx rgba(31, 83, 201, 0.24);
-}
-
-.primary-button::after {
-  border: 0;
-}
-
-.button-icon {
-  display: block;
-  width: 32rpx;
-  height: 32rpx;
-  margin-right: 10rpx;
-  flex: 0 0 auto;
-}
-
+.form-panel,
+.submit-panel,
+.safe-note,
 .form-error {
-  display: block;
-  margin-bottom: 22rpx;
-  padding: 18rpx 20rpx;
-  border: 1rpx solid rgba(186, 26, 26, 0.18);
-  border-radius: 18rpx;
-  background: rgba(255, 218, 214, 0.24);
-  color: #ba1a1a;
-  font-size: 24rpx;
-  line-height: 1.55;
+  box-sizing: border-box;
 }
 
-.safe-note {
-  margin-top: 20rpx;
-  padding: 20rpx;
-  border-radius: 18rpx;
-  background: rgba(255, 255, 255, 0.62);
-  border: 1rpx solid rgba(195, 198, 214, 0.48);
+.form-panel,
+.submit-panel {
+  margin-bottom: 24rpx;
+  padding: 28rpx;
+  border: 1rpx solid rgba(199, 210, 232, 0.78);
+  border-radius: 26rpx;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 16rpx 40rpx rgba(31, 83, 201, 0.06);
+}
+
+.template-panel {
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.panel-heading {
+  margin-bottom: 20rpx;
+}
+
+.panel-title,
+.panel-desc,
+.form-label,
+.field-hint,
+.safe-note,
+.form-error,
+.template-title,
+.template-desc {
+  display: block;
+}
+
+.panel-title {
+  color: #10233c;
+  font-size: 30rpx;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.panel-desc {
+  margin-top: 8rpx;
   color: #66748a;
   font-size: 24rpx;
-  line-height: 1.6;
-}
-
-.form-card {
-  padding: 30rpx 26rpx 38rpx;
-}
-
-.quick-section {
-  margin-top: 24rpx;
-  overflow: hidden;
-}
-
-.section-label,
-.form-label {
-  display: block;
-  margin: 28rpx 0 12rpx;
-  color: #0b1c30;
-  font-size: 26rpx;
-  font-weight: 800;
-}
-
-.section-label {
-  margin-top: 0;
+  line-height: 1.58;
 }
 
 .template-row {
@@ -90,60 +61,100 @@
 .template-card {
   flex: 1;
   min-width: 0;
-  min-height: 132rpx;
+  min-height: 126rpx;
   margin: 0;
-  padding: 18rpx;
-  border: 1rpx solid rgba(31, 83, 201, 0.14);
+  padding: 18rpx 16rpx;
+  border: 1rpx solid rgba(199, 210, 232, 0.72);
   border-radius: 18rpx;
-  background: rgba(239, 244, 255, 0.62);
-  color: #0b1c30;
+  background: #f8faff;
+  color: #10233c;
   text-align: left;
   box-sizing: border-box;
   white-space: normal;
 }
 
 .template-card::after,
-.choice-chip::after {
+.choice-chip::after,
+.primary-button::after {
   border: 0;
-}
-
-.template-title,
-.template-desc {
-  display: block;
-  width: 100%;
-  white-space: normal;
-  overflow-wrap: break-word;
-}
-
-.template-card text,
-.choice-chip text {
-  white-space: normal;
 }
 
 .template-title {
   color: #1f53c9;
   font-size: 25rpx;
-  line-height: 1.25;
   font-weight: 900;
+  line-height: 1.28;
+  white-space: normal;
 }
 
 .template-desc {
   margin-top: 8rpx;
   color: #66748a;
   font-size: 22rpx;
-  line-height: 1.4;
-  font-weight: 500;
+  line-height: 1.42;
+  white-space: normal;
 }
 
+.field-block {
+  margin-top: 26rpx;
+}
+
+.field-block:first-of-type {
+  margin-top: 0;
+}
+
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.form-label {
+  color: #10233c;
+  font-size: 26rpx;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.field-hint {
+  color: #7a8798;
+  font-size: 22rpx;
+  line-height: 1.35;
+  flex: 0 0 auto;
+}
+
+.select-field,
 .form-input,
 .form-textarea {
   width: 100%;
-  border: 1rpx solid rgba(195, 198, 214, 0.52);
-  border-radius: 20rpx;
-  background: rgba(248, 249, 255, 0.72);
+  border: 1rpx solid rgba(176, 190, 215, 0.76);
+  border-radius: 18rpx;
+  background: #f8faff;
   color: #0f172a;
   font-size: 28rpx;
   box-sizing: border-box;
+}
+
+.select-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88rpx;
+  padding: 0 24rpx;
+}
+
+.select-value {
+  color: #0f172a;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.select-arrow {
+  color: #8b9ab0;
+  font-size: 40rpx;
+  line-height: 1;
 }
 
 .form-input {
@@ -153,50 +164,77 @@
 }
 
 .form-textarea {
-  min-height: 180rpx;
+  min-height: 188rpx;
   padding: 22rpx 24rpx;
-  line-height: 1.6;
-}
-
-.field-hint {
-  display: block;
-  margin-top: 8rpx;
-  color: #7a8798;
-  font-size: 22rpx;
-  text-align: right;
+  line-height: 1.62;
 }
 
 .chip-row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 8rpx;
+  gap: 16rpx;
 }
 
 .choice-chip {
-  width: 48%;
-  height: 64rpx;
-  margin: 0 0 14rpx;
+  width: calc((100% - 16rpx) / 2);
+  height: 68rpx;
+  margin: 0;
   padding: 0 18rpx;
-  border: 1rpx solid rgba(31, 83, 201, 0.14);
+  border: 1rpx solid rgba(176, 190, 215, 0.76);
   border-radius: 18rpx;
-  background: rgba(255, 255, 255, 0.72);
+  background: #f8faff;
   color: #425d96;
-  font-size: 24rpx;
-  line-height: normal;
+  font-size: 25rpx;
   font-weight: 800;
 }
 
 .choice-chip-active {
-  border-color: rgba(31, 83, 201, 0.4);
-  background: rgba(31, 83, 201, 0.1);
+  border-color: rgba(31, 83, 201, 0.36);
+  background: #eef3ff;
   color: #1f53c9;
 }
 
-.picker-value {
-  color: #0f172a;
+.primary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: 18rpx;
+  background: #1f53c9;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 800;
+  box-shadow: 0 12rpx 28rpx rgba(31, 83, 201, 0.2);
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
-.form-submit {
-  margin-top: 34rpx;
+.button-icon {
+  display: block;
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 10rpx;
+  flex: 0 0 auto;
+}
+
+.form-error {
+  margin-bottom: 22rpx;
+  padding: 18rpx 20rpx;
+  border: 1rpx solid rgba(186, 26, 26, 0.16);
+  border-radius: 18rpx;
+  background: #fff3f1;
+  color: #ba1a1a;
+  font-size: 24rpx;
+  line-height: 1.55;
+}
+
+.safe-note {
+  margin-top: 18rpx;
+  padding: 18rpx 20rpx;
+  border: 1rpx solid rgba(199, 210, 232, 0.62);
+  border-radius: 18rpx;
+  background: #f8faff;
+  color: #66748a;
+  font-size: 24rpx;
+  line-height: 1.6;
 }

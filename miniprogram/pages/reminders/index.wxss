@@ -275,7 +275,7 @@
   box-shadow: 0 12rpx 24rpx rgba(31, 83, 201, 0.18);
 }
 
-.notify-button[disabled] {
+.notify-button-disabled {
   background: #8fa5e8;
   color: rgba(255, 255, 255, 0.92);
 }

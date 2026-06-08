@@ -73,7 +73,7 @@
       <view class="card-head">
         <view class="card-title-row">
           <view class="icon-chip">
-            <image src="/assets/icons/detail-active.png" mode="aspectFit" />
+            <image class="icon-chip-image" src="/assets/icons/detail-active.png" mode="aspectFit" />
           </view>
           <view class="latest-title-block">
             <text class="section-kicker">最近记录</text>

@@ -1,42 +1,56 @@
 <view class="page questions-page">
-  <section-header title="就诊前问题整理" icon="/assets/icons/questions-active.png" />
+  <section-header title="问题整理" icon="/assets/icons/questions-active.png" desc="把线下咨询前想确认的重点提前列好。" />
 
-  <view class="card intro-card">
-    <view class="icon-chip intro-icon">
-      <image src="/assets/icons/questions-active.png" mode="aspectFit" />
+  <view class="question-hero">
+    <view class="hero-icon">
+      <image class="hero-icon-image" src="/assets/icons/questions-active.png" mode="aspectFit" />
     </view>
-    <text class="intro">选择或填写想在线下咨询时确认的问题，保存后可继续补充咨询记录备忘。</text>
+    <view class="hero-copy">
+      <text class="hero-title">保存线下沟通重点</text>
+      <text class="hero-desc">可先选择常用问题，再补充自己的疑问。咨询后也能继续记录个人备忘。</text>
+    </view>
   </view>
 
-  <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
+  <view wx:if="{{pageStatus === 'loading'}}" class="state-panel">
     <text class="state-title">正在加载问题清单</text>
     <text class="state-desc">请稍候，正在同步模板和你已保存的问题。</text>
   </view>
 
-  <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
+  <view wx:elif="{{pageStatus === 'error'}}" class="state-panel">
     <text class="state-title">暂时无法加载问题清单</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadData">
+    <button class="primary-button retry-button" bind:tap="loadData">
       <text class="button-text">重新加载</text>
     </button>
   </view>
 
   <block wx:else>
-    <view class="template-list">
-      <button
-        wx:for="{{templateOptions}}"
-        wx:key="text"
-        class="question-item {{item.selected ? 'question-item-active' : ''}}"
-        bind:tap="toggleQuestion"
-        data-text="{{item.text}}"
-      >
-        <image class="small-icon question-choice-icon" src="/assets/icons/questions-active.png" mode="aspectFit" />
-        {{item.text}}
-      </button>
+    <view class="question-panel">
+      <view class="panel-heading">
+        <text class="panel-title">常用问题</text>
+        <text class="panel-desc">点击选择，可一次保存多条。</text>
+      </view>
+      <view class="template-list">
+        <button
+          wx:for="{{templateOptions}}"
+          wx:key="text"
+          class="question-item {{item.selected ? 'question-item-active' : ''}}"
+          bind:tap="toggleQuestion"
+          data-text="{{item.text}}"
+        >
+          <view class="choice-mark">
+            <image wx:if="{{item.selected}}" class="choice-icon" src="/assets/icons/check-white.png" mode="aspectFit" />
+          </view>
+          <text class="question-text">{{item.text}}</text>
+        </button>
+      </view>
     </view>
 
-    <view class="card custom-card">
-      <text class="form-label">自定义问题</text>
+    <view class="question-panel">
+      <view class="panel-heading">
+        <text class="panel-title">补充自己的问题</text>
+        <text class="panel-desc">可写一条当前最想确认的内容。</text>
+      </view>
       <textarea class="form-textarea" value="{{customQuestion}}" bind:input="onCustomInput" maxlength="255" placeholder="例如：复查前需要准备哪些历史资料？" />
       <button class="primary-button save-button" bind:tap="saveSelected">
         <view class="button-content">
@@ -44,32 +58,34 @@
           <text class="button-text">{{isGuest ? '登录后保存' : '保存到问题清单'}}</text>
         </view>
       </button>
-      <text wx:if="{{isGuest}}" class="guest-tip">当前可先浏览模板内容；需要保存个人问题和备忘时，再自行登录。</text>
+      <text wx:if="{{isGuest}}" class="guest-tip">当前可先浏览模板和填写方式；登录后会保存自己的问题与咨询备忘。</text>
     </view>
 
-    <view class="card saved-card" wx:if="{{questions.length}}">
-      <section-header title="已保存问题" icon="/assets/icons/detail-active.png" />
+    <view class="saved-panel" wx:if="{{questions.length}}">
+      <view class="panel-heading saved-heading">
+        <text class="panel-title">已保存问题</text>
+        <text class="panel-desc">线下咨询后，可在每条问题下记录自己的备忘。</text>
+      </view>
       <view wx:for="{{questions}}" wx:key="id" class="saved-question">
-        <text class="saved-title">{{index + 1}}. {{item.questionText}}</text>
-        <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bind:input="onAnswerInput" maxlength="1000" placeholder="线下咨询后，可在这里记录自己的备忘。" />
-        <view class="question-actions">
-          <button class="text-button" bind:tap="saveAnswer" data-id="{{item.id}}">
-            <view class="button-content">
+        <view class="saved-index">{{index + 1}}</view>
+        <view class="saved-body">
+          <text class="saved-title">{{item.questionText}}</text>
+          <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bind:input="onAnswerInput" maxlength="1000" placeholder="记录线下咨询后的个人备忘。" />
+          <view class="question-actions">
+            <button class="text-button" bind:tap="saveAnswer" data-id="{{item.id}}">
               <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
               <text class="button-text">保存备忘</text>
-            </view>
-          </button>
-          <button class="text-button danger" bind:tap="deleteQuestion" data-id="{{item.id}}">
-            <view class="button-content">
+            </button>
+            <button class="text-button danger" bind:tap="deleteQuestion" data-id="{{item.id}}">
               <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
               <text class="button-text">删除</text>
-            </view>
-          </button>
+            </button>
+          </view>
         </view>
       </view>
     </view>
 
-    <view wx:if="{{isGuest && !questions.length}}" class="card guest-card">
+    <view wx:if="{{isGuest && !questions.length}}" class="guest-card">
       <text class="guest-card-title">体验模式不展示个人问题清单</text>
       <text class="guest-card-desc">你可以先查看模板内容和填写方式；登录后才会保存自己的问题与咨询备忘。</text>
     </view>
