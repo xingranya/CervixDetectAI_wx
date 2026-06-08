@@ -5,6 +5,7 @@ const env = require("../config/env");
 
 const repository = mysqlRepository;
 const REPORT_TEMPLATE_ID = "eZJlyXlekmNOsM1mLn8bcn29P2k-WAXo0XunYj96uSk";
+const REMINDER_TEMPLATE_ID = "Mpn-CisfT0yxvsrkrzSfHbZQY7Vr2rwWesquRE-dgn8";
 
 const PROHIBITED_SERVICE_TERMS = [
   "AI诊断",
@@ -50,6 +51,14 @@ function normalizeTemplateDate(value) {
   return text || new Date().toISOString().slice(0, 16).replace("T", " ");
 }
 
+function normalizeTemplateTime(value) {
+  const text = cleanTemplateText(value, 20);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+    return `${text} 09:00`;
+  }
+  return text || new Date().toISOString().slice(0, 16).replace("T", " ");
+}
+
 function buildReportMessageData(record) {
   return {
     thing22: { value: compactMessageText(record.summary, "检查记录已更新", 20) },
@@ -57,6 +66,16 @@ function buildReportMessageData(record) {
     date2: { value: normalizeTemplateDate(record.date) },
     thing1: { value: compactMessageText(record.project, "健康测评", 20) },
     thing18: { value: compactMessageText(record.title, "检查报告", 20) }
+  };
+}
+
+function buildReminderMessageData(user, reminder) {
+  return {
+    thing13: { value: compactMessageText(user?.nickname, "微信用户", 20) },
+    thing3: { value: "线下医疗机构" },
+    thing14: { value: "专业人员" },
+    thing6: { value: compactMessageText(reminder.title, "复查提醒", 20) },
+    time19: { value: normalizeTemplateTime(reminder.date) }
   };
 }
 
@@ -261,6 +280,34 @@ async function deleteReminder(userId, id) {
   return repository.deleteReminder(userId, cleanText(id, 64));
 }
 
+async function sendReminderSubscription(userId, id) {
+  const reminderId = cleanText(id, 64);
+  const reminder = await getReminderById(userId, reminderId);
+  if (!reminder) return null;
+
+  const openid = await repository.getUserOpenid(userId);
+  if (!openid) {
+    const error = new Error("未找到微信用户标识，请重新登录后再试");
+    error.status = 400;
+    throw error;
+  }
+
+  const user = await getMe(userId);
+  await wechatSubscribe.sendSubscribeMessage({
+    template_id: env.wechat.reminderTemplateId || REMINDER_TEMPLATE_ID,
+    page: "pages/reminders/index",
+    touser: openid,
+    data: buildReminderMessageData(user, reminder),
+    miniprogram_state: env.wechat.miniProgramState || "formal",
+    lang: "zh_CN"
+  });
+
+  return {
+    sent: true,
+    message: "复查提醒已发送"
+  };
+}
+
 async function listQuestionTemplates() {
   return repository.listQuestionTemplates();
 }
@@ -320,6 +367,7 @@ module.exports = {
   updateReminder,
   completeReminder,
   deleteReminder,
+  sendReminderSubscription,
   listQuestionTemplates,
   listQuestions,
   saveQuestions,
