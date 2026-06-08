@@ -8,7 +8,7 @@ module.exports = {
   productionApiBaseUrl: "https://xcx.hpvsc.icu/api/miniapp",
   requestTimeout: 12000,
   subscriptionTemplateIds: {
-    reminder: "",
+    reminder: "Mpn-CisfT0yxvsrkrzSfHbZQY7Vr2rwWesquRE-dgn8",
     report: "eZJlyXlekmNOsM1mLn8bcn29P2k-WAXo0XunYj96uSk"
   }
 };

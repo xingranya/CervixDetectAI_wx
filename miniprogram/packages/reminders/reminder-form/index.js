@@ -10,10 +10,6 @@ const {
 const { withPageLoading } = require("../../../utils/form");
 const { showErrorToast, showSuccessToast, showErrorModal } = require("../../../utils/feedback");
 const { ROUTES, openRoute, navigateBackLater } = require("../../../utils/navigation");
-const {
-  hasReminderSubscriptionTemplate,
-  requestReminderSubscription
-} = require("../utils/subscription");
 
 function getTodayDate() {
   return getOffsetDate(0);
@@ -120,9 +116,6 @@ Page({
     id: "",
     ...buildFormState(defaultForm),
     errorMessage: "",
-    subscriptionEnabled: false,
-    subscriptionAccepted: false,
-    subscriptionMessage: "开启微信服务通知后，可在后续安排临近时收到提醒。",
     loading: false
   },
 
@@ -132,10 +125,6 @@ Page({
       openRoute(ROUTES.login, {}, { redirect: true });
       return;
     }
-
-    this.setData({
-      subscriptionEnabled: hasReminderSubscriptionTemplate()
-    });
 
     if (query.id) {
       this.setData({ id: query.id });
@@ -240,22 +229,6 @@ Page({
 
   onDoneChange(event) {
     this.setData({ done: event.detail.value });
-  },
-
-  async requestSubscription() {
-    try {
-      const res = await requestReminderSubscription();
-      this.setData({
-        subscriptionAccepted: !!res.accepted,
-        subscriptionMessage: res.message
-      });
-      wx.showToast({
-        title: res.message,
-        icon: "none"
-      });
-    } catch (error) {
-      showErrorToast(error, "服务通知授权失败");
-    }
   },
 
   validateForm() {

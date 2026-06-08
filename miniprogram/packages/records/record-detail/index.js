@@ -16,10 +16,34 @@ const {
   requestReportSubscription
 } = require("../utils/report-subscription");
 
+function buildRecordView(record) {
+  if (!record) return null;
+
+  const statusText = String(record.status || "已记录");
+  const statusTone = statusText.indexOf("待") > -1 || statusText.indexOf("复查") > -1
+    ? "attention"
+    : "normal";
+  const dateParts = String(record.date || "").split("-");
+  const dateMonthDay = dateParts.length === 3 ? `${dateParts[1]}-${dateParts[2]}` : record.date;
+  const dateYear = dateParts.length === 3 ? dateParts[0] : "";
+
+  return {
+    ...record,
+    statusText,
+    statusTone,
+    dateMonthDay,
+    dateYear,
+    summaryText: record.summary || "暂无检查摘要",
+    suggestionText: record.suggestion || "暂无后续提醒",
+    projectText: record.project || "检查摘要记录"
+  };
+}
+
 Page({
   data: {
     id: "",
     record: null,
+    recordView: null,
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
     canSubscribeReport: hasReportSubscriptionTemplate(),
@@ -56,6 +80,7 @@ Page({
     if (cachedDetail && cachedDetail.data) {
       this.setData({
         record: cachedDetail.data,
+        recordView: buildRecordView(cachedDetail.data),
         pageStatus: resolveDetailStatus(cachedDetail.data),
         errorMessage: ""
       });
@@ -68,6 +93,7 @@ Page({
       if (record) {
         this.setData({
           record,
+          recordView: buildRecordView(record),
           pageStatus: resolveDetailStatus(record),
           errorMessage: ""
         });
@@ -90,6 +116,7 @@ Page({
       });
       this.setData({
         record: res.data,
+        recordView: buildRecordView(res.data),
         pageStatus: resolveDetailStatus(res.data),
         errorMessage: ""
       });
@@ -97,6 +124,7 @@ Page({
       if (this.data.record) return;
       this.setData({
         record: null,
+        recordView: null,
         pageStatus: PAGE_STATUS.ERROR,
         errorMessage: getErrorMessage(error, "加载失败")
       });

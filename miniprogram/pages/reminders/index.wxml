@@ -15,7 +15,7 @@
         <text class="reminder-summary-title">{{summary.title}}</text>
       </view>
       <view class="icon-chip">
-        <image src="/assets/icons/reminders-active.png" mode="aspectFit" />
+        <image class="icon-chip-image" src="/assets/icons/reminders-active.png" mode="aspectFit" />
       </view>
     </view>
     <view class="reminder-summary-grid">
@@ -59,17 +59,33 @@
   <block wx:else>
     <view wx:for="{{reminders}}" wx:key="id" class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
       <view class="reminder-top">
-        <view>
+        <view class="date-tile">
+          <text class="date-month">{{item.dateMonthDay}}</text>
+          <text class="date-year">{{item.dateYear}}</text>
+        </view>
+        <view class="reminder-main">
           <text class="reminder-date">{{item.date}}</text>
           <text class="reminder-title">{{item.title}}</text>
         </view>
-        <text class="pill">{{item.done ? '已完成' : '待处理'}}</text>
+        <text class="pill">{{item.statusText}}</text>
       </view>
       <text class="reminder-desc">{{item.desc}}</text>
       <view class="reminder-actions">
+        <button
+          wx:if="{{item.canNotify}}"
+          class="primary-button notify-button"
+          loading="{{sendingReminderId === item.id}}"
+          disabled="{{sendingReminderId !== ''}}"
+          bind:tap="subscribeReminder"
+          data-id="{{item.id}}"
+        >
+          <view class="button-content">
+            <text class="button-text">{{sendingReminderId === item.id ? '发送中' : '微信提醒'}}</text>
+          </view>
+        </button>
         <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
           <view class="button-content">
-            <image class="small-icon" src="/assets/icons/reminders-active.png" mode="aspectFit" />
+            <image class="small-icon" src="/assets/icons/check-active.png" mode="aspectFit" />
             <text class="button-text">标记完成</text>
           </view>
         </button>

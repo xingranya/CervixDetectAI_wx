@@ -12,48 +12,74 @@
     </button>
   </view>
 
-  <view wx:elif="{{record}}" class="card detail-card">
-    <text class="pill">{{record.date}}</text>
-    <view class="detail-title-row">
-      <view class="icon-chip">
-        <image src="/assets/icons/detail-active.png" mode="aspectFit" />
+  <view wx:elif="{{recordView}}" class="detail-shell">
+    <view class="detail-hero">
+      <view class="hero-meta">
+        <view class="date-badge">
+          <text class="date-day">{{recordView.dateMonthDay}}</text>
+          <text class="date-year">{{recordView.dateYear}}</text>
+        </view>
+        <text class="status-pill {{recordView.statusTone === 'attention' ? 'status-attention' : ''}}">{{recordView.statusText}}</text>
       </view>
-      <text class="detail-title">{{record.title}}</text>
-    </view>
-    <view class="detail-info">
-      <view class="detail-row">
-        <text class="detail-label">检查项目</text>
-        <text class="detail-value">{{record.project}}</text>
-      </view>
-      <view class="detail-row">
-        <text class="detail-label">摘要</text>
-        <text class="detail-value">{{record.summary}}</text>
-      </view>
-      <view class="detail-row">
-        <text class="detail-label">提醒</text>
-        <text class="detail-value">{{record.suggestion}}</text>
+      <view class="hero-title-row">
+        <view class="hero-icon">
+          <image class="hero-icon-image" src="/assets/icons/detail-white.png" mode="aspectFit" />
+        </view>
+        <view class="hero-copy">
+          <text class="detail-title">{{recordView.title}}</text>
+          <view class="project-rule"></view>
+          <text class="detail-project">{{recordView.projectText}}</text>
+        </view>
       </view>
     </view>
-    <button
-      wx:if="{{canSubscribeReport}}"
-      class="primary-button subscribe-button"
-      loading="{{subscribingReport}}"
-      disabled="{{subscribingReport}}"
-      bind:tap="subscribeReportReminder"
-    >
-      <view class="button-content">
-        <image class="button-icon" src="/assets/icons/reminders-white.png" mode="aspectFit" />
-        <text class="button-text">{{subscribingReport ? '正在发送' : '订阅报告查看提醒'}}</text>
+
+    <view class="content-card summary-card">
+      <view class="section-head">
+        <view>
+          <text class="section-label">检查摘要</text>
+          <text class="section-title">本次记录重点</text>
+        </view>
+        <image class="section-icon" src="/assets/icons/records-active.png" mode="aspectFit" />
       </view>
-    </button>
-    <view class="detail-actions">
-      <button class="ghost-button" bind:tap="editRecord">
+      <text class="summary-text">{{recordView.summaryText}}</text>
+    </view>
+
+    <view class="content-card suggestion-card">
+      <view class="section-head compact">
+        <view class="section-title-line">
+          <image class="inline-icon" src="/assets/icons/reminders-active.png" mode="aspectFit" />
+          <text class="section-title">后续提醒</text>
+        </view>
+      </view>
+      <text class="suggestion-text">{{recordView.suggestionText}}</text>
+    </view>
+
+    <view wx:if="{{canSubscribeReport}}" class="notify-panel">
+      <view class="notify-copy">
+        <text class="notify-title">微信提醒</text>
+        <text class="notify-desc">允许后会发送一次报告查看提醒，方便稍后从微信消息回到本记录。</text>
+      </view>
+      <button
+        class="primary-button subscribe-button"
+        loading="{{subscribingReport}}"
+        disabled="{{subscribingReport}}"
+        bind:tap="subscribeReportReminder"
+      >
+        <view class="button-content">
+          <image class="button-icon" src="/assets/icons/reminders-white.png" mode="aspectFit" />
+          <text class="button-text">{{subscribingReport ? '发送中' : '开启提醒'}}</text>
+        </view>
+      </button>
+    </view>
+
+    <view class="manage-card">
+      <button class="manage-button" bind:tap="editRecord">
         <view class="button-content">
           <image class="button-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
           <text class="button-text">编辑记录</text>
         </view>
       </button>
-      <button class="delete-button" bind:tap="deleteRecord">
+      <button class="manage-button danger" bind:tap="deleteRecord">
         <view class="button-content">
           <image class="button-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
           <text class="button-text">删除记录</text>

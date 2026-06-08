@@ -23,7 +23,7 @@
   white-space: nowrap;
   height: 86rpx;
   border-radius: 18rpx;
-  background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
+  background: #1f53c9;
   color: #fff;
   font-size: 30rpx;
   line-height: normal;
@@ -115,7 +115,7 @@
   flex: 0 0 auto;
 }
 
-.icon-chip image {
+.icon-chip-image {
   width: 58rpx;
   height: 58rpx;
   display: block;
@@ -183,50 +183,110 @@
   opacity: 0.72;
 }
 
+.reminder-card {
+  padding: 28rpx;
+}
+
 .reminder-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 18rpx;
+}
+
+.date-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 112rpx;
+  height: 94rpx;
+  border: 1rpx solid rgba(31, 83, 201, 0.14);
+  border-radius: 22rpx;
+  background: rgba(232, 238, 255, 0.9);
+  color: #1f53c9;
+  flex: 0 0 auto;
+}
+
+.date-month,
+.date-year {
+  display: block;
+  line-height: 1;
+}
+
+.date-month {
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.date-year {
+  margin-top: 8rpx;
+  color: #5c6f96;
+  font-size: 20rpx;
+  font-weight: 800;
+}
+
+.reminder-main {
+  min-width: 0;
+  flex: 1;
 }
 
 .reminder-date {
   display: block;
   color: #425d96;
-  font-size: 26rpx;
+  font-size: 23rpx;
   font-weight: 800;
 }
 
 .reminder-title {
   display: block;
-  margin-top: 12rpx;
+  margin-top: 8rpx;
   color: #0b1c30;
-  font-size: 34rpx;
+  font-size: 32rpx;
   font-weight: 900;
+  line-height: 1.32;
 }
 
 .reminder-desc {
   display: block;
-  margin: 12rpx 0 24rpx;
-  color: #66748a;
-  font-size: 27rpx;
+  margin: 22rpx 0 24rpx;
+  padding: 22rpx 24rpx;
+  border-radius: 20rpx;
+  background: rgba(239, 244, 255, 0.72);
+  color: #31445f;
+  font-size: 26rpx;
   line-height: 1.65;
 }
 
 .reminder-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16rpx;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12rpx;
+}
+
+.notify-button {
+  height: 68rpx;
+  grid-column: span 2;
+  min-width: 0;
+  padding: 0 14rpx;
+  border-radius: 18rpx;
+  background: #1f53c9;
+  font-size: 26rpx;
+  box-shadow: 0 12rpx 24rpx rgba(31, 83, 201, 0.18);
+}
+
+.notify-button[disabled] {
+  background: #8fa5e8;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .small-button,
 .text-button {
   white-space: nowrap;
-  height: 58rpx;
+  height: 62rpx;
   margin: 0;
-  padding: 0 22rpx;
-  border-radius: 999rpx;
+  padding: 0 12rpx;
+  border-radius: 18rpx;
   font-size: 24rpx;
   line-height: normal;
 }

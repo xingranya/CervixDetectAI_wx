@@ -14,6 +14,10 @@ const {
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const { PAGE_STATUS, resolveListStatus } = require("../../utils/page-state");
 const { showErrorToast, showSuccessToast, getErrorMessage, showErrorModal } = require("../../utils/feedback");
+const {
+  hasReminderSubscriptionTemplate,
+  requestReminderSubscription
+} = require("../../utils/reminder-subscription");
 
 function buildReminderSummary(reminders) {
   const pending = reminders.filter((item) => !item.done);
@@ -34,13 +38,26 @@ function sortReminders(reminders) {
   });
 }
 
+function buildReminderView(reminder) {
+  const dateText = String(reminder.date || "");
+  return {
+    ...reminder,
+    dateMonthDay: dateText.length >= 10 ? dateText.slice(5, 10) : dateText,
+    dateYear: dateText.length >= 4 ? dateText.slice(0, 4) : "",
+    statusText: reminder.done ? "已完成" : "待处理",
+    canNotify: hasReminderSubscriptionTemplate()
+  };
+}
+
 Page({
   data: {
     reminders: [],
     summary: buildReminderSummary([]),
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
-    isGuest: !isLoggedIn()
+    isGuest: !isLoggedIn(),
+    canSubscribeReminder: hasReminderSubscriptionTemplate(),
+    sendingReminderId: ""
   },
 
   onShow() {
@@ -73,7 +90,7 @@ Page({
   },
 
   applyReminders(reminders) {
-    const nextReminders = sortReminders(reminders);
+    const nextReminders = sortReminders(reminders).map(buildReminderView);
     this.setData({
       reminders: nextReminders,
       summary: buildReminderSummary(nextReminders),
@@ -144,6 +161,33 @@ Page({
       this.applyReminders(reminders);
     } catch (error) {
       showErrorToast(error, "操作失败");
+    }
+  },
+
+  async subscribeReminder(event) {
+    const id = event.currentTarget.dataset.id;
+    if (!id || this.data.sendingReminderId) return;
+
+    this.setData({ sendingReminderId: id });
+    try {
+      const subscription = await requestReminderSubscription();
+      if (!subscription.available) {
+        wx.showToast({ title: subscription.message, icon: "none" });
+        return;
+      }
+      if (!subscription.accepted) {
+        wx.showToast({ title: subscription.message, icon: "none" });
+        return;
+      }
+
+      const res = await request(`/reminders/${id}/subscription`, {
+        method: "POST"
+      });
+      showSuccessToast(res.data?.message || "复查提醒已发送");
+    } catch (error) {
+      showErrorToast(error, "微信提醒发送失败");
+    } finally {
+      this.setData({ sendingReminderId: "" });
     }
   },
 

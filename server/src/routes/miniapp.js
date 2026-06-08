@@ -102,6 +102,12 @@ router.patch("/reminders/:id/done", asyncRoute(async (req, res) => {
   ok(res, reminder);
 }));
 
+router.post("/reminders/:id/subscription", asyncRoute(async (req, res) => {
+  const result = await miniappService.sendReminderSubscription(req.user.id, req.params.id);
+  if (!result) return res.status(404).json({ success: false, message: "未找到该提醒" });
+  ok(res, result);
+}));
+
 router.delete("/reminders/:id", asyncRoute(async (req, res) => {
   const result = await miniappService.deleteReminder(req.user.id, req.params.id);
   if (!result.deleted) return res.status(404).json({ success: false, message: "未找到该提醒" });
