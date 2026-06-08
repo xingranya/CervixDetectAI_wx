@@ -70,6 +70,12 @@ router.delete("/records/:id", asyncRoute(async (req, res) => {
   ok(res, result);
 }));
 
+router.post("/records/:id/report-subscription", asyncRoute(async (req, res) => {
+  const result = await miniappService.sendRecordReportSubscription(req.user.id, req.params.id);
+  if (!result) return res.status(404).json({ success: false, message: "未找到该记录" });
+  ok(res, result);
+}));
+
 router.get("/reminders", asyncRoute(async (req, res) => {
   ok(res, await miniappService.listReminders(req.user.id));
 }));

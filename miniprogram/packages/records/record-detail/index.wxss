@@ -54,6 +54,12 @@
   flex: 0 0 auto;
 }
 
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
@@ -115,6 +121,11 @@
   border-radius: 22rpx;
   background: rgba(239, 244, 255, 0.72);
   overflow: hidden;
+}
+
+.subscribe-button {
+  width: 100%;
+  margin-top: 30rpx;
 }
 
 .detail-row {

@@ -11,13 +11,19 @@ const {
 const { ROUTES, openRoute, navigateBackLater } = require("../../../utils/navigation");
 const { PAGE_STATUS, resolveDetailStatus } = require("../../../utils/page-state");
 const { showErrorToast, showSuccessToast, getErrorMessage, showErrorModal } = require("../../../utils/feedback");
+const {
+  hasReportSubscriptionTemplate,
+  requestReportSubscription
+} = require("../utils/report-subscription");
 
 Page({
   data: {
     id: "",
     record: null,
     pageStatus: PAGE_STATUS.LOADING,
-    errorMessage: ""
+    errorMessage: "",
+    canSubscribeReport: hasReportSubscriptionTemplate(),
+    subscribingReport: false
   },
 
   async onLoad(query) {
@@ -99,6 +105,32 @@ Page({
 
   editRecord() {
     openRoute(ROUTES.recordForm, { id: this.data.record.id });
+  },
+
+  async subscribeReportReminder() {
+    if (!this.data.record || this.data.subscribingReport) return;
+
+    this.setData({ subscribingReport: true });
+    try {
+      const subscription = await requestReportSubscription();
+      if (!subscription.available) {
+        wx.showToast({ title: subscription.message, icon: "none" });
+        return;
+      }
+      if (!subscription.accepted) {
+        wx.showToast({ title: subscription.message, icon: "none" });
+        return;
+      }
+
+      const res = await request(`/records/${this.data.record.id}/report-subscription`, {
+        method: "POST"
+      });
+      showSuccessToast(res.data?.message || "报告提醒已发送");
+    } catch (error) {
+      showErrorToast(error, "报告提醒发送失败");
+    } finally {
+      this.setData({ subscribingReport: false });
+    }
   },
 
   deleteRecord() {

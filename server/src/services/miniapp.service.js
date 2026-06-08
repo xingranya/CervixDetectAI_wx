@@ -1,7 +1,10 @@
 const mysqlRepository = require("../repositories/miniapp.repository");
 const avatarStorage = require("./avatar-storage.service");
+const wechatSubscribe = require("./wechat-subscribe.service");
+const env = require("../config/env");
 
 const repository = mysqlRepository;
+const REPORT_TEMPLATE_ID = "eZJlyXlekmNOsM1mLn8bcn29P2k-WAXo0XunYj96uSk";
 
 const PROHIBITED_SERVICE_TERMS = [
   "AI诊断",
@@ -20,6 +23,41 @@ const FEEDBACK_TYPES = ["功能建议", "使用问题", "隐私与数据", "其�
 
 function cleanText(value, maxLength = 500) {
   return String(value || "").trim().slice(0, maxLength);
+}
+
+function cleanTemplateText(value, maxLength) {
+  return cleanText(value, maxLength).replace(/[\r\n\t]+/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function compactMessageText(value, fallback, maxLength) {
+  const text = cleanTemplateText(value || fallback, maxLength);
+  return text || fallback;
+}
+
+function normalizeTemplatePhrase(value) {
+  const text = cleanTemplateText(value, 5);
+  if (/^[\u4e00-\u9fa5]{1,5}$/.test(text)) {
+    return text;
+  }
+  return "已完成";
+}
+
+function normalizeTemplateDate(value) {
+  const text = cleanTemplateText(value, 20);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+    return `${text} 09:00`;
+  }
+  return text || new Date().toISOString().slice(0, 16).replace("T", " ");
+}
+
+function buildReportMessageData(record) {
+  return {
+    thing22: { value: compactMessageText(record.summary, "检查记录已更新", 20) },
+    phrase4: { value: normalizeTemplatePhrase(record.status) },
+    date2: { value: normalizeTemplateDate(record.date) },
+    thing1: { value: compactMessageText(record.project, "健康测评", 20) },
+    thing18: { value: compactMessageText(record.title, "检查报告", 20) }
+  };
 }
 
 function normalizePersistentAvatarUrl(value) {
@@ -172,6 +210,33 @@ async function deleteRecord(userId, id) {
   return repository.deleteRecord(userId, cleanText(id, 64));
 }
 
+async function sendRecordReportSubscription(userId, id) {
+  const recordId = cleanText(id, 64);
+  const record = await getRecordById(userId, recordId);
+  if (!record) return null;
+
+  const openid = await repository.getUserOpenid(userId);
+  if (!openid) {
+    const error = new Error("未找到微信用户标识，请重新登录后再试");
+    error.status = 400;
+    throw error;
+  }
+
+  await wechatSubscribe.sendSubscribeMessage({
+    template_id: env.wechat.reportTemplateId || REPORT_TEMPLATE_ID,
+    page: `packages/records/record-detail/index?id=${encodeURIComponent(record.id)}`,
+    touser: openid,
+    data: buildReportMessageData(record),
+    miniprogram_state: env.wechat.miniProgramState || "formal",
+    lang: "zh_CN"
+  });
+
+  return {
+    sent: true,
+    message: "报告查看提醒已发送"
+  };
+}
+
 async function listReminders(userId) {
   return repository.listReminders(userId);
 }
@@ -248,6 +313,7 @@ module.exports = {
   createRecord,
   updateRecord,
   deleteRecord,
+  sendRecordReportSubscription,
   listReminders,
   getReminderById,
   createReminder,

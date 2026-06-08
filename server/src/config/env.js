@@ -7,7 +7,9 @@ module.exports = {
   publicBaseUrl: process.env.MINIAPP_PUBLIC_BASE_URL || "",
   wechat: {
     appId: process.env.WECHAT_APP_ID || "",
-    appSecret: process.env.WECHAT_APP_SECRET || ""
+    appSecret: process.env.WECHAT_APP_SECRET || "",
+    reportTemplateId: process.env.WECHAT_REPORT_TEMPLATE_ID || "eZJlyXlekmNOsM1mLn8bcn29P2k-WAXo0XunYj96uSk",
+    miniProgramState: process.env.WECHAT_MINIPROGRAM_STATE || "formal"
   },
   database: {
     host: process.env.DB_HOST || "127.0.0.1",

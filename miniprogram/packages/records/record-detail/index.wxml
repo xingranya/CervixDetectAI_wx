@@ -34,6 +34,18 @@
         <text class="detail-value">{{record.suggestion}}</text>
       </view>
     </view>
+    <button
+      wx:if="{{canSubscribeReport}}"
+      class="primary-button subscribe-button"
+      loading="{{subscribingReport}}"
+      disabled="{{subscribingReport}}"
+      bind:tap="subscribeReportReminder"
+    >
+      <view class="button-content">
+        <image class="button-icon" src="/assets/icons/reminders-white.png" mode="aspectFit" />
+        <text class="button-text">{{subscribingReport ? '正在发送' : '订阅报告查看提醒'}}</text>
+      </view>
+    </button>
     <view class="detail-actions">
       <button class="ghost-button" bind:tap="editRecord">
         <view class="button-content">

@@ -119,6 +119,14 @@ async function findUserById(userId) {
   return row || null;
 }
 
+async function getUserOpenid(userId) {
+  const [row] = await db.query(
+    "SELECT openid FROM wx_users WHERE id = ? LIMIT 1",
+    [userId]
+  );
+  return row?.openid || "";
+}
+
 async function login(payload = {}) {
   const wxSession = await requestWechatSession(payload.code);
   const openid = wxSession.openid;
@@ -530,6 +538,7 @@ module.exports = {
   login,
   getSessionByToken,
   getMe,
+  getUserOpenid,
   updateProfile,
   getHome,
   listRecords,
