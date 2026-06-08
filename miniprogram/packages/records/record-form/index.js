@@ -68,6 +68,13 @@ function normalizeStatus(status) {
   return statusOptions.indexOf(status) > -1 ? status : statusOptions[0];
 }
 
+function buildStatusOptionsView(activeStatus) {
+  return statusOptions.map((status) => ({
+    status,
+    className: status === activeStatus ? "choice-chip choice-chip-active" : "choice-chip"
+  }));
+}
+
 function normalizeForm(form) {
   const source = form || {};
   return {
@@ -85,12 +92,15 @@ function normalizeForm(form) {
 function buildFormState(form) {
   const nextForm = normalizeForm(form);
   return {
+    pageTitle: "新增检查记录",
     date: nextForm.date,
+    dateDisplay: nextForm.date || "请选择日期",
     title: nextForm.title,
     project: nextForm.project,
     summary: nextForm.summary,
     suggestion: nextForm.suggestion,
     status: nextForm.status,
+    statusOptionsView: buildStatusOptionsView(nextForm.status),
     summaryLength: nextForm.summary.length,
     suggestionLength: nextForm.suggestion.length
   };
@@ -111,6 +121,7 @@ Page({
   data: {
     id: "",
     ...buildFormState(defaultForm),
+    submitText: "保存记录",
     errorMessage: "",
     loading: false
   },
@@ -123,11 +134,15 @@ Page({
     }
 
     if (query.id) {
-      this.setData({ id: query.id });
+      this.setData({
+        id: query.id,
+        pageTitle: "编辑检查记录"
+      });
       const cachedDetail = getCachedData(CACHE_KEYS.recordDetail(query.id));
       if (cachedDetail && cachedDetail.data) {
         this.setData({
-          ...buildFormState(cachedDetail.data)
+          ...buildFormState(cachedDetail.data),
+          pageTitle: "编辑检查记录"
         });
       }
       this.loadRecord(query.id);
@@ -142,7 +157,8 @@ Page({
         cacheKey: CACHE_KEYS.recordDetail(id)
       });
       this.setData({
-        ...buildFormState(res.data)
+        ...buildFormState(res.data),
+        pageTitle: "编辑检查记录"
       });
     } catch (error) {
       showErrorToast(error, "加载失败");
@@ -183,6 +199,7 @@ Page({
   onDateChange(event) {
     this.setData({
       date: event.detail.value,
+      dateDisplay: event.detail.value || "请选择日期",
       errorMessage: ""
     });
   },
@@ -203,8 +220,10 @@ Page({
   },
 
   selectStatus(event) {
+    const status = normalizeStatus(event.currentTarget.dataset.status);
     this.setData({
-      status: normalizeStatus(event.currentTarget.dataset.status),
+      status,
+      statusOptionsView: buildStatusOptionsView(status),
       errorMessage: ""
     });
   },
@@ -234,6 +253,7 @@ Page({
     const method = this.data.id ? "PUT" : "POST";
     const path = this.data.id ? `/records/${this.data.id}` : "/records";
 
+    this.setData({ submitText: "正在保存" });
     await withPageLoading(this, async () => {
       const res = await request(path, {
         method,
@@ -246,6 +266,7 @@ Page({
       showSuccessToast("已保存");
       navigateBackLater();
     }).catch((error) => {
+      this.setData({ submitText: "保存记录" });
       showErrorToast(error, "保存失败");
     });
   }

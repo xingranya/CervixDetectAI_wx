@@ -1,5 +1,5 @@
 <view class="page record-form-page">
-  <section-header title="{{id ? '编辑检查记录' : '新增检查记录'}}" icon="/assets/icons/form-active.png" desc="保存已有检查摘要，方便后续复查和线下咨询时查看。" />
+  <section-header title="{{pageTitle}}" icon="/assets/icons/form-active.png" desc="保存已有检查摘要，方便后续复查和线下咨询时查看。" />
 
   <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
 
@@ -34,7 +34,7 @@
       <text class="form-label">检查日期</text>
       <picker mode="date" value="{{date}}" bind:change="onDateChange">
         <view class="select-field">
-          <text class="select-value">{{date || '请选择日期'}}</text>
+          <text class="select-value">{{dateDisplay}}</text>
           <text class="select-arrow">›</text>
         </view>
       </picker>
@@ -80,17 +80,8 @@
       <text class="panel-desc">选择当前最适合的管理状态。</text>
     </view>
     <view class="chip-row">
-      <button class="choice-chip {{status === '已记录' ? 'choice-chip-active' : ''}}" data-status="已记录" bind:tap="selectStatus">
-        <text>已记录</text>
-      </button>
-      <button class="choice-chip {{status === '待复查' ? 'choice-chip-active' : ''}}" data-status="待复查" bind:tap="selectStatus">
-        <text>待复查</text>
-      </button>
-      <button class="choice-chip {{status === '待关注' ? 'choice-chip-active' : ''}}" data-status="待关注" bind:tap="selectStatus">
-        <text>待关注</text>
-      </button>
-      <button class="choice-chip {{status === '已完成' ? 'choice-chip-active' : ''}}" data-status="已完成" bind:tap="selectStatus">
-        <text>已完成</text>
+      <button wx:for="{{statusOptionsView}}" wx:key="status" class="{{item.className}}" data-status="{{item.status}}" bind:tap="selectStatus">
+        <text>{{item.status}}</text>
       </button>
     </view>
   </view>
@@ -99,7 +90,7 @@
     <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
         <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
-        <text class="button-text">{{loading ? '正在保存' : '保存记录'}}</text>
+        <text class="button-text">{{submitText}}</text>
       </view>
     </button>
     <view class="safe-note">请仅记录已有检查摘要和个人提醒，不填写诊断结论、处方或紧急求助内容。</view>

@@ -76,6 +76,14 @@ function findTitleIndex(title) {
   return index > -1 ? index : 0;
 }
 
+function buildTitleOptionsView(activeTitle) {
+  return titleOptions.map((title, index) => ({
+    title,
+    label: index === 3 ? "咨询准备" : title,
+    className: title === activeTitle ? "choice-chip choice-chip-active" : "choice-chip"
+  }));
+}
+
 function normalizeForm(form) {
   const source = form || {};
   return {
@@ -91,13 +99,17 @@ function normalizeForm(form) {
 function buildFormState(form) {
   const nextForm = normalizeForm(form);
   const titleIndex = findTitleIndex(nextForm.title);
+  const currentTitle = titleOptions[titleIndex] || titleOptions[0];
   return {
+    pageTitle: "新增复查提醒",
     title: nextForm.title,
     date: nextForm.date,
+    dateDisplay: nextForm.date || "请选择日期",
     desc: nextForm.desc,
     done: nextForm.done,
     titleIndex,
-    currentTitle: titleOptions[titleIndex] || titleOptions[0],
+    currentTitle,
+    titleOptionsView: buildTitleOptionsView(currentTitle),
     descLength: nextForm.desc.length
   };
 }
@@ -115,6 +127,7 @@ Page({
   data: {
     id: "",
     ...buildFormState(defaultForm),
+    submitText: "保存提醒",
     errorMessage: "",
     loading: false
   },
@@ -127,11 +140,15 @@ Page({
     }
 
     if (query.id) {
-      this.setData({ id: query.id });
+      this.setData({
+        id: query.id,
+        pageTitle: "编辑复查提醒"
+      });
       const cachedDetail = getCachedData(CACHE_KEYS.reminderDetail(query.id));
       if (cachedDetail && cachedDetail.data) {
         this.setData({
-          ...buildFormState(cachedDetail.data)
+          ...buildFormState(cachedDetail.data),
+          pageTitle: "编辑复查提醒"
         });
       }
       this.loadReminder(query.id);
@@ -147,7 +164,8 @@ Page({
       });
       if (res.data) {
         this.setData({
-          ...buildFormState(res.data)
+          ...buildFormState(res.data),
+          pageTitle: "编辑复查提醒"
         });
       }
     } catch (error) {
@@ -178,16 +196,19 @@ Page({
   onDateChange(event) {
     this.setData({
       date: event.detail.value,
+      dateDisplay: event.detail.value || "请选择日期",
       errorMessage: ""
     });
   },
 
   onTitleTemplateChange(event) {
     const index = Number(event.detail.value || 0);
+    const title = titleOptions[index] || titleOptions[0];
     this.setData({
       titleIndex: index,
-      currentTitle: titleOptions[index] || titleOptions[0],
-      title: titleOptions[index] || titleOptions[0],
+      currentTitle: title,
+      title,
+      titleOptionsView: buildTitleOptionsView(title),
       errorMessage: ""
     });
   },
@@ -195,10 +216,12 @@ Page({
   selectTitle(event) {
     const title = String(event.currentTarget.dataset.title || titleOptions[0]);
     const index = findTitleIndex(title);
+    const currentTitle = titleOptions[index] || titleOptions[0];
     this.setData({
       titleIndex: index,
-      currentTitle: titleOptions[index] || titleOptions[0],
-      title: titleOptions[index] || titleOptions[0],
+      currentTitle,
+      title: currentTitle,
+      titleOptionsView: buildTitleOptionsView(currentTitle),
       errorMessage: ""
     });
   },
@@ -221,8 +244,10 @@ Page({
 
   selectQuickDate(event) {
     const offsetDays = Number(event.currentTarget.dataset.offset || 0);
+    const date = getOffsetDate(offsetDays);
     this.setData({
-      date: getOffsetDate(offsetDays),
+      date,
+      dateDisplay: date,
       errorMessage: ""
     });
   },
@@ -255,6 +280,7 @@ Page({
     const method = this.data.id ? "PUT" : "POST";
     const path = this.data.id ? `/reminders/${this.data.id}` : "/reminders";
 
+    this.setData({ submitText: "正在保存" });
     await withPageLoading(this, async () => {
       const res = await request(path, {
         method,
@@ -267,6 +293,7 @@ Page({
       showSuccessToast("已保存");
       navigateBackLater();
     }).catch((error) => {
+      this.setData({ submitText: "保存提醒" });
       showErrorToast(error, "保存失败");
     });
   }

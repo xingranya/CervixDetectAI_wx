@@ -54,12 +54,13 @@
 
 .template-row {
   display: flex;
-  gap: 14rpx;
+  justify-content: space-between;
   width: 100%;
 }
 
 .template-card {
-  flex: 1;
+  width: 32%;
+  flex: 0 0 auto;
   min-width: 0;
   min-height: 126rpx;
   margin: 0;
@@ -100,7 +101,7 @@
 .quick-date-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 16rpx;
+  justify-content: space-between;
 }
 
 .type-row {
@@ -120,13 +121,14 @@
 }
 
 .choice-chip {
-  width: calc((100% - 16rpx) / 2);
+  width: 48%;
   height: 68rpx;
+  margin-bottom: 16rpx;
   font-size: 25rpx;
 }
 
 .quick-date-chip {
-  width: calc((100% - 48rpx) / 4);
+  width: 23%;
   height: 64rpx;
   font-size: 24rpx;
 }
@@ -149,7 +151,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16rpx;
   margin-bottom: 12rpx;
 }
 
@@ -220,7 +221,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20rpx;
   margin-top: 24rpx;
   padding: 22rpx 24rpx;
   border: 1rpx solid rgba(176, 190, 215, 0.76);

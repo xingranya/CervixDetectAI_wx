@@ -1,5 +1,5 @@
 <view class="page reminder-form-page">
-  <section-header title="{{id ? '编辑复查提醒' : '新增复查提醒'}}" icon="/assets/icons/form-active.png" desc="设置线下复查、资料准备或咨询前整理提醒。" />
+  <section-header title="{{pageTitle}}" icon="/assets/icons/form-active.png" desc="设置线下复查、资料准备或咨询前整理提醒。" />
 
   <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
 
@@ -30,17 +30,8 @@
       <text class="panel-desc">选择当前提醒最接近的用途。</text>
     </view>
     <view class="chip-row type-row">
-      <button class="choice-chip {{currentTitle === '复查提醒' ? 'choice-chip-active' : ''}}" data-title="复查提醒" bind:tap="selectTitle">
-        <text>复查提醒</text>
-      </button>
-      <button class="choice-chip {{currentTitle === '资料准备' ? 'choice-chip-active' : ''}}" data-title="资料准备" bind:tap="selectTitle">
-        <text>资料准备</text>
-      </button>
-      <button class="choice-chip {{currentTitle === '记录整理' ? 'choice-chip-active' : ''}}" data-title="记录整理" bind:tap="selectTitle">
-        <text>记录整理</text>
-      </button>
-      <button class="choice-chip {{currentTitle === '线下咨询准备' ? 'choice-chip-active' : ''}}" data-title="线下咨询准备" bind:tap="selectTitle">
-        <text>咨询准备</text>
+      <button wx:for="{{titleOptionsView}}" wx:key="title" class="{{item.className}}" data-title="{{item.title}}" bind:tap="selectTitle">
+        <text>{{item.label}}</text>
       </button>
     </view>
 
@@ -60,7 +51,7 @@
       <text class="form-label">提醒日期</text>
       <picker mode="date" value="{{date}}" bind:change="onDateChange">
         <view class="select-field">
-          <text class="select-value">{{date || '请选择日期'}}</text>
+          <text class="select-value">{{dateDisplay}}</text>
           <text class="select-arrow">›</text>
         </view>
       </picker>
@@ -96,20 +87,20 @@
       <textarea class="form-textarea" value="{{desc}}" bind:input="onDescInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" />
     </view>
 
-    <label class="switch-row">
+    <view class="switch-row">
       <view class="switch-copy">
         <text class="switch-title">标记为已完成</text>
         <text class="switch-desc">适用于已经处理过的提醒。</text>
       </view>
       <switch checked="{{done}}" color="#1f53c9" bind:change="onDoneChange" />
-    </label>
+    </view>
   </view>
 
   <view class="submit-panel">
     <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
         <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
-        <text class="button-text">{{loading ? '正在保存' : '保存提醒'}}</text>
+        <text class="button-text">{{submitText}}</text>
       </view>
     </button>
   </view>
