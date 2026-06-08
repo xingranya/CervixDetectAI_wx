@@ -39,15 +39,26 @@
   width: 100%;
   height: 86rpx;
   margin-top: 24rpx;
+  padding: 0 28rpx;
   border-radius: 18rpx;
   background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
   color: #fff;
   font-size: 30rpx;
-  line-height: 86rpx;
+  line-height: normal;
   font-weight: 800;
+  white-space: nowrap;
   box-shadow: 0 14rpx 30rpx rgba(31, 83, 201, 0.24);
 }
 
 .empty-button::after {
   border: 0;
+}
+
+.button-text {
+  display: block;
+  max-width: 100%;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

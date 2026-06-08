@@ -138,6 +138,21 @@ function getToken() {
   return wx.getStorageSync("token") || "";
 }
 
+function isLoggedIn() {
+  return !!getToken();
+}
+
+function createLoginRequiredError(message = "登录后可继续使用此功能") {
+  const error = new Error(message);
+  error.code = "LOGIN_REQUIRED";
+  error.loginRequired = true;
+  return error;
+}
+
+function isLoginRequiredError(error) {
+  return !!(error && error.loginRequired);
+}
+
 function redirectLogin() {
   wx.removeStorageSync("token");
   wx.removeStorageSync("user");
@@ -256,8 +271,12 @@ function request(path, options = {}) {
       success: (res) => {
         const body = res.data || {};
         if (res.statusCode === 401) {
-          redirectLogin();
-          reject(new Error(getErrorMessage(body, "请先登录")));
+          if (getToken()) {
+            redirectLogin();
+            reject(new Error(getErrorMessage(body, "登录状态已失效，请重新登录")));
+            return;
+          }
+          reject(createLoginRequiredError(getErrorMessage(body, "登录后可继续使用此功能")));
           return;
         }
         if (res.statusCode >= 400 || body.success === false) {
@@ -331,6 +350,8 @@ module.exports = {
   uploadAvatar,
   createFeedback,
   getToken,
+  isLoggedIn,
+  isLoginRequiredError,
   getCachedData,
   setCachedData,
   clearCachedData,
@@ -340,5 +361,6 @@ module.exports = {
   removeCachedListItem,
   upsertCachedListItem,
   updateCachedListItem,
-  clearAllCaches
+  clearAllCaches,
+  createLoginRequiredError
 };

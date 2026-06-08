@@ -1,0 +1,42 @@
+# macOS 与编辑器
+.DS_Store
+*.swp
+*.swo
+.vscode/
+
+# 本机 AI/索引工具缓存
+.codegraph/*.db
+.codegraph/*.db-*
+.stitch/
+
+# Node.js 依赖与日志
+node_modules/
+server/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 环境变量与密钥
+.env
+.env.*
+!.env.example
+server/.env
+!server/.env.example
+
+# 微信开发者工具个人配置
+project.private.config.json
+miniprogram/project.private.config.json
+
+# 微信小程序构建与上传缓存
+miniprogram_npm/
+miniprogram/miniprogram_npm/
+dist/
+build/
+temp/
+tmp/
+outputs/
+
+# 测试与覆盖率
+coverage/
+.nyc_output/

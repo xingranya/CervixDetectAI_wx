@@ -4,6 +4,53 @@ page {
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  line-height: normal;
+}
+
+button::after {
+  border: 0;
+}
+
+button text {
+  display: block;
+  line-height: 1.2;
+}
+
+button image {
+  flex: 0 0 auto;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.button-text {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+button[disabled] {
+  opacity: 0.68;
+}
+
 .page {
   min-height: 100vh;
   padding: 32rpx 28rpx 60rpx;

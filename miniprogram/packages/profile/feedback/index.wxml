@@ -3,6 +3,7 @@
 
   <view class="card feedback-card">
     <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
+    <text wx:if="{{isGuest}}" class="guest-tip">当前可先浏览反馈入口与填写方式；站内反馈会在你登录后保存，未登录时可直接使用下方微信官方反馈入口。</text>
 
     <text class="form-label">反馈类型</text>
     <picker mode="selector" range="{{feedbackTypes}}" value="{{feedbackTypeIndex}}" bind:change="onTypeChange">
@@ -29,9 +30,11 @@
       placeholder="可填写微信号或邮箱，便于后续联系"
     />
 
-    <button class="primary-button form-submit" loading="{{loading}}" bind:tap="submitFeedback">
-      <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
-      提交反馈
+    <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitFeedback">
+      <view class="button-content">
+        <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
+        <text class="button-text">{{loading ? '正在提交' : (isGuest ? '登录后提交' : '提交反馈')}}</text>
+      </view>
     </button>
   </view>
 
@@ -40,7 +43,9 @@
       <text class="official-title">也可以使用微信官方反馈入口</text>
       <text class="official-desc">该入口会打开微信提供的意见反馈页面，可上传运行日志，方便排查问题。</text>
     </view>
-    <button class="ghost-button" open-type="feedback">打开官方反馈</button>
+    <button class="ghost-button" open-type="feedback">
+      <text class="button-text">打开官方反馈</text>
+    </button>
   </view>
 
   <view class="safe-note">反馈内容仅用于改进小程序服务体验，请不要填写诊断结论、处方、身份证号等敏感信息。</view>

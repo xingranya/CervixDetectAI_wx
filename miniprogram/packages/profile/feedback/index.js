@@ -1,6 +1,6 @@
-const { createFeedback } = require("../../../utils/request");
+const { createFeedback, isLoggedIn } = require("../../../utils/request");
 const { withPageLoading } = require("../../../utils/form");
-const { showErrorToast, showSuccessToast } = require("../../../utils/feedback");
+const { showErrorToast, showSuccessToast, showErrorModal } = require("../../../utils/feedback");
 
 const DEFAULT_FORM = {
   type: "功能建议",
@@ -14,7 +14,12 @@ Page({
     feedbackTypes: ["功能建议", "使用问题", "隐私与数据", "其他反馈"],
     feedbackTypeIndex: 0,
     errorMessage: "",
-    loading: false
+    loading: false,
+    isGuest: !isLoggedIn()
+  },
+
+  onShow() {
+    this.setData({ isGuest: !isLoggedIn() });
   },
 
   onTypeChange(event) {
@@ -45,6 +50,10 @@ Page({
 
   async submitFeedback() {
     if (!this.validateForm()) return;
+    if (!isLoggedIn()) {
+      showErrorModal("站内反馈会保存到你的账号记录中。当前可先使用下方微信官方反馈入口，或登录后再提交站内反馈。");
+      return;
+    }
 
     await withPageLoading(this, async () => {
       await createFeedback({

@@ -10,6 +10,7 @@
 
 .primary-button,
 .ghost-button {
+  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,24 +18,26 @@
 }
 
 .primary-button {
+  white-space: nowrap;
   height: 86rpx;
   border-radius: 18rpx;
   background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
   color: #fff;
   font-size: 30rpx;
-  line-height: 86rpx;
+  line-height: normal;
   font-weight: 800;
   box-shadow: 0 14rpx 30rpx rgba(31, 83, 201, 0.24);
 }
 
 .ghost-button {
+  white-space: nowrap;
   height: 76rpx;
   border: 1rpx solid rgba(31, 83, 201, 0.18);
   border-radius: 18rpx;
   background: rgba(255, 255, 255, 0.68);
   color: #1f53c9;
   font-size: 28rpx;
-  line-height: 76rpx;
+  line-height: normal;
   font-weight: 700;
 }
 
@@ -76,6 +79,14 @@
 
 .feedback-card {
   padding-bottom: 38rpx;
+}
+
+.guest-tip {
+  display: block;
+  margin-bottom: 22rpx;
+  color: #66748a;
+  font-size: 24rpx;
+  line-height: 1.6;
 }
 
 .form-label {

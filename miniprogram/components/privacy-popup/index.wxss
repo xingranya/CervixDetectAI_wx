@@ -62,13 +62,18 @@
 
 .privacy-cancel,
 .privacy-agree {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
   height: 82rpx;
   margin: 0;
+  padding: 0 20rpx;
   border-radius: 18rpx;
   font-size: 28rpx;
-  line-height: 82rpx;
+  line-height: normal;
   font-weight: 800;
+  white-space: nowrap;
 }
 
 .privacy-cancel {
@@ -85,4 +90,13 @@
 .privacy-agree::after,
 .privacy-link::after {
   border: 0;
+}
+
+.button-text {
+  display: block;
+  max-width: 100%;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

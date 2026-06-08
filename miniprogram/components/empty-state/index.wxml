@@ -3,6 +3,6 @@
   <text class="empty-title">{{title}}</text>
   <text class="empty-desc">{{desc}}</text>
   <button wx:if="{{buttonText}}" class="primary-button empty-button" bind:tap="handleAction">
-    {{buttonText}}
+    <text class="button-text">{{buttonText}}</text>
   </button>
 </view>

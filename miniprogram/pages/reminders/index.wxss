@@ -12,6 +12,7 @@
 .ghost-button,
 .text-button,
 .mini-primary {
+  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,28 +20,31 @@
 }
 
 .primary-button {
+  white-space: nowrap;
   height: 86rpx;
   border-radius: 18rpx;
   background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
   color: #fff;
   font-size: 30rpx;
-  line-height: 86rpx;
+  line-height: normal;
   font-weight: 800;
   box-shadow: 0 14rpx 30rpx rgba(31, 83, 201, 0.24);
 }
 
 .ghost-button {
+  white-space: nowrap;
   height: 76rpx;
   border: 1rpx solid rgba(31, 83, 201, 0.18);
   border-radius: 18rpx;
   background: rgba(255, 255, 255, 0.68);
   color: #1f53c9;
   font-size: 28rpx;
-  line-height: 76rpx;
+  line-height: normal;
   font-weight: 700;
 }
 
 .mini-primary {
+  white-space: nowrap;
   min-width: 132rpx;
   height: 64rpx;
   margin: 0;
@@ -48,11 +52,12 @@
   background: #1f53c9;
   color: #fff;
   font-size: 26rpx;
-  line-height: 64rpx;
+  line-height: normal;
   font-weight: 700;
 }
 
 .text-button {
+  white-space: nowrap;
   height: 58rpx;
   margin: 0;
   padding: 0 24rpx;
@@ -60,7 +65,7 @@
   background: rgba(31, 83, 201, 0.08);
   color: #1f53c9;
   font-size: 24rpx;
-  line-height: 58rpx;
+  line-height: normal;
   font-weight: 700;
 }
 
@@ -214,14 +219,16 @@
 
 .small-button,
 .text-button {
+  white-space: nowrap;
   height: 58rpx;
   margin: 0;
   padding: 0 22rpx;
   border-radius: 999rpx;
   font-size: 24rpx;
-  line-height: 58rpx;
+  line-height: normal;
 }
 
 .text-button {
+  white-space: nowrap;
   margin: 0;
 }
