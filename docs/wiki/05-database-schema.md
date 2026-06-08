@@ -119,6 +119,7 @@
 |------|------|------|------|
 | `id` | CHAR(36) | PK | UUID |
 | `user_id` | BIGINT UNSIGNED | FK→wx_users.id | 提交人 |
+| `feedback_type` | VARCHAR(40) | NOT NULL, DEFAULT '其他反馈' | 反馈类型 |
 | `contact` | VARCHAR(120) | NULL | 联系方式 |
 | `content` | VARCHAR(1000) | NOT NULL | 反馈正文 |
 | `created_at` | DATETIME | DEFAULT CURRENT_TIMESTAMP | 提交时间 |
@@ -136,10 +137,10 @@ mysql -h <host> -P <port> -u <user> -p cervixdetectai_wx < server/database/init.
 `init.sql` 还内置了一份演示数据：
 
 - 演示用户 `id=1, openid=demo-openid-001, nickname='张女士'`
-- 2 条 `wx_health_records`（TCT/HPV 摘要、HPV 摘要）
-- 2 条 `wx_reminders`（复查、资料准备）
-- 4 条 `wx_question_templates`
-- 3 条 `wx_articles`
+- 4 条 `wx_health_records`（筛查摘要、年度检查、复查前资料整理等）
+- 4 条 `wx_reminders`（复查、资料准备、记录整理、线下咨询准备）
+- 7 条 `wx_question_templates`
+- 5 条 `wx_articles`
 
 ### 老库升级
 
@@ -154,6 +155,8 @@ mysql -h <host> -P <port> -u <user> -p cervixdetectai_wx < server/database/upgra
   - 给 `wx_users` 加 `avatar_url`
   - 给 `wx_user_questions` 加 `answer_text` 与 `updated_at`
   - 兜底添加 `idx_wx_user_questions_user_updated` 索引
+  - 给 `wx_feedback` 加 `feedback_type`
+  - 幂等补充演示记录、提醒、问题模板和健康知识默认数据
 - 升级完成后自动 `DROP PROCEDURE`
 
 ## 5.4 实体关系

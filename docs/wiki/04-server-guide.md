@@ -22,7 +22,7 @@
 | `HOST` | `0.0.0.0` | 监听地址 |
 | `MINIAPP_ALLOWED_ORIGIN` | `*` | CORS 允许来源 |
 | `MINIAPP_PUBLIC_BASE_URL` | 空 | 头像返回 URL 的前缀（建议公网 HTTPS 域名） |
-| `WECHAT_APP_ID` | `wx1f7b9852c47b2ffd` | 微信小程序 AppID |
+| `WECHAT_APP_ID` | 空 | 微信小程序 AppID（必填） |
 | `WECHAT_APP_SECRET` | 空 | 微信小程序 AppSecret（必填） |
 | `DB_HOST` | `127.0.0.1` | MySQL 主机 |
 | `DB_PORT` | `3306` | MySQL 端口 |
@@ -31,7 +31,7 @@
 | `DB_PASSWORD` | 空 | 密码 |
 | `DB_CONNECTION_LIMIT` | `10` | 连接池上限 |
 
-> ⚠️ 生产环境必须显式提供 `WECHAT_APP_SECRET` 与 `MINIAPP_PUBLIC_BASE_URL`，否则登录或头像外链会失败。
+> ⚠️ 生产环境必须显式提供 `WECHAT_APP_ID`、`WECHAT_APP_SECRET` 与 `MINIAPP_PUBLIC_BASE_URL`，否则登录或头像外链会失败。
 
 ### 数据库连接 [config/database.js](../../server/src/config/database.js)
 
@@ -43,8 +43,8 @@
 - 全部返回 `{ success: true, data }`；错误由 `errorHandler` 统一包装
 - 用 `asyncRoute` 把 handler 包成 try/catch
 - 路由分组：
-  - **公开**：`POST /auth/login`
-  - **鉴权后**（`router.use(authenticate)`）：其余所有接口
+  - **公开**：`POST /auth/login`、`GET /question-templates`、`GET /articles`
+  - **鉴权后**（`router.use(authenticate)`）：个人资料、首页摘要、记录、提醒、个人问题清单、站内反馈
 - 详细字段见 [06 接口参考](./06-api-reference.md)
 
 ## 4.3 中间件
@@ -95,11 +95,11 @@
 | `listQuestionTemplates` | - | 委派 repository |
 | 问题 CRUD / `saveQuestions` | `userId` + payload | 批量保存会先归一化再去重截断 |
 | `listArticles` | - | 委派 repository |
-| `createFeedback` | `userId, { contact, content }` | `content` 走 `requireText`，`contact` 仅做合规校验（可为空） |
+| `createFeedback` | `userId, { type, contact, content }` | `type` 限定为前端枚举兜底到“其他反馈”，`content` 走 `requireText`，`contact` 可为空 |
 
 ## 4.5 头像存储 [services/avatar-storage.service.js](../../server/src/services/avatar-storage.service.js)
 
-- `decodeAvatar`：校验 `fileType` ∈ `image/jpeg | image/png | image/webp`，校验 base64 不为空，校验大小 ≤ 2MB
+- `decodeAvatar`：校验 `fileType` ∈ `image/jpeg | image/png | image/webp`，校验 base64 不为空，校验大小 ≤ 2MB，并比对文件签名避免伪造 MIME
 - `saveAvatar`：写入 `server/uploads/avatars/<userId>-<timestamp>-<rand6>.<ext>`
 - 返回值：`<publicBaseUrl>/uploads/avatars/<filename>`
 - `publicBaseUrl` 优先取 `MINIAPP_PUBLIC_BASE_URL`，否则使用 `req.protocol://req.get("host")`

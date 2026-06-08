@@ -7,7 +7,7 @@
 ## 6.1 通用约定
 
 - 请求体：`application/json`，最大 3MB
-- 鉴权：除 `POST /auth/login` 外全部需要 `Authorization: Bearer <token>`
+- 鉴权：`POST /auth/login`、`GET /question-templates`、`GET /articles` 公开，其余接口需要 `Authorization: Bearer <token>`
 - 响应格式：
   ```json
   { "success": true, "data": ... }
@@ -37,17 +37,14 @@
 | PUT | `/reminders/:id` | ✅ | 修改提醒 |
 | PATCH | `/reminders/:id/done` | ✅ | 标记完成 |
 | DELETE | `/reminders/:id` | ✅ | 删除提醒 |
-| GET | `/question-templates` | ✅ | 问题模板列表（仅返回 `content` 数组） |
+| GET | `/question-templates` | ❌ | 问题模板列表（仅返回 `content` 数组） |
 | GET | `/questions` | ✅ | 用户问题清单 |
 | POST | `/questions` | ✅ | 新建单个问题 |
 | POST | `/questions/batch` | ✅ | 批量新建（最多 20 条） |
 | PUT | `/questions/:id` | ✅ | 修改问题（文本/备忘） |
 | DELETE | `/questions/:id` | ✅ | 删除问题 |
-| GET | `/articles` | ✅ | 健康知识列表 |
+| GET | `/articles` | ❌ | 健康知识列表 |
 | POST | `/feedback` | ✅ | 提交反馈 |
-
-> `/question-templates` 实际上是 `requireAuth` 之后挂的，但内容是公开数据。
-
 ## 6.3 详细字段
 
 ### POST /auth/login
@@ -174,7 +171,7 @@
 错误：缺字段/日期格式错/含合规词均返回 400。
 
 `PUT /records/:id`：同上请求体。
-`DELETE /records/:id`：返回 `{ success:true, data:{ deleted:true } }`。
+`DELETE /records/:id`：成功返回 `{ success:true, data:{ deleted:true } }`；不存在或不属于当前用户返回 404。
 
 ### 提醒相关
 
@@ -201,6 +198,7 @@
 ```
 
 `PATCH /reminders/:id/done`：返回更新后的提醒。
+`DELETE /reminders/:id`：成功返回 `{ deleted:true }`；不存在或不属于当前用户返回 404。
 
 ### 问题相关
 
@@ -233,6 +231,7 @@
 
 `POST /questions`：`{ "questionText": "...", "answerText": "..." }`
 `PUT /questions/:id`：同上。
+`DELETE /questions/:id`：成功返回 `{ deleted:true }`；不存在或不属于当前用户返回 404。
 
 ### 健康知识
 
@@ -252,11 +251,11 @@
 `POST /feedback`：
 
 ```json
-{ "contact": "可选", "content": "必填，≤1000" }
+{ "type": "功能建议", "contact": "可选", "content": "必填，≤1000" }
 ```
 
 响应：`{ success:true, data:{ received:true, message:"反馈已收到", id:"uuid" } }`。
-`content` 命中合规词会返回 400。
+`type` 限定为 `功能建议 / 使用问题 / 隐私与数据 / 其他反馈`，未知类型按“其他反馈”保存；`content` 或 `contact` 命中合规词会返回 400。
 
 ## 6.4 接口依赖关系
 

@@ -34,7 +34,7 @@ HOST=0.0.0.0
 MINIAPP_ALLOWED_ORIGIN=*
 MINIAPP_PUBLIC_BASE_URL=https://your-domain.example.com
 
-WECHAT_APP_ID=wx1f7b9852c47b2ffd
+WECHAT_APP_ID=your_wechat_app_id
 WECHAT_APP_SECRET=xxxxxxxxxxxxxxxx
 
 DB_HOST=127.0.0.1
@@ -89,7 +89,7 @@ curl http://<host>:3789/health
 
 - 启动微信开发者工具
 - 导入 `miniprogram/` 目录
-- AppID 选择 `wx1f7b9852c47b2ffd`（已在 [project.config.json](../../project.config.json) 中固化）
+- AppID 使用 [project.config.json](../../project.config.json) 中配置的小程序 AppID；服务端 `.env` 的 `WECHAT_APP_ID` 必须与它一致。
 
 ### 2. 配置 API 地址
 
