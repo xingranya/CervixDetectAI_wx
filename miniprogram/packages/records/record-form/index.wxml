@@ -4,6 +4,22 @@
 
     <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
 
+    <view wx:if="{{!id}}" class="quick-section">
+      <text class="section-label">常用模板</text>
+      <view class="template-grid">
+        <button
+          wx:for="{{recordTemplates}}"
+          wx:key="name"
+          class="template-card"
+          data-index="{{index}}"
+          bind:tap="applyTemplate"
+        >
+          <text class="template-title">{{item.name}}</text>
+          <text class="template-desc">{{item.desc}}</text>
+        </button>
+      </view>
+    </view>
+
     <text class="form-label">检查日期</text>
     <picker mode="date" value="{{form.date}}" bind:change="onDateChange">
       <view class="form-input picker-value">{{form.date || '请选择日期'}}</view>
@@ -17,11 +33,24 @@
 
     <text class="form-label">摘要</text>
     <textarea class="form-textarea" value="{{form.summary}}" data-field="summary" bind:input="onInput" maxlength="500" placeholder="记录检查摘要，便于后续查看。" />
+    <text class="field-hint">{{form.summary.length || 0}} / 500</text>
 
     <text class="form-label">提醒建议</text>
     <textarea class="form-textarea" value="{{form.suggestion}}" data-field="suggestion" bind:input="onInput" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" />
+    <text class="field-hint">{{form.suggestion.length || 0}} / 500</text>
 
     <text class="form-label">状态</text>
+    <view class="chip-row">
+      <button
+        wx:for="{{statusOptions}}"
+        wx:key="*this"
+        class="choice-chip {{form.status === item ? 'choice-chip-active' : ''}}"
+        data-status="{{item}}"
+        bind:tap="selectStatus"
+      >
+        <text>{{item}}</text>
+      </button>
+    </view>
     <picker mode="selector" range="{{statusOptions}}" value="{{statusIndex}}" bind:change="onStatusChange">
       <view class="form-input picker-value">{{form.status || '请选择状态'}}</view>
     </picker>

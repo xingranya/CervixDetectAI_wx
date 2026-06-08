@@ -4,6 +4,22 @@
 
     <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
 
+    <view wx:if="{{!id}}" class="quick-section">
+      <text class="section-label">常用提醒</text>
+      <view class="template-grid">
+        <button
+          wx:for="{{reminderTemplates}}"
+          wx:key="name"
+          class="template-card"
+          data-index="{{index}}"
+          bind:tap="applyTemplate"
+        >
+          <text class="template-title">{{item.name}}</text>
+          <text class="template-desc">{{item.desc}}</text>
+        </button>
+      </view>
+    </view>
+
     <text class="form-label">提醒类型</text>
     <picker mode="selector" range="{{titleOptions}}" value="{{titleIndex}}" bind:change="onTitleTemplateChange">
       <view class="form-input picker-value">{{titleOptions[titleIndex]}}</view>
@@ -13,12 +29,24 @@
     <input class="form-input" value="{{form.title}}" data-field="title" bind:input="onInput" maxlength="60" placeholder="例如：复查提醒" />
 
     <text class="form-label">提醒日期</text>
+    <view class="chip-row">
+      <button
+        wx:for="{{quickDateOptions}}"
+        wx:key="label"
+        class="choice-chip"
+        data-offset="{{item.offsetDays}}"
+        bind:tap="selectQuickDate"
+      >
+        <text>{{item.label}}</text>
+      </button>
+    </view>
     <picker mode="date" value="{{form.date}}" bind:change="onDateChange">
       <view class="form-input picker-value">{{form.date || '请选择日期'}}</view>
     </picker>
 
     <text class="form-label">提醒内容</text>
     <textarea class="form-textarea" value="{{form.desc}}" data-field="desc" bind:input="onInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" />
+    <text class="field-hint">{{form.desc.length || 0}} / 500</text>
 
     <label class="switch-row">
       <text>标记为已完成</text>

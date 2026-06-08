@@ -5,11 +5,12 @@ const {
   clearCachedData,
   removeCachedListItem,
   isCacheFresh,
-  markCacheDirty
+  markCacheDirty,
+  isLoggedIn
 } = require("../../../utils/request");
 const { ROUTES, openRoute, navigateBackLater } = require("../../../utils/navigation");
 const { PAGE_STATUS, resolveDetailStatus } = require("../../../utils/page-state");
-const { showErrorToast, showSuccessToast, getErrorMessage } = require("../../../utils/feedback");
+const { showErrorToast, showSuccessToast, getErrorMessage, showErrorModal } = require("../../../utils/feedback");
 
 Page({
   data: {
@@ -19,7 +20,13 @@ Page({
     errorMessage: ""
   },
 
-  onLoad(query) {
+  async onLoad(query) {
+    if (!isLoggedIn()) {
+      await showErrorModal("登录后可查看个人检查记录详情。");
+      openRoute(ROUTES.login, {}, { redirect: true });
+      return;
+    }
+
     this.setData({ id: query.id || "" });
     this.hydrateRecord();
   },

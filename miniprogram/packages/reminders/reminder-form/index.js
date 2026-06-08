@@ -4,18 +4,24 @@ const {
   getCachedData,
   setCachedData,
   upsertCachedListItem,
-  markCacheDirty
+  markCacheDirty,
+  isLoggedIn
 } = require("../../../utils/request");
 const { withPageLoading } = require("../../../utils/form");
-const { showErrorToast, showSuccessToast } = require("../../../utils/feedback");
-const { navigateBackLater } = require("../../../utils/navigation");
+const { showErrorToast, showSuccessToast, showErrorModal } = require("../../../utils/feedback");
+const { ROUTES, openRoute, navigateBackLater } = require("../../../utils/navigation");
 const {
   hasReminderSubscriptionTemplate,
   requestReminderSubscription
 } = require("../utils/subscription");
 
 function getTodayDate() {
+  return getOffsetDate(0);
+}
+
+function getOffsetDate(offsetDays) {
   const date = new Date();
+  date.setDate(date.getDate() + offsetDays);
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${date.getFullYear()}-${month}-${day}`;
@@ -29,6 +35,41 @@ const defaultForm = {
 };
 
 const titleOptions = ["复查提醒", "资料准备", "记录整理", "线下咨询准备"];
+const reminderTemplates = [
+  {
+    name: "复查",
+    desc: "到期前提醒自己安排复查",
+    form: {
+      title: "复查提醒",
+      desc: "建议在计划时间前完成复查安排，并提前确认需要携带的资料。"
+    },
+    offsetDays: 90
+  },
+  {
+    name: "资料",
+    desc: "提前整理检查摘要和历史记录",
+    form: {
+      title: "资料准备",
+      desc: "咨询前准备近期检查摘要、历史记录和想确认的问题。"
+    },
+    offsetDays: 7
+  },
+  {
+    name: "问题",
+    desc: "线下咨询前整理问题清单",
+    form: {
+      title: "线下咨询准备",
+      desc: "提前整理需要咨询的问题，并把近期变化和个人备忘一起记录。"
+    },
+    offsetDays: 3
+  }
+];
+const quickDateOptions = [
+  { label: "今天", offsetDays: 0 },
+  { label: "3天后", offsetDays: 3 },
+  { label: "1周后", offsetDays: 7 },
+  { label: "1个月后", offsetDays: 30 }
+];
 
 function findTitleIndex(title) {
   const index = titleOptions.indexOf(title);
@@ -39,6 +80,8 @@ Page({
   data: {
     id: "",
     form: { ...defaultForm },
+    reminderTemplates,
+    quickDateOptions,
     titleOptions,
     titleIndex: 0,
     errorMessage: "",
@@ -48,7 +91,13 @@ Page({
     loading: false
   },
 
-  onLoad(query) {
+  async onLoad(query) {
+    if (!isLoggedIn()) {
+      await showErrorModal("登录后可保存个人复查提醒。");
+      openRoute(ROUTES.login, {}, { redirect: true });
+      return;
+    }
+
     this.setData({
       subscriptionEnabled: hasReminderSubscriptionTemplate()
     });
@@ -104,6 +153,30 @@ Page({
     this.setData({
       titleIndex: index,
       "form.title": titleOptions[index] || titleOptions[0],
+      errorMessage: ""
+    });
+  },
+
+  applyTemplate(event) {
+    const index = Number(event.currentTarget.dataset.index || 0);
+    const template = reminderTemplates[index];
+    if (!template) return;
+    const nextForm = {
+      ...this.data.form,
+      ...template.form,
+      date: this.data.form.date || getOffsetDate(template.offsetDays)
+    };
+    this.setData({
+      form: nextForm,
+      titleIndex: findTitleIndex(nextForm.title),
+      errorMessage: ""
+    });
+  },
+
+  selectQuickDate(event) {
+    const offsetDays = Number(event.currentTarget.dataset.offset || 0);
+    this.setData({
+      "form.date": getOffsetDate(offsetDays),
       errorMessage: ""
     });
   },

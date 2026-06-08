@@ -57,8 +57,9 @@ Page({
 
     await withPageLoading(this, async () => {
       await createFeedback({
+        type: this.data.form.type,
         contact: this.data.form.contact,
-        content: `【${this.data.form.type}】${this.data.form.content}`
+        content: this.data.form.content
       });
       this.setData({
         form: { ...DEFAULT_FORM },
