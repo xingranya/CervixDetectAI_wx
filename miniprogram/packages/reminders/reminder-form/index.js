@@ -38,7 +38,7 @@ const titleOptions = ["复查提醒", "资料准备", "记录整理", "线下咨
 const reminderTemplates = [
   {
     name: "复查",
-    desc: "到期前提醒自己安排复查",
+    desc: "到期前安排复查",
     form: {
       title: "复查提醒",
       desc: "建议在计划时间前完成复查安排，并提前确认需要携带的资料。"
@@ -47,7 +47,7 @@ const reminderTemplates = [
   },
   {
     name: "资料",
-    desc: "提前整理检查摘要和历史记录",
+    desc: "整理摘要和历史记录",
     form: {
       title: "资料准备",
       desc: "咨询前准备近期检查摘要、历史记录和想确认的问题。"
@@ -56,7 +56,7 @@ const reminderTemplates = [
   },
   {
     name: "问题",
-    desc: "线下咨询前整理问题清单",
+    desc: "咨询前整理问题",
     form: {
       title: "线下咨询准备",
       desc: "提前整理需要咨询的问题，并把近期变化和个人备忘一起记录。"

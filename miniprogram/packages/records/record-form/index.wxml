@@ -6,7 +6,7 @@
 
     <view wx:if="{{!id}}" class="quick-section">
       <text class="section-label">常用模板</text>
-      <view class="template-grid">
+      <scroll-view class="template-scroll" scroll-x>
         <button
           wx:for="{{recordTemplates}}"
           wx:key="name"
@@ -17,7 +17,7 @@
           <text class="template-title">{{item.name}}</text>
           <text class="template-desc">{{item.desc}}</text>
         </button>
-      </view>
+      </scroll-view>
     </view>
 
     <text class="form-label">检查日期</text>
@@ -51,9 +51,6 @@
         <text>{{item}}</text>
       </button>
     </view>
-    <picker mode="selector" range="{{statusOptions}}" value="{{statusIndex}}" bind:change="onStatusChange">
-      <view class="form-input picker-value">{{form.status || '请选择状态'}}</view>
-    </picker>
 
     <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">

@@ -31,7 +31,7 @@ const statusOptions = ["已记录", "待复查", "待关注", "已完成"];
 const recordTemplates = [
   {
     name: "筛查摘要",
-    desc: "适合记录 TCT / HPV 等检查摘要",
+    desc: "TCT / HPV 等摘要",
     form: {
       title: "女性健康筛查记录",
       project: "TCT / HPV 摘要记录",
@@ -42,7 +42,7 @@ const recordTemplates = [
   },
   {
     name: "复查准备",
-    desc: "适合复查前整理历史资料",
+    desc: "复查前资料整理",
     form: {
       title: "复查前资料整理",
       project: "历史检查资料整理",
@@ -53,7 +53,7 @@ const recordTemplates = [
   },
   {
     name: "日常记录",
-    desc: "适合补充一次普通健康记录",
+    desc: "补充普通健康记录",
     form: {
       title: "健康检查记录",
       project: "检查摘要记录",

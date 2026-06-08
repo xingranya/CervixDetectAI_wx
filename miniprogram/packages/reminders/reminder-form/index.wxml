@@ -6,7 +6,7 @@
 
     <view wx:if="{{!id}}" class="quick-section">
       <text class="section-label">常用提醒</text>
-      <view class="template-grid">
+      <scroll-view class="template-scroll" scroll-x>
         <button
           wx:for="{{reminderTemplates}}"
           wx:key="name"
@@ -17,7 +17,7 @@
           <text class="template-title">{{item.name}}</text>
           <text class="template-desc">{{item.desc}}</text>
         </button>
-      </view>
+      </scroll-view>
     </view>
 
     <text class="form-label">提醒类型</text>
@@ -29,6 +29,9 @@
     <input class="form-input" value="{{form.title}}" data-field="title" bind:input="onInput" maxlength="60" placeholder="例如：复查提醒" />
 
     <text class="form-label">提醒日期</text>
+    <picker mode="date" value="{{form.date}}" bind:change="onDateChange">
+      <view class="form-input picker-value">{{form.date || '请选择日期'}}</view>
+    </picker>
     <view class="chip-row">
       <button
         wx:for="{{quickDateOptions}}"
@@ -40,9 +43,6 @@
         <text>{{item.label}}</text>
       </button>
     </view>
-    <picker mode="date" value="{{form.date}}" bind:change="onDateChange">
-      <view class="form-input picker-value">{{form.date || '请选择日期'}}</view>
-    </picker>
 
     <text class="form-label">提醒内容</text>
     <textarea class="form-textarea" value="{{form.desc}}" data-field="desc" bind:input="onInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" />
