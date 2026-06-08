@@ -70,20 +70,55 @@ const quickDateOptions = [
   { label: "1周后", offsetDays: 7 },
   { label: "1个月后", offsetDays: 30 }
 ];
+const templateMap = reminderTemplates.reduce((result, item) => {
+  result[item.name] = item;
+  return result;
+}, {});
 
 function findTitleIndex(title) {
   const index = titleOptions.indexOf(title);
   return index > -1 ? index : 0;
 }
 
+function normalizeForm(form) {
+  const source = form || {};
+  return {
+    ...defaultForm,
+    ...source,
+    title: String(source.title || defaultForm.title),
+    date: String(source.date || defaultForm.date),
+    desc: String(source.desc || defaultForm.desc),
+    done: !!source.done
+  };
+}
+
+function buildFormState(form) {
+  const nextForm = normalizeForm(form);
+  const titleIndex = findTitleIndex(nextForm.title);
+  return {
+    title: nextForm.title,
+    date: nextForm.date,
+    desc: nextForm.desc,
+    done: nextForm.done,
+    titleIndex,
+    currentTitle: titleOptions[titleIndex] || titleOptions[0],
+    descLength: nextForm.desc.length
+  };
+}
+
+function buildFormPayload(data) {
+  return {
+    title: String(data.title || ""),
+    date: String(data.date || ""),
+    desc: String(data.desc || ""),
+    done: !!data.done
+  };
+}
+
 Page({
   data: {
     id: "",
-    form: { ...defaultForm },
-    reminderTemplates,
-    quickDateOptions,
-    titleOptions,
-    titleIndex: 0,
+    ...buildFormState(defaultForm),
     errorMessage: "",
     subscriptionEnabled: false,
     subscriptionAccepted: false,
@@ -107,14 +142,13 @@ Page({
       const cachedDetail = getCachedData(CACHE_KEYS.reminderDetail(query.id));
       if (cachedDetail && cachedDetail.data) {
         this.setData({
-          form: cachedDetail.data,
-          titleIndex: findTitleIndex(cachedDetail.data.title)
+          ...buildFormState(cachedDetail.data)
         });
       }
       this.loadReminder(query.id);
       return;
     }
-    this.setData({ form: { ...defaultForm, date: getTodayDate() } });
+    this.setData(buildFormState({ ...defaultForm, date: getTodayDate() }));
   },
 
   async loadReminder(id) {
@@ -124,8 +158,7 @@ Page({
       });
       if (res.data) {
         this.setData({
-          form: res.data,
-          titleIndex: findTitleIndex(res.data.title)
+          ...buildFormState(res.data)
         });
       }
     } catch (error) {
@@ -133,17 +166,29 @@ Page({
     }
   },
 
-  onInput(event) {
-    const field = event.currentTarget.dataset.field;
-    this.setData({
-      [`form.${field}`]: event.detail.value,
+  updateTextField(field, inputValue) {
+    const value = String(inputValue || "");
+    const updates = {
+      [field]: value,
       errorMessage: ""
-    });
+    };
+    if (field === "desc") {
+      updates.descLength = value.length;
+    }
+    this.setData(updates);
+  },
+
+  onTitleInput(event) {
+    this.updateTextField("title", event.detail.value);
+  },
+
+  onDescInput(event) {
+    this.updateTextField("desc", event.detail.value);
   },
 
   onDateChange(event) {
     this.setData({
-      "form.date": event.detail.value,
+      date: event.detail.value,
       errorMessage: ""
     });
   },
@@ -152,23 +197,35 @@ Page({
     const index = Number(event.detail.value || 0);
     this.setData({
       titleIndex: index,
-      "form.title": titleOptions[index] || titleOptions[0],
+      currentTitle: titleOptions[index] || titleOptions[0],
+      title: titleOptions[index] || titleOptions[0],
+      errorMessage: ""
+    });
+  },
+
+  selectTitle(event) {
+    const title = String(event.currentTarget.dataset.title || titleOptions[0]);
+    const index = findTitleIndex(title);
+    this.setData({
+      titleIndex: index,
+      currentTitle: titleOptions[index] || titleOptions[0],
+      title: titleOptions[index] || titleOptions[0],
       errorMessage: ""
     });
   },
 
   applyTemplate(event) {
+    const templateName = String(event.currentTarget.dataset.template || "");
     const index = Number(event.currentTarget.dataset.index || 0);
-    const template = reminderTemplates[index];
+    const template = templateMap[templateName] || reminderTemplates[index];
     if (!template) return;
     const nextForm = {
-      ...this.data.form,
+      ...buildFormPayload(this.data),
       ...template.form,
-      date: this.data.form.date || getOffsetDate(template.offsetDays)
+      date: this.data.date || getOffsetDate(template.offsetDays)
     };
     this.setData({
-      form: nextForm,
-      titleIndex: findTitleIndex(nextForm.title),
+      ...buildFormState(nextForm),
       errorMessage: ""
     });
   },
@@ -176,13 +233,13 @@ Page({
   selectQuickDate(event) {
     const offsetDays = Number(event.currentTarget.dataset.offset || 0);
     this.setData({
-      "form.date": getOffsetDate(offsetDays),
+      date: getOffsetDate(offsetDays),
       errorMessage: ""
     });
   },
 
   onDoneChange(event) {
-    this.setData({ "form.done": event.detail.value });
+    this.setData({ done: event.detail.value });
   },
 
   async requestSubscription() {
@@ -202,7 +259,7 @@ Page({
   },
 
   validateForm() {
-    const form = this.data.form;
+    const form = buildFormPayload(this.data);
     if (!String(form.title || "").trim()) {
       this.setData({ errorMessage: "请选择或填写提醒标题" });
       return false;
@@ -228,7 +285,7 @@ Page({
     await withPageLoading(this, async () => {
       const res = await request(path, {
         method,
-        data: this.data.form
+        data: buildFormPayload(this.data)
       });
       const savedReminder = res.data;
       setCachedData(CACHE_KEYS.reminderDetail(savedReminder.id), res);

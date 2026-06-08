@@ -64,18 +64,53 @@ const recordTemplates = [
   }
 ];
 
-function findStatusIndex(status) {
-  const index = statusOptions.indexOf(status);
-  return index > -1 ? index : 0;
+function normalizeStatus(status) {
+  return statusOptions.indexOf(status) > -1 ? status : statusOptions[0];
+}
+
+function normalizeForm(form) {
+  const source = form || {};
+  return {
+    ...defaultForm,
+    ...source,
+    date: String(source.date || defaultForm.date),
+    title: String(source.title || defaultForm.title),
+    project: String(source.project || defaultForm.project),
+    summary: String(source.summary || defaultForm.summary),
+    suggestion: String(source.suggestion || defaultForm.suggestion),
+    status: normalizeStatus(source.status)
+  };
+}
+
+function buildFormState(form) {
+  const nextForm = normalizeForm(form);
+  return {
+    date: nextForm.date,
+    title: nextForm.title,
+    project: nextForm.project,
+    summary: nextForm.summary,
+    suggestion: nextForm.suggestion,
+    status: nextForm.status,
+    summaryLength: nextForm.summary.length,
+    suggestionLength: nextForm.suggestion.length
+  };
+}
+
+function buildFormPayload(data) {
+  return {
+    date: String(data.date || ""),
+    title: String(data.title || ""),
+    project: String(data.project || ""),
+    summary: String(data.summary || ""),
+    suggestion: String(data.suggestion || ""),
+    status: normalizeStatus(data.status)
+  };
 }
 
 Page({
   data: {
     id: "",
-    form: { ...defaultForm },
-    recordTemplates,
-    statusOptions,
-    statusIndex: findStatusIndex(defaultForm.status),
+    ...buildFormState(defaultForm),
     errorMessage: "",
     loading: false
   },
@@ -92,14 +127,13 @@ Page({
       const cachedDetail = getCachedData(CACHE_KEYS.recordDetail(query.id));
       if (cachedDetail && cachedDetail.data) {
         this.setData({
-          form: cachedDetail.data,
-          statusIndex: findStatusIndex(cachedDetail.data.status)
+          ...buildFormState(cachedDetail.data)
         });
       }
       this.loadRecord(query.id);
       return;
     }
-    this.setData({ form: { ...defaultForm, date: getTodayDate() } });
+    this.setData(buildFormState({ ...defaultForm, date: getTodayDate() }));
   },
 
   async loadRecord(id) {
@@ -108,34 +142,47 @@ Page({
         cacheKey: CACHE_KEYS.recordDetail(id)
       });
       this.setData({
-        form: res.data,
-        statusIndex: findStatusIndex(res.data.status)
+        ...buildFormState(res.data)
       });
     } catch (error) {
       showErrorToast(error, "加载失败");
     }
   },
 
-  onInput(event) {
-    const field = event.currentTarget.dataset.field;
-    this.setData({
-      [`form.${field}`]: event.detail.value,
+  updateTextField(field, inputValue) {
+    const value = String(inputValue || "");
+    const updates = {
+      [field]: value,
       errorMessage: ""
-    });
+    };
+    if (field === "summary") {
+      updates.summaryLength = value.length;
+    }
+    if (field === "suggestion") {
+      updates.suggestionLength = value.length;
+    }
+    this.setData(updates);
+  },
+
+  onTitleInput(event) {
+    this.updateTextField("title", event.detail.value);
+  },
+
+  onProjectInput(event) {
+    this.updateTextField("project", event.detail.value);
+  },
+
+  onSummaryInput(event) {
+    this.updateTextField("summary", event.detail.value);
+  },
+
+  onSuggestionInput(event) {
+    this.updateTextField("suggestion", event.detail.value);
   },
 
   onDateChange(event) {
     this.setData({
-      "form.date": event.detail.value,
-      errorMessage: ""
-    });
-  },
-
-  onStatusChange(event) {
-    const index = Number(event.detail.value || 0);
-    this.setData({
-      statusIndex: index,
-      "form.status": statusOptions[index] || statusOptions[0],
+      date: event.detail.value,
       errorMessage: ""
     });
   },
@@ -145,29 +192,25 @@ Page({
     const template = recordTemplates[index];
     if (!template) return;
     const nextForm = {
-      ...this.data.form,
+      ...buildFormPayload(this.data),
       ...template.form,
-      date: this.data.form.date || getTodayDate()
+      date: this.data.date || getTodayDate()
     };
     this.setData({
-      form: nextForm,
-      statusIndex: findStatusIndex(nextForm.status),
+      ...buildFormState(nextForm),
       errorMessage: ""
     });
   },
 
   selectStatus(event) {
-    const status = event.currentTarget.dataset.status;
-    const index = findStatusIndex(status);
     this.setData({
-      "form.status": statusOptions[index],
-      statusIndex: index,
+      status: normalizeStatus(event.currentTarget.dataset.status),
       errorMessage: ""
     });
   },
 
   validateForm() {
-    const form = this.data.form;
+    const form = buildFormPayload(this.data);
     const requiredFields = [
       ["date", "请选择检查日期"],
       ["title", "请填写记录标题"],
@@ -194,7 +237,7 @@ Page({
     await withPageLoading(this, async () => {
       const res = await request(path, {
         method,
-        data: this.data.form
+        data: buildFormPayload(this.data)
       });
       const savedRecord = res.data;
       setCachedData(CACHE_KEYS.recordDetail(savedRecord.id), res);

@@ -63,7 +63,6 @@ Page({
     isGuest: !isLoggedIn(),
     user: DEFAULT_USER,
     activeAvatarUrl: "",
-    avatarLoadFailedUrl: "",
     metrics: DEFAULT_METRICS,
     menus: [
       {
@@ -129,7 +128,7 @@ Page({
     const nextUser = normalizeUser(wx.getStorageSync("user"));
     const avatarLoadFailedUrl = nextUser.avatarUrl === this.data.user.avatarUrl
       && nextUser.avatarLocalPath === this.data.user.avatarLocalPath
-      ? this.data.avatarLoadFailedUrl
+      ? this.avatarLoadFailedUrl || ""
       : "";
     const activeAvatarUrl = resolveActiveAvatarUrl(nextUser, avatarLoadFailedUrl);
     if (
@@ -137,21 +136,21 @@ Page({
       && nextUser.avatarUrl === this.data.user.avatarUrl
       && nextUser.avatarLocalPath === this.data.user.avatarLocalPath
       && activeAvatarUrl === this.data.activeAvatarUrl
-      && avatarLoadFailedUrl === this.data.avatarLoadFailedUrl
+      && avatarLoadFailedUrl === (this.avatarLoadFailedUrl || "")
     ) {
       return;
     }
+    this.avatarLoadFailedUrl = avatarLoadFailedUrl;
     this.setData({
       user: nextUser,
-      activeAvatarUrl,
-      avatarLoadFailedUrl
+      activeAvatarUrl
     });
   },
 
   onAvatarLoadError(event) {
     const failedUrl = event.currentTarget.dataset.url || "";
+    this.avatarLoadFailedUrl = failedUrl;
     this.setData({
-      avatarLoadFailedUrl: failedUrl,
       activeAvatarUrl: resolveActiveAvatarUrl(this.data.user, failedUrl)
     });
   },

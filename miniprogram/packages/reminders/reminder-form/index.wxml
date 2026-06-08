@@ -6,51 +6,67 @@
 
     <view wx:if="{{!id}}" class="quick-section">
       <text class="section-label">常用提醒</text>
-      <scroll-view class="template-scroll" scroll-x>
-        <button
-          wx:for="{{reminderTemplates}}"
-          wx:key="name"
-          class="template-card"
-          data-index="{{index}}"
-          bind:tap="applyTemplate"
-        >
-          <text class="template-title">{{item.name}}</text>
-          <text class="template-desc">{{item.desc}}</text>
+      <view class="template-row">
+        <button class="template-card" data-template="复查" bind:tap="applyTemplate">
+          <text class="template-title">复查</text>
+          <text class="template-desc">到期前安排复查</text>
         </button>
-      </scroll-view>
+        <button class="template-card" data-template="资料" bind:tap="applyTemplate">
+          <text class="template-title">资料</text>
+          <text class="template-desc">整理摘要和历史记录</text>
+        </button>
+        <button class="template-card" data-template="问题" bind:tap="applyTemplate">
+          <text class="template-title">问题</text>
+          <text class="template-desc">咨询前整理问题</text>
+        </button>
+      </view>
     </view>
 
     <text class="form-label">提醒类型</text>
-    <picker mode="selector" range="{{titleOptions}}" value="{{titleIndex}}" bind:change="onTitleTemplateChange">
-      <view class="form-input picker-value">{{titleOptions[titleIndex]}}</view>
-    </picker>
+    <view class="chip-row">
+      <button class="choice-chip {{currentTitle === '复查提醒' ? 'choice-chip-active' : ''}}" data-title="复查提醒" bind:tap="selectTitle">
+        <text>复查提醒</text>
+      </button>
+      <button class="choice-chip {{currentTitle === '资料准备' ? 'choice-chip-active' : ''}}" data-title="资料准备" bind:tap="selectTitle">
+        <text>资料准备</text>
+      </button>
+      <button class="choice-chip {{currentTitle === '记录整理' ? 'choice-chip-active' : ''}}" data-title="记录整理" bind:tap="selectTitle">
+        <text>记录整理</text>
+      </button>
+      <button class="choice-chip {{currentTitle === '线下咨询准备' ? 'choice-chip-active' : ''}}" data-title="线下咨询准备" bind:tap="selectTitle">
+        <text>咨询准备</text>
+      </button>
+    </view>
 
     <text class="form-label">提醒标题</text>
-    <input class="form-input" value="{{form.title}}" data-field="title" bind:input="onInput" maxlength="60" placeholder="例如：复查提醒" />
+    <input class="form-input" value="{{title}}" bind:input="onTitleInput" maxlength="60" placeholder="例如：复查提醒" />
 
     <text class="form-label">提醒日期</text>
-    <picker mode="date" value="{{form.date}}" bind:change="onDateChange">
-      <view class="form-input picker-value">{{form.date || '请选择日期'}}</view>
+    <picker mode="date" value="{{date}}" bind:change="onDateChange">
+      <view class="form-input picker-value">{{date || '请选择日期'}}</view>
     </picker>
     <view class="chip-row">
-      <button
-        wx:for="{{quickDateOptions}}"
-        wx:key="label"
-        class="choice-chip"
-        data-offset="{{item.offsetDays}}"
-        bind:tap="selectQuickDate"
-      >
-        <text>{{item.label}}</text>
+      <button class="choice-chip" data-offset="0" bind:tap="selectQuickDate">
+        <text>今天</text>
+      </button>
+      <button class="choice-chip" data-offset="3" bind:tap="selectQuickDate">
+        <text>3天后</text>
+      </button>
+      <button class="choice-chip" data-offset="7" bind:tap="selectQuickDate">
+        <text>1周后</text>
+      </button>
+      <button class="choice-chip" data-offset="30" bind:tap="selectQuickDate">
+        <text>1个月后</text>
       </button>
     </view>
 
     <text class="form-label">提醒内容</text>
-    <textarea class="form-textarea" value="{{form.desc}}" data-field="desc" bind:input="onInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" />
-    <text class="field-hint">{{form.desc.length || 0}} / 500</text>
+    <textarea class="form-textarea" value="{{desc}}" bind:input="onDescInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" />
+    <text class="field-hint">{{descLength}} / 500</text>
 
     <label class="switch-row">
       <text>标记为已完成</text>
-      <switch checked="{{form.done}}" color="#1976d2" bind:change="onDoneChange" />
+      <switch checked="{{done}}" color="#1976d2" bind:change="onDoneChange" />
     </label>
 
     <view class="subscribe-card">

@@ -2,7 +2,7 @@
   <section-header title="检查记录" icon="/assets/icons/records-active.png">
     <button slot="extra" class="mini-primary" bind:tap="createRecord">
       <view class="button-content">
-        <image class="small-icon" src="/assets/icons/plus-white.png" mode="aspectFit" />
+        <image class="small-icon" src="/assets/icons/plus-active.png" mode="aspectFit" />
         <text class="button-text">新增</text>
       </view>
     </button>

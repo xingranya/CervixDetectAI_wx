@@ -6,49 +6,54 @@
 
     <view wx:if="{{!id}}" class="quick-section">
       <text class="section-label">常用模板</text>
-      <scroll-view class="template-scroll" scroll-x>
-        <button
-          wx:for="{{recordTemplates}}"
-          wx:key="name"
-          class="template-card"
-          data-index="{{index}}"
-          bind:tap="applyTemplate"
-        >
-          <text class="template-title">{{item.name}}</text>
-          <text class="template-desc">{{item.desc}}</text>
+      <view class="template-row">
+        <button class="template-card" data-index="0" bind:tap="applyTemplate">
+          <text class="template-title">筛查摘要</text>
+          <text class="template-desc">TCT / HPV 等摘要</text>
         </button>
-      </scroll-view>
+        <button class="template-card" data-index="1" bind:tap="applyTemplate">
+          <text class="template-title">复查准备</text>
+          <text class="template-desc">复查前资料整理</text>
+        </button>
+        <button class="template-card" data-index="2" bind:tap="applyTemplate">
+          <text class="template-title">日常记录</text>
+          <text class="template-desc">补充普通健康记录</text>
+        </button>
+      </view>
     </view>
 
     <text class="form-label">检查日期</text>
-    <picker mode="date" value="{{form.date}}" bind:change="onDateChange">
-      <view class="form-input picker-value">{{form.date || '请选择日期'}}</view>
+    <picker mode="date" value="{{date}}" bind:change="onDateChange">
+      <view class="form-input picker-value">{{date || '请选择日期'}}</view>
     </picker>
 
     <text class="form-label">记录标题</text>
-    <input class="form-input" value="{{form.title}}" data-field="title" bind:input="onInput" maxlength="60" placeholder="例如：女性健康筛查记录" />
+    <input class="form-input" value="{{title}}" bind:input="onTitleInput" maxlength="60" placeholder="例如：女性健康筛查记录" />
 
     <text class="form-label">检查项目</text>
-    <input class="form-input" value="{{form.project}}" data-field="project" bind:input="onInput" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" />
+    <input class="form-input" value="{{project}}" bind:input="onProjectInput" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" />
 
     <text class="form-label">摘要</text>
-    <textarea class="form-textarea" value="{{form.summary}}" data-field="summary" bind:input="onInput" maxlength="500" placeholder="记录检查摘要，便于后续查看。" />
-    <text class="field-hint">{{form.summary.length || 0}} / 500</text>
+    <textarea class="form-textarea" value="{{summary}}" bind:input="onSummaryInput" maxlength="500" placeholder="记录检查摘要，便于后续查看。" />
+    <text class="field-hint">{{summaryLength}} / 500</text>
 
     <text class="form-label">提醒建议</text>
-    <textarea class="form-textarea" value="{{form.suggestion}}" data-field="suggestion" bind:input="onInput" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" />
-    <text class="field-hint">{{form.suggestion.length || 0}} / 500</text>
+    <textarea class="form-textarea" value="{{suggestion}}" bind:input="onSuggestionInput" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" />
+    <text class="field-hint">{{suggestionLength}} / 500</text>
 
     <text class="form-label">状态</text>
     <view class="chip-row">
-      <button
-        wx:for="{{statusOptions}}"
-        wx:key="*this"
-        class="choice-chip {{form.status === item ? 'choice-chip-active' : ''}}"
-        data-status="{{item}}"
-        bind:tap="selectStatus"
-      >
-        <text>{{item}}</text>
+      <button class="choice-chip {{status === '已记录' ? 'choice-chip-active' : ''}}" data-status="已记录" bind:tap="selectStatus">
+        <text>已记录</text>
+      </button>
+      <button class="choice-chip {{status === '待复查' ? 'choice-chip-active' : ''}}" data-status="待复查" bind:tap="selectStatus">
+        <text>待复查</text>
+      </button>
+      <button class="choice-chip {{status === '待关注' ? 'choice-chip-active' : ''}}" data-status="待关注" bind:tap="selectStatus">
+        <text>待关注</text>
+      </button>
+      <button class="choice-chip {{status === '已完成' ? 'choice-chip-active' : ''}}" data-status="已完成" bind:tap="selectStatus">
+        <text>已完成</text>
       </button>
     </view>
 

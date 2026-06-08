@@ -20,6 +20,15 @@ let baseUrlCache = "";
 const responseCache = {};
 const inflightRequests = {};
 
+function callWxApi(apiName, fallback) {
+  if (typeof wx[apiName] !== "function") return fallback;
+  try {
+    return wx[apiName]() || fallback;
+  } catch (_error) {
+    return fallback;
+  }
+}
+
 function cloneData(data) {
   if (data === undefined) return undefined;
   return JSON.parse(JSON.stringify(data));
@@ -167,9 +176,14 @@ function getRuntimeInfo() {
   if (runtimeInfoCache) return runtimeInfoCache;
 
   try {
+    const system = {
+      ...callWxApi("getDeviceInfo", {}),
+      ...callWxApi("getWindowInfo", {}),
+      ...callWxApi("getAppBaseInfo", {})
+    };
     runtimeInfoCache = {
-      system: wx.getSystemInfoSync(),
-      account: wx.getAccountInfoSync ? wx.getAccountInfoSync() : null
+      system,
+      account: callWxApi("getAccountInfoSync", null)
     };
   } catch (_error) {
     runtimeInfoCache = { system: {}, account: null };

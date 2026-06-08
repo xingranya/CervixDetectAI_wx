@@ -9,9 +9,11 @@ function isRemoteAvatarUrl(value) {
 function isLocalAvatarPath(value) {
   const path = normalizeText(value);
   return /^wxfile:\/\//i.test(path)
+    || /^file:\/\//i.test(path)
     || /^http:\/\/tmp\//i.test(path)
     || /^https:\/\/tmp\//i.test(path)
-    || /^\/tmp\//i.test(path);
+    || /^\/tmp\//i.test(path)
+    || (!!wx.env && !!wx.env.USER_DATA_PATH && path.indexOf(wx.env.USER_DATA_PATH) === 0);
 }
 
 function normalizeRemoteAvatarUrl(value) {
@@ -52,7 +54,7 @@ function persistAvatarFile(filePath) {
   }
 
   return new Promise((resolve) => {
-    wx.saveFile({
+    wx.getFileSystemManager().saveFile({
       tempFilePath: localPath,
       success: (res) => resolve(normalizeLocalAvatarPath(res.savedFilePath) || localPath),
       fail: () => resolve(localPath)

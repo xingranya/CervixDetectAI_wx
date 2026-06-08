@@ -32,15 +32,18 @@
 
 .mini-primary {
   white-space: nowrap;
-  min-width: 132rpx;
-  height: 64rpx;
+  width: 128rpx;
+  height: 58rpx;
   margin: 0;
-  border-radius: 999rpx;
-  background: #1f53c9;
-  color: #fff;
-  font-size: 26rpx;
-  line-height: normal;
-  font-weight: 700;
+  padding: 0 22rpx;
+  border: 1rpx solid rgba(31, 83, 201, 0.16);
+  border-radius: 18rpx;
+  background: rgba(219, 225, 255, 0.64);
+  color: #1f53c9;
+  font-size: 25rpx;
+  line-height: 58rpx;
+  font-weight: 800;
+  box-shadow: none;
 }
 
 .text-button {
@@ -64,9 +67,9 @@
 
 .small-icon {
   display: block;
-  width: 28rpx;
-  height: 28rpx;
-  margin-right: 8rpx;
+  width: 26rpx;
+  height: 26rpx;
+  margin-right: 6rpx;
   flex: 0 0 auto;
 }
 
