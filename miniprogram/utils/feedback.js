@@ -18,8 +18,18 @@ function showSuccessToast(title = "操作成功") {
   });
 }
 
+function showErrorModal(error, fallback = "暂时无法继续，请稍后再试") {
+  wx.showModal({
+    title: "提示",
+    content: getErrorMessage(error, fallback),
+    showCancel: false,
+    confirmText: "我知道了"
+  });
+}
+
 module.exports = {
   getErrorMessage,
   showErrorToast,
-  showSuccessToast
+  showSuccessToast,
+  showErrorModal
 };

@@ -7,7 +7,9 @@
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载记录详情</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="reloadDetail">重新加载</button>
+    <button class="primary-button" bind:tap="reloadDetail">
+      <text class="button-text">重新加载</text>
+    </button>
   </view>
 
   <view wx:elif="{{record}}" class="card detail-card">
@@ -34,12 +36,16 @@
     </view>
     <view class="detail-actions">
       <button class="ghost-button" bind:tap="editRecord">
-        <image class="button-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
-        编辑记录
+        <view class="button-content">
+          <image class="button-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+          <text class="button-text">编辑记录</text>
+        </view>
       </button>
       <button class="delete-button" bind:tap="deleteRecord">
-        <image class="button-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
-        删除记录
+        <view class="button-content">
+          <image class="button-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+          <text class="button-text">删除记录</text>
+        </view>
       </button>
     </view>
   </view>

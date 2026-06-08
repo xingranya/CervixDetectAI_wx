@@ -9,7 +9,9 @@
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载知识内容</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadArticles">重新加载</button>
+    <button class="primary-button" bind:tap="loadArticles">
+      <text class="button-text">重新加载</text>
+    </button>
   </view>
 
   <empty-state
@@ -36,7 +38,9 @@
     <view class="article-panel" catch:tap="noop">
       <view class="article-panel-head">
         <text class="article-panel-title">{{activeArticle.title}}</text>
-        <button class="article-close" bind:tap="closeArticle">关闭</button>
+        <button class="article-close" bind:tap="closeArticle">
+          <text class="button-text">关闭</text>
+        </button>
       </view>
       <text class="article-panel-summary">{{activeArticle.summary}}</text>
       <text class="article-panel-content">{{activeArticle.content || activeArticle.summary}}</text>

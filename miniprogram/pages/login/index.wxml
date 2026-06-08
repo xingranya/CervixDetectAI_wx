@@ -13,7 +13,10 @@
       <button class="avatar-button" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
         <view class="avatar-circle">
           <image wx:if="{{avatarUrl && !avatarPreviewFailed}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" bind:error="onAvatarLoadError" />
-          <image wx:else class="avatar-placeholder" src="/assets/icons/profile-active.png" mode="aspectFit" />
+          <view wx:else class="avatar-placeholder">
+            <view class="flat-avatar-head"></view>
+            <view class="flat-avatar-body"></view>
+          </view>
         </view>
       </button>
       <text class="avatar-tip">头像为选填，仅用于个人中心展示</text>
@@ -28,13 +31,18 @@
         maxlength="20"
         placeholder="可填写或选择微信昵称"
       />
-      <button class="primary-button login-button" loading="{{loading}}" form-type="submit">
-        <image class="button-icon" src="/assets/icons/login-white.png" mode="aspectFit" />
-        同意并进入
+      <text class="avatar-tip">登录仅用于保存你的个人记录、提醒和备忘，头像与昵称均为选填。</text>
+      <button class="primary-button login-button" disabled="{{loading}}" form-type="submit">
+        <view class="button-content">
+          <image class="button-icon" src="/assets/icons/login-white.png" mode="aspectFit" />
+          <text class="button-text">{{loading ? '正在登录' : '登录保存数据'}}</text>
+        </view>
       </button>
       <button class="plain-link" bind:tap="openPrivacy">
-        <image class="small-icon" src="/assets/icons/privacy-active.png" mode="aspectFit" />
-        查看隐私与服务说明
+        <view class="button-content">
+          <image class="small-icon" src="/assets/icons/privacy-active.png" mode="aspectFit" />
+          <text class="plain-link-text">查看隐私与服务说明</text>
+        </view>
       </button>
     </form>
   </view>

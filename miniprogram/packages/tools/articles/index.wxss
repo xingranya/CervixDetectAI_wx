@@ -9,6 +9,7 @@
 }
 
 .primary-button {
+  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +19,7 @@
   background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
   color: #fff;
   font-size: 30rpx;
-  line-height: 86rpx;
+  line-height: normal;
   font-weight: 800;
   box-shadow: 0 14rpx 30rpx rgba(31, 83, 201, 0.24);
 }
@@ -129,7 +130,7 @@
   background: rgba(31, 83, 201, 0.08);
   color: #1f53c9;
   font-size: 24rpx;
-  line-height: 58rpx;
+  line-height: normal;
   font-weight: 800;
 }
 

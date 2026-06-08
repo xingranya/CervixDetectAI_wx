@@ -6,10 +6,11 @@ const {
   isCacheFresh,
   consumeCacheDirty,
   removeCachedListItem,
-  updateCachedListItem
+  updateCachedListItem,
+  isLoggedIn
 } = require("../../../utils/request");
 const { PAGE_STATUS } = require("../../../utils/page-state");
-const { showErrorToast, showSuccessToast, getErrorMessage } = require("../../../utils/feedback");
+const { showErrorToast, showSuccessToast, getErrorMessage, showErrorModal } = require("../../../utils/feedback");
 
 function resolveQuestionsStatus(templates, questions) {
   return templates.length || questions.length ? PAGE_STATUS.READY : PAGE_STATUS.EMPTY;
@@ -31,14 +32,16 @@ Page({
     questions: [],
     customQuestion: "",
     pageStatus: PAGE_STATUS.LOADING,
-    errorMessage: ""
+    errorMessage: "",
+    isGuest: !isLoggedIn()
   },
 
   onShow() {
+    this.setData({ isGuest: !isLoggedIn() });
     const cachedTemplates = getCachedData(CACHE_KEYS.questionTemplates);
     const cachedQuestions = getCachedData(CACHE_KEYS.questions);
     const hasCachedTemplates = !!(cachedTemplates && Array.isArray(cachedTemplates.data));
-    const hasCachedQuestions = !!(cachedQuestions && Array.isArray(cachedQuestions.data));
+    const hasCachedQuestions = isLoggedIn() && !!(cachedQuestions && Array.isArray(cachedQuestions.data));
 
     const templates = hasCachedTemplates ? cachedTemplates.data : [];
     const questions = hasCachedQuestions ? cachedQuestions.data : [];
@@ -54,10 +57,10 @@ Page({
     }
 
     const shouldRefresh = !hasCachedTemplates
-      || !hasCachedQuestions
-      || consumeCacheDirty(CACHE_KEYS.questions)
+      || (isLoggedIn() && !hasCachedQuestions)
+      || (isLoggedIn() && consumeCacheDirty(CACHE_KEYS.questions))
       || !isCacheFresh(CACHE_KEYS.questionTemplates, 5 * 60 * 1000)
-      || !isCacheFresh(CACHE_KEYS.questions);
+      || (isLoggedIn() && !isCacheFresh(CACHE_KEYS.questions));
 
     if (shouldRefresh) {
       this.loadData({ silent: templates.length || questions.length });
@@ -74,17 +77,21 @@ Page({
     }
 
     try {
-      const [templateRes, questionRes] = await Promise.all([
+      const tasks = [
         request("/question-templates", {
           cacheKey: CACHE_KEYS.questionTemplates,
           maxAge: 5 * 60 * 1000
-        }),
-        request("/questions", {
-          cacheKey: CACHE_KEYS.questions
         })
-      ]);
+      ];
+      if (isLoggedIn()) {
+        tasks.push(request("/questions", {
+          cacheKey: CACHE_KEYS.questions
+        }));
+      }
+
+      const [templateRes, questionRes] = await Promise.all(tasks);
       const templates = templateRes.data || [];
-      const questions = questionRes.data || [];
+      const questions = isLoggedIn() && questionRes ? (questionRes.data || []) : [];
       this.templateTexts = templates;
       this.setData({
         templateOptions: buildTemplateOptions(templates, this.data.selected),
@@ -122,6 +129,11 @@ Page({
   },
 
   async saveSelected() {
+    if (!isLoggedIn()) {
+      showErrorModal("登录后可保存自己的问题清单和线下咨询备忘。");
+      return;
+    }
+
     const questions = [...this.data.selected];
     const customQuestion = String(this.data.customQuestion || "").trim();
     if (customQuestion) questions.push(customQuestion);
@@ -165,6 +177,11 @@ Page({
   },
 
   async saveAnswer(event) {
+    if (!isLoggedIn()) {
+      showErrorModal("登录后可保存个人备忘。");
+      return;
+    }
+
     const id = event.currentTarget.dataset.id;
     const question = this.data.questions.find((item) => item.id === id);
     if (!question) return;
@@ -186,6 +203,11 @@ Page({
   },
 
   deleteQuestion(event) {
+    if (!isLoggedIn()) {
+      showErrorModal("登录后可删除自己的问题记录。");
+      return;
+    }
+
     const id = event.currentTarget.dataset.id;
     wx.showModal({
       title: "删除问题",

@@ -7,7 +7,9 @@
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载首页</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadHome">重新加载</button>
+    <button class="primary-button" bind:tap="loadHome">
+      <text class="button-text">重新加载</text>
+    </button>
   </view>
 
   <block wx:else>
@@ -32,6 +34,16 @@
           <text class="metric-value">{{item.value}}</text>
           <text class="metric-label">{{item.label}}</text>
         </view>
+      </view>
+      <view wx:if="{{isGuest}}" class="guest-entry-card">
+        <text class="guest-entry-title">先浏览功能，再决定是否登录</text>
+        <text class="guest-entry-desc">登录仅在你需要保存个人记录、提醒和备忘时使用，头像与昵称均为选填。</text>
+        <button class="primary-button guest-entry-button" bind:tap="goLogin">
+          <view class="button-content">
+            <image class="button-icon" src="/assets/icons/login-white.png" mode="aspectFit" />
+            <text class="button-text guest-entry-button-text">登录保存数据</text>
+          </view>
+        </button>
       </view>
     </view>
 
@@ -72,8 +84,10 @@
       </view>
       <text class="latest-desc">{{home.nextReminder}}</text>
       <button class="primary-button" bind:tap="goPage" data-path="/pages/records/index">
-        <image class="button-icon" src="/assets/icons/records-white.png" mode="aspectFit" />
-        查看检查记录
+        <view class="button-content">
+          <image class="button-icon" src="/assets/icons/records-white.png" mode="aspectFit" />
+          <text class="button-text">查看检查记录</text>
+        </view>
       </button>
     </view>
 

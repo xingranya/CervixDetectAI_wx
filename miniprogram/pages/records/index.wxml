@@ -1,8 +1,10 @@
 <view class="page records-page">
   <section-header title="检查记录" icon="/assets/icons/records-active.png">
     <button slot="extra" class="mini-primary" bind:tap="createRecord">
-      <image class="small-icon" src="/assets/icons/plus-white.png" mode="aspectFit" />
-      新增
+      <view class="button-content">
+        <image class="small-icon" src="/assets/icons/plus-white.png" mode="aspectFit" />
+        <text class="button-text">新增</text>
+      </view>
     </button>
   </section-header>
 
@@ -45,15 +47,17 @@
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载检查记录</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadRecords">重新加载</button>
+    <button class="primary-button" bind:tap="loadRecords">
+      <text class="button-text">重新加载</text>
+    </button>
   </view>
 
   <empty-state
     wx:elif="{{pageStatus === 'empty'}}"
-    title="还没有检查记录"
-    desc="可以先添加一次检查摘要，后续复查时更方便查看。"
+    title="{{isGuest ? '体验模式下不展示个人记录' : '还没有检查记录'}}"
+    desc="{{isGuest ? '你可以先浏览首页、知识内容和服务说明；需要保存自己的检查摘要时，再自行登录。' : '可以先添加一次检查摘要，后续复查时更方便查看。'}}"
     icon="/assets/icons/plus-active.png"
-    button-text="添加第一条记录"
+    button-text="{{isGuest ? '前往登录' : '添加第一条记录'}}"
     bind:action="createRecord"
   />
 
@@ -76,12 +80,16 @@
           <text class="record-summary">{{item.summary}}</text>
           <view class="record-actions">
             <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
-              <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
-              编辑
+              <view class="button-content">
+                <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+                <text class="button-text">编辑</text>
+              </view>
             </button>
             <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
-              <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
-              删除
+              <view class="button-content">
+                <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+                <text class="button-text">删除</text>
+              </view>
             </button>
           </view>
         </view>

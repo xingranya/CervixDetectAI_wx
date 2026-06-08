@@ -16,7 +16,9 @@
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载问题清单</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadData">重新加载</button>
+    <button class="primary-button" bind:tap="loadData">
+      <text class="button-text">重新加载</text>
+    </button>
   </view>
 
   <block wx:else>
@@ -37,9 +39,12 @@
       <text class="form-label">自定义问题</text>
       <textarea class="form-textarea" value="{{customQuestion}}" bind:input="onCustomInput" maxlength="255" placeholder="例如：复查前需要准备哪些历史资料？" />
       <button class="primary-button save-button" bind:tap="saveSelected">
-        <image class="button-icon" src="/assets/icons/questions-white.png" mode="aspectFit" />
-        保存到问题清单
+        <view class="button-content">
+          <image class="button-icon" src="/assets/icons/questions-white.png" mode="aspectFit" />
+          <text class="button-text">{{isGuest ? '登录后保存' : '保存到问题清单'}}</text>
+        </view>
       </button>
+      <text wx:if="{{isGuest}}" class="guest-tip">当前可先浏览模板内容；需要保存个人问题和备忘时，再自行登录。</text>
     </view>
 
     <view class="card saved-card" wx:if="{{questions.length}}">
@@ -49,15 +54,24 @@
         <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bind:input="onAnswerInput" maxlength="1000" placeholder="线下咨询后，可在这里记录自己的备忘。" />
         <view class="question-actions">
           <button class="text-button" bind:tap="saveAnswer" data-id="{{item.id}}">
-            <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
-            保存备忘
+            <view class="button-content">
+              <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+              <text class="button-text">保存备忘</text>
+            </view>
           </button>
           <button class="text-button danger" bind:tap="deleteQuestion" data-id="{{item.id}}">
-            <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
-            删除
+            <view class="button-content">
+              <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+              <text class="button-text">删除</text>
+            </view>
           </button>
         </view>
       </view>
+    </view>
+
+    <view wx:if="{{isGuest && !questions.length}}" class="card guest-card">
+      <text class="guest-card-title">体验模式不展示个人问题清单</text>
+      <text class="guest-card-desc">你可以先查看模板内容和填写方式；登录后才会保存自己的问题与咨询备忘。</text>
     </view>
   </block>
 

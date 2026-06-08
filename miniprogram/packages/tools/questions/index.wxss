@@ -10,6 +10,7 @@
 
 .primary-button,
 .text-button {
+  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,17 +18,19 @@
 }
 
 .primary-button {
+  white-space: nowrap;
   height: 86rpx;
   border-radius: 18rpx;
   background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
   color: #fff;
   font-size: 30rpx;
-  line-height: 86rpx;
+  line-height: normal;
   font-weight: 800;
   box-shadow: 0 14rpx 30rpx rgba(31, 83, 201, 0.24);
 }
 
 .text-button {
+  white-space: nowrap;
   height: 58rpx;
   margin: 0;
   padding: 0 24rpx;
@@ -35,7 +38,7 @@
   background: rgba(31, 83, 201, 0.08);
   color: #1f53c9;
   font-size: 24rpx;
-  line-height: 58rpx;
+  line-height: normal;
   font-weight: 700;
 }
 
@@ -172,6 +175,14 @@
   margin-top: 24rpx;
 }
 
+.guest-tip {
+  display: block;
+  margin-top: 14rpx;
+  color: #66748a;
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
 .saved-question {
   padding: 24rpx 0;
   border-bottom: 1rpx solid rgba(195, 198, 214, 0.32);
@@ -198,4 +209,22 @@
 
 .saved-card {
   margin-top: 24rpx;
+}
+
+.guest-card-title,
+.guest-card-desc {
+  display: block;
+}
+
+.guest-card-title {
+  color: #0f172a;
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.guest-card-desc {
+  margin-top: 12rpx;
+  color: #64748b;
+  font-size: 25rpx;
+  line-height: 1.6;
 }

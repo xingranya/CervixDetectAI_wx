@@ -4,7 +4,8 @@ const {
   CACHE_KEYS,
   getCachedData,
   consumeCacheDirty,
-  clearAllCaches
+  clearAllCaches,
+  isLoggedIn
 } = require("../../utils/request");
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const {
@@ -59,6 +60,7 @@ function normalizeMetrics(metrics) {
 Page({
   data: {
     appName: "云端智诊",
+    isGuest: !isLoggedIn(),
     user: DEFAULT_USER,
     activeAvatarUrl: "",
     avatarLoadFailedUrl: "",
@@ -104,17 +106,23 @@ Page({
   },
 
   onLoad() {
+    this.refreshLoginState();
     this.renderProfileCache();
     this.scheduleSummaryRefresh();
     this.syncProfile();
   },
 
   onShow() {
+    this.refreshLoginState();
     this.renderStoredUser();
     this.syncProfile();
     if (consumeCacheDirty(CACHE_KEYS.home)) {
       this.scheduleSummaryRefresh();
     }
+  },
+
+  refreshLoginState() {
+    this.setData({ isGuest: !isLoggedIn() });
   },
 
   renderStoredUser() {
@@ -157,6 +165,11 @@ Page({
   },
 
   scheduleSummaryRefresh() {
+    if (!isLoggedIn()) {
+      this.setData({ metrics: DEFAULT_METRICS });
+      return;
+    }
+
     const run = () => this.loadSummary();
 
     if (typeof wx.nextTick === "function") {
@@ -167,6 +180,11 @@ Page({
   },
 
   async loadSummary() {
+    if (!isLoggedIn()) {
+      this.setData({ metrics: DEFAULT_METRICS });
+      return;
+    }
+
     try {
       const res = await request("/home", {
         cacheKey: CACHE_KEYS.home,
@@ -187,6 +205,11 @@ Page({
   },
 
   async syncProfile() {
+    if (!isLoggedIn()) {
+      this.renderStoredUser();
+      return;
+    }
+
     if (this.profileSyncing) return;
     this.profileSyncing = true;
     try {
@@ -241,7 +264,16 @@ Page({
     openRoute(path);
   },
 
+  goLogin() {
+    openRoute(ROUTES.login);
+  },
+
   logout() {
+    if (!isLoggedIn()) {
+      openRoute(ROUTES.login);
+      return;
+    }
+
     wx.showModal({
       title: "退出登录",
       content: "退出后可重新登录继续管理自己的记录。",

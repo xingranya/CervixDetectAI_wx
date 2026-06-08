@@ -2,11 +2,27 @@ const {
   request,
   CACHE_KEYS,
   getCachedData,
-  consumeCacheDirty
+  consumeCacheDirty,
+  isLoggedIn
 } = require("../../utils/request");
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const { PAGE_STATUS, resolveDetailStatus } = require("../../utils/page-state");
 const { getErrorMessage } = require("../../utils/feedback");
+
+const GUEST_HOME = {
+  userName: "欢迎体验",
+  latestTitle: "首页可先浏览主要功能",
+  latestDate: "",
+  latestSummary: "你可以先查看健康记录、复查提醒、问题整理和知识内容，确认适合后再自愿登录保存个人数据。",
+  nextReminder: "登录后可把自己的检查摘要、复查计划和咨询备忘同步到账号中持续管理。",
+  nextReminderValue: "登录后可用",
+  disclaimer: "产品用于个人健康记录、复查提醒和线下咨询准备，不提供在线诊断、治疗、处方或问诊服务。",
+  metrics: [
+    { label: "健康记录", value: "可浏览" },
+    { label: "知识内容", value: "可查看" },
+    { label: "登录方式", value: "自愿选择" }
+  ]
+};
 
 const DEFAULT_METRICS = [
   { label: "已记录", value: "0次" },
@@ -50,6 +66,7 @@ Page({
     home: null,
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
+    isGuest: !isLoggedIn(),
     actions: [
       { label: "检查记录", desc: "按时间保存摘要", path: ROUTES.records, tone: "green", side: "left", icon: "/assets/icons/records-active.png" },
       { label: "复查提醒", desc: "管理下一步安排", path: ROUTES.reminders, tone: "blue", side: "right", icon: "/assets/icons/reminders-active.png" },
@@ -59,17 +76,32 @@ Page({
   },
 
   onLoad() {
+    this.refreshLoginState();
     this.renderCachedHome();
     this.scheduleHomeRefresh();
   },
 
   onShow() {
+    this.refreshLoginState();
     if (this.data.home && consumeCacheDirty(CACHE_KEYS.home)) {
       this.scheduleHomeRefresh({ silent: true });
     }
   },
 
+  refreshLoginState() {
+    this.setData({ isGuest: !isLoggedIn() });
+  },
+
   renderCachedHome() {
+    if (!isLoggedIn()) {
+      this.setData({
+        home: GUEST_HOME,
+        pageStatus: PAGE_STATUS.READY,
+        errorMessage: ""
+      });
+      return true;
+    }
+
     const cachedHome = getCachedData(CACHE_KEYS.home);
     const hasCachedHome = !!(cachedHome && cachedHome.data);
 
@@ -98,6 +130,16 @@ Page({
   },
 
   async loadHome(options = {}) {
+    if (!isLoggedIn()) {
+      this.setData({
+        home: GUEST_HOME,
+        pageStatus: PAGE_STATUS.READY,
+        errorMessage: "",
+        isGuest: true
+      });
+      return;
+    }
+
     const { silent = false } = options;
     if (!silent) {
       this.setData({
@@ -135,5 +177,9 @@ Page({
   goPage(event) {
     const path = event.currentTarget.dataset.path;
     openRoute(path);
+  },
+
+  goLogin() {
+    openRoute(ROUTES.login);
   }
 });

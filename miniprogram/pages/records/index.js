@@ -5,11 +5,12 @@ const {
   isCacheFresh,
   consumeCacheDirty,
   removeCachedListItem,
-  markCacheDirty
+  markCacheDirty,
+  isLoggedIn
 } = require("../../utils/request");
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const { PAGE_STATUS, resolveListStatus } = require("../../utils/page-state");
-const { showErrorToast, showSuccessToast, getErrorMessage } = require("../../utils/feedback");
+const { showErrorToast, showSuccessToast, getErrorMessage, showErrorModal } = require("../../utils/feedback");
 
 function buildRecordSummary(records) {
   const latest = records[0] || null;
@@ -31,10 +32,23 @@ Page({
     records: [],
     summary: buildRecordSummary([]),
     pageStatus: PAGE_STATUS.LOADING,
-    errorMessage: ""
+    errorMessage: "",
+    isGuest: !isLoggedIn()
   },
 
   onShow() {
+    const guest = !isLoggedIn();
+    this.setData({ isGuest: guest });
+    if (guest) {
+      this.setData({
+        records: [],
+        summary: buildRecordSummary([]),
+        pageStatus: PAGE_STATUS.EMPTY,
+        errorMessage: ""
+      });
+      return;
+    }
+
     const cachedRecords = getCachedData(CACHE_KEYS.records);
     const hasCachedRecords = !!(cachedRecords && Array.isArray(cachedRecords.data));
 
@@ -95,10 +109,18 @@ Page({
   },
 
   createRecord() {
+    if (!isLoggedIn()) {
+      openRoute(ROUTES.login);
+      return;
+    }
     openRoute(ROUTES.recordForm);
   },
 
   editRecord(event) {
+    if (!isLoggedIn()) {
+      showErrorModal("登录后可编辑个人检查记录。");
+      return;
+    }
     openRoute(ROUTES.recordForm, { id: event.currentTarget.dataset.id });
   },
 

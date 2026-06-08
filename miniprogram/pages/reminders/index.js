@@ -8,11 +8,12 @@ const {
   updateCachedListItem,
   setCachedData,
   clearCachedData,
-  markCacheDirty
+  markCacheDirty,
+  isLoggedIn
 } = require("../../utils/request");
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const { PAGE_STATUS, resolveListStatus } = require("../../utils/page-state");
-const { showErrorToast, showSuccessToast, getErrorMessage } = require("../../utils/feedback");
+const { showErrorToast, showSuccessToast, getErrorMessage, showErrorModal } = require("../../utils/feedback");
 
 function buildReminderSummary(reminders) {
   const pending = reminders.filter((item) => !item.done);
@@ -38,10 +39,23 @@ Page({
     reminders: [],
     summary: buildReminderSummary([]),
     pageStatus: PAGE_STATUS.LOADING,
-    errorMessage: ""
+    errorMessage: "",
+    isGuest: !isLoggedIn()
   },
 
   onShow() {
+    const guest = !isLoggedIn();
+    this.setData({ isGuest: guest });
+    if (guest) {
+      this.setData({
+        reminders: [],
+        summary: buildReminderSummary([]),
+        pageStatus: PAGE_STATUS.EMPTY,
+        errorMessage: ""
+      });
+      return;
+    }
+
     const cachedReminders = getCachedData(CACHE_KEYS.reminders);
     const hasCachedReminders = !!(cachedReminders && Array.isArray(cachedReminders.data));
 
@@ -99,10 +113,18 @@ Page({
   },
 
   createReminder() {
+    if (!isLoggedIn()) {
+      openRoute(ROUTES.login);
+      return;
+    }
     openRoute(ROUTES.reminderForm);
   },
 
   editReminder(event) {
+    if (!isLoggedIn()) {
+      showErrorModal("登录后可编辑个人复查提醒。");
+      return;
+    }
     openRoute(ROUTES.reminderForm, { id: event.currentTarget.dataset.id });
   },
 

@@ -26,9 +26,11 @@
       <view class="form-input picker-value">{{form.status || '请选择状态'}}</view>
     </picker>
 
-    <button class="primary-button form-submit" loading="{{loading}}" bind:tap="submitForm">
-      <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
-      保存记录
+    <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
+      <view class="button-content">
+        <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
+        <text class="button-text">{{loading ? '正在保存' : '保存记录'}}</text>
+      </view>
     </button>
   </view>
 

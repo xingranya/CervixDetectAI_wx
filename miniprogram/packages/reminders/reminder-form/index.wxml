@@ -31,14 +31,16 @@
         <text class="subscribe-desc">{{subscriptionMessage}}</text>
       </view>
       <button wx:if="{{subscriptionEnabled}}" class="text-button" bind:tap="requestSubscription">
-        {{subscriptionAccepted ? '已开启' : '开启通知'}}
+        <text class="button-text">{{subscriptionAccepted ? '已开启' : '开启通知'}}</text>
       </button>
       <text wx:else class="subscribe-status">保存到小程序内</text>
     </view>
 
-    <button class="primary-button form-submit" loading="{{loading}}" bind:tap="submitForm">
-      <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
-      保存提醒
+    <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
+      <view class="button-content">
+        <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
+        <text class="button-text">{{loading ? '正在保存' : '保存提醒'}}</text>
+      </view>
     </button>
   </view>
   <view class="safe-note">微信服务通知需用户主动授权；未开启时，提醒仍会保存在小程序内，方便你随时查看。</view>
