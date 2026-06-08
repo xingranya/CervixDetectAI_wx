@@ -49,6 +49,8 @@ mysql -h mysql7.sqlpub.com -P 3312 -u xingranya666 -p cervixdetectai_wx < databa
 
 `POST /api/miniapp/feedback` 会写入 MySQL，并做基础内容清洗和健康服务边界校验；如果用户提交明显越界的医疗服务表达，会返回 400。
 
+公开接口仅包括 `POST /api/miniapp/auth/login`、`GET /api/miniapp/question-templates` 和 `GET /api/miniapp/articles`。检查记录、复查提醒、个人问题清单和站内反馈都需要 `Authorization: Bearer <token>`。
+
 ## 校验
 
 先安装依赖：

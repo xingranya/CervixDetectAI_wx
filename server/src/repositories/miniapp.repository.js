@@ -319,11 +319,11 @@ async function updateRecord(userId, id, payload) {
 }
 
 async function deleteRecord(userId, id) {
-  await db.query(
+  const result = await db.query(
     "DELETE FROM wx_health_records WHERE id = ? AND user_id = ?",
     [id, userId]
   );
-  return { deleted: true };
+  return { deleted: result.affectedRows > 0 };
 }
 
 async function listReminders(userId) {
@@ -391,11 +391,11 @@ async function completeReminder(userId, id) {
 }
 
 async function deleteReminder(userId, id) {
-  await db.query(
+  const result = await db.query(
     "DELETE FROM wx_reminders WHERE id = ? AND user_id = ?",
     [id, userId]
   );
-  return { deleted: true };
+  return { deleted: result.affectedRows > 0 };
 }
 
 async function listQuestionTemplates() {
@@ -484,11 +484,11 @@ async function updateQuestion(userId, id, payload) {
 }
 
 async function deleteQuestion(userId, id) {
-  await db.query(
+  const result = await db.query(
     "DELETE FROM wx_user_questions WHERE id = ? AND user_id = ?",
     [id, userId]
   );
-  return { deleted: true };
+  return { deleted: result.affectedRows > 0 };
 }
 
 async function listArticles() {
@@ -507,12 +507,13 @@ async function createFeedback(userId, payload = {}) {
   const id = crypto.randomUUID();
   await db.query(
     `
-      INSERT INTO wx_feedback (id, user_id, contact, content, created_at)
-      VALUES (?, ?, ?, ?, NOW())
+      INSERT INTO wx_feedback (id, user_id, feedback_type, contact, content, created_at)
+      VALUES (?, ?, ?, ?, ?, NOW())
     `,
     [
       id,
       userId,
+      payload.type ? String(payload.type).trim().slice(0, 40) : "其他反馈",
       payload.contact ? String(payload.contact).trim().slice(0, 120) : null,
       payload.content ? String(payload.content).trim().slice(0, 1000) : ""
     ]

@@ -16,6 +16,8 @@ const PROHIBITED_SERVICE_TERMS = [
   "挂号缴费"
 ];
 
+const FEEDBACK_TYPES = ["功能建议", "使用问题", "隐私与数据", "其他反馈"];
+
 function cleanText(value, maxLength = 500) {
   return String(value || "").trim().slice(0, maxLength);
 }
@@ -223,9 +225,12 @@ async function listArticles() {
 }
 
 async function createFeedback(userId, payload) {
+  const type = cleanText(payload?.type, 40);
   const content = requireText(payload?.content, "反馈内容", 1000);
   assertComplianceText(payload?.contact, "联系方式");
+  assertComplianceText(type, "反馈类型");
   return repository.createFeedback(userId, {
+    type: FEEDBACK_TYPES.indexOf(type) > -1 ? type : "其他反馈",
     contact: cleanText(payload?.contact, 120),
     content
   });

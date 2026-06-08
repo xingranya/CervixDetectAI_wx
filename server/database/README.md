@@ -14,6 +14,8 @@ cervixdetectai_wx
 server/database/init.sql
 ```
 
+脚本会幂等写入一组默认演示数据，包含演示用户、检查记录、复查提醒、问题模板和健康知识，方便首次打开小程序时直接看到完整效果。
+
 执行方式：
 
 ```bash
@@ -27,4 +29,3 @@ mysql -h mysql7.sqlpub.com -P 3312 -u xingranya666 -p cervixdetectai_wx < databa
 ```
 
 为避免密码出现在终端历史里，建议执行后按提示输入密码。
-

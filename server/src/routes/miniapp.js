@@ -18,6 +18,14 @@ router.post("/auth/login", asyncRoute(async (req, res) => {
   ok(res, await miniappService.login(req.body || {}));
 }));
 
+router.get("/question-templates", asyncRoute(async (req, res) => {
+  ok(res, await miniappService.listQuestionTemplates());
+}));
+
+router.get("/articles", asyncRoute(async (req, res) => {
+  ok(res, await miniappService.listArticles());
+}));
+
 router.use(authenticate);
 
 router.get("/me", asyncRoute(async (req, res) => {
@@ -57,7 +65,9 @@ router.put("/records/:id", asyncRoute(async (req, res) => {
 }));
 
 router.delete("/records/:id", asyncRoute(async (req, res) => {
-  ok(res, await miniappService.deleteRecord(req.user.id, req.params.id));
+  const result = await miniappService.deleteRecord(req.user.id, req.params.id);
+  if (!result.deleted) return res.status(404).json({ success: false, message: "未找到该记录" });
+  ok(res, result);
 }));
 
 router.get("/reminders", asyncRoute(async (req, res) => {
@@ -87,11 +97,9 @@ router.patch("/reminders/:id/done", asyncRoute(async (req, res) => {
 }));
 
 router.delete("/reminders/:id", asyncRoute(async (req, res) => {
-  ok(res, await miniappService.deleteReminder(req.user.id, req.params.id));
-}));
-
-router.get("/question-templates", asyncRoute(async (req, res) => {
-  ok(res, await miniappService.listQuestionTemplates());
+  const result = await miniappService.deleteReminder(req.user.id, req.params.id);
+  if (!result.deleted) return res.status(404).json({ success: false, message: "未找到该提醒" });
+  ok(res, result);
 }));
 
 router.get("/questions", asyncRoute(async (req, res) => {
@@ -113,11 +121,9 @@ router.put("/questions/:id", asyncRoute(async (req, res) => {
 }));
 
 router.delete("/questions/:id", asyncRoute(async (req, res) => {
-  ok(res, await miniappService.deleteQuestion(req.user.id, req.params.id));
-}));
-
-router.get("/articles", asyncRoute(async (req, res) => {
-  ok(res, await miniappService.listArticles());
+  const result = await miniappService.deleteQuestion(req.user.id, req.params.id);
+  if (!result.deleted) return res.status(404).json({ success: false, message: "未找到该问题" });
+  ok(res, result);
 }));
 
 router.post("/feedback", asyncRoute(async (req, res) => {

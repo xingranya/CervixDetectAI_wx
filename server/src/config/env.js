@@ -6,7 +6,7 @@ module.exports = {
   allowedOrigin: process.env.MINIAPP_ALLOWED_ORIGIN || "*",
   publicBaseUrl: process.env.MINIAPP_PUBLIC_BASE_URL || "",
   wechat: {
-    appId: process.env.WECHAT_APP_ID || "wx1f7b9852c47b2ffd",
+    appId: process.env.WECHAT_APP_ID || "",
     appSecret: process.env.WECHAT_APP_SECRET || ""
   },
   database: {
