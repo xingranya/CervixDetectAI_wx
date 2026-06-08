@@ -82,7 +82,18 @@ Page({
   },
 
   onShow() {
+    const wasGuest = this.data.isGuest;
     this.refreshLoginState();
+    const isGuest = this.data.isGuest;
+    if (wasGuest && !isGuest) {
+      this.setData({
+        home: null,
+        pageStatus: PAGE_STATUS.LOADING,
+        errorMessage: ""
+      });
+      this.scheduleHomeRefresh({ silent: false });
+      return;
+    }
     if (this.data.home && consumeCacheDirty(CACHE_KEYS.home)) {
       this.scheduleHomeRefresh({ silent: true });
     }
