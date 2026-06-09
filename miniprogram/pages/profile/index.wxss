@@ -1,17 +1,17 @@
 .profile-page {
-  padding-bottom: 72rpx;
+  padding-bottom: calc(116rpx + env(safe-area-inset-bottom));
 }
 
 .profile-hero {
   margin-bottom: 28rpx;
-  padding: 38rpx 30rpx 30rpx;
-  border-radius: 28rpx;
+  padding: 34rpx 30rpx 28rpx;
+  border-radius: 24rpx;
   background:
-    radial-gradient(circle at 50% 0, rgba(219, 225, 255, 0.94), transparent 46%),
-    linear-gradient(180deg, rgba(248, 249, 255, 0.86), rgba(239, 244, 255, 0.78));
+    radial-gradient(circle at 50% 0, rgba(219, 225, 255, 0.76), transparent 42%),
+    linear-gradient(180deg, #ffffff, #edf3ff);
   color: #ffffff;
-  border: 1rpx solid rgba(255, 255, 255, 0.86);
-  box-shadow: 0 20rpx 46rpx rgba(31, 83, 201, 0.08);
+  border: 1rpx solid rgba(198, 210, 236, 0.64);
+  box-shadow: 0 18rpx 42rpx rgba(31, 83, 201, 0.07);
 }
 
 .profile-user-row {
@@ -23,8 +23,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 124rpx;
-  height: 124rpx;
+  width: 118rpx;
+  height: 118rpx;
   margin: 0 auto;
   padding: 6rpx;
   border-radius: 50%;
@@ -37,8 +37,8 @@
 
 .profile-avatar,
 .profile-avatar-default {
-  width: 112rpx;
-  height: 112rpx;
+  width: 106rpx;
+  height: 106rpx;
   border-radius: 50%;
   overflow: hidden;
   box-sizing: border-box;
@@ -101,7 +101,7 @@
   display: block;
   margin-top: 14rpx;
   color: #0b1c30;
-  font-size: 44rpx;
+  font-size: 42rpx;
   font-weight: 900;
   line-height: 1.15;
 }
@@ -123,9 +123,9 @@
 
 .profile-metric {
   padding: 18rpx 10rpx;
-  border-radius: 18rpx;
-  background: rgba(255, 255, 255, 0.74);
-  border: 1rpx solid rgba(255, 255, 255, 0.84);
+  border-radius: 16rpx;
+  background: #ffffff;
+  border: 1rpx solid rgba(198, 210, 236, 0.42);
   text-align: center;
 }
 
@@ -219,18 +219,18 @@
 
 .profile-menu-list {
   overflow: hidden;
-  border: 1rpx solid rgba(255, 255, 255, 0.86);
-  border-radius: 24rpx;
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 16rpx 38rpx rgba(31, 83, 201, 0.06);
+  border: 1rpx solid rgba(198, 210, 236, 0.58);
+  border-radius: 22rpx;
+  background: #ffffff;
+  box-shadow: 0 14rpx 34rpx rgba(31, 83, 201, 0.05);
 }
 
 .profile-menu-row {
   display: flex;
   align-items: center;
   gap: 18rpx;
-  min-height: 112rpx;
-  padding: 22rpx 24rpx;
+  min-height: 108rpx;
+  padding: 20rpx 22rpx;
   border-bottom: 1rpx solid rgba(195, 198, 214, 0.26);
   box-sizing: border-box;
 }
@@ -243,10 +243,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 84rpx;
-  height: 84rpx;
-  border-radius: 18rpx;
-  background: rgba(219, 225, 255, 0.58);
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 16rpx;
+  background: #eef3ff;
   flex: 0 0 auto;
 }
 

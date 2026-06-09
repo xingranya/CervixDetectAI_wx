@@ -14,12 +14,23 @@
 
   <block wx:else>
     <view class="hero dashboard-card">
-      <view class="hero-top">
-        <view>
-          <text class="section-kicker">女性健康管理助手</text>
+      <view class="hero-top-row">
+        <view class="avatar-wrap">
+          <image
+            wx:if="{{activeAvatarUrl && !isGuest}}"
+            class="home-avatar"
+            src="{{activeAvatarUrl}}"
+            mode="aspectFill"
+          />
+          <mp-icon wx:else icon="me" color="#005dac" size="{{32}}" />
+          <view class="status-dot"></view>
+        </view>
+        <view class="hero-top-copy">
           <view class="status-row">
-            <view class="status-dot"></view>
-            <text class="hero-status">记录中</text>
+            <view class="status-pill">
+              <view class="status-dot-inline"></view>
+              <text>{{isGuest ? '体验中' : '记录中'}}</text>
+            </view>
           </view>
         </view>
         <view class="follow-card">
@@ -27,7 +38,7 @@
           <text class="follow-date">{{home.nextReminderValue}}</text>
         </view>
       </view>
-      <text class="hero-title">{{home.userName}}，请按计划管理健康记录</text>
+      <text class="hero-title">{{isGuest ? '当前处于体验模式' : home.userName + '，请按计划管理健康记录'}}</text>
       <text class="hero-desc">{{home.latestSummary}}</text>
       <view class="metric-row">
         <view wx:for="{{home.metrics}}" wx:key="label" class="metric-item">
@@ -62,10 +73,12 @@
         data-path="{{item.path}}"
       >
         <view class="action-icon-wrap">
-          <mp-icon icon="{{item.weuiIcon}}" color="#1f53c9" size="{{30}}" />
+          <image class="action-icon" src="{{item.icon}}" mode="aspectFit" />
         </view>
-        <text class="action-title">{{item.label}}</text>
-        <text class="action-desc">{{item.desc}}</text>
+        <view class="action-copy">
+          <text class="action-title">{{item.label}}</text>
+          <text class="action-desc">{{item.desc}}</text>
+        </view>
       </view>
     </view>
 
@@ -73,7 +86,7 @@
       <view class="card-head">
         <view class="card-title-row">
           <view class="icon-chip">
-            <mp-icon icon="note" color="#1f53c9" size="{{30}}" />
+            <image class="icon-chip-image" src="/assets/icons/records-active.png" mode="aspectFit" />
           </view>
           <view class="latest-title-block">
             <text class="section-kicker">最近记录</text>

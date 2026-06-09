@@ -8,6 +8,13 @@ const {
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const { PAGE_STATUS, resolveDetailStatus } = require("../../utils/page-state");
 const { getErrorMessage } = require("../../utils/feedback");
+const { normalizeStoredUser } = require("../../utils/avatar");
+
+const DEFAULT_USER = normalizeStoredUser({
+  nickname: "微信用户",
+  avatarUrl: "",
+  avatarLocalPath: ""
+});
 
 const GUEST_HOME = {
   userName: "欢迎体验",
@@ -61,17 +68,49 @@ function normalizeHome(home) {
   };
 }
 
+function resolveActiveAvatarUrl(user) {
+  if (user.avatarUrl) return user.avatarUrl;
+  if (user.avatarLocalPath) return user.avatarLocalPath;
+  return "";
+}
+
 Page({
   data: {
     home: null,
+    user: DEFAULT_USER,
+    activeAvatarUrl: "",
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
     isGuest: !isLoggedIn(),
     actions: [
-      { label: "检查记录", desc: "按时间保存摘要", path: ROUTES.records, tone: "green", side: "left", weuiIcon: "note" },
-      { label: "复查提醒", desc: "管理下一步安排", path: ROUTES.reminders, tone: "blue", side: "right", weuiIcon: "time" },
-      { label: "问题整理", desc: "提前列出重点", path: ROUTES.questions, tone: "gold", side: "left", weuiIcon: "comment" },
-      { label: "健康知识", desc: "查看管理建议", path: ROUTES.articles, tone: "mint", side: "right", weuiIcon: "info" }
+      {
+        label: "检查记录",
+        desc: "按时间保存摘要",
+        path: ROUTES.records,
+        tone: "blue",
+        icon: "/assets/icons/records-active.png"
+      },
+      {
+        label: "复查提醒",
+        desc: "管理下一步安排",
+        path: ROUTES.reminders,
+        tone: "lavender",
+        icon: "/assets/icons/reminders-active.png"
+      },
+      {
+        label: "问题整理",
+        desc: "提前列出重点",
+        path: ROUTES.questions,
+        tone: "mint",
+        icon: "/assets/icons/questions-active.png"
+      },
+      {
+        label: "健康知识",
+        desc: "查看管理建议",
+        path: ROUTES.articles,
+        tone: "cyan",
+        icon: "/assets/icons/articles-active.png"
+      }
     ]
   },
 
@@ -100,7 +139,12 @@ Page({
   },
 
   refreshLoginState() {
-    this.setData({ isGuest: !isLoggedIn() });
+    const user = normalizeStoredUser(wx.getStorageSync("user"));
+    this.setData({
+      isGuest: !isLoggedIn(),
+      user,
+      activeAvatarUrl: resolveActiveAvatarUrl(user)
+    });
   },
 
   renderCachedHome() {

@@ -19,12 +19,18 @@ const {
   requestReminderSubscription
 } = require("../../utils/reminder-subscription");
 
+function formatShortDate(value) {
+  const text = String(value || "");
+  if (text.length >= 10) return text.slice(5, 10).replace("-", "/");
+  return text || "暂无";
+}
+
 function buildReminderSummary(reminders) {
   const pending = reminders.filter((item) => !item.done);
   return {
     total: reminders.length,
     pending: pending.length,
-    nextDate: pending.length ? pending[0].date : "暂无",
+    nextDate: pending.length ? formatShortDate(pending[0].date) : "暂无",
     title: pending.length ? "按计划推进复查安排" : "当前没有待处理提醒"
   };
 }
@@ -51,7 +57,7 @@ function buildReminderView(reminder) {
   const dateText = String(reminder.date || "");
   return {
     ...reminder,
-    dateMonthDay: dateText.length >= 10 ? dateText.slice(5, 10) : dateText,
+    dateMonthDay: formatShortDate(dateText),
     dateYear: dateText.length >= 4 ? dateText.slice(0, 4) : "",
     statusText: reminder.done ? "已完成" : "待处理",
     canNotify: hasReminderSubscriptionTemplate(),

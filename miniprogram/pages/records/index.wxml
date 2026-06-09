@@ -2,7 +2,7 @@
   <section-header title="检查记录" weui-icon="note">
     <button slot="extra" class="mini-primary" bind:tap="createRecord">
       <view class="button-content">
-        <mp-icon icon="add" color="#1f53c9" size="{{16}}" />
+        <mp-icon icon="add" color="rgb(24, 118, 210)" size="{{16}}" />
         <text class="button-text">新增</text>
       </view>
     </button>
@@ -11,17 +11,12 @@
   <view class="card records-trend-card">
     <view class="trend-head">
       <view>
-        <text class="section-kicker">健康记录概览</text>
-        <text class="trend-title">{{summary.trendText}}</text>
+        <text class="trend-title">全部记录</text>
+        <text class="trend-desc">查看您的健康筛查历史</text>
       </view>
       <view class="icon-chip">
-        <mp-icon icon="note" color="#1f53c9" size="{{30}}" />
+        <image class="icon-chip-image" src="/assets/icons/records-active.png" mode="aspectFit" />
       </view>
-    </view>
-    <view class="trend-line">
-      <view class="trend-dot trend-dot-start"></view>
-      <view class="trend-wave"></view>
-      <view class="trend-dot trend-dot-end"></view>
     </view>
     <view class="trend-metrics">
       <view class="trend-metric">
@@ -81,31 +76,32 @@
   />
 
   <block wx:else>
-    <view class="timeline">
+    <view class="records-list">
       <view wx:for="{{records}}" wx:key="id" class="timeline-item">
-        <view class="timeline-rail">
-          <view class="timeline-node {{index === 0 ? 'timeline-node-active' : ''}}"></view>
-          <view class="timeline-line" wx:if="{{index < records.length - 1}}"></view>
-        </view>
         <view class="slide-cell">
           <mp-slideview ext-class="record-slideview" buttons="{{item.slideButtons}}" bindbuttontap="onSlideButtonTap">
           <view class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
             <view class="record-top">
               <view class="record-title-block">
-                <text class="record-date">{{item.date}}</text>
                 <text class="record-title">{{item.title}}</text>
+                <view class="record-meta-row">
+                  <mp-icon icon="time" color="#717783" size="{{14}}" />
+                  <text class="record-date">{{item.dateText}}</text>
+                </view>
               </view>
               <view class="pill-wrap">
                 <text class="pill">{{item.status}}</text>
                 <mp-badge wx:if="{{item.status.indexOf('待') > -1 || item.status.indexOf('复查') > -1}}" />
               </view>
             </view>
-            <text class="record-project">{{item.project}}</text>
-            <text class="record-summary">{{item.summary}}</text>
+            <view class="record-summary-box">
+              <text class="record-project">{{item.project}}</text>
+              <text class="record-summary">{{item.summary}}</text>
+            </view>
             <view class="record-actions">
               <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
                 <view class="button-content">
-                  <mp-icon icon="note" color="#1f53c9" size="{{16}}" />
+                  <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{16}}" />
                   <text class="button-text">编辑</text>
                 </view>
               </button>

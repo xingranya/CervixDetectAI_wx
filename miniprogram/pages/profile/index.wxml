@@ -56,7 +56,7 @@
         data-tab="{{item.tab}}"
       >
           <view class="profile-menu-icon-wrap">
-          <mp-icon icon="{{item.weuiIcon}}" color="#1f53c9" size="{{24}}" />
+          <mp-icon wx:if="{{item.weuiIcon}}" icon="{{item.weuiIcon}}" color="#1f53c9" size="{{24}}" />
         </view>
         <view class="profile-menu-body">
           <text class="menu-title">{{item.title}}</text>

@@ -12,6 +12,12 @@ const { ROUTES, openRoute } = require("../../utils/navigation");
 const { PAGE_STATUS, resolveListStatus } = require("../../utils/page-state");
 const { showErrorToast, showSuccessToast, getErrorMessage, showErrorModal } = require("../../utils/feedback");
 
+function formatShortDate(value) {
+  const text = String(value || "");
+  if (text.length >= 10) return text.slice(5, 10).replace("-", "/");
+  return text || "暂无";
+}
+
 function buildRecordSummary(records) {
   const latest = records[0] || null;
   const pendingCount = records.filter((item) => {
@@ -22,7 +28,7 @@ function buildRecordSummary(records) {
   return {
     total: records.length,
     pending: pendingCount,
-    latestDate: latest ? latest.date : "暂无",
+    latestDate: latest ? formatShortDate(latest.date) : "暂无",
     trendText: records.length ? "记录持续更新" : "等待建立记录"
   };
 }
@@ -39,6 +45,7 @@ function filterRecords(records, keyword) {
 function buildRecordView(record) {
   return {
     ...record,
+    dateText: formatShortDate(record.date),
     slideButtons: [
       { text: "编辑", data: { action: "edit", id: record.id } },
       { type: "warn", text: "删除", data: { action: "delete", id: record.id } }
