@@ -34,8 +34,12 @@
   "packOptions": {
     "ignore": [
       {
+        "value": "/minitest",
+        "type": "folder"
+      },
+      {
         "type": "folder",
-        "value": "/minitest"
+        "value": "minitest/"
       }
     ],
     "include": []

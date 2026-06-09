@@ -109,8 +109,7 @@ function buildFormState(form) {
     formModel: {
       title: nextForm.title,
       date: nextForm.date,
-      desc: nextForm.desc,
-      done: nextForm.done ? ["done"] : []
+      desc: nextForm.desc
     },
     pageTitle: "新增复查提醒",
     title: nextForm.title,
@@ -118,11 +117,8 @@ function buildFormState(form) {
     dateDisplay: nextForm.date || "请选择日期",
     desc: nextForm.desc,
     done: nextForm.done,
-    titleIndex,
-    currentTitle,
     titleOptionsView: buildTitleOptionsView(currentTitle),
     doneItems: [{ label: "标记为已完成", value: "done", checked: nextForm.done }],
-    doneValues: nextForm.done ? ["done"] : [],
     descLength: nextForm.desc.length
   };
 }
@@ -221,8 +217,6 @@ Page({
     const index = Number(event.detail.value || 0);
     const title = titleOptions[index] || titleOptions[0];
     this.setData({
-      titleIndex: index,
-      currentTitle: title,
       title,
       "formModel.title": title,
       titleOptionsView: buildTitleOptionsView(title),
@@ -235,8 +229,6 @@ Page({
     const index = findTitleIndex(title);
     const currentTitle = titleOptions[index] || titleOptions[0];
     this.setData({
-      titleIndex: index,
-      currentTitle,
       title: currentTitle,
       "formModel.title": currentTitle,
       titleOptionsView: buildTitleOptionsView(currentTitle),
@@ -275,9 +267,7 @@ Page({
     const done = values.indexOf("done") > -1 || event.detail.value === true;
     this.setData({
       done,
-      "formModel.done": done ? ["done"] : [],
-      doneItems: [{ label: "标记为已完成", value: "done", checked: done }],
-      doneValues: done ? ["done"] : []
+      doneItems: [{ label: "标记为已完成", value: "done", checked: done }]
     });
   },
 

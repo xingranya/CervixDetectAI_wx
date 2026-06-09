@@ -10,15 +10,21 @@
     </view>
     <view class="template-row">
       <button class="template-card" data-index="0" bind:tap="applyTemplate">
-        <text class="template-title">筛查摘要</text>
+        <view class="template-title-wrap">
+          <text class="template-title">筛查摘要</text>
+        </view>
         <text class="template-desc">TCT / HPV 等摘要</text>
       </button>
       <button class="template-card" data-index="1" bind:tap="applyTemplate">
-        <text class="template-title">复查准备</text>
+        <view class="template-title-wrap">
+          <text class="template-title">复查准备</text>
+        </view>
         <text class="template-desc">复查前资料整理</text>
       </button>
       <button class="template-card" data-index="2" bind:tap="applyTemplate">
-        <text class="template-title">日常记录</text>
+        <view class="template-title-wrap">
+          <text class="template-title">日常记录</text>
+        </view>
         <text class="template-desc">普通健康记录</text>
       </button>
     </view>

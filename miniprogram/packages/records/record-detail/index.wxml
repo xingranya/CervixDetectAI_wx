@@ -1,6 +1,9 @@
 <view class="page detail-page">
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <mp-loading type="circle" tips="正在加载记录详情" />
+    <view class="local-loading">
+      <view class="loading-ring"></view>
+      <text class="loading-text">正在加载记录详情</text>
+    </view>
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">

@@ -62,3 +62,39 @@ mp-icon + .button-text,
 mp-icon + .plain-link-text {
   margin-left: 8rpx;
 }
+
+.local-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 180rpx;
+  gap: 18rpx;
+}
+
+.loading-ring {
+  width: 46rpx;
+  height: 46rpx;
+  border: 5rpx solid rgba(24, 118, 210, 0.16);
+  border-top-color: rgb(24, 118, 210);
+  border-radius: 50%;
+  animation: loadingRotate 0.8s linear infinite;
+  box-sizing: border-box;
+}
+
+.loading-text {
+  color: #526174;
+  font-size: 25rpx;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+@keyframes loadingRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

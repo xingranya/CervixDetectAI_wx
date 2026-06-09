@@ -76,13 +76,6 @@ function normalizeStatus(status) {
   return statusOptions.indexOf(status) > -1 ? status : statusOptions[0];
 }
 
-function buildStatusOptionsView(activeStatus) {
-  return statusOptions.map((status) => ({
-    status,
-    className: status === activeStatus ? "choice-chip choice-chip-active" : "choice-chip"
-  }));
-}
-
 function buildStatusItems(activeStatus) {
   return statusOptions.map((status) => ({
     label: status,
@@ -124,9 +117,7 @@ function buildFormState(form) {
     summary: nextForm.summary,
     suggestion: nextForm.suggestion,
     status: nextForm.status,
-    statusOptionsView: buildStatusOptionsView(nextForm.status),
     statusItems: buildStatusItems(nextForm.status),
-    statusValues: [nextForm.status],
     summaryLength: nextForm.summary.length,
     suggestionLength: nextForm.suggestion.length
   };
@@ -253,9 +244,7 @@ Page({
     this.setData({
       status,
       "formModel.status": status,
-      statusOptionsView: buildStatusOptionsView(status),
       statusItems: buildStatusItems(status),
-      statusValues: [status],
       errorMessage: ""
     });
   },
@@ -266,9 +255,7 @@ Page({
     this.setData({
       status,
       "formModel.status": status,
-      statusOptionsView: buildStatusOptionsView(status),
       statusItems: buildStatusItems(status),
-      statusValues: [status],
       errorMessage: ""
     });
   },
