@@ -140,7 +140,7 @@ Page({
     return Promise.resolve(list.map((text) => ({ text, value: text })));
   },
 
-  onSearchInput(event) {
+  onSearchChange(event) {
     this.setData({ searchKeyword: event.detail.value || "" });
   },
 

@@ -45,6 +45,18 @@
         "packages/tools"
       ]
     },
+    "pages/records/index": {
+      "network": "all",
+      "packages": [
+        "packages/records"
+      ]
+    },
+    "pages/reminders/index": {
+      "network": "all",
+      "packages": [
+        "packages/reminders"
+      ]
+    },
     "pages/profile/index": {
       "network": "all",
       "packages": [
@@ -93,8 +105,22 @@
       }
     ]
   },
-  "style": "v2",
   "lazyCodeLoading": "requiredComponents",
   "sitemapLocation": "sitemap.json",
-  "__usePrivacyCheck__": true
+  "__usePrivacyCheck__": true,
+  "darkmode": true,
+  "themeLocation": "theme.json",
+  "renderer": "skyline",
+  "componentFramework": "glass-easel",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true
+    }
+  },
+  "router": {
+    "routeBuilders": {
+      "slide": "builtIn"
+    }
+  },
+  "popGesture": true
 }

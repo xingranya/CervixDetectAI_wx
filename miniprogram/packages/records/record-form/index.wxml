@@ -1,3 +1,5 @@
+<custom-nav-bar title="{{pageTitle}}" showBack />
+<scroll-view type="list" scroll-y style="height: 100vh;">
 <view class="page record-form-page">
   <section-header title="{{pageTitle}}" weui-icon="note" desc="保存已有检查摘要，方便后续复查和线下咨询时查看。" />
 
@@ -41,7 +43,7 @@
           <picker mode="date" value="{{date}}" bind:change="onDateChange">
             <view class="select-field">
               <text class="select-value">{{dateDisplay}}</text>
-              <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
+              <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
             </view>
           </picker>
         </mp-cell>
@@ -92,12 +94,8 @@
   </mp-form>
 
   <view class="submit-panel">
-    <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
-      <view class="button-content">
-        <mp-icon icon="note" color="#ffffff" size="{{18}}" />
-        <text class="button-text">{{submitText}}</text>
-      </view>
-    </button>
-    <view class="safe-note">请仅记录已有检查摘要和个人提醒，不填写诊断结论、处方或紧急求助内容。</view>
+    <t-button theme="primary" size="large" block disabled="{{loading}}" icon="file" bind:tap="submitForm">{{submitText}}</t-button>
+    <t-notice-bar theme="info" content="请仅记录已有检查摘要和个人提醒，不填写诊断结论、处方或紧急求助内容。" />
   </view>
 </view>
+</scroll-view>

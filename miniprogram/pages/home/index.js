@@ -82,6 +82,7 @@ Page({
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
     isGuest: !isLoggedIn(),
+    refreshing: false,
     actions: [
       {
         label: "检查记录",
@@ -118,6 +119,34 @@ Page({
     this.refreshLoginState();
     this.renderCachedHome();
     this.scheduleHomeRefresh();
+    this.initActionCardAnimation();
+  },
+
+  initActionCardAnimation() {
+    try {
+      if (typeof this.applyAnimatedStyle !== "function") return;
+      this.applyAnimatedStyle(".action-card", () => {
+        "worklet";
+        return {
+          transform: { scale: 1 },
+          transition: { transform: { duration: 150 } }
+        };
+      }, () => {
+        "worklet";
+        return {
+          transform: { scale: 0.96 },
+          transition: { transform: { duration: 150 } }
+        };
+      }, () => {
+        "worklet";
+        return {
+          transform: { scale: 1 },
+          transition: { transform: { duration: 150 } }
+        };
+      });
+    } catch (_error) {
+      // 非 Skyline 环境下 worklet 不可用，静默忽略
+    }
   },
 
   onShow() {
@@ -225,8 +254,23 @@ Page({
   },
 
   async onPullDownRefresh() {
+    this.setData({ refreshing: true });
     await this.loadHome({ silent: true });
+    this.setData({ refreshing: false });
     wx.stopPullDownRefresh();
+  },
+
+  onShareAppMessage() {
+    return {
+      title: "云端智诊 - 女性健康记录与复查提醒助手",
+      path: "/pages/home/index"
+    };
+  },
+
+  onShareTimeline() {
+    return {
+      title: "云端智诊 - 女性健康记录与复查提醒助手"
+    };
   },
 
   goPage(event) {

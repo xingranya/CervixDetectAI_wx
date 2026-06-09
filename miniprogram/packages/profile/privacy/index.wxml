@@ -1,9 +1,10 @@
+<custom-nav-bar title="隐私说明" showBack />
 <view class="page privacy-page">
   <section-header title="隐私与服务说明" weui-icon="info" desc="说明数据用途、授权方式和服务边界。" />
 
   <view class="privacy-hero">
     <view class="hero-icon">
-      <mp-icon icon="info" color="#1f53c9" size="{{34}}" />
+      <t-icon name="info-circle" color="#1f53c9" size="68rpx" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">数据只用于你的健康记录管理</text>

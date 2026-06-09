@@ -1,19 +1,16 @@
+<custom-nav-bar title="健康知识" showBack />
+<scroll-view type="list" scroll-y style="height: 100vh;">
 <view class="page">
   <section-header title="健康知识" weui-icon="info" />
 
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <view class="local-loading">
-      <view class="loading-ring"></view>
-      <text class="loading-text">正在加载知识内容</text>
-    </view>
+    <t-skeleton row-col="{{[{size: '32rpx', type: 'rect'},{size: '24rpx', type: 'rect', width: '70%'}]}}" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载知识内容</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadArticles">
-      <text class="button-text">重新加载</text>
-    </button>
+    <t-button theme="primary" size="large" block bind:tap="loadArticles">重新加载</t-button>
   </view>
 
   <empty-state
@@ -25,28 +22,26 @@
 
   <block wx:else>
     <view wx:for="{{articles}}" wx:key="id" class="card article-card" bind:tap="openArticle" data-id="{{item.id}}">
-      <mp-icon icon="info" color="#1f53c9" size="{{28}}" />
+      <t-icon name="info-circle" color="#1f53c9" size="56rpx" />
       <view class="article-body">
         <text class="article-title">{{item.title}}</text>
         <text class="article-summary">{{item.summary}}</text>
       </view>
-      <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
+      <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
     </view>
   </block>
 
-  <view class="safe-note">知识内容用于日常健康管理参考，不能替代专业医疗意见。</view>
+  <t-notice-bar theme="info" content="知识内容用于日常健康管理参考，不能替代专业医疗意见。" />
 
-  <view wx:if="{{activeArticle}}" class="article-mask" bind:tap="closeArticle">
-    <view class="article-panel" catch:tap="noop">
+  <t-popup visible="{{!!activeArticle}}" placement="bottom" bind:visible-change="closeArticle">
+    <view class="article-panel">
       <view class="article-panel-head">
         <text class="article-panel-title">{{activeArticle.title}}</text>
-        <button class="article-close" bind:tap="closeArticle">
-          <text class="button-text">关闭</text>
-        </button>
       </view>
       <text class="article-panel-summary">{{activeArticle.summary}}</text>
       <text class="article-panel-content">{{activeArticle.content || activeArticle.summary}}</text>
-      <view class="safe-note article-panel-note">以上内容仅用于健康管理参考，如需判断具体健康问题，请前往线下正规医疗机构咨询。</view>
+      <t-notice-bar theme="info" content="以上内容仅用于健康管理参考，如需判断具体健康问题，请前往线下正规医疗机构咨询。" />
     </view>
-  </view>
+  </t-popup>
 </view>
+</scroll-view>

@@ -1,9 +1,11 @@
+<custom-nav-bar title="问题整理" showBack />
+<scroll-view type="list" scroll-y style="height: 100vh;">
 <view class="page questions-page">
   <section-header title="问题整理" weui-icon="comment" desc="把线下咨询前想确认的重点提前列好。" />
 
   <view class="question-hero">
     <view class="hero-icon">
-      <mp-icon icon="comment" color="#1f53c9" size="{{32}}" />
+      <t-icon name="chat" color="#1f53c9" size="64rpx" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">保存线下沟通重点</text>
@@ -19,20 +21,15 @@
   <view wx:elif="{{pageStatus === 'error'}}" class="state-panel">
     <text class="state-title">暂时无法加载问题清单</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button retry-button" bind:tap="loadData">
-      <text class="button-text">重新加载</text>
-    </button>
+    <t-button theme="primary" size="large" block bind:tap="loadData">重新加载</t-button>
   </view>
 
   <block wx:else>
-    <mp-searchbar
-      ext-class="weui-search"
+    <t-search
       placeholder="搜索模板或已保存问题"
       value="{{searchKeyword}}"
-      search="{{searchQuestions}}"
-      cancel="{{false}}"
-      bindinput="onSearchInput"
-      bindclear="onSearchClear"
+      bind:change="onSearchChange"
+      bind:clear="onSearchClear"
     />
 
     <view class="question-panel">
@@ -53,12 +50,7 @@
         <text class="panel-desc">可写一条当前最想确认的内容。</text>
       </view>
       <textarea class="form-textarea" value="{{customQuestion}}" bind:input="onCustomInput" maxlength="255" placeholder="例如：复查前需要准备哪些历史资料？" />
-      <button class="primary-button save-button" bind:tap="saveSelected">
-        <view class="button-content">
-          <mp-icon icon="comment" color="#ffffff" size="{{18}}" />
-          <text class="button-text">{{isGuest ? '登录后保存' : '保存到问题清单'}}</text>
-        </view>
-      </button>
+      <t-button theme="primary" size="large" block icon="chat" bind:tap="saveSelected">{{isGuest ? '登录后保存' : '保存到问题清单'}}</t-button>
       <text wx:if="{{isGuest}}" class="guest-tip">当前可先浏览模板和填写方式；登录后会保存自己的问题与咨询备忘。</text>
     </view>
 
@@ -73,14 +65,8 @@
           <text class="saved-title">{{item.questionText}}</text>
           <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bind:input="onAnswerInput" maxlength="1000" placeholder="记录线下咨询后的个人备忘。" />
           <view class="question-actions">
-            <button class="text-button" bind:tap="saveAnswer" data-id="{{item.id}}">
-              <mp-icon icon="note" color="#1f53c9" size="{{16}}" />
-              <text class="button-text">保存备忘</text>
-            </button>
-            <button class="text-button danger" bind:tap="deleteQuestion" data-id="{{item.id}}">
-              <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
-              <text class="button-text">删除</text>
-            </button>
+            <t-button variant="text" size="small" icon="file" bind:tap="saveAnswer" data-id="{{item.id}}">保存备忘</t-button>
+            <t-button variant="text" theme="danger" size="small" icon="delete" bind:tap="deleteQuestion" data-id="{{item.id}}">删除</t-button>
           </view>
         </view>
       </view>
@@ -92,7 +78,7 @@
     </view>
   </block>
 
-  <view class="safe-note">本页只帮助整理线下沟通问题和个人备忘，不提供问诊、诊断或治疗建议。</view>
+  <t-notice-bar theme="info" content="本页只帮助整理线下沟通问题和个人备忘，不提供问诊、诊断或治疗建议。" />
   <weui-confirm
     show="{{confirmDialog.show}}"
     title="删除问题"
@@ -103,3 +89,4 @@
     bind:confirm="confirmDeleteQuestion"
   />
 </view>
+</scroll-view>

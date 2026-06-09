@@ -50,32 +50,41 @@
 }
 
 .template-row {
-  display: flex;
-  flex-direction: column;
-  gap: 12rpx;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14rpx;
   width: 100%;
   overflow: hidden;
 }
 
 .template-card {
-  display: grid;
-  grid-template-columns: 148rpx minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  column-gap: 18rpx;
+  justify-content: center;
+  gap: 12rpx;
   width: 100%;
   min-width: 0;
-  min-height: 96rpx;
+  min-height: 200rpx;
   margin: 0;
-  padding: 18rpx 20rpx;
-  border: 1rpx solid rgba(199, 210, 232, 0.78);
-  border-radius: 16rpx;
-  background: rgba(247, 250, 254, 0.92);
+  padding: 24rpx 16rpx;
+  border: 1rpx solid rgba(199, 210, 232, 0.58);
+  border-radius: 20rpx;
+  background: #ffffff;
   color: #191c1e;
-  text-align: left;
+  text-align: center;
+  box-shadow: 0 8rpx 30rpx rgba(0, 93, 172, 0.04);
   box-sizing: border-box;
   line-height: normal;
   white-space: normal !important;
   overflow: hidden;
+  transform: translateY(0) scale(1);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.template-card:active {
+  transform: translateY(2rpx) scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgba(0, 93, 172, 0.06);
 }
 
 .template-card::after,
@@ -89,8 +98,9 @@
   align-items: center;
   justify-content: center;
   min-height: 56rpx;
+  padding: 0 20rpx;
   border-radius: 999rpx;
-  background: rgba(24, 118, 210, 0.14);
+  background: rgba(24, 118, 210, 0.12);
   min-width: 0;
 }
 
@@ -106,10 +116,10 @@
 }
 
 .template-desc {
-  color: #414752;
+  color: #526174;
   font-size: 23rpx;
   line-height: 1.42;
-  text-align: left;
+  text-align: center;
   white-space: normal !important;
   overflow-wrap: break-word;
   word-break: break-word;

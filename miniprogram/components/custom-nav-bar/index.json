@@ -2,8 +2,5 @@
   "component": true,
   "usingComponents": {
     "t-icon": "tdesign-miniprogram/icon/icon"
-  },
-  "options": {
-    "multipleSlots": true
   }
 }

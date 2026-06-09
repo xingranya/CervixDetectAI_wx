@@ -1,3 +1,5 @@
+<custom-nav-bar title="我的" />
+<scroll-view type="list" scroll-y style="height: 100vh;" enhanced="{{true}}" refresher-enabled="{{true}}" bindrefresherrefresh="onPullDownRefresh" refresher-triggered="{{refreshing}}">
 <view class="page profile-page">
   <view class="profile-hero">
     <view class="profile-user-row">
@@ -7,16 +9,17 @@
           class="profile-avatar"
           src="{{activeAvatarUrl}}"
           mode="aspectFill"
+          lazy-load
           data-url="{{activeAvatarUrl}}"
           bind:error="onAvatarLoadError"
         />
         <view wx:else class="profile-avatar-default">
-          <mp-icon icon="me" color="#ffffff" size="{{34}}" />
+          <t-icon name="user" color="#ffffff" size="68rpx" />
         </view>
       </view>
       <view class="profile-user-body">
         <view class="profile-brand">
-          <image class="profile-brand-logo" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
+          <image class="profile-brand-logo" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" lazy-load />
           <text class="profile-label">{{appName}}</text>
         </view>
         <text class="profile-title">{{user.nickname || '微信用户'}}</text>
@@ -34,12 +37,7 @@
     <view wx:if="{{isGuest}}" class="guest-panel">
       <text class="guest-panel-title">当前处于体验模式</text>
       <text class="guest-panel-desc">你可以先浏览隐私说明、健康知识、服务边界和功能入口；需要保存个人记录时，再自行选择登录。</text>
-      <button class="guest-login-button" bind:tap="goLogin">
-        <view class="button-content">
-          <mp-icon icon="me" color="#ffffff" size="{{18}}" />
-          <text class="button-text">去登录</text>
-        </view>
-      </button>
+      <t-button theme="primary" size="large" block icon="user" bind:tap="goLogin">去登录</t-button>
     </view>
   </view>
 
@@ -58,24 +56,19 @@
         data-path="{{item.path}}"
         data-tab="{{item.tab}}"
       >
-          <view class="profile-menu-icon-wrap">
-          <mp-icon wx:if="{{item.weuiIcon}}" icon="{{item.weuiIcon}}" color="#1f53c9" size="{{24}}" />
+        <view class="profile-menu-icon-wrap">
+          <t-icon wx:if="{{item.weuiIcon}}" name="{{item.weuiIcon === 'me' ? 'user' : item.weuiIcon === 'info' ? 'info-circle' : item.weuiIcon === 'note' ? 'file' : item.weuiIcon === 'comment' ? 'chat' : item.weuiIcon === 'time' ? 'time' : item.weuiIcon}}" color="#1f53c9" size="48rpx" />
         </view>
         <view class="profile-menu-body">
           <text class="menu-title">{{item.title}}</text>
           <text class="menu-desc">{{item.desc}}</text>
         </view>
-        <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
+        <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
       </view>
     </view>
   </view>
 
-  <button wx:if="{{!isGuest}}" class="logout-button" bind:tap="logout">
-    <view class="button-content">
-      <mp-icon icon="close" color="#ba1a1a" size="{{18}}" />
-      <text class="button-text">退出登录</text>
-    </view>
-  </button>
+  <t-button wx:if="{{!isGuest}}" theme="danger" variant="outline" size="large" block icon="close" bind:tap="logout">退出登录</t-button>
   <weui-confirm
     show="{{confirmDialog.show}}"
     title="退出登录"
@@ -86,3 +79,4 @@
     bind:confirm="confirmLogout"
   />
 </view>
+</scroll-view>

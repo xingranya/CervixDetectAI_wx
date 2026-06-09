@@ -1,7 +1,7 @@
-<view wx:if="{{visible}}" class="privacy-mask">
+<t-popup visible="{{visible}}" placement="center" show-overlay="{{true}}" close-on-overlay-click="{{false}}">
   <view class="privacy-panel">
     <view class="privacy-icon">
-      <mp-icon icon="info" color="#1f53c9" size="{{34}}" />
+      <t-icon name="info-circle" color="#1f53c9" size="68rpx" />
     </view>
     <text class="privacy-title">隐私保护提示</text>
     <text class="privacy-desc">
@@ -24,4 +24,4 @@
       </button>
     </view>
   </view>
-</view>
+</t-popup>

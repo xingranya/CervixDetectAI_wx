@@ -1,13 +1,15 @@
 {
   "navigationBarTitleText": "复查提醒",
+  "navigationStyle": "custom",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
   "usingComponents": {
-    "section-header": "/components/section-header/index",
-    "empty-state": "/components/empty-state/index",
-    "weui-confirm": "/components/weui-confirm/index",
-    "mp-searchbar": "weui-miniprogram/searchbar/searchbar",
-    "mp-badge": "weui-miniprogram/badge/badge",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "custom-nav-bar": "/components/custom-nav-bar/index",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-tag": "tdesign-miniprogram/tag/tag",
+    "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
+    "t-search": "tdesign-miniprogram/search/search",
+    "t-skeleton": "tdesign-miniprogram/skeleton/skeleton"
   }
 }

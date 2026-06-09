@@ -1,11 +1,8 @@
+<custom-nav-bar title="检查记录" />
+<scroll-view type="list" scroll-y style="height: 100vh;" enhanced="{{true}}" refresher-enabled="{{true}}" bindrefresherrefresh="onPullDownRefresh" refresher-triggered="{{refreshing}}">
 <view class="page records-page">
   <section-header title="检查记录" weui-icon="note">
-    <button slot="extra" class="mini-primary" bind:tap="createRecord">
-      <view class="button-content">
-        <mp-icon icon="add" color="rgb(24, 118, 210)" size="{{16}}" />
-        <text class="button-text">新增</text>
-      </view>
-    </button>
+    <t-button slot="extra" theme="primary" size="small" icon="add" bind:tap="createRecord">新增</t-button>
   </section-header>
 
   <view class="card records-trend-card">
@@ -34,32 +31,23 @@
     </view>
   </view>
 
-  <mp-searchbar
+  <t-search
     wx:if="{{allRecords.length}}"
-    ext-class="weui-search"
     placeholder="搜索标题、项目或日期"
     value="{{searchKeyword}}"
-    search="{{searchRecords}}"
-    cancel="{{false}}"
-    bindinput="onSearchInput"
-    bindclear="onSearchClear"
-    bindselectresult="onSearchSelect"
+    bind:change="onSearchChange"
+    bind:clear="onSearchClear"
+    bind:submit="onSearchSubmit"
   />
 
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <view class="local-loading">
-      <view class="loading-ring"></view>
-      <text class="loading-text">正在加载检查记录</text>
-    </view>
-    <text class="state-desc">请稍候，正在同步你的历史摘要。</text>
+    <t-skeleton row-col="{{[{size: '32rpx', type: 'rect'},{size: '24rpx', type: 'rect', width: '80%'},[{width: '60%'},{width: '30%'}],[{size: '24rpx', type: 'rect', width: '40%'}]]}}" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载检查记录</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadRecords">
-      <text class="button-text">重新加载</text>
-    </button>
+    <t-button theme="primary" size="large" block bind:tap="loadRecords">重新加载</t-button>
   </view>
 
   <empty-state
@@ -91,8 +79,7 @@
                 </view>
               </view>
               <view class="pill-wrap">
-                <text class="pill">{{item.status}}</text>
-                <mp-badge wx:if="{{item.status.indexOf('待') > -1 || item.status.indexOf('复查') > -1}}" />
+                <t-tag theme="primary" variant="light" size="small">{{item.status}}</t-tag>
               </view>
             </view>
             <view class="record-summary-box">
@@ -100,18 +87,8 @@
               <text class="record-summary">{{item.summary}}</text>
             </view>
             <view class="record-actions">
-              <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
-                <view class="button-content">
-                  <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{16}}" />
-                  <text class="button-text">编辑</text>
-                </view>
-              </button>
-              <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
-                <view class="button-content">
-                  <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
-                  <text class="button-text">删除</text>
-                </view>
-              </button>
+              <t-button variant="text" size="small" icon="file" catch:tap="editRecord" data-id="{{item.id}}">编辑</t-button>
+              <t-button variant="text" theme="danger" size="small" icon="delete" catch:tap="deleteRecord" data-id="{{item.id}}">删除</t-button>
             </view>
           </view>
         </view>
@@ -119,7 +96,7 @@
     </view>
   </block>
 
-  <view class="safe-note">记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。</view>
+  <t-notice-bar theme="info" content="记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。" />
   <weui-confirm
     show="{{confirmDialog.show}}"
     title="{{confirmDialog.title}}"
@@ -130,3 +107,4 @@
     bind:confirm="confirmDeleteRecord"
   />
 </view>
+</scroll-view>

@@ -3,7 +3,7 @@ require("dotenv").config();
 module.exports = {
   port: Number(process.env.PORT || 3789),
   host: process.env.HOST || "0.0.0.0",
-  allowedOrigin: process.env.MINIAPP_ALLOWED_ORIGIN || "*",
+  allowedOrigin: process.env.MINIAPP_ALLOWED_ORIGIN || "https://servicewechat.com",
   publicBaseUrl: process.env.MINIAPP_PUBLIC_BASE_URL || "",
   wechat: {
     appId: process.env.WECHAT_APP_ID || "",

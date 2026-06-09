@@ -1,8 +1,13 @@
 {
   "navigationBarTitleText": "云端智诊",
+  "navigationStyle": "custom",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
   "usingComponents": {
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "custom-nav-bar": "/components/custom-nav-bar/index",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
+    "t-skeleton": "tdesign-miniprogram/skeleton/skeleton"
   }
 }

@@ -1,7 +1,14 @@
 {
   "navigationBarTitleText": "记录详情",
+  "navigationStyle": "custom",
+  "routeType": "slide",
   "usingComponents": {
-    "weui-confirm": "/components/weui-confirm/index",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "custom-nav-bar": "/components/custom-nav-bar/index",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-tag": "tdesign-miniprogram/tag/tag",
+    "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
+    "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
+    "weui-confirm": "/components/weui-confirm/index"
   }
 }

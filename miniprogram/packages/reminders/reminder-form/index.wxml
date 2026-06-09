@@ -1,3 +1,5 @@
+<custom-nav-bar title="{{pageTitle}}" showBack />
+<scroll-view type="list" scroll-y style="height: 100vh;">
 <view class="page reminder-form-page">
   <section-header title="{{pageTitle}}" weui-icon="time" desc="设置线下复查、资料准备或咨询前整理提醒。" />
 
@@ -58,7 +60,7 @@
           <picker mode="date" value="{{date}}" bind:change="onDateChange">
             <view class="select-field">
               <text class="select-value">{{dateDisplay}}</text>
-              <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
+              <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
             </view>
           </picker>
         </mp-cell>
@@ -103,11 +105,7 @@
   </mp-form>
 
   <view class="submit-panel">
-    <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
-      <view class="button-content">
-        <mp-icon icon="time" color="#ffffff" size="{{18}}" />
-        <text class="button-text">{{submitText}}</text>
-      </view>
-    </button>
+    <t-button theme="primary" size="large" block disabled="{{loading}}" icon="time" bind:tap="submitForm">{{submitText}}</t-button>
   </view>
 </view>
+</scroll-view>

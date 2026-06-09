@@ -1,9 +1,11 @@
+<custom-nav-bar title="意见反馈" showBack />
+<scroll-view type="list" scroll-y style="height: 100vh;">
 <view class="page feedback-page">
   <section-header title="意见反馈" weui-icon="comment" desc="提交使用问题、改进建议或隐私数据疑问。" />
 
   <view class="feedback-hero">
     <view class="hero-icon">
-      <mp-icon icon="comment" color="#ffffff" size="{{28}}" />
+      <t-icon name="chat" color="#ffffff" size="56rpx" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">告诉我们哪里不好用</text>
@@ -21,7 +23,7 @@
       <picker mode="selector" range="{{feedbackTypes}}" value="{{feedbackTypeIndex}}" bind:change="onTypeChange">
         <view class="select-field">
           <text class="select-value">{{form.type}}</text>
-          <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
+          <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
         </view>
       </picker>
     </mp-cell>
@@ -76,12 +78,7 @@
     </view>
     </mp-form>
 
-    <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitFeedback">
-      <view class="button-content">
-        <mp-icon icon="comment" color="#ffffff" size="{{18}}" />
-        <text class="button-text">{{loading ? '正在提交' : (isGuest ? '登录后提交' : '提交反馈')}}</text>
-      </view>
-    </button>
+    <t-button theme="primary" size="large" block disabled="{{loading}}" icon="chat" bind:tap="submitFeedback">{{loading ? '正在提交' : (isGuest ? '登录后提交' : '提交反馈')}}</t-button>
   </view>
 
   <view class="official-feedback-card">
@@ -90,16 +87,14 @@
       <text class="official-desc">该入口会打开微信提供的意见反馈页面，可上传运行日志，方便排查问题。</text>
     </view>
     <view class="official-actions">
-      <button class="ghost-button ghost-button-secondary" bind:tap="openOfficialActions">
-        <text class="button-text">提交说明</text>
-      </button>
+      <t-button variant="outline" size="medium" bind:tap="openOfficialActions">提交说明</t-button>
       <button class="ghost-button" open-type="feedback">
         <text class="button-text">打开官方反馈</text>
       </button>
     </view>
   </view>
 
-  <view class="safe-note">反馈内容仅用于改进小程序服务体验，请不要填写诊断结论、处方、身份证号等敏感信息。</view>
+  <t-notice-bar theme="info" content="反馈内容仅用于改进小程序服务体验，请不要填写诊断结论、处方、身份证号等敏感信息。" />
   <mp-gallery
     wx:if="{{galleryShow}}"
     show="{{galleryShow}}"
@@ -110,13 +105,12 @@
     binddelete="onGalleryDelete"
     bindhide="hideGallery"
   />
-  <view wx:if="{{showOfficialActions}}" class="official-sheet-mask" bind:tap="closeOfficialActions">
-    <view class="official-sheet" catch:tap="noop">
+  <t-popup visible="{{showOfficialActions}}" placement="bottom" bind:visible-change="onOfficialActionsVisibleChange">
+    <view class="official-sheet">
       <text class="official-sheet-title">微信官方反馈说明</text>
       <text class="official-sheet-desc">微信官方反馈可上传截图和运行日志，适合提交需要排查的问题。文字建议也可以登录后直接提交站内反馈。</text>
-      <button class="official-sheet-button" bind:tap="closeOfficialActions">
-        <text class="button-text">知道了</text>
-      </button>
+      <t-button theme="primary" size="large" block bind:tap="closeOfficialActions">知道了</t-button>
     </view>
-  </view>
+  </t-popup>
 </view>
+</scroll-view>

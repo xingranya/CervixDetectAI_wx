@@ -98,6 +98,7 @@ Page({
     user: DEFAULT_USER,
     activeAvatarUrl: "",
     metrics: DEFAULT_METRICS,
+    refreshing: false,
     menus: [
       {
         title: "检查记录",
@@ -247,9 +248,18 @@ Page({
   },
 
   async onPullDownRefresh() {
+    this.setData({ refreshing: true });
     await this.syncProfile();
     await this.loadSummary();
+    this.setData({ refreshing: false });
     wx.stopPullDownRefresh();
+  },
+
+  onShareAppMessage() {
+    return {
+      title: "云端智诊 - 女性健康记录与复查提醒助手",
+      path: "/pages/home/index"
+    };
   },
 
   async syncProfile() {

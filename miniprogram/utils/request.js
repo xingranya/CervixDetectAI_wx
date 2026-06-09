@@ -1,6 +1,8 @@
 const config = require("../config/app");
 
 const DEFAULT_CACHE_MAX_AGE = 30 * 1000;
+const PERSIST_CACHE_KEY = "__request_cache__";
+const PERSIST_CACHE_MAX_AGE = 5 * 60 * 1000;
 
 const CACHE_KEYS = {
   home: "home",
@@ -19,6 +21,50 @@ let baseUrlCache = "";
 
 const responseCache = {};
 const inflightRequests = {};
+
+function loadPersistedCache() {
+  try {
+    const raw = wx.getStorageSync(PERSIST_CACHE_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const now = Date.now();
+    Object.keys(parsed).forEach((key) => {
+      const entry = parsed[key];
+      if (entry && entry.updatedAt && now - entry.updatedAt < PERSIST_CACHE_MAX_AGE) {
+        responseCache[key] = entry;
+      }
+    });
+  } catch (_error) {
+    // 持久缓存加载失败时静默忽略
+  }
+}
+
+function persistCache() {
+  try {
+    const entries = {};
+    const now = Date.now();
+    Object.keys(responseCache).forEach((key) => {
+      const entry = responseCache[key];
+      if (entry && entry.updatedAt && now - entry.updatedAt < PERSIST_CACHE_MAX_AGE && !entry.dirty) {
+        entries[key] = entry;
+      }
+    });
+    wx.setStorageSync(PERSIST_CACHE_KEY, JSON.stringify(entries));
+  } catch (_error) {
+    // 持久缓存写入失败时静默忽略
+  }
+}
+
+let persistTimer = null;
+function schedulePersist() {
+  if (persistTimer) return;
+  persistTimer = setTimeout(() => {
+    persistTimer = null;
+    persistCache();
+  }, 3000);
+}
+
+loadPersistedCache();
 
 function callWxApi(apiName, fallback) {
   if (typeof wx[apiName] !== "function") return fallback;
@@ -61,6 +107,7 @@ function setCachedData(key, data) {
     updatedAt: Date.now(),
     dirty: false
   };
+  schedulePersist();
 }
 
 function clearCachedData(key) {
@@ -326,6 +373,11 @@ function clearAllCaches() {
   Object.keys(inflightRequests).forEach((key) => {
     delete inflightRequests[key];
   });
+  try {
+    wx.removeStorageSync(PERSIST_CACHE_KEY);
+  } catch (_error) {
+    // 移除持久缓存失败时静默忽略
+  }
 }
 
 function login(payload) {

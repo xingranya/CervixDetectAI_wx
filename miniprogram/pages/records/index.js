@@ -64,6 +64,7 @@ Page({
     isGuest: !isLoggedIn(),
     searchKeyword: "",
     searchEmpty: false,
+    refreshing: false,
     confirmDialog: {
       show: false,
       id: "",
@@ -143,8 +144,23 @@ Page({
   },
 
   async onPullDownRefresh() {
+    this.setData({ refreshing: true });
     await this.loadRecords({ silent: true });
+    this.setData({ refreshing: false });
     wx.stopPullDownRefresh();
+  },
+
+  onShareAppMessage() {
+    return {
+      title: "云端智诊 - 检查记录",
+      path: "/pages/records/index"
+    };
+  },
+
+  onShareTimeline() {
+    return {
+      title: "云端智诊 - 检查记录"
+    };
   },
 
   openDetail(event) {
@@ -166,7 +182,7 @@ Page({
     })));
   },
 
-  onSearchInput(event) {
+  onSearchChange(event) {
     const searchKeyword = event.detail.value || "";
     const records = filterRecords(this.data.allRecords, searchKeyword);
     const searchEmpty = !!String(searchKeyword || "").trim() && this.data.allRecords.length > 0 && !records.length;
@@ -179,12 +195,14 @@ Page({
   },
 
   onSearchClear() {
-    this.onSearchInput({ detail: { value: "" } });
+    this.onSearchChange({ detail: { value: "" } });
   },
 
-  onSearchSelect(event) {
-    const id = event.detail.item && event.detail.item.value;
-    if (id) openRoute(ROUTES.recordDetail, { id });
+  onSearchSubmit(event) {
+    const keyword = event.detail.value || "";
+    if (!keyword) return;
+    const match = this.data.allRecords.find((item) => item.title === keyword || item.id === keyword);
+    if (match) openRoute(ROUTES.recordDetail, { id: match.id });
   },
 
   editRecord(event) {

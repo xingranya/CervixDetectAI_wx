@@ -1,21 +1,20 @@
+<custom-nav-bar title="云端智诊" />
+<scroll-view type="list" scroll-y style="height: 100vh;" enhanced="{{true}}" refresher-enabled="{{true}}" bindrefresherrefresh="onPullDownRefresh" refresher-triggered="{{refreshing}}">
 <view class="page home-page">
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <text class="state-title">正在加载健康记录</text>
-    <text class="state-desc">请稍候，正在同步你的健康管理信息。</text>
+    <t-skeleton row-col="{{[{size: '48rpx', type: 'circle'},{size: '32rpx', type: 'rect'},{size: '24rpx', type: 'rect', width: '60%'}]}}" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载首页</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadHome">
-      <text class="button-text">重新加载</text>
-    </button>
+    <t-button theme="primary" size="large" block bind:tap="loadHome">重新加载</t-button>
   </view>
 
   <block wx:else>
     <view class="hero dashboard-card">
       <view class="home-brand">
-        <image class="home-brand-logo" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
+        <image class="home-brand-logo" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" lazy-load />
         <text class="home-brand-name">云端智诊</text>
       </view>
       <view class="hero-top-row">
@@ -25,8 +24,9 @@
             class="home-avatar"
             src="{{activeAvatarUrl}}"
             mode="aspectFill"
+            lazy-load
           />
-          <mp-icon wx:else icon="me" color="#005dac" size="{{32}}" />
+          <t-icon wx:else name="user" color="#005dac" size="48rpx" />
           <view class="status-dot"></view>
         </view>
         <view class="hero-top-copy">
@@ -53,12 +53,7 @@
       <view wx:if="{{isGuest}}" class="guest-entry-card">
         <text class="guest-entry-title">先浏览功能，再决定是否登录</text>
         <text class="guest-entry-desc">登录仅在你需要保存个人记录、提醒和备忘时使用，头像与昵称均为选填。</text>
-        <button class="primary-button guest-entry-button" bind:tap="goLogin">
-          <view class="button-content">
-            <mp-icon icon="me" color="#ffffff" size="{{18}}" />
-            <text class="button-text guest-entry-button-text">登录保存数据</text>
-          </view>
-        </button>
+        <t-button theme="primary" size="large" block icon="user" bind:tap="goLogin">登录保存数据</t-button>
       </view>
     </view>
 
@@ -72,7 +67,6 @@
         wx:for="{{actions}}"
         wx:key="label"
         class="action-card action-card-{{item.tone}} action-card-{{item.side}}"
-        hover-class="action-card-pressed"
         bind:tap="goPage"
         data-path="{{item.path}}"
       >
@@ -100,14 +94,10 @@
         <text class="pill">{{home.latestDate || '待记录'}}</text>
       </view>
       <text class="latest-desc">{{home.nextReminder}}</text>
-      <button class="primary-button" bind:tap="goPage" data-path="/pages/records/index">
-        <view class="button-content">
-          <mp-icon icon="note" color="#ffffff" size="{{18}}" />
-          <text class="button-text">查看检查记录</text>
-        </view>
-      </button>
+      <t-button theme="primary" size="large" block icon="file" bind:tap="goPage" data-path="/pages/records/index">查看检查记录</t-button>
     </view>
 
-    <view class="safe-note">{{home.disclaimer}}</view>
+    <t-notice-bar theme="info" content="{{home.disclaimer}}" />
   </block>
 </view>
+</scroll-view>

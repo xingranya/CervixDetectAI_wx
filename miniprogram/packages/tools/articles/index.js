@@ -74,7 +74,9 @@ Page({
     this.setData({ activeArticle: article });
   },
 
-  closeArticle() {
+  closeArticle(e) {
+    // t-popup visible-change 事件：仅在 visible 变为 false 时关闭
+    if (e && e.detail && e.detail.visible) return;
     this.setData({ activeArticle: null });
   },
 

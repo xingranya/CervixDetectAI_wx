@@ -1,7 +1,9 @@
 {
   "navigationBarTitleText": "隐私说明",
+  "navigationStyle": "custom",
   "usingComponents": {
+    "custom-nav-bar": "/components/custom-nav-bar/index",
     "section-header": "/components/section-header/index",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "t-icon": "tdesign-miniprogram/icon/icon"
   }
 }

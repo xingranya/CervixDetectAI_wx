@@ -1,9 +1,12 @@
 {
   "navigationBarTitleText": "我的",
+  "navigationStyle": "custom",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
   "usingComponents": {
-    "weui-confirm": "/components/weui-confirm/index",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "custom-nav-bar": "/components/custom-nav-bar/index",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "weui-confirm": "/components/weui-confirm/index"
   }
 }

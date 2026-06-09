@@ -1,10 +1,17 @@
 {
   "navigationBarTitleText": "健康知识",
+  "navigationStyle": "custom",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
+  "routeType": "slide",
   "usingComponents": {
+    "custom-nav-bar": "/components/custom-nav-bar/index",
     "section-header": "/components/section-header/index",
-    "empty-state": "/components/empty-state/index",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
+    "empty-state": "/components/empty-state/index"
   }
 }

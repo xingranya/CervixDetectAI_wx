@@ -25,12 +25,19 @@ Component({
       value: false
     }
   },
+  observers: {
+    "confirmWarn, confirmText": function (confirmWarn, confirmText) {
+      const text = confirmText || "确定";
+      this.setData({
+        computedConfirmBtn: confirmWarn
+          ? { content: text, theme: "danger" }
+          : text
+      });
+    }
+  },
   methods: {
     noop() {
       return undefined;
-    },
-    handleClose() {
-      this.triggerEvent("cancel");
     },
     handleCancel() {
       this.triggerEvent("cancel");

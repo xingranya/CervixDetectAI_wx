@@ -1,17 +1,14 @@
+<custom-nav-bar title="记录详情" showBack />
+<scroll-view type="list" scroll-y style="height: 100vh;">
 <view class="page detail-page">
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <view class="local-loading">
-      <view class="loading-ring"></view>
-      <text class="loading-text">正在加载记录详情</text>
-    </view>
+    <t-skeleton row-col="{{[{size: '48rpx', type: 'circle'},{size: '32rpx', type: 'rect', width: '50%'},{size: '24rpx', type: 'rect', width: '80%'}]}}" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载记录详情</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="reloadDetail">
-      <text class="button-text">重新加载</text>
-    </button>
+    <t-button theme="primary" size="large" block bind:tap="reloadDetail">重新加载</t-button>
   </view>
 
   <view wx:elif="{{recordView}}" class="detail-shell">
@@ -21,11 +18,11 @@
           <text class="date-day">{{recordView.dateMonthDay}}</text>
           <text class="date-year">{{recordView.dateYear}}</text>
         </view>
-        <text class="status-pill {{recordView.statusTone === 'attention' ? 'status-attention' : ''}}">{{recordView.statusText}}</text>
+        <t-tag theme="{{recordView.statusTone === 'attention' ? 'warning' : 'primary'}}" variant="light" size="medium">{{recordView.statusText}}</t-tag>
       </view>
       <view class="hero-title-row">
         <view class="hero-icon">
-          <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{30}}" />
+          <t-icon name="file" color="#1876d2" size="60rpx" />
         </view>
         <view class="hero-copy">
           <text class="detail-title">{{recordView.title}}</text>
@@ -40,7 +37,7 @@
           <text class="section-label">检查摘要</text>
           <text class="section-title">本次记录重点</text>
         </view>
-        <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{26}}" />
+        <t-icon name="file" color="#1876d2" size="52rpx" />
       </view>
       <text class="summary-text">{{recordView.summaryText}}</text>
     </view>
@@ -60,36 +57,23 @@
         <text class="notify-title">微信提醒</text>
         <text class="notify-desc">允许后会发送一次报告查看提醒，方便稍后从微信消息回到本记录。</text>
       </view>
-      <button
-        class="primary-button subscribe-button"
+      <t-button
+        theme="primary"
+        size="medium"
         loading="{{subscribingReport}}"
         disabled="{{subscribingReport}}"
+        icon="time"
         bind:tap="subscribeReportReminder"
-      >
-        <view class="button-content">
-          <mp-icon icon="time" color="#ffffff" size="{{18}}" />
-          <text class="button-text">{{subscribingReport ? '发送中' : '开启提醒'}}</text>
-        </view>
-      </button>
+      >{{subscribingReport ? '发送中' : '开启提醒'}}</t-button>
     </view>
 
     <view class="manage-card">
-      <button class="manage-button" bind:tap="editRecord">
-        <view class="button-content">
-          <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{18}}" />
-          <text class="button-text">编辑记录</text>
-        </view>
-      </button>
-      <button class="manage-button danger" bind:tap="deleteRecord">
-        <view class="button-content">
-          <mp-icon icon="delete" color="#ba1a1a" size="{{18}}" />
-          <text class="button-text">删除记录</text>
-        </view>
-      </button>
+      <t-button variant="text" size="medium" icon="file" bind:tap="editRecord">编辑记录</t-button>
+      <t-button variant="text" theme="danger" size="medium" icon="delete" bind:tap="deleteRecord">删除记录</t-button>
     </view>
   </view>
 
-  <view class="safe-note">如对检查内容有疑问，请携带记录到线下医疗机构咨询专业人员。</view>
+  <t-notice-bar theme="info" content="如对检查内容有疑问，请携带记录到线下医疗机构咨询专业人员。" />
   <weui-confirm
     show="{{confirmDialog.show}}"
     title="删除记录"
@@ -100,3 +84,4 @@
     bind:confirm="confirmDeleteRecord"
   />
 </view>
+</scroll-view>

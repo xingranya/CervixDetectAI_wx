@@ -1,11 +1,13 @@
-<view class="card empty-card">
-  <view wx:if="{{weuiIcon}}" class="empty-icon-wrap">
-    <mp-icon wx:if="{{weuiIcon}}" icon="{{weuiIcon}}" color="#1f53c9" size="{{36}}" />
+<t-empty
+  icon="{{weuiIcon ? '' : icon}}"
+  description="{{desc}}"
+>
+  <view slot="image" wx:if="{{weuiIcon}}" class="empty-icon-wrap">
+    <t-icon name="{{weuiIcon === 'add' ? 'add' : weuiIcon === 'search' ? 'search' : weuiIcon === 'time' ? 'time' : weuiIcon === 'info' ? 'info-circle' : 'file'}}" color="#1f53c9" size="72rpx" />
   </view>
-  <image wx:elif="{{icon}}" class="empty-icon" src="{{icon}}" mode="aspectFit" />
-  <text class="empty-title">{{title}}</text>
-  <text class="empty-desc">{{desc}}</text>
-  <button wx:if="{{buttonText}}" class="primary-button empty-button" bind:tap="handleAction">
-    <text class="button-text">{{buttonText}}</text>
-  </button>
-</view>
+  <view slot="action" wx:if="{{buttonText}}">
+    <t-button theme="primary" size="large" block bind:tap="handleAction">
+      {{buttonText}}
+    </t-button>
+  </view>
+</t-empty>

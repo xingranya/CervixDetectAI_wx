@@ -1,0 +1,29 @@
+/**
+ * WXS 日期格式化工具 - 在视图层运行，避免跨线程通信开销
+ * 用法：<wxs src="../../utils/date.wxs" module="dateUtils" />
+ *      {{dateUtils.formatShort(value)}}
+ */
+
+function formatShort(value) {
+  var text = '' + (value || '');
+  if (!text || text.length < 10) return text || '暂无';
+  return text.substring(5, 10).replace('-', '/');
+}
+
+function formatYear(value) {
+  var text = '' + (value || '');
+  if (!text || text.length < 4) return '';
+  return text.substring(0, 4);
+}
+
+function formatFull(value) {
+  var text = '' + (value || '');
+  if (!text || text.length < 10) return text || '暂无';
+  return text.substring(0, 10);
+}
+
+module.exports = {
+  formatShort: formatShort,
+  formatYear: formatYear,
+  formatFull: formatFull
+};

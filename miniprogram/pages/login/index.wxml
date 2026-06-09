@@ -1,8 +1,10 @@
+<custom-nav-bar title="登录云端智诊" showBack />
+<scroll-view type="list" scroll-y style="height: 100vh;">
 <view class="page login-page">
   <view class="login-hero">
     <view class="brand-lockup">
       <view class="login-mark-wrap">
-        <image class="login-mark" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
+        <image class="login-mark" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" lazy-load />
       </view>
       <text class="eyebrow">云端智诊</text>
     </view>
@@ -41,20 +43,16 @@
       <text class="avatar-tip">登录仅用于保存你的个人记录、提醒和备忘，头像与昵称均为选填。</text>
       <button class="primary-button login-button" disabled="{{loading}}" form-type="submit">
         <view class="button-content">
-          <mp-icon icon="me" color="#ffffff" size="{{18}}" />
+          <t-icon name="user" color="#ffffff" size="36rpx" />
           <text class="button-text">{{loading ? '正在登录' : '登录保存数据'}}</text>
         </view>
       </button>
-      <button class="plain-link" bind:tap="openPrivacy">
-        <view class="button-content">
-          <mp-icon icon="info" color="#1f53c9" size="{{16}}" />
-          <text class="plain-link-text">查看隐私与服务说明</text>
-        </view>
-      </button>
+      <t-button variant="text" size="medium" icon="info-circle" bind:tap="openPrivacy">查看隐私与服务说明</t-button>
     </form>
     </mp-form>
   </view>
 
-  <view class="safe-note">产品仅用于健康信息记录与提醒，不提供在线诊断、治疗、处方或问诊服务。</view>
+  <t-notice-bar theme="info" content="产品仅用于健康信息记录与提醒，不提供在线诊断、治疗、处方或问诊服务。" />
   <privacy-popup id="privacyPopup" />
 </view>
+</scroll-view>

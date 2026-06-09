@@ -1,0 +1,12 @@
+{
+  "name": "cervixdetectai-wx",
+  "version": "1.0.0",
+  "description": "云端智诊 - 女性健康记录与复查提醒助手",
+  "private": true,
+  "scripts": {
+    "build": "echo '请使用微信开发者工具构建 npm'"
+  },
+  "dependencies": {
+    "tdesign-miniprogram": "^1.5.0"
+  }
+}

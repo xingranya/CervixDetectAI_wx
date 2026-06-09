@@ -1,0 +1,11 @@
+<view class="custom-nav-bar" style="padding-top: {{statusBarHeight}}px;">
+  <view class="nav-bar-content" style="height: {{navBarHeight}}px;">
+    <view wx:if="{{showBack}}" class="nav-bar-left" bind:tap="onBack">
+      <t-icon name="chevron-left" size="48rpx" color="#1a1a1a" />
+    </view>
+    <view class="nav-bar-title">{{title}}</view>
+    <view wx:if="{{showBack}}" class="nav-bar-right"></view>
+  </view>
+</view>
+<!-- 占位区域，让页面内容不被导航栏遮挡 -->
+<view style="height: {{statusBarHeight + navBarHeight}}px;"></view>

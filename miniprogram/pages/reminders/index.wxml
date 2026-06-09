@@ -1,11 +1,8 @@
+<custom-nav-bar title="复查提醒" />
+<scroll-view type="list" scroll-y style="height: 100vh;" enhanced="{{true}}" refresher-enabled="{{true}}" bindrefresherrefresh="onPullDownRefresh" refresher-triggered="{{refreshing}}">
 <view class="page reminders-page">
   <section-header title="复查提醒" icon="/assets/icons/reminders-active.png">
-    <button slot="extra" class="mini-primary" bind:tap="createReminder">
-      <view class="button-content">
-        <mp-icon icon="add" color="rgb(24, 118, 210)" size="{{16}}" />
-        <text class="button-text">新增</text>
-      </view>
-    </button>
+    <t-button slot="extra" theme="primary" size="small" icon="add" bind:tap="createReminder">新增</t-button>
   </section-header>
 
   <view class="card reminder-summary-card">
@@ -34,31 +31,22 @@
     </view>
   </view>
 
-  <mp-searchbar
+  <t-search
     wx:if="{{allReminders.length}}"
-    ext-class="weui-search"
     placeholder="搜索提醒标题、内容或日期"
     value="{{searchKeyword}}"
-    search="{{searchReminders}}"
-    cancel="{{false}}"
-    bindinput="onSearchInput"
-    bindclear="onSearchClear"
+    bind:change="onSearchChange"
+    bind:clear="onSearchClear"
   />
 
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <view class="local-loading">
-      <view class="loading-ring"></view>
-      <text class="loading-text">正在加载复查提醒</text>
-    </view>
-    <text class="state-desc">请稍候，正在同步你的后续安排。</text>
+    <t-skeleton row-col="{{[{size: '32rpx', type: 'rect'},{size: '24rpx', type: 'rect', width: '80%'},[{width: '40%'},{width: '30%'},{width: '20%'}]]}}" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载复查提醒</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadReminders">
-      <text class="button-text">重新加载</text>
-    </button>
+    <t-button theme="primary" size="large" block bind:tap="loadReminders">重新加载</t-button>
   </view>
 
   <empty-state
@@ -89,42 +77,23 @@
             <text class="reminder-title">{{item.title}}</text>
           </view>
           <view class="pill-wrap">
-            <text class="pill">{{item.statusText}}</text>
-            <mp-badge wx:if="{{!item.done}}" />
+            <t-tag theme="{{item.done ? 'default' : 'primary'}}" variant="light" size="small">{{item.statusText}}</t-tag>
           </view>
         </view>
         <text class="reminder-desc">{{item.desc}}</text>
         <view class="reminder-actions">
-          <button
+          <t-button
             wx:if="{{item.canNotify}}"
-            class="primary-button notify-button {{sendingReminderId !== '' ? 'notify-button-disabled' : ''}}"
+            theme="primary"
+            size="small"
             loading="{{sendingReminderId === item.id}}"
             disabled="{{sendingReminderId !== ''}}"
             bind:tap="subscribeReminder"
             data-id="{{item.id}}"
-          >
-            <view class="button-content">
-              <text class="button-text">{{sendingReminderId === item.id ? '发送中' : '微信提醒'}}</text>
-            </view>
-          </button>
-          <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
-            <view class="button-content">
-              <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{16}}" />
-              <text class="button-text">标记完成</text>
-            </view>
-          </button>
-          <button class="text-button" bind:tap="editReminder" data-id="{{item.id}}">
-            <view class="button-content">
-              <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{16}}" />
-              <text class="button-text">编辑</text>
-            </view>
-          </button>
-          <button class="text-button danger" bind:tap="deleteReminder" data-id="{{item.id}}">
-            <view class="button-content">
-              <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
-              <text class="button-text">删除</text>
-            </view>
-          </button>
+          >{{sendingReminderId === item.id ? '发送中' : '微信提醒'}}</t-button>
+          <t-button wx:if="{{!item.done}}" variant="outline" size="small" icon="info-circle" bind:tap="markDone" data-id="{{item.id}}">标记完成</t-button>
+          <t-button variant="text" size="small" icon="file" bind:tap="editReminder" data-id="{{item.id}}">编辑</t-button>
+          <t-button variant="text" theme="danger" size="small" icon="delete" bind:tap="deleteReminder" data-id="{{item.id}}">删除</t-button>
         </view>
       </view>
     </view>
@@ -139,3 +108,4 @@
     bind:confirm="confirmDeleteReminder"
   />
 </view>
+</scroll-view>

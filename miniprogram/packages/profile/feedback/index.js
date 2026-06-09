@@ -159,6 +159,11 @@ Page({
     this.setData({ showOfficialActions: false });
   },
 
+  onOfficialActionsVisibleChange(e) {
+    if (e.detail && e.detail.visible) return;
+    this.setData({ showOfficialActions: false });
+  },
+
   noop() {
     return undefined;
   }

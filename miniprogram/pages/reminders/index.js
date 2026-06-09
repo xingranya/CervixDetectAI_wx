@@ -81,6 +81,7 @@ Page({
     sendingReminderId: "",
     searchKeyword: "",
     searchEmpty: false,
+    refreshing: false,
     confirmDialog: {
       show: false,
       id: "",
@@ -160,8 +161,23 @@ Page({
   },
 
   async onPullDownRefresh() {
+    this.setData({ refreshing: true });
     await this.loadReminders({ silent: true });
+    this.setData({ refreshing: false });
     wx.stopPullDownRefresh();
+  },
+
+  onShareAppMessage() {
+    return {
+      title: "云端智诊 - 复查提醒",
+      path: "/pages/reminders/index"
+    };
+  },
+
+  onShareTimeline() {
+    return {
+      title: "云端智诊 - 复查提醒"
+    };
   },
 
   createReminder() {
@@ -179,7 +195,7 @@ Page({
     })));
   },
 
-  onSearchInput(event) {
+  onSearchChange(event) {
     const searchKeyword = event.detail.value || "";
     const reminders = filterReminders(this.data.allReminders, searchKeyword);
     const searchEmpty = !!String(searchKeyword || "").trim() && this.data.allReminders.length > 0 && !reminders.length;
@@ -192,7 +208,7 @@ Page({
   },
 
   onSearchClear() {
-    this.onSearchInput({ detail: { value: "" } });
+    this.onSearchChange({ detail: { value: "" } });
   },
 
   editReminder(event) {

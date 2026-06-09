@@ -1,14 +1,18 @@
 {
   "navigationBarTitleText": "问题整理",
+  "navigationStyle": "custom",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
   "usingComponents": {
+    "custom-nav-bar": "/components/custom-nav-bar/index",
     "section-header": "/components/section-header/index",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-notice-bar": "tdesign-miniprogram/notice-bar/notice-bar",
+    "t-search": "tdesign-miniprogram/search/search",
     "weui-confirm": "/components/weui-confirm/index",
-    "mp-searchbar": "weui-miniprogram/searchbar/searchbar",
     "mp-cells": "weui-miniprogram/cells/cells",
     "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
-    "mp-checkbox": "weui-miniprogram/checkbox/checkbox",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "mp-checkbox": "weui-miniprogram/checkbox/checkbox"
   }
 }

@@ -1,0 +1,45 @@
+.custom-nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background-color: var(--color-bg, #f8fafc);
+}
+
+.nav-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 24rpx;
+}
+
+.nav-bar-left {
+  position: absolute;
+  left: 24rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-bar-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--color-title, #1a1a1a);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60%;
+}
+
+.nav-bar-right {
+  position: absolute;
+  right: 24rpx;
+  width: 64rpx;
+}

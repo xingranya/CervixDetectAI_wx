@@ -2,8 +2,55 @@
   "rules": [
     {
       "action": "allow",
-      "page": "*"
+      "page": "pages/home/index"
+    },
+    {
+      "action": "allow",
+      "page": "pages/records/index"
+    },
+    {
+      "action": "allow",
+      "page": "pages/reminders/index"
+    },
+    {
+      "action": "allow",
+      "page": "packages/tools/questions/index"
+    },
+    {
+      "action": "allow",
+      "page": "packages/tools/articles/index"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/login/index"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/profile/index"
+    },
+    {
+      "action": "disallow",
+      "page": "packages/records/record-form/index"
+    },
+    {
+      "action": "disallow",
+      "page": "packages/records/record-detail/index"
+    },
+    {
+      "action": "disallow",
+      "page": "packages/reminders/reminder-form/index"
+    },
+    {
+      "action": "disallow",
+      "page": "packages/profile/privacy/index"
+    },
+    {
+      "action": "disallow",
+      "page": "packages/profile/compliance/index"
+    },
+    {
+      "action": "disallow",
+      "page": "packages/profile/feedback/index"
     }
   ]
 }
-
