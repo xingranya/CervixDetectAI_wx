@@ -57,6 +57,40 @@ function normalizeMetrics(metrics) {
   return DEFAULT_METRICS.map((fallback, index) => normalizeMetric(list[index], fallback));
 }
 
+function formatShortDate(value) {
+  const text = String(value || "");
+  if (text.length >= 10) return text.slice(5, 10);
+  return text || "暂无";
+}
+
+function readCachedList(cacheKey) {
+  const cached = getCachedData(cacheKey);
+  return cached && Array.isArray(cached.data) ? cached.data : null;
+}
+
+function buildMetricsFromListCache() {
+  const records = readCachedList(CACHE_KEYS.records);
+  const reminders = readCachedList(CACHE_KEYS.reminders);
+  if (!records && !reminders) return null;
+
+  const recordList = records || [];
+  const reminderList = reminders || [];
+  const pendingRecords = recordList.filter((item) => {
+    const status = String(item.status || "");
+    return status.indexOf("待") > -1 || status.indexOf("复查") > -1;
+  }).length;
+  const pendingReminders = reminderList
+    .filter((item) => !item.done)
+    .sort((left, right) => String(left.date || "").localeCompare(String(right.date || "")));
+  const pendingCount = pendingRecords + pendingReminders.length;
+
+  return [
+    { label: "检查记录", value: `${recordList.length}次` },
+    { label: "待关注", value: `${pendingCount}项` },
+    { label: "下次提醒", value: pendingReminders.length ? formatShortDate(pendingReminders[0].date) : "暂无" }
+  ];
+}
+
 Page({
   data: {
     appName: "云端智诊",
@@ -117,10 +151,10 @@ Page({
   onShow() {
     this.refreshLoginState();
     this.renderStoredUser();
+    this.renderListCacheMetrics();
     this.syncProfile();
-    if (consumeCacheDirty(CACHE_KEYS.home)) {
-      this.scheduleSummaryRefresh();
-    }
+    consumeCacheDirty(CACHE_KEYS.home);
+    this.scheduleSummaryRefresh();
   },
 
   refreshLoginState() {
@@ -160,10 +194,22 @@ Page({
 
   renderProfileCache() {
     this.renderStoredUser();
+    if (this.renderListCacheMetrics()) return;
     const cachedHome = getCachedData(CACHE_KEYS.home);
     if (cachedHome && cachedHome.data && Array.isArray(cachedHome.data.metrics)) {
       this.setData({ metrics: normalizeMetrics(cachedHome.data.metrics) });
     }
+  },
+
+  renderListCacheMetrics() {
+    if (!isLoggedIn()) {
+      this.setData({ metrics: DEFAULT_METRICS });
+      return true;
+    }
+    const metrics = buildMetricsFromListCache();
+    if (!metrics) return false;
+    this.setData({ metrics: normalizeMetrics(metrics) });
+    return true;
   },
 
   scheduleSummaryRefresh() {

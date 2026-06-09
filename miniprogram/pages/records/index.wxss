@@ -109,7 +109,7 @@
 
 .section-kicker {
   display: block;
-  color: #717783;
+  color: #4d5d73;
   font-size: 22rpx;
   font-weight: 800;
 }
@@ -245,9 +245,9 @@
 
 .record-date {
   margin-top: 0;
-  color: #717783;
-  font-size: 22rpx;
-  font-weight: 700;
+  color: #0d47a1;
+  font-size: 23rpx;
+  font-weight: 900;
 }
 
 .record-project {
@@ -300,12 +300,6 @@
 .slide-cell {
   min-width: 0;
   width: 100%;
-  overflow: hidden;
-}
-
-.record-slideview {
-  width: 100% !important;
-  max-width: 100% !important;
   overflow: hidden;
 }
 

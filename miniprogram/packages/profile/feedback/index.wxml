@@ -21,7 +21,7 @@
       <picker mode="selector" range="{{feedbackTypes}}" value="{{feedbackTypeIndex}}" bind:change="onTypeChange">
         <view class="select-field">
           <text class="select-value">{{form.type}}</text>
-          <mp-icon icon="arrow" color="#8b9ab0" size="{{16}}" />
+          <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
         </view>
       </picker>
     </mp-cell>
@@ -34,6 +34,7 @@
         bind:input="onInput"
         maxlength="1000"
         placeholder="请描述你遇到的问题、希望改进的功能或隐私数据相关疑问。"
+        placeholder-class="form-placeholder"
       />
     </mp-cell>
 
@@ -45,6 +46,7 @@
         bind:input="onInput"
         maxlength="120"
         placeholder="可填写微信号或邮箱，便于后续联系"
+        placeholder-class="form-placeholder"
       />
     </mp-cell>
     </mp-cells>

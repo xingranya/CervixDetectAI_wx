@@ -42,29 +42,46 @@
 }
 
 .confirm-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16rpx;
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  width: 100%;
   margin-top: 30rpx;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .confirm-button {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  max-width: 100%;
   height: 78rpx;
   margin: 0;
-  padding: 0 18rpx;
+  padding: 0 14rpx;
   border-radius: 16rpx;
   font-size: 28rpx;
   font-weight: 800;
   line-height: normal;
   white-space: nowrap;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
 .confirm-button::after {
   border: 0;
+}
+
+.confirm-button text {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .confirm-cancel {

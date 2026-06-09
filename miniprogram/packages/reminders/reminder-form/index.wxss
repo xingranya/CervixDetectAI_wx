@@ -94,12 +94,12 @@
   justify-content: center;
   min-height: 56rpx;
   border-radius: 999rpx;
-  background: rgba(24, 118, 210, 0.08);
+  background: rgba(24, 118, 210, 0.14);
   min-width: 0;
 }
 
 .template-title {
-  color: rgb(24, 118, 210);
+  color: #0d47a1;
   font-size: 27rpx;
   font-weight: 900;
   line-height: 1.28;
@@ -177,8 +177,8 @@
 
 .choice-chip-active {
   border-color: rgba(24, 118, 210, 0.32);
-  background: rgba(24, 118, 210, 0.12);
-  color: rgb(24, 118, 210);
+  background: rgba(24, 118, 210, 0.16);
+  color: #0d47a1;
 }
 
 .field-block {
@@ -209,7 +209,7 @@
 }
 
 .field-hint {
-  color: #7a8798;
+  color: #3e4a5f;
   font-size: 22rpx;
   line-height: 1.35;
   flex: 0 0 auto;
@@ -242,7 +242,7 @@
 }
 
 .select-arrow {
-  color: #8b9ab0;
+  color: #4d5d73;
   font-size: 40rpx;
   line-height: 1;
 }
@@ -257,6 +257,10 @@
   min-height: 190rpx;
   padding: 22rpx 24rpx;
   line-height: 1.62;
+}
+
+.form-placeholder {
+  color: #4d5d73;
 }
 
 .switch-row {
@@ -356,8 +360,4 @@
 .form-weui-cells .weui-cell::before {
   left: 0 !important;
   right: 0 !important;
-}
-
-mp-cell + mp-cell {
-  margin-top: 0;
 }

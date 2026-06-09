@@ -30,7 +30,7 @@
         <text class="article-title">{{item.title}}</text>
         <text class="article-summary">{{item.summary}}</text>
       </view>
-      <mp-icon icon="arrow" color="#8b9ab0" size="{{16}}" />
+      <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
     </view>
   </block>
 

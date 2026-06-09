@@ -37,21 +37,25 @@
 .privacy-desc {
   display: block;
   margin-top: 18rpx;
-  color: #66748a;
+  color: #3e4a5f;
   font-size: 26rpx;
   line-height: 1.7;
 }
 
 .privacy-link {
-  display: inline-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 68rpx;
   margin-left: 0;
-  padding: 0;
+  padding: 0 20rpx;
   margin-top: 20rpx;
-  background: transparent;
-  color: #1f53c9;
+  border-radius: 16rpx;
+  background: rgba(24, 118, 210, 0.08);
+  color: #0d47a1;
   font-size: 26rpx;
   line-height: 1.4;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .privacy-actions {

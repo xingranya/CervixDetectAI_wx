@@ -43,7 +43,7 @@
       </view>
       <mp-cells ext-class="form-weui-cells">
         <mp-cell title="提醒标题" prop="title" show-error="{{true}}" inline="{{false}}">
-          <input class="form-input" value="{{title}}" bind:input="onTitleInput" maxlength="60" placeholder="例如：复查提醒" />
+          <input class="form-input" value="{{title}}" bind:input="onTitleInput" maxlength="60" placeholder="例如：复查提醒" placeholder-class="form-placeholder" />
         </mp-cell>
       </mp-cells>
     </view>
@@ -58,7 +58,7 @@
           <picker mode="date" value="{{date}}" bind:change="onDateChange">
             <view class="select-field">
               <text class="select-value">{{dateDisplay}}</text>
-              <mp-icon icon="arrow" color="#8b9ab0" size="{{16}}" />
+              <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
             </view>
           </picker>
         </mp-cell>
@@ -90,7 +90,7 @@
           <view class="label-row">
             <text class="field-hint">{{descLength}} / 500</text>
           </view>
-          <textarea class="form-textarea" value="{{desc}}" bind:input="onDescInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" />
+          <textarea class="form-textarea" value="{{desc}}" bind:input="onDescInput" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" placeholder-class="form-placeholder" />
         </mp-cell>
       </mp-cells>
 
