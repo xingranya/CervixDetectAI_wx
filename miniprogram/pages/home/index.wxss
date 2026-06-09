@@ -7,7 +7,7 @@
 
 .section-kicker {
   display: block;
-  color: #717783;
+  color: #4d5d73;
   font-size: 22rpx;
   font-weight: 800;
   letter-spacing: 0;
@@ -212,7 +212,7 @@
 }
 
 .hero-status {
-  color: #717783;
+  color: #4d5d73;
   font-size: 22rpx;
   line-height: 40rpx;
 }
@@ -233,7 +233,7 @@
 }
 
 .follow-label {
-  color: #717783;
+  color: #4d5d73;
   font-size: 22rpx;
   font-weight: 700;
   line-height: 1.25;
@@ -262,7 +262,7 @@
 .hero-time {
   flex: 0 0 auto;
   max-width: 168rpx;
-  color: #717783;
+  color: #4d5d73;
   font-size: 21rpx;
   line-height: 1.35;
   text-align: right;
@@ -310,7 +310,7 @@
 
 .metric-label {
   margin-top: 12rpx;
-  color: #717783;
+  color: #4d5d73;
   font-size: 23rpx;
   line-height: 1.25;
 }

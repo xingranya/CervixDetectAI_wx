@@ -128,7 +128,7 @@
 .profile-desc {
   display: block;
   margin-top: 10rpx;
-  color: #66748a;
+  color: #3e4a5f;
   font-size: 25rpx;
   line-height: 1.5;
 }
@@ -161,7 +161,7 @@
 
 .profile-metric-label {
   margin-top: 8rpx;
-  color: #66748a;
+  color: #3e4a5f;
   font-size: 24rpx;
 }
 
@@ -186,7 +186,7 @@
 
 .guest-panel-desc {
   margin-top: 10rpx;
-  color: #66748a;
+  color: #3e4a5f;
   font-size: 25rpx;
   line-height: 1.6;
 }
@@ -232,7 +232,7 @@
 
 .profile-section-desc {
   margin-top: 8rpx;
-  color: #64748b;
+  color: #3e4a5f;
   font-size: 25rpx;
 }
 

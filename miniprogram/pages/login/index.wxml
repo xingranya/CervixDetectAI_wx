@@ -34,6 +34,7 @@
         bind:input="onNicknameInput"
         maxlength="20"
         placeholder="可填写或选择微信昵称"
+        placeholder-class="form-placeholder"
       />
       </mp-cell>
       </mp-cells>
