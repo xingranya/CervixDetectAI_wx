@@ -178,7 +178,7 @@ Page({
       wx.nextTick(run);
       return;
     }
-    setTimeout(run, 0);
+    run();
   },
 
   async loadSummary() {

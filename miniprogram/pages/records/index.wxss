@@ -39,7 +39,7 @@
   border: 1rpx solid rgba(24, 118, 210, 0.16);
   border-radius: 999rpx;
   background: rgba(212, 227, 255, 0.72);
-  color: rgb(24, 118, 210);
+  color: #0d47a1;
   font-size: 25rpx;
   line-height: 58rpx;
   font-weight: 800;
@@ -53,7 +53,7 @@
   padding: 0 24rpx;
   border-radius: 999rpx;
   background: rgba(24, 118, 210, 0.08);
-  color: rgb(24, 118, 210);
+  color: #0d47a1;
   font-size: 24rpx;
   line-height: normal;
   font-weight: 700;
@@ -85,7 +85,7 @@
   padding: 0 18rpx;
   border-radius: 999rpx;
   background: rgba(219, 225, 255, 0.72);
-  color: rgb(24, 118, 210);
+  color: #0d47a1;
   font-size: 24rpx;
   font-weight: 700;
 }
@@ -162,8 +162,9 @@
 
 .trend-metric {
   padding: 24rpx 8rpx;
+  border: 1rpx solid rgba(24, 118, 210, 0.1);
   border-radius: 14rpx;
-  background: rgba(24, 118, 210, 0.04);
+  background: rgba(24, 118, 210, 0.07);
   text-align: center;
 }
 
@@ -182,7 +183,7 @@
 }
 
 .trend-value {
-  color: rgb(24, 118, 210);
+  color: #0d47a1;
   font-size: 32rpx;
   font-weight: 900;
   line-height: 1.15;

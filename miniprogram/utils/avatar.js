@@ -18,6 +18,9 @@ function isLocalAvatarPath(value) {
 
 function normalizeRemoteAvatarUrl(value) {
   const url = normalizeText(value);
+  if (/^http:\/\/xcx\.hpvsc\.icu(?::443)?\//i.test(url)) {
+    return url.replace(/^http:\/\/xcx\.hpvsc\.icu(?::443)?\//i, "https://xcx.hpvsc.icu/");
+  }
   return isRemoteAvatarUrl(url) ? url : "";
 }
 

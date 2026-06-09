@@ -87,14 +87,33 @@
   margin-top: 22rpx;
 }
 
-.profile-label {
+.profile-brand {
   display: inline-flex;
-  padding: 8rpx 16rpx;
+  align-items: center;
+  gap: 10rpx;
+  max-width: 100%;
+  padding: 7rpx 14rpx 7rpx 7rpx;
+  border: 1rpx solid rgba(24, 118, 210, 0.12);
   border-radius: 999rpx;
-  background: rgba(31, 83, 201, 0.1);
-  color: #1f53c9;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 8rpx 20rpx rgba(24, 67, 126, 0.05);
+  box-sizing: border-box;
+}
+
+.profile-brand-logo {
+  display: block;
+  width: 40rpx;
+  height: 40rpx;
+  flex: 0 0 auto;
+}
+
+.profile-label {
+  display: block;
+  color: rgb(24, 118, 210);
   font-size: 23rpx;
-  font-weight: 700;
+  font-weight: 900;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .profile-title {
