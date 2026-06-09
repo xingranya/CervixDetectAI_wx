@@ -23,6 +23,10 @@
   flex: 0 0 auto;
 }
 
+.title-weui-icon {
+  flex: 0 0 auto;
+}
+
 .section-title {
   color: #0b1c30;
   font-size: 34rpx;

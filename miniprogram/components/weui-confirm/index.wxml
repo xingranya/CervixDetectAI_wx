@@ -1,0 +1,11 @@
+<mp-dialog
+  title="{{title}}"
+  show="{{show}}"
+  mask="{{true}}"
+  mask-closable="{{true}}"
+  buttons="{{buttons}}"
+  bindclose="handleClose"
+  bindbuttontap="handleButtonTap"
+>
+  <view class="confirm-content">{{content}}</view>
+</mp-dialog>

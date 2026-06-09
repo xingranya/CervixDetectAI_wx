@@ -12,6 +12,10 @@ Component({
       type: String,
       value: ""
     },
+    weuiIcon: {
+      type: String,
+      value: ""
+    },
     buttonText: {
       type: String,
       value: ""

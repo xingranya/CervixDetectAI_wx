@@ -61,3 +61,8 @@ button[disabled] {
     radial-gradient(circle at 100% 100%, rgba(145, 68, 70, 0.05), transparent 34%),
     linear-gradient(180deg, #f8f9ff 0%, #eff4ff 52%, #f8f9ff 100%);
 }
+
+mp-icon + .button-text,
+mp-icon + .plain-link-text {
+  margin-left: 8rpx;
+}

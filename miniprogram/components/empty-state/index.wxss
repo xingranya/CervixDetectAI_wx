@@ -18,6 +18,17 @@
   margin-bottom: 16rpx;
 }
 
+.empty-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88rpx;
+  height: 88rpx;
+  margin-bottom: 16rpx;
+  border-radius: 24rpx;
+  background: #eef3ff;
+}
+
 .empty-title {
   color: #0b1c30;
   font-size: 32rpx;

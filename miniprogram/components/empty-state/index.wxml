@@ -1,5 +1,8 @@
 <view class="card empty-card">
-  <image wx:if="{{icon}}" class="empty-icon" src="{{icon}}" mode="aspectFit" />
+  <view wx:if="{{weuiIcon}}" class="empty-icon-wrap">
+    <mp-icon icon="{{weuiIcon}}" color="#1f53c9" size="{{36}}" />
+  </view>
+  <image wx:elif="{{icon}}" class="empty-icon" src="{{icon}}" mode="aspectFit" />
   <text class="empty-title">{{title}}</text>
   <text class="empty-desc">{{desc}}</text>
   <button wx:if="{{buttonText}}" class="primary-button empty-button" bind:tap="handleAction">

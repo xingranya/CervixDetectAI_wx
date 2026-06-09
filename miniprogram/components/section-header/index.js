@@ -11,6 +11,10 @@ Component({
       type: String,
       value: ""
     },
+    weuiIcon: {
+      type: String,
+      value: ""
+    },
     desc: {
       type: String,
       value: ""

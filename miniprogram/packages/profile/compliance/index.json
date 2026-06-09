@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "服务边界",
   "usingComponents": {
-    "section-header": "/components/section-header/index"
+    "section-header": "/components/section-header/index",
+    "mp-icon": "weui-miniprogram/icon/icon"
   }
 }
