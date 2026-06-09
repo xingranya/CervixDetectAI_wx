@@ -10,15 +10,21 @@
     </view>
     <view class="template-row">
       <button class="template-card" data-template="复查" bind:tap="applyTemplate">
-        <text class="template-title">复查</text>
+        <view class="template-title-wrap">
+          <text class="template-title">复查</text>
+        </view>
         <text class="template-desc">到期前安排复查</text>
       </button>
       <button class="template-card" data-template="资料" bind:tap="applyTemplate">
-        <text class="template-title">资料</text>
+        <view class="template-title-wrap">
+          <text class="template-title">资料</text>
+        </view>
         <text class="template-desc">整理摘要和历史记录</text>
       </button>
       <button class="template-card" data-template="问题" bind:tap="applyTemplate">
-        <text class="template-title">问题</text>
+        <view class="template-title-wrap">
+          <text class="template-title">问题</text>
+        </view>
         <text class="template-desc">咨询前整理问题</text>
       </button>
     </view>

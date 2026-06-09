@@ -61,6 +61,10 @@
 }
 
 .template-card {
+  display: grid;
+  grid-template-columns: 112rpx minmax(0, 1fr);
+  align-items: center;
+  column-gap: 18rpx;
   width: 100%;
   min-width: 0;
   min-height: 96rpx;
@@ -84,24 +88,36 @@
   border: 0;
 }
 
+.template-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56rpx;
+  border-radius: 999rpx;
+  background: rgba(24, 118, 210, 0.08);
+  min-width: 0;
+}
+
 .template-title {
   color: rgb(24, 118, 210);
   font-size: 27rpx;
   font-weight: 900;
   line-height: 1.28;
+  text-align: center;
   white-space: normal !important;
   overflow-wrap: break-word;
   word-break: break-word;
 }
 
 .template-desc {
-  margin-top: 8rpx;
   color: #414752;
   font-size: 23rpx;
   line-height: 1.42;
+  text-align: left;
   white-space: normal !important;
   overflow-wrap: break-word;
   word-break: break-word;
+  min-width: 0;
 }
 
 .chip-row,

@@ -103,17 +103,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 58rpx;
-  height: 58rpx;
-  border-radius: 18rpx;
-  background: rgba(24, 118, 210, 0.08);
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 20rpx;
+  background: rgba(24, 118, 210, 0.06);
   flex: 0 0 auto;
 }
 
 .login-mark {
   display: block;
-  width: 38rpx;
-  height: 38rpx;
+  width: 52rpx;
+  height: 52rpx;
 }
 
 .eyebrow {

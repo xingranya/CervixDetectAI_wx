@@ -4,8 +4,6 @@
   "backgroundTextStyle": "dark",
   "usingComponents": {
     "weui-confirm": "/components/weui-confirm/index",
-    "mp-icon": "weui-miniprogram/icon/icon",
-    "mp-cells": "weui-miniprogram/cells/cells",
-    "mp-cell": "weui-miniprogram/cell/cell"
+    "mp-icon": "weui-miniprogram/icon/icon"
   }
 }

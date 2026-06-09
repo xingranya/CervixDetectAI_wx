@@ -46,7 +46,10 @@
   />
 
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <mp-loading type="circle" tips="正在加载复查提醒" />
+    <view class="local-loading">
+      <view class="loading-ring"></view>
+      <text class="loading-text">正在加载复查提醒</text>
+    </view>
     <text class="state-desc">请稍候，正在同步你的后续安排。</text>
   </view>
 

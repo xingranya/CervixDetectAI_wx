@@ -9,7 +9,6 @@
     "mp-cells": "weui-miniprogram/cells/cells",
     "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
     "mp-checkbox": "weui-miniprogram/checkbox/checkbox",
-    "mp-toptips": "weui-miniprogram/toptips/toptips",
     "mp-icon": "weui-miniprogram/icon/icon"
   }
 }
