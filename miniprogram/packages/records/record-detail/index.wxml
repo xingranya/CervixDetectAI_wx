@@ -22,11 +22,10 @@
       </view>
       <view class="hero-title-row">
         <view class="hero-icon">
-          <mp-icon icon="note" color="#ffffff" size="{{30}}" />
+          <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{30}}" />
         </view>
         <view class="hero-copy">
           <text class="detail-title">{{recordView.title}}</text>
-          <view class="project-rule"></view>
           <text class="detail-project">{{recordView.projectText}}</text>
         </view>
       </view>
@@ -38,15 +37,15 @@
           <text class="section-label">检查摘要</text>
           <text class="section-title">本次记录重点</text>
         </view>
-        <mp-icon icon="note" color="#1f53c9" size="{{26}}" />
+        <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{26}}" />
       </view>
       <text class="summary-text">{{recordView.summaryText}}</text>
     </view>
 
     <view class="content-card suggestion-card">
       <view class="section-head compact">
-        <view class="section-title-line">
-          <mp-icon icon="time" color="#1f53c9" size="{{20}}" />
+        <view class="section-title-line suggestion-title-line">
+          <text class="section-label">复查准备</text>
           <text class="section-title">后续提醒</text>
         </view>
       </view>
@@ -74,7 +73,7 @@
     <view class="manage-card">
       <button class="manage-button" bind:tap="editRecord">
         <view class="button-content">
-          <mp-icon icon="note" color="#1f53c9" size="{{18}}" />
+          <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{18}}" />
           <text class="button-text">编辑记录</text>
         </view>
       </button>

@@ -1,6 +1,6 @@
 <view class="card empty-card">
   <view wx:if="{{weuiIcon}}" class="empty-icon-wrap">
-    <mp-icon icon="{{weuiIcon}}" color="#1f53c9" size="{{36}}" />
+    <mp-icon wx:if="{{weuiIcon}}" icon="{{weuiIcon}}" color="#1f53c9" size="{{36}}" />
   </view>
   <image wx:elif="{{icon}}" class="empty-icon" src="{{icon}}" mode="aspectFit" />
   <text class="empty-title">{{title}}</text>

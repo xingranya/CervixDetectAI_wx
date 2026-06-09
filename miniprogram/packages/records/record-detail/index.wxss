@@ -3,9 +3,9 @@
 .notify-panel,
 .manage-card {
   box-sizing: border-box;
-  border: 1rpx solid rgba(255, 255, 255, 0.82);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 18rpx 46rpx rgba(31, 83, 201, 0.07);
+  border: 1rpx solid rgba(205, 215, 232, 0.72);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14rpx 36rpx rgba(24, 67, 126, 0.06);
 }
 
 .card {
@@ -27,12 +27,12 @@
   height: 78rpx;
   padding: 0 28rpx;
   border-radius: 18rpx;
-  background: linear-gradient(135deg, #1f53c9 0%, #3e66dd 100%);
+  background: rgb(24, 118, 210);
   color: #ffffff;
   font-size: 28rpx;
   font-weight: 800;
   line-height: normal;
-  box-shadow: 0 14rpx 30rpx rgba(31, 83, 201, 0.22);
+  box-shadow: 0 14rpx 30rpx rgba(24, 118, 210, 0.2);
 }
 
 .primary-button::after,
@@ -57,12 +57,12 @@
 .detail-hero {
   position: relative;
   overflow: hidden;
-  padding: 34rpx 34rpx 38rpx;
-  border-radius: 30rpx;
+  padding: 30rpx;
+  border: 1rpx solid rgba(201, 213, 232, 0.86);
+  border-radius: 26rpx;
   background:
-    radial-gradient(circle at 100% 0, rgba(38, 166, 154, 0.28), transparent 35%),
-    linear-gradient(135deg, #1746b8 0%, #2d62d9 56%, #557fee 100%);
-  box-shadow: 0 22rpx 48rpx rgba(31, 83, 201, 0.22);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(244, 248, 255, 0.96) 100%);
+  box-shadow: 0 14rpx 34rpx rgba(24, 67, 126, 0.07);
 }
 
 .hero-meta,
@@ -82,11 +82,12 @@
 .date-badge {
   display: flex;
   align-items: center;
-  min-height: 58rpx;
-  padding: 0 20rpx;
-  border-radius: 20rpx;
-  background: rgba(255, 255, 255, 0.16);
-  color: #ffffff;
+  min-height: 56rpx;
+  padding: 0 18rpx;
+  border: 1rpx solid rgba(24, 118, 210, 0.12);
+  border-radius: 18rpx;
+  background: rgba(24, 118, 210, 0.06);
+  color: rgb(24, 118, 210);
 }
 
 .date-day {
@@ -100,8 +101,8 @@
   display: block;
   margin-left: 14rpx;
   padding-left: 14rpx;
-  border-left: 1rpx solid rgba(255, 255, 255, 0.26);
-  color: rgba(255, 255, 255, 0.76);
+  border-left: 1rpx solid rgba(24, 118, 210, 0.18);
+  color: #526174;
   font-size: 24rpx;
   font-weight: 800;
   line-height: 1;
@@ -112,8 +113,9 @@
   min-height: 48rpx;
   padding: 0 18rpx;
   border-radius: 999rpx;
-  background: rgba(255, 255, 255, 0.9);
-  color: #1f53c9;
+  border: 1rpx solid rgba(24, 118, 210, 0.12);
+  background: rgba(24, 118, 210, 0.06);
+  color: rgb(24, 118, 210);
   font-size: 24rpx;
   font-weight: 900;
   line-height: 48rpx;
@@ -126,7 +128,9 @@
 .hero-title-row {
   align-items: center;
   gap: 24rpx;
-  margin-top: 30rpx;
+  margin-top: 28rpx;
+  padding-top: 26rpx;
+  border-top: 1rpx solid rgba(205, 215, 232, 0.58);
 }
 
 .hero-icon {
@@ -135,8 +139,9 @@
   justify-content: center;
   width: 86rpx;
   height: 86rpx;
-  border-radius: 24rpx;
-  background: rgba(255, 255, 255, 0.18);
+  border-radius: 22rpx;
+  border: 1rpx solid rgba(24, 118, 210, 0.12);
+  background: rgba(24, 118, 210, 0.07);
   flex: 0 0 auto;
 }
 
@@ -163,23 +168,16 @@
 }
 
 .detail-title {
-  color: #ffffff;
-  font-size: 39rpx;
+  color: #191c1e;
+  font-size: 36rpx;
   font-weight: 900;
   line-height: 1.22;
   letter-spacing: 0;
 }
 
-.project-rule {
-  width: 48rpx;
-  height: 4rpx;
-  margin: 16rpx 0 12rpx;
-  border-radius: 999rpx;
-  background: rgba(255, 255, 255, 0.42);
-}
-
 .detail-project {
-  color: rgba(255, 255, 255, 0.78);
+  margin-top: 8rpx;
+  color: #414752;
   font-size: 25rpx;
   font-weight: 700;
   line-height: 1.42;
@@ -191,11 +189,12 @@
 }
 
 .summary-card {
-  background: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 255, 255, 0.94);
 }
 
 .suggestion-card {
-  background: rgba(239, 244, 255, 0.72);
+  border-color: rgba(202, 213, 230, 0.7);
+  background: rgba(247, 250, 254, 0.92);
 }
 
 .section-head {
@@ -209,14 +208,14 @@
 }
 
 .section-label {
-  color: #526da5;
+  color: #526174;
   font-size: 23rpx;
   font-weight: 800;
 }
 
 .section-title {
   margin-top: 6rpx;
-  color: #0b1c30;
+  color: #191c1e;
   font-size: 31rpx;
   font-weight: 900;
   line-height: 1.28;
@@ -230,26 +229,36 @@
 
 .section-title-line {
   display: flex;
-  align-items: center;
-  gap: 12rpx;
+  flex-direction: column;
+  gap: 6rpx;
 }
 
-.inline-icon {
-  width: 34rpx;
-  height: 34rpx;
+.suggestion-title-line {
+  align-items: flex-start;
+}
+
+.suggestion-title-line .section-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40rpx;
+  padding: 0 16rpx;
+  border: 1rpx solid rgba(24, 118, 210, 0.12);
+  border-radius: 999rpx;
+  background: rgba(24, 118, 210, 0.06);
+  color: rgb(24, 118, 210);
 }
 
 .summary-text,
 .suggestion-text {
-  color: #13243a;
-  font-size: 30rpx;
-  line-height: 1.78;
+  color: #223044;
+  font-size: 28rpx;
+  line-height: 1.72;
   font-weight: 500;
 }
 
 .suggestion-text {
-  color: #223a61;
-  font-size: 28rpx;
+  color: #31445f;
+  font-size: 27rpx;
 }
 
 .notify-panel {
@@ -257,7 +266,7 @@
   gap: 22rpx;
   padding: 24rpx;
   border-radius: 26rpx;
-  background: linear-gradient(135deg, rgba(232, 238, 255, 0.94), rgba(255, 255, 255, 0.86));
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .notify-copy {
@@ -288,16 +297,16 @@
   gap: 18rpx;
   padding: 18rpx;
   border-radius: 24rpx;
-  background: rgba(255, 255, 255, 0.66);
+  background: rgba(255, 255, 255, 0.88);
 }
 
 .manage-button {
   flex: 1;
   height: 72rpx;
-  border: 1rpx solid rgba(31, 83, 201, 0.14);
+  border: 1rpx solid rgba(24, 118, 210, 0.14);
   border-radius: 18rpx;
   background: rgba(255, 255, 255, 0.72);
-  color: #1f53c9;
+  color: rgb(24, 118, 210);
   font-size: 26rpx;
   font-weight: 800;
   line-height: normal;

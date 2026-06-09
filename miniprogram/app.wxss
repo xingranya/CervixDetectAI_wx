@@ -1,6 +1,6 @@
 page {
-  background: #f8f9ff;
-  color: #0b1c30;
+  background: #f7f9fb;
+  color: #191c1e;
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
@@ -53,13 +53,9 @@ button[disabled] {
 
 .page {
   min-height: 100vh;
-  padding: 32rpx 28rpx 60rpx;
+  padding: 32rpx 28rpx calc(120rpx + env(safe-area-inset-bottom));
   box-sizing: border-box;
-  background:
-    radial-gradient(circle at 0 0, rgba(31, 83, 201, 0.11), transparent 34%),
-    radial-gradient(circle at 100% 14%, rgba(166, 192, 255, 0.34), transparent 30%),
-    radial-gradient(circle at 100% 100%, rgba(145, 68, 70, 0.05), transparent 34%),
-    linear-gradient(180deg, #f8f9ff 0%, #eff4ff 52%, #f8f9ff 100%);
+  background: #f7f9fb;
 }
 
 mp-icon + .button-text,

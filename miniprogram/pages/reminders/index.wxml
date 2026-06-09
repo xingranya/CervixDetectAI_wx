@@ -1,8 +1,8 @@
 <view class="page reminders-page">
-  <section-header title="复查提醒" weui-icon="time">
+  <section-header title="复查提醒" icon="/assets/icons/reminders-active.png">
     <button slot="extra" class="mini-primary" bind:tap="createReminder">
       <view class="button-content">
-        <mp-icon icon="add" color="#1f53c9" size="{{16}}" />
+        <mp-icon icon="add" color="rgb(24, 118, 210)" size="{{16}}" />
         <text class="button-text">新增</text>
       </view>
     </button>
@@ -15,7 +15,7 @@
         <text class="reminder-summary-title">{{summary.title}}</text>
       </view>
       <view class="icon-chip">
-        <mp-icon icon="time" color="#1f53c9" size="{{32}}" />
+        <image class="icon-chip-image" src="/assets/icons/check-active.png" mode="aspectFit" />
       </view>
     </view>
     <view class="reminder-summary-grid">
@@ -107,13 +107,13 @@
           </button>
           <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
             <view class="button-content">
-              <mp-icon icon="info" color="#1f53c9" size="{{16}}" />
+              <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{16}}" />
               <text class="button-text">标记完成</text>
             </view>
           </button>
           <button class="text-button" bind:tap="editReminder" data-id="{{item.id}}">
             <view class="button-content">
-              <mp-icon icon="note" color="#1f53c9" size="{{16}}" />
+              <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{16}}" />
               <text class="button-text">编辑</text>
             </view>
           </button>

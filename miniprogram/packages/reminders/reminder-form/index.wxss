@@ -11,15 +11,15 @@
 .form-panel,
 .submit-panel {
   margin-bottom: 24rpx;
-  padding: 26rpx;
-  border: 1rpx solid rgba(199, 210, 232, 0.78);
-  border-radius: 26rpx;
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 16rpx 40rpx rgba(31, 83, 201, 0.06);
+  padding: 28rpx;
+  border: 1rpx solid rgba(205, 215, 232, 0.72);
+  border-radius: 22rpx;
+  background: #ffffff;
+  box-shadow: 0 12rpx 32rpx rgba(24, 67, 126, 0.05);
 }
 
 .template-panel {
-  background: rgba(255, 255, 255, 0.82);
+  background: #ffffff;
 }
 
 .panel-heading {
@@ -39,40 +39,42 @@
 }
 
 .panel-title {
-  color: #10233c;
-  font-size: 30rpx;
+  color: #191c1e;
+  font-size: 29rpx;
   font-weight: 900;
   line-height: 1.35;
 }
 
 .panel-desc {
   margin-top: 8rpx;
-  color: #66748a;
+  color: #414752;
   font-size: 24rpx;
   line-height: 1.58;
 }
 
 .template-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 14rpx;
+  flex-direction: column;
+  gap: 12rpx;
   width: 100%;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .template-card {
-  width: calc((100% - 14rpx) / 2);
+  width: 100%;
   min-width: 0;
-  min-height: 118rpx;
+  min-height: 96rpx;
   margin: 0;
   padding: 18rpx 20rpx;
-  border: 1rpx solid rgba(199, 210, 232, 0.72);
-  border-radius: 18rpx;
-  background: #f8faff;
-  color: #10233c;
+  border: 1rpx solid rgba(199, 210, 232, 0.78);
+  border-radius: 16rpx;
+  background: rgba(247, 250, 254, 0.92);
+  color: #191c1e;
   text-align: left;
   box-sizing: border-box;
-  white-space: normal;
+  line-height: normal;
+  white-space: normal !important;
+  overflow: hidden;
 }
 
 .template-card::after,
@@ -83,29 +85,32 @@
 }
 
 .template-title {
-  color: #1f53c9;
-  font-size: 25rpx;
+  color: rgb(24, 118, 210);
+  font-size: 27rpx;
   font-weight: 900;
   line-height: 1.28;
-  white-space: normal;
+  white-space: normal !important;
   overflow-wrap: break-word;
-  word-break: keep-all;
+  word-break: break-word;
 }
 
 .template-desc {
   margin-top: 8rpx;
-  color: #66748a;
-  font-size: 22rpx;
+  color: #414752;
+  font-size: 23rpx;
   line-height: 1.42;
-  white-space: normal;
+  white-space: normal !important;
   overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .chip-row,
 .quick-date-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12rpx;
+  width: 100%;
+  overflow: hidden;
 }
 
 .type-row {
@@ -115,32 +120,49 @@
 .choice-chip,
 .quick-date-chip {
   margin: 0;
-  padding: 0 18rpx;
+  padding: 0 14rpx;
   border: 1rpx solid rgba(176, 190, 215, 0.76);
-  border-radius: 18rpx;
-  background: #f8faff;
-  color: #425d96;
+  border-radius: 14rpx;
+  background: rgba(247, 250, 254, 0.96);
+  color: #355173;
   font-weight: 800;
   box-sizing: border-box;
+  line-height: normal;
+  white-space: normal !important;
+  overflow: hidden;
 }
 
 .choice-chip {
-  width: 48%;
-  height: 68rpx;
-  margin-bottom: 16rpx;
+  width: 100%;
+  min-width: 0;
+  height: 72rpx;
+  margin-bottom: 0;
   font-size: 25rpx;
 }
 
 .quick-date-chip {
-  width: 23%;
-  height: 64rpx;
+  width: 100%;
+  min-width: 0;
+  height: 66rpx;
   font-size: 24rpx;
 }
 
+.choice-chip text,
+.quick-date-chip text {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  line-height: 1.25;
+  white-space: normal !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+}
+
 .choice-chip-active {
-  border-color: rgba(31, 83, 201, 0.36);
-  background: #eef3ff;
-  color: #1f53c9;
+  border-color: rgba(24, 118, 210, 0.32);
+  background: rgba(24, 118, 210, 0.12);
+  color: rgb(24, 118, 210);
 }
 
 .field-block {
@@ -160,7 +182,7 @@
 
 .form-label {
   margin-bottom: 12rpx;
-  color: #10233c;
+  color: #191c1e;
   font-size: 26rpx;
   font-weight: 800;
   line-height: 1.35;
@@ -181,10 +203,10 @@
 .form-input,
 .form-textarea {
   width: 100%;
-  border: 1rpx solid rgba(176, 190, 215, 0.76);
-  border-radius: 18rpx;
-  background: #f8faff;
-  color: #0f172a;
+  border: 1rpx solid rgba(193, 198, 212, 0.78);
+  border-radius: 10rpx;
+  background: #f7f9fb;
+  color: #191c1e;
   font-size: 28rpx;
   box-sizing: border-box;
 }
@@ -193,12 +215,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 88rpx;
-  padding: 0 24rpx;
+  height: 82rpx;
+  padding: 0 22rpx;
 }
 
 .select-value {
-  color: #0f172a;
+  color: #191c1e;
   font-size: 28rpx;
   font-weight: 700;
 }
@@ -210,9 +232,9 @@
 }
 
 .form-input {
-  height: 88rpx;
-  padding: 0 24rpx;
-  line-height: 88rpx;
+  height: 82rpx;
+  padding: 0 22rpx;
+  line-height: 82rpx;
 }
 
 .form-textarea {
@@ -228,8 +250,8 @@
   margin-top: 24rpx;
   padding: 22rpx 24rpx;
   border: 1rpx solid rgba(176, 190, 215, 0.76);
-  border-radius: 18rpx;
-  background: #f8faff;
+  border-radius: 16rpx;
+  background: #f7f9ff;
 }
 
 .switch-copy {
@@ -238,7 +260,7 @@
 }
 
 .switch-title {
-  color: #10233c;
+  color: #191c1e;
   font-size: 27rpx;
   font-weight: 900;
   line-height: 1.35;
@@ -246,7 +268,7 @@
 
 .switch-desc {
   margin-top: 6rpx;
-  color: #66748a;
+  color: #414752;
   font-size: 23rpx;
   line-height: 1.45;
 }
@@ -257,11 +279,11 @@
   justify-content: center;
   height: 88rpx;
   border-radius: 18rpx;
-  background: #1f53c9;
+  background: rgb(24, 118, 210);
   color: #fff;
   font-size: 30rpx;
   font-weight: 800;
-  box-shadow: 0 12rpx 28rpx rgba(31, 83, 201, 0.2);
+  box-shadow: 0 12rpx 28rpx rgba(24, 118, 210, 0.2);
   white-space: nowrap;
   box-sizing: border-box;
 }
@@ -305,7 +327,7 @@
 .form-weui-cells .weui-label {
   width: 100% !important;
   margin-bottom: 14rpx;
-  color: #10233c;
+  color: #191c1e;
   font-size: 26rpx;
   font-weight: 800;
 }
