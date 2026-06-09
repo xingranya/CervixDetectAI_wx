@@ -205,15 +205,97 @@
   line-height: 1.6;
 }
 
+.form-weui-cells {
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.form-weui-cells .weui-cell {
+  display: block !important;
+  padding: 22rpx 0 !important;
+}
+
+.form-weui-cells .weui-cell__hd,
+.form-weui-cells .weui-cell__bd {
+  display: block !important;
+  width: 100% !important;
+}
+
+.form-weui-cells .weui-label {
+  width: 100% !important;
+  margin-bottom: 14rpx;
+  color: #10233c;
+  font-size: 26rpx;
+  font-weight: 800;
+}
+
+.form-weui-cells .weui-cell__bd {
+  margin-top: 12rpx;
+  min-width: 0 !important;
+}
+
+.form-weui-cells .weui-cell::before {
+  left: 0 !important;
+  right: 0 !important;
+}
+
+mp-cell + mp-cell {
+  margin-top: 0;
+}
+
 .official-feedback-card {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: 20rpx;
   margin-top: 22rpx;
   padding: 24rpx;
   border: 1rpx solid rgba(199, 210, 232, 0.66);
   border-radius: 22rpx;
   background: rgba(255, 255, 255, 0.72);
+}
+
+.official-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16rpx;
+  width: 100%;
+}
+
+.official-feedback-card .ghost-button {
+  width: 100%;
+  min-width: 0;
+}
+
+.ghost-button-secondary {
+  width: 100% !important;
+}
+
+.attachment-preview-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+  margin-top: 18rpx;
+}
+
+.attachment-preview {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 0;
+  padding: 0;
+  border-radius: 18rpx;
+  overflow: hidden;
+  background: #eef3ff;
+}
+
+.attachment-preview::after {
+  border: 0;
+}
+
+.attachment-preview-image {
+  display: block;
+  width: 128rpx;
+  height: 128rpx;
 }
 
 .official-copy {

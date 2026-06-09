@@ -1,7 +1,6 @@
 <view class="page detail-page">
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <text class="state-title">正在加载记录详情</text>
-    <text class="state-desc">请稍候，正在整理这条检查摘要。</text>
+    <mp-loading type="circle" tips="正在加载记录详情" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
@@ -23,7 +22,7 @@
       </view>
       <view class="hero-title-row">
         <view class="hero-icon">
-          <image class="hero-icon-image" src="/assets/icons/detail-white.png" mode="aspectFit" />
+          <mp-icon icon="note" color="#ffffff" size="{{30}}" />
         </view>
         <view class="hero-copy">
           <text class="detail-title">{{recordView.title}}</text>
@@ -39,7 +38,7 @@
           <text class="section-label">检查摘要</text>
           <text class="section-title">本次记录重点</text>
         </view>
-        <image class="section-icon" src="/assets/icons/records-active.png" mode="aspectFit" />
+        <mp-icon icon="note" color="#1f53c9" size="{{26}}" />
       </view>
       <text class="summary-text">{{recordView.summaryText}}</text>
     </view>
@@ -47,7 +46,7 @@
     <view class="content-card suggestion-card">
       <view class="section-head compact">
         <view class="section-title-line">
-          <image class="inline-icon" src="/assets/icons/reminders-active.png" mode="aspectFit" />
+          <mp-icon icon="time" color="#1f53c9" size="{{20}}" />
           <text class="section-title">后续提醒</text>
         </view>
       </view>
@@ -66,7 +65,7 @@
         bind:tap="subscribeReportReminder"
       >
         <view class="button-content">
-          <image class="button-icon" src="/assets/icons/reminders-white.png" mode="aspectFit" />
+          <mp-icon icon="time" color="#ffffff" size="{{18}}" />
           <text class="button-text">{{subscribingReport ? '发送中' : '开启提醒'}}</text>
         </view>
       </button>
@@ -75,13 +74,13 @@
     <view class="manage-card">
       <button class="manage-button" bind:tap="editRecord">
         <view class="button-content">
-          <image class="button-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+          <mp-icon icon="note" color="#1f53c9" size="{{18}}" />
           <text class="button-text">编辑记录</text>
         </view>
       </button>
       <button class="manage-button danger" bind:tap="deleteRecord">
         <view class="button-content">
-          <image class="button-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+          <mp-icon icon="delete" color="#ba1a1a" size="{{18}}" />
           <text class="button-text">删除记录</text>
         </view>
       </button>
@@ -89,4 +88,13 @@
   </view>
 
   <view class="safe-note">如对检查内容有疑问，请携带记录到线下医疗机构咨询专业人员。</view>
+  <weui-confirm
+    show="{{confirmDialog.show}}"
+    title="删除记录"
+    content="删除后无法恢复，确认删除这条检查记录吗？"
+    confirm-text="删除"
+    confirm-warn="{{true}}"
+    bind:cancel="closeConfirmDialog"
+    bind:confirm="confirmDeleteRecord"
+  />
 </view>

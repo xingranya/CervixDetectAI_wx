@@ -1,9 +1,9 @@
 <view class="page questions-page">
-  <section-header title="问题整理" icon="/assets/icons/questions-active.png" desc="把线下咨询前想确认的重点提前列好。" />
+  <section-header title="问题整理" weui-icon="comment" desc="把线下咨询前想确认的重点提前列好。" />
 
   <view class="question-hero">
     <view class="hero-icon">
-      <image class="hero-icon-image" src="/assets/icons/questions-active.png" mode="aspectFit" />
+      <mp-icon icon="comment" color="#1f53c9" size="{{32}}" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">保存线下沟通重点</text>
@@ -25,25 +25,26 @@
   </view>
 
   <block wx:else>
+    <mp-searchbar
+      ext-class="weui-search"
+      placeholder="搜索模板或已保存问题"
+      value="{{searchKeyword}}"
+      search="{{searchQuestions}}"
+      cancel="{{false}}"
+      bindinput="onSearchInput"
+      bindclear="onSearchClear"
+    />
+
     <view class="question-panel">
       <view class="panel-heading">
         <text class="panel-title">常用问题</text>
         <text class="panel-desc">点击选择，可一次保存多条。</text>
       </view>
-      <view class="template-list">
-        <button
-          wx:for="{{templateOptions}}"
-          wx:key="text"
-          class="question-item {{item.selected ? 'question-item-active' : ''}}"
-          bind:tap="toggleQuestion"
-          data-text="{{item.text}}"
-        >
-          <view class="choice-mark">
-            <image wx:if="{{item.selected}}" class="choice-icon" src="/assets/icons/check-white.png" mode="aspectFit" />
-          </view>
-          <text class="question-text">{{item.text}}</text>
-        </button>
-      </view>
+      <mp-cells ext-class="question-weui-cells">
+        <mp-checkbox-group multi="{{true}}" bindchange="onTemplateChange">
+          <mp-checkbox wx:for="{{templateOptions}}" wx:key="value" label="{{item.label}}" value="{{item.value}}" checked="{{item.selected}}"></mp-checkbox>
+        </mp-checkbox-group>
+      </mp-cells>
     </view>
 
     <view class="question-panel">
@@ -54,7 +55,7 @@
       <textarea class="form-textarea" value="{{customQuestion}}" bind:input="onCustomInput" maxlength="255" placeholder="例如：复查前需要准备哪些历史资料？" />
       <button class="primary-button save-button" bind:tap="saveSelected">
         <view class="button-content">
-          <image class="button-icon" src="/assets/icons/questions-white.png" mode="aspectFit" />
+          <mp-icon icon="comment" color="#ffffff" size="{{18}}" />
           <text class="button-text">{{isGuest ? '登录后保存' : '保存到问题清单'}}</text>
         </view>
       </button>
@@ -73,11 +74,11 @@
           <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bind:input="onAnswerInput" maxlength="1000" placeholder="记录线下咨询后的个人备忘。" />
           <view class="question-actions">
             <button class="text-button" bind:tap="saveAnswer" data-id="{{item.id}}">
-              <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
+              <mp-icon icon="note" color="#1f53c9" size="{{16}}" />
               <text class="button-text">保存备忘</text>
             </button>
             <button class="text-button danger" bind:tap="deleteQuestion" data-id="{{item.id}}">
-              <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+              <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
               <text class="button-text">删除</text>
             </button>
           </view>
@@ -92,4 +93,13 @@
   </block>
 
   <view class="safe-note">本页只帮助整理线下沟通问题和个人备忘，不提供问诊、诊断或治疗建议。</view>
+  <weui-confirm
+    show="{{confirmDialog.show}}"
+    title="删除问题"
+    content="确认删除这条问题记录吗？"
+    confirm-text="删除"
+    confirm-warn="{{true}}"
+    bind:cancel="closeConfirmDialog"
+    bind:confirm="confirmDeleteQuestion"
+  />
 </view>

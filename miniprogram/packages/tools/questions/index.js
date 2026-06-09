@@ -19,6 +19,8 @@ function resolveQuestionsStatus(templates, questions) {
 function buildTemplateOptions(templates, selected) {
   return templates.map((text) => ({
     text,
+    label: text,
+    value: text,
     selected: selected.indexOf(text) > -1
   }));
 }
@@ -33,7 +35,12 @@ Page({
     customQuestion: "",
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
-    isGuest: !isLoggedIn()
+    isGuest: !isLoggedIn(),
+    searchKeyword: "",
+    confirmDialog: {
+      show: false,
+      id: ""
+    }
   },
 
   onShow() {
@@ -118,6 +125,31 @@ Page({
     const selected = this.data.selected.indexOf(text) > -1
       ? this.data.selected.filter((item) => item !== text)
       : [...this.data.selected, text];
+    this.setData({
+      selected,
+      templateOptions: buildTemplateOptions(this.templateTexts, selected)
+    });
+  },
+
+  searchQuestions(keyword) {
+    const query = String(keyword || "").trim().toLowerCase();
+    const source = this.templateTexts.concat(this.data.questions.map((item) => item.questionText));
+    const list = query
+      ? source.filter((text) => String(text || "").toLowerCase().indexOf(query) > -1)
+      : source;
+    return Promise.resolve(list.map((text) => ({ text, value: text })));
+  },
+
+  onSearchInput(event) {
+    this.setData({ searchKeyword: event.detail.value || "" });
+  },
+
+  onSearchClear() {
+    this.setData({ searchKeyword: "" });
+  },
+
+  onTemplateChange(event) {
+    const selected = event.detail.value || [];
     this.setData({
       selected,
       templateOptions: buildTemplateOptions(this.templateTexts, selected)
@@ -209,25 +241,36 @@ Page({
     }
 
     const id = event.currentTarget.dataset.id;
-    wx.showModal({
-      title: "删除问题",
-      content: "确认删除这条问题记录吗？",
-      confirmColor: "#d32f2f",
-      success: async (res) => {
-        if (!res.confirm) return;
-        try {
-          await request(`/questions/${id}`, { method: "DELETE" });
-          removeCachedListItem(CACHE_KEYS.questions, id);
-          const nextQuestions = this.data.questions.filter((item) => item.id !== id);
-          this.setData({
-            questions: nextQuestions,
-            pageStatus: resolveQuestionsStatus(this.templateTexts, nextQuestions)
-          });
-          showSuccessToast("已删除");
-        } catch (error) {
-          showErrorToast(error, "删除失败");
-        }
+    this.setData({
+      confirmDialog: {
+        show: true,
+        id
       }
     });
+  },
+
+  closeConfirmDialog() {
+    this.setData({
+      "confirmDialog.show": false,
+      "confirmDialog.id": ""
+    });
+  },
+
+  async confirmDeleteQuestion() {
+    const id = this.data.confirmDialog.id;
+    this.closeConfirmDialog();
+    if (!id) return;
+    try {
+      await request(`/questions/${id}`, { method: "DELETE" });
+      removeCachedListItem(CACHE_KEYS.questions, id);
+      const nextQuestions = this.data.questions.filter((item) => item.id !== id);
+      this.setData({
+        questions: nextQuestions,
+        pageStatus: resolveQuestionsStatus(this.templateTexts, nextQuestions)
+      });
+      showSuccessToast("已删除");
+    } catch (error) {
+      showErrorToast(error, "删除失败");
+    }
   }
 });

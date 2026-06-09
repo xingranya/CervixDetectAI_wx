@@ -66,6 +66,11 @@ const quickDateOptions = [
   { label: "1周后", offsetDays: 7 },
   { label: "1个月后", offsetDays: 30 }
 ];
+const formRules = [
+  { name: "title", rules: { required: true, message: "请选择或填写提醒标题" } },
+  { name: "date", rules: { required: true, message: "请选择提醒日期" } },
+  { name: "desc", rules: { required: true, message: "请填写提醒内容" } }
+];
 const templateMap = reminderTemplates.reduce((result, item) => {
   result[item.name] = item;
   return result;
@@ -101,6 +106,12 @@ function buildFormState(form) {
   const titleIndex = findTitleIndex(nextForm.title);
   const currentTitle = titleOptions[titleIndex] || titleOptions[0];
   return {
+    formModel: {
+      title: nextForm.title,
+      date: nextForm.date,
+      desc: nextForm.desc,
+      done: nextForm.done ? ["done"] : []
+    },
     pageTitle: "新增复查提醒",
     title: nextForm.title,
     date: nextForm.date,
@@ -110,6 +121,8 @@ function buildFormState(form) {
     titleIndex,
     currentTitle,
     titleOptionsView: buildTitleOptionsView(currentTitle),
+    doneItems: [{ label: "标记为已完成", value: "done", checked: nextForm.done }],
+    doneValues: nextForm.done ? ["done"] : [],
     descLength: nextForm.desc.length
   };
 }
@@ -127,6 +140,7 @@ Page({
   data: {
     id: "",
     ...buildFormState(defaultForm),
+    formRules,
     submitText: "保存提醒",
     errorMessage: "",
     loading: false
@@ -177,6 +191,7 @@ Page({
     const value = String(inputValue || "");
     const updates = {
       [field]: value,
+      [`formModel.${field}`]: value,
       errorMessage: ""
     };
     if (field === "desc") {
@@ -196,6 +211,7 @@ Page({
   onDateChange(event) {
     this.setData({
       date: event.detail.value,
+      "formModel.date": event.detail.value,
       dateDisplay: event.detail.value || "请选择日期",
       errorMessage: ""
     });
@@ -208,6 +224,7 @@ Page({
       titleIndex: index,
       currentTitle: title,
       title,
+      "formModel.title": title,
       titleOptionsView: buildTitleOptionsView(title),
       errorMessage: ""
     });
@@ -221,6 +238,7 @@ Page({
       titleIndex: index,
       currentTitle,
       title: currentTitle,
+      "formModel.title": currentTitle,
       titleOptionsView: buildTitleOptionsView(currentTitle),
       errorMessage: ""
     });
@@ -253,7 +271,14 @@ Page({
   },
 
   onDoneChange(event) {
-    this.setData({ done: event.detail.value });
+    const values = Array.isArray(event.detail.value) ? event.detail.value : [];
+    const done = values.indexOf("done") > -1 || event.detail.value === true;
+    this.setData({
+      done,
+      "formModel.done": done ? ["done"] : [],
+      doneItems: [{ label: "标记为已完成", value: "done", checked: done }],
+      doneValues: done ? ["done"] : []
+    });
   },
 
   validateForm() {
@@ -272,6 +297,14 @@ Page({
     }
     this.setData({ errorMessage: "" });
     return true;
+  },
+
+  onFormFail(event) {
+    const errors = event.detail && event.detail.errors;
+    const firstError = Array.isArray(errors) && errors[0] ? errors[0] : null;
+    this.setData({
+      errorMessage: firstError && firstError.message ? firstError.message : "请完善必填信息"
+    });
   },
 
   async submitForm() {

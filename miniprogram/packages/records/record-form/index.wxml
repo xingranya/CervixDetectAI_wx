@@ -1,7 +1,7 @@
 <view class="page record-form-page">
-  <section-header title="{{pageTitle}}" icon="/assets/icons/form-active.png" desc="保存已有检查摘要，方便后续复查和线下咨询时查看。" />
+  <section-header title="{{pageTitle}}" weui-icon="note" desc="保存已有检查摘要，方便后续复查和线下咨询时查看。" />
 
-  <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
+  <mp-toptips msg="{{errorMessage}}" type="error" show="{{!!errorMessage}}" />
 
   <view wx:if="{{!id}}" class="form-panel template-panel">
     <view class="panel-heading">
@@ -24,72 +24,71 @@
     </view>
   </view>
 
-  <view class="form-panel">
-    <view class="panel-heading">
-      <text class="panel-title">基础信息</text>
-      <text class="panel-desc">用于在记录列表中快速识别这次内容。</text>
-    </view>
-
-    <view class="field-block">
-      <text class="form-label">检查日期</text>
-      <picker mode="date" value="{{date}}" bind:change="onDateChange">
-        <view class="select-field">
-          <text class="select-value">{{dateDisplay}}</text>
-          <text class="select-arrow">›</text>
-        </view>
-      </picker>
-    </view>
-
-    <view class="field-block">
-      <text class="form-label">记录标题</text>
-      <input class="form-input" value="{{title}}" bind:input="onTitleInput" maxlength="60" placeholder="例如：女性健康筛查记录" />
-    </view>
-
-    <view class="field-block">
-      <text class="form-label">检查项目</text>
-      <input class="form-input" value="{{project}}" bind:input="onProjectInput" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" />
-    </view>
-  </view>
-
-  <view class="form-panel">
-    <view class="panel-heading">
-      <text class="panel-title">记录内容</text>
-      <text class="panel-desc">只记录已有检查摘要和个人复查准备事项。</text>
-    </view>
-
-    <view class="field-block">
-      <view class="label-row">
-        <text class="form-label">摘要</text>
-        <text class="field-hint">{{summaryLength}} / 500</text>
+  <mp-form id="form" rules="{{formRules}}" models="{{formModel}}" bindfail="onFormFail">
+    <view class="form-panel">
+      <view class="panel-heading">
+        <text class="panel-title">基础信息</text>
+        <text class="panel-desc">用于在记录列表中快速识别这次内容。</text>
       </view>
-      <textarea class="form-textarea" value="{{summary}}" bind:input="onSummaryInput" maxlength="500" placeholder="记录检查摘要，便于后续查看。" />
+      <mp-cells ext-class="form-weui-cells">
+        <mp-cell title="检查日期" prop="date" show-error="{{true}}" inline="{{false}}">
+          <picker mode="date" value="{{date}}" bind:change="onDateChange">
+            <view class="select-field">
+              <text class="select-value">{{dateDisplay}}</text>
+              <mp-icon icon="arrow" color="#8b9ab0" size="{{16}}" />
+            </view>
+          </picker>
+        </mp-cell>
+
+        <mp-cell title="记录标题" prop="title" show-error="{{true}}" inline="{{false}}">
+          <input class="form-input" value="{{title}}" bind:input="onTitleInput" maxlength="60" placeholder="例如：女性健康筛查记录" />
+        </mp-cell>
+
+        <mp-cell title="检查项目" prop="project" show-error="{{true}}" inline="{{false}}">
+          <input class="form-input" value="{{project}}" bind:input="onProjectInput" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" />
+        </mp-cell>
+      </mp-cells>
     </view>
 
-    <view class="field-block">
-      <view class="label-row">
-        <text class="form-label">提醒建议</text>
-        <text class="field-hint">{{suggestionLength}} / 500</text>
+    <view class="form-panel">
+      <view class="panel-heading">
+        <text class="panel-title">记录内容</text>
+        <text class="panel-desc">只记录已有检查摘要和个人复查准备事项。</text>
       </view>
-      <textarea class="form-textarea" value="{{suggestion}}" bind:input="onSuggestionInput" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" />
-    </view>
-  </view>
+      <mp-cells ext-class="form-weui-cells">
+        <mp-cell title="摘要" prop="summary" show-error="{{true}}" inline="{{false}}">
+          <view class="label-row">
+            <text class="field-hint">{{summaryLength}} / 500</text>
+          </view>
+          <textarea class="form-textarea" value="{{summary}}" bind:input="onSummaryInput" maxlength="500" placeholder="记录检查摘要，便于后续查看。" />
+        </mp-cell>
 
-  <view class="form-panel">
-    <view class="panel-heading">
-      <text class="panel-title">记录状态</text>
-      <text class="panel-desc">选择当前最适合的管理状态。</text>
+        <mp-cell title="提醒建议" prop="suggestion" show-error="{{true}}" inline="{{false}}">
+          <view class="label-row">
+            <text class="field-hint">{{suggestionLength}} / 500</text>
+          </view>
+          <textarea class="form-textarea" value="{{suggestion}}" bind:input="onSuggestionInput" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" />
+        </mp-cell>
+      </mp-cells>
     </view>
-    <view class="chip-row">
-      <button wx:for="{{statusOptionsView}}" wx:key="status" class="{{item.className}}" data-status="{{item.status}}" bind:tap="selectStatus">
-        <text>{{item.status}}</text>
-      </button>
+
+    <view class="form-panel">
+      <view class="panel-heading">
+        <text class="panel-title">记录状态</text>
+        <text class="panel-desc">选择当前最适合的管理状态。</text>
+      </view>
+      <mp-cells ext-class="weui-choice-cells">
+        <mp-checkbox-group prop="status" multi="{{false}}" bindchange="onStatusChange">
+          <mp-checkbox wx:for="{{statusItems}}" wx:key="value" label="{{item.label}}" value="{{item.value}}" checked="{{item.checked}}"></mp-checkbox>
+        </mp-checkbox-group>
+      </mp-cells>
     </view>
-  </view>
+  </mp-form>
 
   <view class="submit-panel">
     <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
-        <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
+        <mp-icon icon="note" color="#ffffff" size="{{18}}" />
         <text class="button-text">{{submitText}}</text>
       </view>
     </button>

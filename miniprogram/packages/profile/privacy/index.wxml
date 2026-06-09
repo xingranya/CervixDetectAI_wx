@@ -1,9 +1,9 @@
 <view class="page privacy-page">
-  <section-header title="隐私与服务说明" icon="/assets/icons/privacy-active.png" desc="说明数据用途、授权方式和服务边界。" />
+  <section-header title="隐私与服务说明" weui-icon="info" desc="说明数据用途、授权方式和服务边界。" />
 
   <view class="privacy-hero">
     <view class="hero-icon">
-      <image class="hero-icon-image" src="/assets/icons/privacy-active.png" mode="aspectFit" />
+      <mp-icon icon="info" color="#1f53c9" size="{{34}}" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">数据只用于你的健康记录管理</text>

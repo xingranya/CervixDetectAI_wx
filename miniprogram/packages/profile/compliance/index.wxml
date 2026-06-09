@@ -1,9 +1,9 @@
 <view class="page compliance-page">
-  <section-header title="合规与服务边界" icon="/assets/icons/check-active.png" desc="确认健康记录工具的使用范围。" />
+  <section-header title="合规与服务边界" weui-icon="info" desc="确认健康记录工具的使用范围。" />
 
   <view class="boundary-hero">
     <view class="boundary-mark">
-      <image class="boundary-mark-image" src="/assets/icons/check-active.png" mode="aspectFit" />
+      <mp-icon icon="info" color="#1f53c9" size="{{34}}" />
     </view>
     <view class="boundary-copy">
       <text class="boundary-title">健康记录工具，不是医疗服务</text>
@@ -25,7 +25,7 @@
     </view>
     <view wx:for="{{allowedItems}}" wx:key="*this" class="boundary-row">
       <view class="row-mark allow-mark">
-        <image class="row-mark-image" src="/assets/icons/check-white.png" mode="aspectFit" />
+        <mp-icon icon="info" color="#ffffff" size="{{16}}" />
       </view>
       <text class="boundary-text">{{item}}</text>
     </view>
@@ -38,7 +38,7 @@
     </view>
     <view wx:for="{{restrictedItems}}" wx:key="*this" class="boundary-row">
       <view class="row-mark restrict-mark">
-        <image class="row-mark-image" src="/assets/icons/privacy-danger.png" mode="aspectFit" />
+        <mp-icon icon="close" color="#ffffff" size="{{16}}" />
       </view>
       <text class="boundary-text">{{item}}</text>
     </view>

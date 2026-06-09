@@ -40,7 +40,7 @@
         <text class="guest-entry-desc">登录仅在你需要保存个人记录、提醒和备忘时使用，头像与昵称均为选填。</text>
         <button class="primary-button guest-entry-button" bind:tap="goLogin">
           <view class="button-content">
-            <image class="button-icon" src="/assets/icons/login-white.png" mode="aspectFit" />
+            <mp-icon icon="me" color="#ffffff" size="{{18}}" />
             <text class="button-text guest-entry-button-text">登录保存数据</text>
           </view>
         </button>
@@ -62,7 +62,7 @@
         data-path="{{item.path}}"
       >
         <view class="action-icon-wrap">
-          <image class="action-icon" src="{{item.icon}}" mode="aspectFit" />
+          <mp-icon icon="{{item.weuiIcon}}" color="#1f53c9" size="{{30}}" />
         </view>
         <text class="action-title">{{item.label}}</text>
         <text class="action-desc">{{item.desc}}</text>
@@ -73,7 +73,7 @@
       <view class="card-head">
         <view class="card-title-row">
           <view class="icon-chip">
-            <image class="icon-chip-image" src="/assets/icons/detail-active.png" mode="aspectFit" />
+            <mp-icon icon="note" color="#1f53c9" size="{{30}}" />
           </view>
           <view class="latest-title-block">
             <text class="section-kicker">最近记录</text>
@@ -85,7 +85,7 @@
       <text class="latest-desc">{{home.nextReminder}}</text>
       <button class="primary-button" bind:tap="goPage" data-path="/pages/records/index">
         <view class="button-content">
-          <image class="button-icon" src="/assets/icons/records-white.png" mode="aspectFit" />
+          <mp-icon icon="note" color="#ffffff" size="{{18}}" />
           <text class="button-text">查看检查记录</text>
         </view>
       </button>

@@ -1,5 +1,10 @@
 {
   "navigationBarTitleText": "云端智诊",
   "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark"
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "mp-icon": "weui-miniprogram/icon/icon",
+    "mp-badge": "weui-miniprogram/badge/badge",
+    "mp-loading": "weui-miniprogram/loading/loading"
+  }
 }

@@ -1,9 +1,8 @@
 <view class="page">
-  <section-header title="健康知识" icon="/assets/icons/articles-active.png" />
+  <section-header title="健康知识" weui-icon="info" />
 
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <text class="state-title">正在加载知识内容</text>
-    <text class="state-desc">请稍候，正在整理适合阅读的内容。</text>
+    <mp-loading type="circle" tips="正在加载知识内容" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
@@ -18,17 +17,17 @@
     wx:elif="{{pageStatus === 'empty'}}"
     title="暂时还没有内容"
     desc="稍后会在这里补充适合日常查看的健康管理文章。"
-    icon="/assets/icons/articles-active.png"
+    weui-icon="info"
   />
 
   <block wx:else>
     <view wx:for="{{articles}}" wx:key="id" class="card article-card" bind:tap="openArticle" data-id="{{item.id}}">
-      <image class="card-icon" src="/assets/icons/articles-active.png" mode="aspectFit" />
+      <mp-icon icon="info" color="#1f53c9" size="{{28}}" />
       <view class="article-body">
         <text class="article-title">{{item.title}}</text>
         <text class="article-summary">{{item.summary}}</text>
       </view>
-      <text class="article-arrow">›</text>
+      <mp-icon icon="arrow" color="#8b9ab0" size="{{16}}" />
     </view>
   </block>
 

@@ -27,6 +27,9 @@ function wxLoginCode() {
 Page({
   data: {
     nickname: "",
+    formModel: {
+      nickname: ""
+    },
     avatarUrl: "",
     avatarPreviewFailed: false,
     loading: false
@@ -47,7 +50,10 @@ Page({
   },
 
   onNicknameInput(event) {
-    this.setData({ nickname: event.detail.value });
+    this.setData({
+      nickname: event.detail.value,
+      "formModel.nickname": event.detail.value
+    });
   },
 
   onChooseAvatar(event) {

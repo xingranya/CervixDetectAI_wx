@@ -68,10 +68,10 @@ Page({
     errorMessage: "",
     isGuest: !isLoggedIn(),
     actions: [
-      { label: "检查记录", desc: "按时间保存摘要", path: ROUTES.records, tone: "green", side: "left", icon: "/assets/icons/records-active.png" },
-      { label: "复查提醒", desc: "管理下一步安排", path: ROUTES.reminders, tone: "blue", side: "right", icon: "/assets/icons/reminders-active.png" },
-      { label: "问题整理", desc: "提前列出重点", path: ROUTES.questions, tone: "gold", side: "left", icon: "/assets/icons/questions-active.png" },
-      { label: "健康知识", desc: "查看管理建议", path: ROUTES.articles, tone: "mint", side: "right", icon: "/assets/icons/articles-active.png" }
+      { label: "检查记录", desc: "按时间保存摘要", path: ROUTES.records, tone: "green", side: "left", weuiIcon: "note" },
+      { label: "复查提醒", desc: "管理下一步安排", path: ROUTES.reminders, tone: "blue", side: "right", weuiIcon: "time" },
+      { label: "问题整理", desc: "提前列出重点", path: ROUTES.questions, tone: "gold", side: "left", weuiIcon: "comment" },
+      { label: "健康知识", desc: "查看管理建议", path: ROUTES.articles, tone: "mint", side: "right", weuiIcon: "info" }
     ]
   },
 

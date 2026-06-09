@@ -1,3 +1,9 @@
 {
-  "navigationBarTitleText": "记录详情"
+  "navigationBarTitleText": "记录详情",
+  "usingComponents": {
+    "weui-confirm": "/components/weui-confirm/index",
+    "mp-icon": "weui-miniprogram/icon/icon",
+    "mp-badge": "weui-miniprogram/badge/badge",
+    "mp-loading": "weui-miniprogram/loading/loading"
+  }
 }

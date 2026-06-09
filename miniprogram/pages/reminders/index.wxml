@@ -1,8 +1,8 @@
 <view class="page reminders-page">
-  <section-header title="复查提醒" icon="/assets/icons/reminders-active.png">
+  <section-header title="复查提醒" weui-icon="time">
     <button slot="extra" class="mini-primary" bind:tap="createReminder">
       <view class="button-content">
-        <image class="small-icon" src="/assets/icons/plus-active.png" mode="aspectFit" />
+        <mp-icon icon="add" color="#1f53c9" size="{{16}}" />
         <text class="button-text">新增</text>
       </view>
     </button>
@@ -15,7 +15,7 @@
         <text class="reminder-summary-title">{{summary.title}}</text>
       </view>
       <view class="icon-chip">
-        <image class="icon-chip-image" src="/assets/icons/reminders-active.png" mode="aspectFit" />
+        <mp-icon icon="time" color="#1f53c9" size="{{32}}" />
       </view>
     </view>
     <view class="reminder-summary-grid">
@@ -34,8 +34,19 @@
     </view>
   </view>
 
+  <mp-searchbar
+    wx:if="{{allReminders.length}}"
+    ext-class="weui-search"
+    placeholder="搜索提醒标题、内容或日期"
+    value="{{searchKeyword}}"
+    search="{{searchReminders}}"
+    cancel="{{false}}"
+    bindinput="onSearchInput"
+    bindclear="onSearchClear"
+  />
+
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <text class="state-title">正在加载复查提醒</text>
+    <mp-loading type="circle" tips="正在加载复查提醒" />
     <text class="state-desc">请稍候，正在同步你的后续安排。</text>
   </view>
 
@@ -51,56 +62,79 @@
     wx:elif="{{pageStatus === 'empty'}}"
     title="{{isGuest ? '体验模式下不展示个人提醒' : '还没有提醒'}}"
     desc="{{isGuest ? '你可以先浏览提醒页布局和说明；需要保存自己的复查计划时，再自行登录。' : '添加复查或资料准备提醒，把后续安排放进计划里。'}}"
-    icon="/assets/icons/reminders-active.png"
+    weui-icon="time"
     button-text="{{isGuest ? '前往登录' : '添加提醒'}}"
     bind:action="createReminder"
   />
 
+  <empty-state
+    wx:elif="{{searchEmpty}}"
+    title="未找到匹配提醒"
+    desc="换个标题、内容或日期关键词再试试。"
+    weui-icon="search"
+  />
+
   <block wx:else>
-    <view wx:for="{{reminders}}" wx:key="id" class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
-      <view class="reminder-top">
-        <view class="date-tile">
-          <text class="date-month">{{item.dateMonthDay}}</text>
-          <text class="date-year">{{item.dateYear}}</text>
+    <view wx:for="{{reminders}}" wx:key="id" class="reminder-slide-cell">
+      <mp-slideview ext-class="reminder-slideview" buttons="{{item.slideButtons}}" bindbuttontap="onSlideButtonTap">
+      <view class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
+        <view class="reminder-top">
+          <view class="date-tile">
+            <text class="date-month">{{item.dateMonthDay}}</text>
+            <text class="date-year">{{item.dateYear}}</text>
+          </view>
+          <view class="reminder-main">
+            <text class="reminder-title">{{item.title}}</text>
+          </view>
+          <view class="pill-wrap">
+            <text class="pill">{{item.statusText}}</text>
+            <mp-badge wx:if="{{!item.done}}" />
+          </view>
         </view>
-        <view class="reminder-main">
-          <text class="reminder-title">{{item.title}}</text>
+        <text class="reminder-desc">{{item.desc}}</text>
+        <view class="reminder-actions">
+          <button
+            wx:if="{{item.canNotify}}"
+            class="primary-button notify-button {{sendingReminderId !== '' ? 'notify-button-disabled' : ''}}"
+            loading="{{sendingReminderId === item.id}}"
+            disabled="{{sendingReminderId !== ''}}"
+            bind:tap="subscribeReminder"
+            data-id="{{item.id}}"
+          >
+            <view class="button-content">
+              <text class="button-text">{{sendingReminderId === item.id ? '发送中' : '微信提醒'}}</text>
+            </view>
+          </button>
+          <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
+            <view class="button-content">
+              <mp-icon icon="info" color="#1f53c9" size="{{16}}" />
+              <text class="button-text">标记完成</text>
+            </view>
+          </button>
+          <button class="text-button" bind:tap="editReminder" data-id="{{item.id}}">
+            <view class="button-content">
+              <mp-icon icon="note" color="#1f53c9" size="{{16}}" />
+              <text class="button-text">编辑</text>
+            </view>
+          </button>
+          <button class="text-button danger" bind:tap="deleteReminder" data-id="{{item.id}}">
+            <view class="button-content">
+              <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
+              <text class="button-text">删除</text>
+            </view>
+          </button>
         </view>
-        <text class="pill">{{item.statusText}}</text>
       </view>
-      <text class="reminder-desc">{{item.desc}}</text>
-      <view class="reminder-actions">
-        <button
-          wx:if="{{item.canNotify}}"
-          class="primary-button notify-button {{sendingReminderId !== '' ? 'notify-button-disabled' : ''}}"
-          loading="{{sendingReminderId === item.id}}"
-          disabled="{{sendingReminderId !== ''}}"
-          bind:tap="subscribeReminder"
-          data-id="{{item.id}}"
-        >
-          <view class="button-content">
-            <text class="button-text">{{sendingReminderId === item.id ? '发送中' : '微信提醒'}}</text>
-          </view>
-        </button>
-        <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
-          <view class="button-content">
-            <image class="small-icon" src="/assets/icons/check-active.png" mode="aspectFit" />
-            <text class="button-text">标记完成</text>
-          </view>
-        </button>
-        <button class="text-button" bind:tap="editReminder" data-id="{{item.id}}">
-          <view class="button-content">
-            <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
-            <text class="button-text">编辑</text>
-          </view>
-        </button>
-        <button class="text-button danger" bind:tap="deleteReminder" data-id="{{item.id}}">
-          <view class="button-content">
-            <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
-            <text class="button-text">删除</text>
-          </view>
-        </button>
-      </view>
+      </mp-slideview>
     </view>
   </block>
+  <weui-confirm
+    show="{{confirmDialog.show}}"
+    title="{{confirmDialog.title}}"
+    content="{{confirmDialog.content}}"
+    confirm-text="删除"
+    confirm-warn="{{true}}"
+    bind:cancel="closeConfirmDialog"
+    bind:confirm="confirmDeleteReminder"
+  />
 </view>

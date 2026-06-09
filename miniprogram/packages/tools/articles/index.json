@@ -4,6 +4,8 @@
   "backgroundTextStyle": "dark",
   "usingComponents": {
     "section-header": "/components/section-header/index",
-    "empty-state": "/components/empty-state/index"
+    "empty-state": "/components/empty-state/index",
+    "mp-icon": "weui-miniprogram/icon/icon",
+    "mp-loading": "weui-miniprogram/loading/loading"
   }
 }

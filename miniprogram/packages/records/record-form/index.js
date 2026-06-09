@@ -63,6 +63,14 @@ const recordTemplates = [
     }
   }
 ];
+const formRules = [
+  { name: "date", rules: { required: true, message: "请选择检查日期" } },
+  { name: "title", rules: { required: true, message: "请填写记录标题" } },
+  { name: "project", rules: { required: true, message: "请填写检查项目" } },
+  { name: "summary", rules: { required: true, message: "请填写摘要" } },
+  { name: "suggestion", rules: { required: true, message: "请填写提醒建议" } },
+  { name: "status", rules: { required: true, message: "请选择记录状态" } }
+];
 
 function normalizeStatus(status) {
   return statusOptions.indexOf(status) > -1 ? status : statusOptions[0];
@@ -72,6 +80,14 @@ function buildStatusOptionsView(activeStatus) {
   return statusOptions.map((status) => ({
     status,
     className: status === activeStatus ? "choice-chip choice-chip-active" : "choice-chip"
+  }));
+}
+
+function buildStatusItems(activeStatus) {
+  return statusOptions.map((status) => ({
+    label: status,
+    value: status,
+    checked: status === activeStatus
   }));
 }
 
@@ -92,6 +108,14 @@ function normalizeForm(form) {
 function buildFormState(form) {
   const nextForm = normalizeForm(form);
   return {
+    formModel: {
+      date: nextForm.date,
+      title: nextForm.title,
+      project: nextForm.project,
+      summary: nextForm.summary,
+      suggestion: nextForm.suggestion,
+      status: nextForm.status
+    },
     pageTitle: "新增检查记录",
     date: nextForm.date,
     dateDisplay: nextForm.date || "请选择日期",
@@ -101,6 +125,8 @@ function buildFormState(form) {
     suggestion: nextForm.suggestion,
     status: nextForm.status,
     statusOptionsView: buildStatusOptionsView(nextForm.status),
+    statusItems: buildStatusItems(nextForm.status),
+    statusValues: [nextForm.status],
     summaryLength: nextForm.summary.length,
     suggestionLength: nextForm.suggestion.length
   };
@@ -121,6 +147,7 @@ Page({
   data: {
     id: "",
     ...buildFormState(defaultForm),
+    formRules,
     submitText: "保存记录",
     errorMessage: "",
     loading: false
@@ -169,6 +196,7 @@ Page({
     const value = String(inputValue || "");
     const updates = {
       [field]: value,
+      [`formModel.${field}`]: value,
       errorMessage: ""
     };
     if (field === "summary") {
@@ -199,6 +227,7 @@ Page({
   onDateChange(event) {
     this.setData({
       date: event.detail.value,
+      "formModel.date": event.detail.value,
       dateDisplay: event.detail.value || "请选择日期",
       errorMessage: ""
     });
@@ -223,7 +252,23 @@ Page({
     const status = normalizeStatus(event.currentTarget.dataset.status);
     this.setData({
       status,
+      "formModel.status": status,
       statusOptionsView: buildStatusOptionsView(status),
+      statusItems: buildStatusItems(status),
+      statusValues: [status],
+      errorMessage: ""
+    });
+  },
+
+  onStatusChange(event) {
+    const value = Array.isArray(event.detail.value) ? event.detail.value[0] : event.detail.value;
+    const status = normalizeStatus(value);
+    this.setData({
+      status,
+      "formModel.status": status,
+      statusOptionsView: buildStatusOptionsView(status),
+      statusItems: buildStatusItems(status),
+      statusValues: [status],
       errorMessage: ""
     });
   },
@@ -245,6 +290,14 @@ Page({
     }
     this.setData({ errorMessage: "" });
     return true;
+  },
+
+  onFormFail(event) {
+    const errors = event.detail && event.detail.errors;
+    const firstError = Array.isArray(errors) && errors[0] ? errors[0] : null;
+    this.setData({
+      errorMessage: firstError && firstError.message ? firstError.message : "请完善必填信息"
+    });
   },
 
   async submitForm() {

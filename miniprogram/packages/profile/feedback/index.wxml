@@ -1,9 +1,9 @@
 <view class="page feedback-page">
-  <section-header title="意见反馈" icon="/assets/icons/questions-active.png" desc="提交使用问题、改进建议或隐私数据疑问。" />
+  <section-header title="意见反馈" weui-icon="comment" desc="提交使用问题、改进建议或隐私数据疑问。" />
 
   <view class="feedback-hero">
     <view class="hero-icon">
-      <image class="hero-icon-image" src="/assets/icons/questions-white.png" mode="aspectFit" />
+      <mp-icon icon="comment" color="#ffffff" size="{{28}}" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">告诉我们哪里不好用</text>
@@ -12,21 +12,21 @@
   </view>
 
   <view class="feedback-panel">
-    <text wx:if="{{errorMessage}}" class="form-error">{{errorMessage}}</text>
+    <mp-toptips msg="{{errorMessage}}" type="error" show="{{!!errorMessage}}" />
     <text wx:if="{{isGuest}}" class="guest-tip">当前可先浏览反馈入口与填写方式；站内反馈会在你登录后保存，未登录时可直接使用下方微信官方反馈入口。</text>
 
-    <view class="field-block">
-      <text class="form-label">反馈类型</text>
+    <mp-form id="form" rules="{{formRules}}" models="{{form}}" bindfail="onFormFail">
+    <mp-cells ext-class="form-weui-cells">
+    <mp-cell title="反馈类型" inline="{{false}}">
       <picker mode="selector" range="{{feedbackTypes}}" value="{{feedbackTypeIndex}}" bind:change="onTypeChange">
         <view class="select-field">
           <text class="select-value">{{form.type}}</text>
-          <text class="select-arrow">›</text>
+          <mp-icon icon="arrow" color="#8b9ab0" size="{{16}}" />
         </view>
       </picker>
-    </view>
+    </mp-cell>
 
-    <view class="field-block">
-      <text class="form-label">反馈内容</text>
+    <mp-cell title="反馈内容" prop="content" show-error="{{true}}" inline="{{false}}">
       <textarea
         class="form-textarea"
         value="{{form.content}}"
@@ -35,10 +35,9 @@
         maxlength="1000"
         placeholder="请描述你遇到的问题、希望改进的功能或隐私数据相关疑问。"
       />
-    </view>
+    </mp-cell>
 
-    <view class="field-block">
-      <text class="form-label">联系方式（选填）</text>
+    <mp-cell title="联系方式（选填）" inline="{{false}}">
       <input
         class="form-input"
         value="{{form.contact}}"
@@ -47,11 +46,37 @@
         maxlength="120"
         placeholder="可填写微信号或邮箱，便于后续联系"
       />
+    </mp-cell>
+    </mp-cells>
+
+    <mp-uploader
+      title="附件（选填）"
+      tips="可添加最多 3 张截图用于说明问题；当前站内反馈只保存文字内容，截图可通过下方微信官方反馈入口一并提交。"
+      delete="{{true}}"
+      max-count="{{3}}"
+      size-type="{{['compressed']}}"
+      source-type="{{['album', 'camera']}}"
+      files="{{attachmentFiles}}"
+      upload="{{uploadAttachmentPreview}}"
+      bindselect="onAttachmentSelect"
+      binddelete="onAttachmentDelete"
+    />
+    <view wx:if="{{attachmentFiles.length}}" class="attachment-preview-row">
+      <button
+        wx:for="{{attachmentFiles}}"
+        wx:key="url"
+        class="attachment-preview"
+        data-index="{{index}}"
+        bind:tap="previewAttachment"
+      >
+        <image class="attachment-preview-image" src="{{item.url}}" mode="aspectFill" />
+      </button>
     </view>
+    </mp-form>
 
     <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitFeedback">
       <view class="button-content">
-        <image class="button-icon" src="/assets/icons/save-white.png" mode="aspectFit" />
+        <mp-icon icon="comment" color="#ffffff" size="{{18}}" />
         <text class="button-text">{{loading ? '正在提交' : (isGuest ? '登录后提交' : '提交反馈')}}</text>
       </view>
     </button>
@@ -62,10 +87,32 @@
       <text class="official-title">也可以使用微信官方反馈入口</text>
       <text class="official-desc">该入口会打开微信提供的意见反馈页面，可上传运行日志，方便排查问题。</text>
     </view>
-    <button class="ghost-button" open-type="feedback">
-      <text class="button-text">打开官方反馈</text>
-    </button>
+    <view class="official-actions">
+      <button class="ghost-button ghost-button-secondary" bind:tap="openOfficialActions">
+        <text class="button-text">提交说明</text>
+      </button>
+      <button class="ghost-button" open-type="feedback">
+        <text class="button-text">打开官方反馈</text>
+      </button>
+    </view>
   </view>
 
   <view class="safe-note">反馈内容仅用于改进小程序服务体验，请不要填写诊断结论、处方、身份证号等敏感信息。</view>
+  <mp-gallery
+    wx:if="{{galleryShow}}"
+    show="{{galleryShow}}"
+    imgUrls="{{galleryUrls}}"
+    current="{{galleryCurrent}}"
+    showDelete="{{true}}"
+    bindchange="onGalleryChange"
+    binddelete="onGalleryDelete"
+    bindhide="hideGallery"
+  />
+  <mp-actionSheet
+    show="{{showOfficialActions}}"
+    actions="{{officialActions}}"
+    title="微信官方反馈可上传截图和运行日志，适合提交需要排查的问题。"
+    bindclose="closeOfficialActions"
+    bindactiontap="onOfficialActionTap"
+  />
 </view>

@@ -47,7 +47,10 @@ Page({
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
     canSubscribeReport: hasReportSubscriptionTemplate(),
-    subscribingReport: false
+    subscribingReport: false,
+    confirmDialog: {
+      show: false
+    }
   },
 
   async onLoad(query) {
@@ -162,23 +165,24 @@ Page({
   },
 
   deleteRecord() {
-    wx.showModal({
-      title: "删除记录",
-      content: "删除后无法恢复，确认删除这条检查记录吗？",
-      confirmColor: "#d32f2f",
-      success: async (res) => {
-        if (!res.confirm) return;
-        try {
-          await request(`/records/${this.data.record.id}`, { method: "DELETE" });
-          removeCachedListItem(CACHE_KEYS.records, this.data.record.id);
-          clearCachedData(CACHE_KEYS.recordDetail(this.data.record.id));
-          markCacheDirty(CACHE_KEYS.home);
-          showSuccessToast("已删除");
-          navigateBackLater();
-        } catch (error) {
-          showErrorToast(error, "删除失败");
-        }
-      }
-    });
+    this.setData({ "confirmDialog.show": true });
+  },
+
+  closeConfirmDialog() {
+    this.setData({ "confirmDialog.show": false });
+  },
+
+  async confirmDeleteRecord() {
+    this.closeConfirmDialog();
+    try {
+      await request(`/records/${this.data.record.id}`, { method: "DELETE" });
+      removeCachedListItem(CACHE_KEYS.records, this.data.record.id);
+      clearCachedData(CACHE_KEYS.recordDetail(this.data.record.id));
+      markCacheDirty(CACHE_KEYS.home);
+      showSuccessToast("已删除");
+      navigateBackLater();
+    } catch (error) {
+      showErrorToast(error, "删除失败");
+    }
   }
 });
