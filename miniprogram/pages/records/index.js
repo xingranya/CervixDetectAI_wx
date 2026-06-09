@@ -45,11 +45,7 @@ function filterRecords(records, keyword) {
 function buildRecordView(record) {
   return {
     ...record,
-    dateText: formatShortDate(record.date),
-    slideButtons: [
-      { text: "编辑", data: { action: "edit", id: record.id } },
-      { type: "warn", text: "删除", data: { action: "delete", id: record.id } }
-    ]
+    dateText: formatShortDate(record.date)
   };
 }
 
@@ -208,20 +204,6 @@ Page({
         content: "删除后无法恢复，确认删除这条检查记录吗？"
       }
     });
-  },
-
-  onSlideButtonTap(event) {
-    const detail = event.detail || {};
-    const data = detail.data || {};
-    const id = data.id;
-    if (!id) return;
-    if (data.action === "edit") {
-      this.editRecord({ currentTarget: { dataset: { id } } });
-      return;
-    }
-    if (data.action === "delete") {
-      this.deleteRecord({ currentTarget: { dataset: { id } } });
-    }
   },
 
   closeConfirmDialog() {

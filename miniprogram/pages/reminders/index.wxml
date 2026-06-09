@@ -79,7 +79,6 @@
 
   <block wx:else>
     <view wx:for="{{reminders}}" wx:key="id" class="reminder-slide-cell">
-      <mp-slideview ext-class="reminder-slideview" buttons="{{item.slideButtons}}" bindbuttontap="onSlideButtonTap">
       <view class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
         <view class="reminder-top">
           <view class="date-tile">
@@ -128,7 +127,6 @@
           </button>
         </view>
       </view>
-      </mp-slideview>
     </view>
   </block>
   <weui-confirm

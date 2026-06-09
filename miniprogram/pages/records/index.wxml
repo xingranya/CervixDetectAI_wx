@@ -82,13 +82,11 @@
     <view class="records-list">
       <view wx:for="{{records}}" wx:key="id" class="timeline-item">
         <view class="slide-cell">
-          <mp-slideview ext-class="record-slideview" buttons="{{item.slideButtons}}" bindbuttontap="onSlideButtonTap">
           <view class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
             <view class="record-top">
               <view class="record-title-block">
                 <text class="record-title">{{item.title}}</text>
                 <view class="record-meta-row">
-                  <mp-icon icon="time" color="#717783" size="{{14}}" />
                   <text class="record-date">{{item.dateText}}</text>
                 </view>
               </view>
@@ -116,7 +114,6 @@
               </button>
             </view>
           </view>
-          </mp-slideview>
         </view>
       </view>
     </view>

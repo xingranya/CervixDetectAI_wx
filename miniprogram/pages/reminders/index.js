@@ -60,11 +60,7 @@ function buildReminderView(reminder) {
     dateMonthDay: formatShortDate(dateText),
     dateYear: dateText.length >= 4 ? dateText.slice(0, 4) : "",
     statusText: reminder.done ? "已完成" : "待处理",
-    canNotify: hasReminderSubscriptionTemplate(),
-    slideButtons: [
-      { text: "编辑", data: { action: "edit", id: reminder.id } },
-      { type: "warn", text: "删除", data: { action: "delete", id: reminder.id } }
-    ]
+    canNotify: hasReminderSubscriptionTemplate()
   };
 }
 
@@ -262,19 +258,6 @@ Page({
         content: "确认删除这条复查提醒吗？"
       }
     });
-  },
-
-  onSlideButtonTap(event) {
-    const data = (event.detail && event.detail.data) || {};
-    const id = data.id;
-    if (!id) return;
-    if (data.action === "edit") {
-      this.editReminder({ currentTarget: { dataset: { id } } });
-      return;
-    }
-    if (data.action === "delete") {
-      this.deleteReminder({ currentTarget: { dataset: { id } } });
-    }
   },
 
   closeConfirmDialog() {

@@ -7,7 +7,6 @@
     "empty-state": "/components/empty-state/index",
     "weui-confirm": "/components/weui-confirm/index",
     "mp-searchbar": "weui-miniprogram/searchbar/searchbar",
-    "mp-slideview": "weui-miniprogram/slideview/slideview",
     "mp-badge": "weui-miniprogram/badge/badge",
     "mp-icon": "weui-miniprogram/icon/icon"
   }

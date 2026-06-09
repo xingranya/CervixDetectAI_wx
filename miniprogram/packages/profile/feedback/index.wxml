@@ -108,11 +108,13 @@
     binddelete="onGalleryDelete"
     bindhide="hideGallery"
   />
-  <mp-actionSheet
-    show="{{showOfficialActions}}"
-    actions="{{officialActions}}"
-    title="微信官方反馈可上传截图和运行日志，适合提交需要排查的问题。"
-    bindclose="closeOfficialActions"
-    bindactiontap="onOfficialActionTap"
-  />
+  <view wx:if="{{showOfficialActions}}" class="official-sheet-mask" bind:tap="closeOfficialActions">
+    <view class="official-sheet" catch:tap="noop">
+      <text class="official-sheet-title">微信官方反馈说明</text>
+      <text class="official-sheet-desc">微信官方反馈可上传截图和运行日志，适合提交需要排查的问题。文字建议也可以登录后直接提交站内反馈。</text>
+      <button class="official-sheet-button" bind:tap="closeOfficialActions">
+        <text class="button-text">知道了</text>
+      </button>
+    </view>
+  </view>
 </view>

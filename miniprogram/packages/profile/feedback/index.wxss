@@ -327,3 +327,57 @@ mp-cell + mp-cell {
   font-size: 24rpx;
   line-height: 1.6;
 }
+
+.official-sheet-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  padding: 32rpx 28rpx calc(32rpx + env(safe-area-inset-bottom));
+  background: rgba(15, 23, 42, 0.36);
+  box-sizing: border-box;
+}
+
+.official-sheet {
+  width: 100%;
+  padding: 30rpx;
+  border-radius: 26rpx;
+  background: #ffffff;
+  box-shadow: 0 22rpx 54rpx rgba(15, 23, 42, 0.18);
+  box-sizing: border-box;
+}
+
+.official-sheet-title,
+.official-sheet-desc {
+  display: block;
+}
+
+.official-sheet-title {
+  color: #10233c;
+  font-size: 30rpx;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.official-sheet-desc {
+  margin-top: 12rpx;
+  color: #4d5d73;
+  font-size: 25rpx;
+  line-height: 1.62;
+}
+
+.official-sheet-button {
+  width: 100%;
+  height: 78rpx;
+  margin-top: 24rpx;
+  border-radius: 18rpx;
+  background: rgb(24, 118, 210);
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: 800;
+}
+
+.official-sheet-button::after {
+  border: 0;
+}

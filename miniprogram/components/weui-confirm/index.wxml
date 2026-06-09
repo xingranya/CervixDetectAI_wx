@@ -1,11 +1,14 @@
-<mp-dialog
-  title="{{title}}"
-  show="{{show}}"
-  mask="{{true}}"
-  mask-closable="{{true}}"
-  buttons="{{buttons}}"
-  bindclose="handleClose"
-  bindbuttontap="handleButtonTap"
->
-  <view class="confirm-content">{{content}}</view>
-</mp-dialog>
+<view wx:if="{{show}}" class="confirm-mask" bind:tap="handleClose">
+  <view class="confirm-panel" catch:tap="noop">
+    <text class="confirm-title">{{title}}</text>
+    <text class="confirm-content">{{content}}</text>
+    <view class="confirm-actions">
+      <button class="confirm-button confirm-cancel" bind:tap="handleCancel">
+        <text>{{cancelText || '取消'}}</text>
+      </button>
+      <button class="confirm-button confirm-submit {{confirmWarn ? 'confirm-submit-warn' : ''}}" bind:tap="handleConfirm">
+        <text>{{confirmText || '确定'}}</text>
+      </button>
+    </view>
+  </view>
+</view>

@@ -26,10 +26,6 @@ Page({
     galleryCurrent: 0,
     galleryUrls: [],
     showOfficialActions: false,
-    officialActions: [
-      { text: "可上传截图和运行日志", value: "logs" },
-      { text: "文字建议可直接提交站内反馈", value: "text" }
-    ],
     feedbackTypes: ["功能建议", "使用问题", "隐私与数据", "其他反馈"],
     feedbackTypeIndex: 0,
     errorMessage: "",
@@ -163,11 +159,7 @@ Page({
     this.setData({ showOfficialActions: false });
   },
 
-  onOfficialActionTap(event) {
-    const value = event.detail.value;
-    if (value) {
-      this.setData({ errorMessage: "" });
-    }
-    this.closeOfficialActions();
+  noop() {
+    return undefined;
   }
 });
