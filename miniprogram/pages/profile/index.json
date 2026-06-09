@@ -1,5 +1,11 @@
 {
   "navigationBarTitleText": "我的",
   "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark"
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "weui-confirm": "/components/weui-confirm/index",
+    "mp-icon": "weui-miniprogram/icon/icon",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell"
+  }
 }

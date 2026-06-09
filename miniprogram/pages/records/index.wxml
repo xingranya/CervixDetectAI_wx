@@ -1,8 +1,8 @@
 <view class="page records-page">
-  <section-header title="检查记录" icon="/assets/icons/records-active.png">
+  <section-header title="检查记录" weui-icon="note">
     <button slot="extra" class="mini-primary" bind:tap="createRecord">
       <view class="button-content">
-        <image class="small-icon" src="/assets/icons/plus-active.png" mode="aspectFit" />
+        <mp-icon icon="add" color="#1f53c9" size="{{16}}" />
         <text class="button-text">新增</text>
       </view>
     </button>
@@ -15,7 +15,7 @@
         <text class="trend-title">{{summary.trendText}}</text>
       </view>
       <view class="icon-chip">
-        <image class="icon-chip-image" src="/assets/icons/records-active.png" mode="aspectFit" />
+        <mp-icon icon="note" color="#1f53c9" size="{{30}}" />
       </view>
     </view>
     <view class="trend-line">
@@ -39,8 +39,20 @@
     </view>
   </view>
 
+  <mp-searchbar
+    wx:if="{{allRecords.length}}"
+    ext-class="weui-search"
+    placeholder="搜索标题、项目或日期"
+    value="{{searchKeyword}}"
+    search="{{searchRecords}}"
+    cancel="{{false}}"
+    bindinput="onSearchInput"
+    bindclear="onSearchClear"
+    bindselectresult="onSearchSelect"
+  />
+
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <text class="state-title">正在加载检查记录</text>
+    <mp-loading type="circle" tips="正在加载检查记录" />
     <text class="state-desc">请稍候，正在同步你的历史摘要。</text>
   </view>
 
@@ -56,9 +68,16 @@
     wx:elif="{{pageStatus === 'empty'}}"
     title="{{isGuest ? '体验模式下不展示个人记录' : '还没有检查记录'}}"
     desc="{{isGuest ? '你可以先浏览首页、知识内容和服务说明；需要保存自己的检查摘要时，再自行登录。' : '可以先添加一次检查摘要，后续复查时更方便查看。'}}"
-    icon="/assets/icons/plus-active.png"
+    weui-icon="add"
     button-text="{{isGuest ? '前往登录' : '添加第一条记录'}}"
     bind:action="createRecord"
+  />
+
+  <empty-state
+    wx:elif="{{searchEmpty}}"
+    title="未找到匹配记录"
+    desc="换个标题、项目或日期关键词再试试。"
+    weui-icon="search"
   />
 
   <block wx:else>
@@ -68,34 +87,50 @@
           <view class="timeline-node {{index === 0 ? 'timeline-node-active' : ''}}"></view>
           <view class="timeline-line" wx:if="{{index < records.length - 1}}"></view>
         </view>
-        <view class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
-          <view class="record-top">
-            <view class="record-title-block">
-              <text class="record-date">{{item.date}}</text>
-              <text class="record-title">{{item.title}}</text>
+        <view class="slide-cell">
+          <mp-slideview ext-class="record-slideview" buttons="{{item.slideButtons}}" bindbuttontap="onSlideButtonTap">
+          <view class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
+            <view class="record-top">
+              <view class="record-title-block">
+                <text class="record-date">{{item.date}}</text>
+                <text class="record-title">{{item.title}}</text>
+              </view>
+              <view class="pill-wrap">
+                <text class="pill">{{item.status}}</text>
+                <mp-badge wx:if="{{item.status.indexOf('待') > -1 || item.status.indexOf('复查') > -1}}" />
+              </view>
             </view>
-            <text class="pill">{{item.status}}</text>
+            <text class="record-project">{{item.project}}</text>
+            <text class="record-summary">{{item.summary}}</text>
+            <view class="record-actions">
+              <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
+                <view class="button-content">
+                  <mp-icon icon="note" color="#1f53c9" size="{{16}}" />
+                  <text class="button-text">编辑</text>
+                </view>
+              </button>
+              <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
+                <view class="button-content">
+                  <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
+                  <text class="button-text">删除</text>
+                </view>
+              </button>
+            </view>
           </view>
-          <text class="record-project">{{item.project}}</text>
-          <text class="record-summary">{{item.summary}}</text>
-          <view class="record-actions">
-            <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
-              <view class="button-content">
-                <image class="small-icon" src="/assets/icons/form-active.png" mode="aspectFit" />
-                <text class="button-text">编辑</text>
-              </view>
-            </button>
-            <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
-              <view class="button-content">
-                <image class="small-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
-                <text class="button-text">删除</text>
-              </view>
-            </button>
-          </view>
+          </mp-slideview>
         </view>
       </view>
     </view>
   </block>
 
   <view class="safe-note">记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。</view>
+  <weui-confirm
+    show="{{confirmDialog.show}}"
+    title="{{confirmDialog.title}}"
+    content="{{confirmDialog.content}}"
+    confirm-text="删除"
+    confirm-warn="{{true}}"
+    bind:cancel="closeConfirmDialog"
+    bind:confirm="confirmDeleteRecord"
+  />
 </view>

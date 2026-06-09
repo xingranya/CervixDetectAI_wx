@@ -38,6 +38,15 @@ function sortReminders(reminders) {
   });
 }
 
+function filterReminders(reminders, keyword) {
+  const query = String(keyword || "").trim().toLowerCase();
+  if (!query) return reminders;
+  return reminders.filter((item) => {
+    const values = [item.title, item.desc, item.statusText, item.date];
+    return values.some((value) => String(value || "").toLowerCase().indexOf(query) > -1);
+  });
+}
+
 function buildReminderView(reminder) {
   const dateText = String(reminder.date || "");
   return {
@@ -45,19 +54,37 @@ function buildReminderView(reminder) {
     dateMonthDay: dateText.length >= 10 ? dateText.slice(5, 10) : dateText,
     dateYear: dateText.length >= 4 ? dateText.slice(0, 4) : "",
     statusText: reminder.done ? "已完成" : "待处理",
-    canNotify: hasReminderSubscriptionTemplate()
+    canNotify: hasReminderSubscriptionTemplate(),
+    slideButtons: [
+      { text: "编辑", data: { action: "edit", id: reminder.id } },
+      { type: "warn", text: "删除", data: { action: "delete", id: reminder.id } }
+    ]
   };
+}
+
+function resolveReminderListStatus(allReminders, filteredReminders, keyword) {
+  if (String(keyword || "").trim() && allReminders.length) return PAGE_STATUS.READY;
+  return resolveListStatus(filteredReminders);
 }
 
 Page({
   data: {
     reminders: [],
+    allReminders: [],
     summary: buildReminderSummary([]),
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
     isGuest: !isLoggedIn(),
     canSubscribeReminder: hasReminderSubscriptionTemplate(),
-    sendingReminderId: ""
+    sendingReminderId: "",
+    searchKeyword: "",
+    searchEmpty: false,
+    confirmDialog: {
+      show: false,
+      id: "",
+      title: "",
+      content: ""
+    }
   },
 
   onShow() {
@@ -66,6 +93,7 @@ Page({
     if (guest) {
       this.setData({
         reminders: [],
+        allReminders: [],
         summary: buildReminderSummary([]),
         pageStatus: PAGE_STATUS.EMPTY,
         errorMessage: ""
@@ -91,10 +119,14 @@ Page({
 
   applyReminders(reminders) {
     const nextReminders = sortReminders(reminders).map(buildReminderView);
+    const filteredReminders = filterReminders(nextReminders, this.data.searchKeyword);
+    const searchEmpty = !!String(this.data.searchKeyword || "").trim() && nextReminders.length > 0 && !filteredReminders.length;
     this.setData({
-      reminders: nextReminders,
+      reminders: filteredReminders,
+      allReminders: nextReminders,
       summary: buildReminderSummary(nextReminders),
-      pageStatus: resolveListStatus(nextReminders),
+      pageStatus: resolveReminderListStatus(nextReminders, filteredReminders, this.data.searchKeyword),
+      searchEmpty,
       errorMessage: ""
     });
   },
@@ -117,6 +149,7 @@ Page({
       if (this.data.reminders.length) return;
       this.setData({
         reminders: [],
+        allReminders: [],
         summary: buildReminderSummary([]),
         pageStatus: PAGE_STATUS.ERROR,
         errorMessage: getErrorMessage(error, "复查提醒加载失败，请稍后重试")
@@ -137,6 +170,29 @@ Page({
     openRoute(ROUTES.reminderForm);
   },
 
+  searchReminders(keyword) {
+    return Promise.resolve(filterReminders(this.data.allReminders, keyword).map((item) => ({
+      text: `${item.title} ${item.date}`,
+      value: item.id
+    })));
+  },
+
+  onSearchInput(event) {
+    const searchKeyword = event.detail.value || "";
+    const reminders = filterReminders(this.data.allReminders, searchKeyword);
+    const searchEmpty = !!String(searchKeyword || "").trim() && this.data.allReminders.length > 0 && !reminders.length;
+    this.setData({
+      searchKeyword,
+      reminders,
+      pageStatus: resolveReminderListStatus(this.data.allReminders, reminders, searchKeyword),
+      searchEmpty
+    });
+  },
+
+  onSearchClear() {
+    this.onSearchInput({ detail: { value: "" } });
+  },
+
   editReminder(event) {
     if (!isLoggedIn()) {
       showErrorModal("登录后可编辑个人复查提醒。");
@@ -155,7 +211,7 @@ Page({
       markCacheDirty(CACHE_KEYS.home);
       showSuccessToast("已完成");
       if (wx.vibrateShort) wx.vibrateShort({ type: "light" });
-      const reminders = this.data.reminders.map((item) => (
+      const reminders = this.data.allReminders.map((item) => (
         item.id === id ? reminder : item
       ));
       this.applyReminders(reminders);
@@ -192,25 +248,50 @@ Page({
   },
 
   deleteReminder(event) {
-    const id = event.currentTarget.dataset.id;
-    wx.showModal({
-      title: "删除提醒",
-      content: "确认删除这条复查提醒吗？",
-      confirmColor: "#d32f2f",
-      success: async (res) => {
-        if (!res.confirm) return;
-        try {
-          await request(`/reminders/${id}`, { method: "DELETE" });
-          removeCachedListItem(CACHE_KEYS.reminders, id);
-          clearCachedData(CACHE_KEYS.reminderDetail(id));
-          markCacheDirty(CACHE_KEYS.home);
-          const reminders = this.data.reminders.filter((item) => item.id !== id);
-          showSuccessToast("已删除");
-          this.applyReminders(reminders);
-        } catch (error) {
-          showErrorToast(error, "删除失败");
-        }
+    this.setData({
+      confirmDialog: {
+        show: true,
+        id: event.currentTarget.dataset.id,
+        title: "删除提醒",
+        content: "确认删除这条复查提醒吗？"
       }
     });
+  },
+
+  onSlideButtonTap(event) {
+    const data = (event.detail && event.detail.data) || {};
+    const id = data.id;
+    if (!id) return;
+    if (data.action === "edit") {
+      this.editReminder({ currentTarget: { dataset: { id } } });
+      return;
+    }
+    if (data.action === "delete") {
+      this.deleteReminder({ currentTarget: { dataset: { id } } });
+    }
+  },
+
+  closeConfirmDialog() {
+    this.setData({
+      "confirmDialog.show": false,
+      "confirmDialog.id": ""
+    });
+  },
+
+  async confirmDeleteReminder() {
+    const id = this.data.confirmDialog.id;
+    this.closeConfirmDialog();
+    if (!id) return;
+    try {
+      await request(`/reminders/${id}`, { method: "DELETE" });
+      removeCachedListItem(CACHE_KEYS.reminders, id);
+      clearCachedData(CACHE_KEYS.reminderDetail(id));
+      markCacheDirty(CACHE_KEYS.home);
+      const reminders = this.data.allReminders.filter((item) => item.id !== id);
+      showSuccessToast("已删除");
+      this.applyReminders(reminders);
+    } catch (error) {
+      showErrorToast(error, "删除失败");
+    }
   }
 });

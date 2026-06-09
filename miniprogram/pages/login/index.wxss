@@ -76,6 +76,11 @@
   line-height: 1.6;
 }
 
+.form-weui-cells {
+  margin: 0 !important;
+  background: transparent !important;
+}
+
 .login-hero {
   padding: 28rpx 8rpx 36rpx;
   text-align: left;

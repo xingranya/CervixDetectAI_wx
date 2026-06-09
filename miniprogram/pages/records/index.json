@@ -4,6 +4,12 @@
   "backgroundTextStyle": "dark",
   "usingComponents": {
     "section-header": "/components/section-header/index",
-    "empty-state": "/components/empty-state/index"
+    "empty-state": "/components/empty-state/index",
+    "weui-confirm": "/components/weui-confirm/index",
+    "mp-searchbar": "weui-miniprogram/searchbar/searchbar",
+    "mp-slideview": "weui-miniprogram/slideview/slideview",
+    "mp-badge": "weui-miniprogram/badge/badge",
+    "mp-loading": "weui-miniprogram/loading/loading",
+    "mp-icon": "weui-miniprogram/icon/icon"
   }
 }

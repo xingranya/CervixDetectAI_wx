@@ -1,7 +1,7 @@
 <view class="page login-page">
   <view class="login-hero">
     <view class="login-mark-wrap">
-      <image class="login-mark" src="/assets/icons/login-active.png" mode="aspectFit" />
+      <mp-icon icon="me" color="#1f53c9" size="{{34}}" />
     </view>
     <text class="eyebrow">云端智诊</text>
     <text class="login-title">女性健康记录与复查提醒助手</text>
@@ -9,6 +9,7 @@
   </view>
 
   <view class="card login-card">
+    <mp-form models="{{formModel}}">
     <form class="login-form" bind:submit="submitLogin">
       <button class="avatar-button" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
         <view class="avatar-circle">
@@ -21,7 +22,8 @@
       </button>
       <text class="avatar-tip">头像为选填，仅用于个人中心展示</text>
 
-      <text class="form-label">昵称</text>
+      <mp-cells ext-class="form-weui-cells">
+      <mp-cell title="昵称" inline="{{false}}">
       <input
         class="form-input"
         type="nickname"
@@ -31,20 +33,23 @@
         maxlength="20"
         placeholder="可填写或选择微信昵称"
       />
+      </mp-cell>
+      </mp-cells>
       <text class="avatar-tip">登录仅用于保存你的个人记录、提醒和备忘，头像与昵称均为选填。</text>
       <button class="primary-button login-button" disabled="{{loading}}" form-type="submit">
         <view class="button-content">
-          <image class="button-icon" src="/assets/icons/login-white.png" mode="aspectFit" />
+          <mp-icon icon="me" color="#ffffff" size="{{18}}" />
           <text class="button-text">{{loading ? '正在登录' : '登录保存数据'}}</text>
         </view>
       </button>
       <button class="plain-link" bind:tap="openPrivacy">
         <view class="button-content">
-          <image class="small-icon" src="/assets/icons/privacy-active.png" mode="aspectFit" />
+          <mp-icon icon="info" color="#1f53c9" size="{{16}}" />
           <text class="plain-link-text">查看隐私与服务说明</text>
         </view>
       </button>
     </form>
+    </mp-form>
   </view>
 
   <view class="safe-note">产品仅用于健康信息记录与提醒，不提供在线诊断、治疗、处方或问诊服务。</view>

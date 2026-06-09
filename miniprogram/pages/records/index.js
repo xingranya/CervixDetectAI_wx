@@ -27,13 +27,46 @@ function buildRecordSummary(records) {
   };
 }
 
+function filterRecords(records, keyword) {
+  const query = String(keyword || "").trim().toLowerCase();
+  if (!query) return records;
+  return records.filter((item) => {
+    const values = [item.title, item.project, item.summary, item.status, item.date];
+    return values.some((value) => String(value || "").toLowerCase().indexOf(query) > -1);
+  });
+}
+
+function buildRecordView(record) {
+  return {
+    ...record,
+    slideButtons: [
+      { text: "编辑", data: { action: "edit", id: record.id } },
+      { type: "warn", text: "删除", data: { action: "delete", id: record.id } }
+    ]
+  };
+}
+
+function resolveRecordListStatus(allRecords, filteredRecords, keyword) {
+  if (String(keyword || "").trim() && allRecords.length) return PAGE_STATUS.READY;
+  return resolveListStatus(filteredRecords);
+}
+
 Page({
   data: {
     records: [],
+    allRecords: [],
     summary: buildRecordSummary([]),
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
-    isGuest: !isLoggedIn()
+    isGuest: !isLoggedIn(),
+    searchKeyword: "",
+    searchEmpty: false,
+    confirmDialog: {
+      show: false,
+      id: "",
+      title: "",
+      content: ""
+    }
   },
 
   onShow() {
@@ -42,6 +75,7 @@ Page({
     if (guest) {
       this.setData({
         records: [],
+        allRecords: [],
         summary: buildRecordSummary([]),
         pageStatus: PAGE_STATUS.EMPTY,
         errorMessage: ""
@@ -66,10 +100,15 @@ Page({
   },
 
   applyRecords(records) {
+    const allRecords = records.map(buildRecordView);
+    const filteredRecords = filterRecords(allRecords, this.data.searchKeyword);
+    const searchEmpty = !!String(this.data.searchKeyword || "").trim() && allRecords.length > 0 && !filteredRecords.length;
     this.setData({
-      records,
-      summary: buildRecordSummary(records),
-      pageStatus: resolveListStatus(records),
+      records: filteredRecords,
+      allRecords,
+      summary: buildRecordSummary(allRecords),
+      pageStatus: resolveRecordListStatus(allRecords, filteredRecords, this.data.searchKeyword),
+      searchEmpty,
       errorMessage: ""
     });
   },
@@ -92,6 +131,7 @@ Page({
       if (this.data.records.length) return;
       this.setData({
         records: [],
+        allRecords: [],
         summary: buildRecordSummary([]),
         pageStatus: PAGE_STATUS.ERROR,
         errorMessage: getErrorMessage(error, "检查记录加载失败，请稍后重试")
@@ -116,6 +156,34 @@ Page({
     openRoute(ROUTES.recordForm);
   },
 
+  searchRecords(keyword) {
+    return Promise.resolve(filterRecords(this.data.allRecords, keyword).map((item) => ({
+      text: `${item.title} ${item.date}`,
+      value: item.id
+    })));
+  },
+
+  onSearchInput(event) {
+    const searchKeyword = event.detail.value || "";
+    const records = filterRecords(this.data.allRecords, searchKeyword);
+    const searchEmpty = !!String(searchKeyword || "").trim() && this.data.allRecords.length > 0 && !records.length;
+    this.setData({
+      searchKeyword,
+      records,
+      pageStatus: resolveRecordListStatus(this.data.allRecords, records, searchKeyword),
+      searchEmpty
+    });
+  },
+
+  onSearchClear() {
+    this.onSearchInput({ detail: { value: "" } });
+  },
+
+  onSearchSelect(event) {
+    const id = event.detail.item && event.detail.item.value;
+    if (id) openRoute(ROUTES.recordDetail, { id });
+  },
+
   editRecord(event) {
     if (!isLoggedIn()) {
       showErrorModal("登录后可编辑个人检查记录。");
@@ -125,24 +193,50 @@ Page({
   },
 
   deleteRecord(event) {
-    const id = event.currentTarget.dataset.id;
-    wx.showModal({
-      title: "删除记录",
-      content: "删除后无法恢复，确认删除这条检查记录吗？",
-      confirmColor: "#d32f2f",
-      success: async (res) => {
-        if (!res.confirm) return;
-        try {
-          await request(`/records/${id}`, { method: "DELETE" });
-          removeCachedListItem(CACHE_KEYS.records, id);
-          markCacheDirty(CACHE_KEYS.home);
-          const records = this.data.records.filter((item) => item.id !== id);
-          showSuccessToast("已删除");
-          this.applyRecords(records);
-        } catch (error) {
-          showErrorToast(error, "删除失败");
-        }
+    this.setData({
+      confirmDialog: {
+        show: true,
+        id: event.currentTarget.dataset.id,
+        title: "删除记录",
+        content: "删除后无法恢复，确认删除这条检查记录吗？"
       }
     });
+  },
+
+  onSlideButtonTap(event) {
+    const detail = event.detail || {};
+    const data = detail.data || {};
+    const id = data.id;
+    if (!id) return;
+    if (data.action === "edit") {
+      this.editRecord({ currentTarget: { dataset: { id } } });
+      return;
+    }
+    if (data.action === "delete") {
+      this.deleteRecord({ currentTarget: { dataset: { id } } });
+    }
+  },
+
+  closeConfirmDialog() {
+    this.setData({
+      "confirmDialog.show": false,
+      "confirmDialog.id": ""
+    });
+  },
+
+  async confirmDeleteRecord() {
+    const id = this.data.confirmDialog.id;
+    this.closeConfirmDialog();
+    if (!id) return;
+    try {
+      await request(`/records/${id}`, { method: "DELETE" });
+      removeCachedListItem(CACHE_KEYS.records, id);
+      markCacheDirty(CACHE_KEYS.home);
+      const records = this.data.allRecords.filter((item) => item.id !== id);
+      showSuccessToast("已删除");
+      this.applyRecords(records);
+    } catch (error) {
+      showErrorToast(error, "删除失败");
+    }
   }
 });
