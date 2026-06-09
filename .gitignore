@@ -8,6 +8,7 @@
 .codegraph/*.db
 .codegraph/*.db-*
 .stitch/
+.cursor/
 
 # Node.js 依赖与日志
 node_modules/
