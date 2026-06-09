@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>复查提醒设置 - CervixDetectAI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#717783",
+                    "on-secondary-container": "#56656e",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#d3e2ed",
+                    "tertiary-fixed": "#94f990",
+                    "primary-fixed": "#d4e3ff",
+                    "surface-container-highest": "#e0e3e5",
+                    "primary-fixed-dim": "#a5c8ff",
+                    "surface-dim": "#d8dadc",
+                    "primary": "#005dac",
+                    "surface-variant": "#e0e3e5",
+                    "on-primary-container": "#fffdff",
+                    "on-secondary": "#ffffff",
+                    "background": "#f7f9fb",
+                    "inverse-primary": "#a5c8ff",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1976d2",
+                    "on-surface-variant": "#414752",
+                    "surface-bright": "#f7f9fb",
+                    "secondary": "#526069",
+                    "tertiary-container": "#1f872e",
+                    "outline-variant": "#c1c6d4",
+                    "on-primary-fixed-variant": "#004786",
+                    "on-tertiary-fixed-variant": "#005313",
+                    "surface-container-high": "#e6e8ea",
+                    "secondary-fixed": "#d6e5ef",
+                    "on-secondary-fixed-variant": "#3b4951",
+                    "surface-container": "#eceef0",
+                    "error": "#ba1a1a",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "on-secondary-fixed": "#0f1d25",
+                    "surface": "#f7f9fb",
+                    "on-tertiary-container": "#fbfff5",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-primary-fixed": "#001c3a",
+                    "secondary-fixed-dim": "#bac9d3",
+                    "surface-tint": "#005faf",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#191c1e",
+                    "inverse-surface": "#2d3133",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#002204",
+                    "on-background": "#191c1e",
+                    "tertiary-fixed-dim": "#78dc77",
+                    "tertiary": "#006c1c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xl": "32px",
+                    "sm": "12px",
+                    "xs": "8px",
+                    "base": "4px",
+                    "lg": "24px",
+                    "container-padding": "16px",
+                    "gutter": "12px"
+            },
+            "fontFamily": {
+                    "headline-md-mobile": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md-mobile": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-sm": ["17px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "display-lg": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb; /* surface */
+        }
+        /* Custom scrollbar for horizontal lists if needed */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface antialiased flex flex-col min-h-screen relative pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface docked full-width top-0 flat no shadows flex items-center justify-between px-md w-full h-14 sticky z-40">
+<button aria-label="Go back" class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-low transition-colors active:opacity-70 rounded-full text-primary dark:text-inverse-primary">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary dark:text-primary-fixed">CervixDetectAI</h1>
+<button aria-label="More options" class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-low transition-colors active:opacity-70 rounded-full text-primary dark:text-inverse-primary">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</header>
+<main class="flex-1 w-full max-w-2xl mx-auto px-md py-lg flex flex-col gap-lg">
+<!-- Header & Overview -->
+<section class="flex flex-col gap-sm">
+<h2 class="font-display-lg text-display-lg text-on-surface">设置提醒</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">为您重要的医疗日程安排提醒，确保不错过任何关键时刻。</p>
+</section>
+<!-- Quick Select Cards (Bento Style) -->
+<section class="grid grid-cols-3 gap-sm">
+<!-- Card 1: Follow-up -->
+<button class="bg-surface-container-lowest rounded-xl p-md flex flex-col items-center justify-center gap-sm shadow-[0_4px_15px_rgba(0,93,172,0.04)] border border-outline-variant/30 hover:border-primary transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-primary/50">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-primary-container" data-icon="calendar_clock">calendar_clock</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">定期复查</span>
+</button>
+<!-- Card 2: Document Prep -->
+<button class="bg-surface-container-lowest rounded-xl p-md flex flex-col items-center justify-center gap-sm shadow-[0_4px_15px_rgba(0,93,172,0.04)] border border-outline-variant/30 hover:border-primary transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-primary/50">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-primary-container" data-icon="folder_special">folder_special</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">准备资料</span>
+</button>
+<!-- Card 3: Questions -->
+<button class="bg-surface-container-lowest rounded-xl p-md flex flex-col items-center justify-center gap-sm shadow-[0_4px_15px_rgba(0,93,172,0.04)] border border-outline-variant/30 hover:border-primary transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-primary/50">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-primary-container" data-icon="live_help">live_help</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">疑问咨询</span>
+</button>
+</section>
+<!-- Form Section -->
+<section class="bg-surface-container-lowest rounded-xl shadow-[0_4px_15px_rgba(0,93,172,0.04)] p-md flex flex-col gap-lg">
+<!-- Title Input -->
+<div class="flex flex-col gap-xs">
+<label class="font-body-md text-body-md font-semibold text-on-surface" for="reminder-title">提醒标题</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" data-icon="edit_note">edit_note</span>
+<input class="w-full bg-surface pl-10 pr-md py-sm rounded-lg border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim/50 outline-none transition-all font-body-md text-body-md text-on-surface placeholder:text-outline" id="reminder-title" placeholder="例如：去医院进行TCT复查" type="text"/>
+</div>
+</div>
+<!-- Date & Time Selection (Grid for larger screens, stacked on mobile) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+<!-- Date -->
+<div class="flex flex-col gap-xs">
+<label class="font-body-md text-body-md font-semibold text-on-surface" for="reminder-date">日期</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" data-icon="event">event</span>
+<input class="w-full bg-surface pl-10 pr-md py-sm rounded-lg border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim/50 outline-none transition-all font-body-md text-body-md text-on-surface cursor-pointer" id="reminder-date" type="date"/>
+</div>
+</div>
+<!-- Time -->
+<div class="flex flex-col gap-xs">
+<label class="font-body-md text-body-md font-semibold text-on-surface" for="reminder-time">时间</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" data-icon="schedule">schedule</span>
+<input class="w-full bg-surface pl-10 pr-md py-sm rounded-lg border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim/50 outline-none transition-all font-body-md text-body-md text-on-surface cursor-pointer" id="reminder-time" type="time"/>
+</div>
+</div>
+</div>
+<!-- Reminder Advance Type -->
+<div class="flex flex-col gap-xs">
+<label class="font-body-md text-body-md font-semibold text-on-surface">提前提醒</label>
+<div class="flex flex-wrap gap-sm">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="advance-notice" type="radio"/>
+<div class="px-sm py-xs rounded-lg border border-outline-variant peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed-variant font-body-md text-body-md text-on-surface-variant transition-colors hover:bg-surface-container-low">
+                            准时
+                        </div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="advance-notice" type="radio"/>
+<div class="px-sm py-xs rounded-lg border border-outline-variant peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed-variant font-body-md text-body-md text-on-surface-variant transition-colors hover:bg-surface-container-low">
+                            提前10分钟
+                        </div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="advance-notice" type="radio"/>
+<div class="px-sm py-xs rounded-lg border border-outline-variant peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed-variant font-body-md text-body-md text-on-surface-variant transition-colors hover:bg-surface-container-low">
+                            提前1小时
+                        </div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="advance-notice" type="radio"/>
+<div class="px-sm py-xs rounded-lg border border-outline-variant peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed-variant font-body-md text-body-md text-on-surface-variant transition-colors hover:bg-surface-container-low">
+                            提前1天
+                        </div>
+</label>
+</div>
+</div>
+<!-- Notes -->
+<div class="flex flex-col gap-xs">
+<label class="font-body-md text-body-md font-semibold text-on-surface" for="reminder-notes">备注 (选填)</label>
+<textarea class="w-full bg-surface p-sm rounded-lg border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim/50 outline-none transition-all font-body-md text-body-md text-on-surface placeholder:text-outline resize-none" id="reminder-notes" placeholder="添加更多详细信息..." rows="3"></textarea>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-primary text-on-primary font-headline-sm text-headline-sm py-sm rounded-xl mt-sm shadow-[0_4px_10px_rgba(0,93,172,0.2)] hover:bg-primary/90 active:bg-primary/80 transition-all focus:outline-none focus:ring-4 focus:ring-primary-fixed">
+                保存提醒
+            </button>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-surface-container-lowest dark:bg-surface-dim shadow-[0_-4px_20px_rgba(0,0,0,0.04)] shadow-lg fixed bottom-0 left-0 w-full rounded-t-xl z-50 flex justify-around items-center pt-xs pb-safe px-lg md:hidden h-20">
+<!-- Tab 1: 首页 (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-outline hover:bg-secondary-container/50 scale-95 active:scale-90 transition-transform duration-200 p-2 rounded-lg flex-1">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">首页</span>
+</button>
+<!-- Tab 2: 记录 (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-outline hover:bg-secondary-container/50 scale-95 active:scale-90 transition-transform duration-200 p-2 rounded-lg flex-1">
+<span class="material-symbols-outlined mb-1" data-icon="description">description</span>
+<span class="font-label-sm text-label-sm">记录</span>
+</button>
+<!-- Tab 3: 提醒 (Active) -->
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-semibold hover:bg-secondary-container/50 scale-95 active:scale-90 transition-transform duration-200 p-2 rounded-lg flex-1">
+<div class="bg-secondary-container w-16 h-8 rounded-full flex items-center justify-center mb-1">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="notifications" data-weight="fill" style="font-variation-settings: 'FILL' 1;">notifications</span>
+</div>
+<span class="font-label-sm text-label-sm">提醒</span>
+</button>
+<!-- Tab 4: 我的 (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-outline hover:bg-secondary-container/50 scale-95 active:scale-90 transition-transform duration-200 p-2 rounded-lg flex-1">
+<span class="material-symbols-outlined mb-1" data-icon="account_circle">account_circle</span>
+<span class="font-label-sm text-label-sm">我的</span>
+</button>
+</nav>
+<!-- Support for safe area inset on iOS -->
+<style>
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 16px);
+        }
+    </style>
+</body></html>
