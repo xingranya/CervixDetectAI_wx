@@ -10,6 +10,7 @@ const {
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const {
   normalizeStoredUser,
+  persistAvatarFile,
   readFileBase64,
   resolveAvatarFileType
 } = require("../../utils/avatar");
@@ -124,6 +125,12 @@ Page({
         path: ROUTES.privacy
       },
       {
+        title: "用户服务协议",
+        desc: "查看登录与使用规则",
+        weuiIcon: "info",
+        path: ROUTES.serviceAgreement
+      },
+      {
         title: "合规与服务边界",
         desc: "确认健康记录工具的使用范围",
         weuiIcon: "info",
@@ -161,8 +168,22 @@ Page({
     this.setData({ isGuest: !isLoggedIn() });
   },
 
+  hasNicknamePermission() {
+    return !!wx.getStorageSync("profileNicknameReady");
+  },
+
+  hasAvatarPermission() {
+    return !!wx.getStorageSync("profileAvatarReady");
+  },
+
   renderStoredUser() {
-    const nextUser = normalizeUser(wx.getStorageSync("user"));
+    const storedUser = normalizeUser(wx.getStorageSync("user"));
+    const nextUser = {
+      ...storedUser,
+      nickname: this.hasNicknamePermission() ? storedUser.nickname : "微信用户",
+      avatarUrl: this.hasAvatarPermission() ? storedUser.avatarUrl : "",
+      avatarLocalPath: this.hasAvatarPermission() ? storedUser.avatarLocalPath : ""
+    };
     const avatarLoadFailedUrl = nextUser.avatarUrl === this.data.user.avatarUrl
       && nextUser.avatarLocalPath === this.data.user.avatarLocalPath
       ? this.avatarLoadFailedUrl || ""
@@ -265,7 +286,8 @@ Page({
       const res = await request("/me");
       const nextUser = normalizeUser({
         ...localUser,
-        ...(res.data || {}),
+        ...(this.hasNicknamePermission() ? { nickname: res.data?.nickname || localUser.nickname } : { nickname: "微信用户" }),
+        ...(this.hasAvatarPermission() ? { avatarUrl: res.data?.avatarUrl || localUser.avatarUrl } : { avatarUrl: "" }),
         avatarLocalPath: localUser.avatarLocalPath
       });
       wx.setStorageSync("user", nextUser);
@@ -288,20 +310,37 @@ Page({
 
     this.avatarUploading = true;
     try {
-      const avatarBase64 = await readFileBase64(currentUser.avatarLocalPath);
+      // 如果 avatarLocalPath 是开发者工具的 HTTP 临时 URL，尝试先持久化
+      let localPath = currentUser.avatarLocalPath;
+      if (/^http:\/\/(127\.0\.0\.1|localhost):\d+\/__tmp__\//i.test(localPath)) {
+        const persisted = await persistAvatarFile(localPath);
+        if (persisted) {
+          localPath = persisted;
+          const updatedUser = normalizeUser({ ...currentUser, avatarLocalPath: persisted });
+          wx.setStorageSync("user", updatedUser);
+        }
+      }
+
+      const avatarBase64 = await readFileBase64(localPath);
       const avatarRes = await uploadAvatar({
         avatarBase64,
-        fileType: resolveAvatarFileType(currentUser.avatarLocalPath)
+        fileType: resolveAvatarFileType(localPath, avatarBase64)
       });
       const nextUser = normalizeUser({
         ...currentUser,
         ...(avatarRes.data || {}),
-        avatarLocalPath: currentUser.avatarLocalPath
+        avatarLocalPath
       });
       wx.setStorageSync("user", nextUser);
       this.renderStoredUser();
     } catch (_error) {
       // 上传重试失败时继续保留本地头像兜底，不阻断页面展示。
+      // 如果 avatarLocalPath 是已失效的临时 URL，清除它避免反复失败。
+      if (/^http:\/\/(127\.0\.0\.1|localhost):\d+\/__tmp__\//i.test(currentUser.avatarLocalPath)) {
+        const cleanedUser = normalizeUser({ ...currentUser, avatarLocalPath: "" });
+        wx.setStorageSync("user", cleanedUser);
+        this.renderStoredUser();
+      }
     } finally {
       this.avatarUploading = false;
     }
@@ -314,6 +353,10 @@ Page({
 
   goLogin() {
     openRoute(ROUTES.login);
+  },
+
+  goProfileSetup() {
+    openRoute(ROUTES.profileSetup);
   },
 
   logout() {
@@ -337,6 +380,8 @@ Page({
     this.closeConfirmDialog();
     wx.removeStorageSync("token");
     wx.removeStorageSync("user");
+    wx.removeStorageSync("profileNicknameReady");
+    wx.removeStorageSync("profileAvatarReady");
     clearAllCaches();
     openRoute(ROUTES.login, {}, { reLaunch: true });
   }

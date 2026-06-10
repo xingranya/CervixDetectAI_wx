@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "用户服务协议",
+  "usingComponents": {
+    "section-header": "/components/section-header/index",
+    "mp-icon": "weui-miniprogram/icon/icon"
+  }
+}

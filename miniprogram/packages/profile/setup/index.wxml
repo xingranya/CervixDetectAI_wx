@@ -1,0 +1,70 @@
+<view class="page setup-page">
+  <view class="setup-hero">
+    <text class="setup-title">完善你的资料</text>
+    <text class="setup-desc">登录与资料设置分开处理。你可以先完成登录，再单独设置昵称和头像；不设置也不影响继续使用。</text>
+  </view>
+
+  <view class="setup-card">
+    <text class="setup-section-title">资料设置说明</text>
+    <text class="setup-note">设置昵称或头像前，请先阅读《用户服务协议》和《隐私与服务说明》。</text>
+    <view class="agreement-links">
+      <text class="agreement-link" bind:tap="openServiceAgreement">《用户服务协议》</text>
+      <text class="agreement-separator">与</text>
+      <text class="agreement-link" bind:tap="openPrivacy">《隐私与服务说明》</text>
+    </view>
+
+    <view wx:if="{{setupEnabled}}" class="setup-form">
+      <text class="editor-label">昵称</text>
+      <input
+        class="editor-input"
+        type="nickname"
+        maxlength="20"
+        value="{{profileForm.nickname}}"
+        bind:input="onNicknameInput"
+        placeholder="点击输入框可填写或选择微信昵称"
+        placeholder-class="editor-placeholder"
+      />
+
+      <text class="editor-label avatar-label">头像</text>
+      <button class="avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image wx:if="{{avatarPreviewUrl}}" class="avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
+        <view wx:else class="avatar-placeholder">
+          <mp-icon icon="me" color="#5f6f86" size="{{32}}" />
+          <text class="avatar-placeholder-text">点击选择头像</text>
+        </view>
+      </button>
+      <text wx:if="{{avatarUploadPending}}" class="avatar-upload-note">头像已选中，保存资料后会上传并更新显示。</text>
+
+      <button class="primary-button setup-save-button" disabled="{{saving}}" bind:tap="saveProfile">
+        <view class="button-content">
+          <text class="button-text">{{saving ? '正在保存' : '保存资料'}}</text>
+        </view>
+      </button>
+    </view>
+
+    <view wx:else class="setup-actions">
+      <button class="primary-button setup-start-button" bind:tap="showConsentPopup">
+        <view class="button-content">
+          <text class="button-text">开始设置资料</text>
+        </view>
+      </button>
+      <button class="secondary-button" bind:tap="skipSetup">暂不设置，先体验</button>
+    </view>
+  </view>
+
+  <view wx:if="{{popupVisible}}" class="popup-mask">
+    <view class="popup-panel">
+      <text class="popup-title">资料设置说明</text>
+      <text class="popup-desc">设置昵称和头像前，请先阅读相关说明。不同意也可以继续浏览和使用小程序，只是本次不进行资料设置。</text>
+      <view class="agreement-links popup-links">
+        <text class="agreement-link" bind:tap="openServiceAgreement">《用户服务协议》</text>
+        <text class="agreement-separator">与</text>
+        <text class="agreement-link" bind:tap="openPrivacy">《隐私与服务说明》</text>
+      </view>
+      <view class="popup-actions">
+        <button class="popup-cancel" bind:tap="skipSetup">暂不设置</button>
+        <button class="popup-confirm" bind:tap="agreeSetup">同意并设置</button>
+      </view>
+    </view>
+  </view>
+</view>

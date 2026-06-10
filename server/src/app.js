@@ -24,6 +24,7 @@ app.use("/uploads", express.static(path.join(__dirname, "..", "uploads"), {
     res.setHeader("Access-Control-Allow-Origin", "*");
   }
 }));
+app.use("/agreements", express.static(path.join(__dirname, "..", "public", "agreements")));
 
 app.get("/health", (req, res) => {
   res.json({

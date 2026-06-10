@@ -31,6 +31,8 @@
       "root": "packages/profile",
       "pages": [
         "privacy/index",
+        "service/index",
+        "setup/index",
         "compliance/index",
         "feedback/index"
       ]

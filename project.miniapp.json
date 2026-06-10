@@ -1,0 +1,22 @@
+{
+  "name": "云端智诊",
+  "icon": "",
+  "mini-android": {
+    "privacy": {
+      "enable": true,
+      "privacyTemplate": "miniapp-privacy.json",
+      "supportBrowseMode": true
+    }
+  },
+  "mini-ios": {
+    "privacy": {
+      "enable": true,
+      "privacyTemplate": "miniapp-privacy.json",
+      "supportBrowseMode": true
+    }
+  },
+  "mini-plugin": {
+    "android": [],
+    "ios": []
+  }
+}

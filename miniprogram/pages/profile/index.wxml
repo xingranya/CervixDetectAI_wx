@@ -2,7 +2,7 @@
   <view class="profile-hero">
     <view class="profile-user-row">
       <view class="profile-avatar-shell">
-          <image
+        <image
           wx:if="{{activeAvatarUrl}}"
           class="profile-avatar"
           src="{{activeAvatarUrl}}"
@@ -21,6 +21,11 @@
         </view>
         <text class="profile-title">{{user.nickname || '微信用户'}}</text>
         <text class="profile-desc">{{isGuest ? '可先查看说明、知识与功能入口，确认需要后再自愿登录。' : '健康记录与复查安排已为你整理'}}</text>
+        <view wx:if="{{!isGuest}}" class="profile-setup-hint" catch:tap="goProfileSetup">
+          <mp-icon icon="info" color="#1f53c9" size="{{14}}" />
+          <text class="profile-setup-hint-text">点击头像编辑资料</text>
+          <mp-icon icon="arrow" color="#1f53c9" size="{{12}}" />
+        </view>
       </view>
     </view>
 

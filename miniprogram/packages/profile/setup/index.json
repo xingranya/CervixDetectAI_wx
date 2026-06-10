@@ -1,5 +1,5 @@
 {
-  "component": true,
+  "navigationBarTitleText": "资料设置",
   "usingComponents": {
     "mp-icon": "weui-miniprogram/icon/icon"
   }

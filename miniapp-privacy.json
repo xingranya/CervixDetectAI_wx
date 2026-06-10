@@ -1,0 +1,35 @@
+{
+  "title": "隐私保护说明",
+  "message": "欢迎使用云端智诊。你可以先在浏览模式下查看首页、健康知识、隐私说明和服务边界；当你主动使用微信登录、头像填写、个人记录保存与复查提醒等能力时，我们会按照《隐私与服务说明》与《用户服务协议》处理相关信息。点击《隐私与服务说明》或《用户服务协议》可阅读完整内容。",
+  "confirm": "同意并继续",
+  "cancel": "仅浏览",
+  "messageLinks": {
+    "《隐私与服务说明》": {
+      "showExternal": false,
+      "text": "《隐私与服务说明》",
+      "url": "https://xcx.hpvsc.icu/agreements/privacy.html"
+    },
+    "《用户服务协议》": {
+      "showExternal": false,
+      "text": "《用户服务协议》",
+      "url": "https://xcx.hpvsc.icu/agreements/service.html"
+    }
+  },
+  "styles": {
+    "title": {
+      "color": "#10233c"
+    },
+    "message": {
+      "color": "#5f6f86"
+    },
+    "confirm": {
+      "color": "#ffffff"
+    },
+    "cancel": {
+      "color": "#66748a"
+    },
+    "messageLinks": {
+      "color": "#1f53c9"
+    }
+  }
+}

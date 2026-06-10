@@ -1,9 +1,9 @@
 <view class="page privacy-page">
-  <section-header title="隐私与服务说明" weui-icon="info" desc="说明数据用途、授权方式和服务边界。" />
+  <section-header title="隐私与服务说明" weui-icon="lock" desc="说明数据用途、授权方式和服务边界。" />
 
   <view class="privacy-hero">
     <view class="hero-icon">
-      <mp-icon icon="info" color="#1f53c9" size="{{34}}" />
+      <mp-icon icon="safe-success" color="#1f53c9" size="{{34}}" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">数据只用于你的健康记录管理</text>
@@ -16,7 +16,7 @@
       <view class="privacy-index">01</view>
       <view class="privacy-body">
         <text class="privacy-title">我们收集什么</text>
-        <text class="privacy-text">仅在你主动使用登录、头像昵称、检查记录、复查提醒、问题整理和意见反馈功能时，保存完成服务所需的信息。头像和昵称为选填，不影响登录。</text>
+        <text class="privacy-text">仅在你主动使用登录、资料引导页中的头像设置、昵称保存、检查记录、复查提醒、问题整理和意见反馈功能时，保存完成服务所需的信息。不同意资料设置说明时，你仍可继续浏览和使用小程序。</text>
       </view>
     </view>
     <view class="privacy-row">

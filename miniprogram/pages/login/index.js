@@ -1,13 +1,8 @@
-const { login, uploadAvatar, getToken, clearAllCaches } = require("../../utils/request");
+const { login, getToken, clearAllCaches } = require("../../utils/request");
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const { showErrorToast, showSuccessToast } = require("../../utils/feedback");
 const { withPageLoading } = require("../../utils/form");
-const {
-  normalizeStoredUser,
-  persistAvatarFile,
-  readFileBase64,
-  resolveAvatarFileType
-} = require("../../utils/avatar");
+const { normalizeStoredUser } = require("../../utils/avatar");
 
 function wxLoginCode() {
   return new Promise((resolve, reject) => {
@@ -26,12 +21,6 @@ function wxLoginCode() {
 
 Page({
   data: {
-    nickname: "",
-    formModel: {
-      nickname: ""
-    },
-    avatarUrl: "",
-    avatarPreviewFailed: false,
     loading: false
   },
 
@@ -42,81 +31,67 @@ Page({
   },
 
   requirePrivacyAuthorization() {
-    const privacyPopup = this.selectComponent("#privacyPopup");
-    if (!privacyPopup || !privacyPopup.requireAuthorization) {
-      return Promise.resolve();
+    if (!wx.getPrivacySetting) {
+      return Promise.reject(new Error("当前基础库不支持隐私授权调试，请升级微信开发者工具基础库后重试"));
     }
-    return privacyPopup.requireAuthorization();
-  },
 
-  onNicknameInput(event) {
-    this.setData({
-      nickname: event.detail.value,
-      "formModel.nickname": event.detail.value
+    return new Promise((resolve, reject) => {
+      wx.getPrivacySetting({
+        success: (res) => {
+          if (!res.needAuthorization) {
+            resolve();
+            return;
+          }
+
+          if (!wx.requirePrivacyAuthorize) {
+            reject(new Error("当前环境未启用官方隐私授权弹窗，请升级基础库到 2.32.3 以上并清除授权数据后重试"));
+            return;
+          }
+
+          wx.requirePrivacyAuthorize({
+            success: () => resolve(),
+            fail: (error) => {
+              const errno = error && error.errno;
+              if (errno === 103 || errno === 104) {
+                reject(new Error("你暂未同意微信隐私保护指引"));
+                return;
+              }
+              reject(new Error("官方隐私授权弹窗未触发，请清除授权数据并确认开发者工具基础库版本后重试"));
+            }
+          });
+        },
+        fail: () => {
+          reject(new Error("当前环境无法读取隐私授权状态，请在微信开发者工具中升级基础库后重试"));
+        }
+      });
     });
-  },
-
-  onChooseAvatar(event) {
-    const avatarUrl = event.detail.avatarUrl || "";
-    if (!avatarUrl) {
-      showErrorToast("微信头像获取失败，请先确认隐私协议中的头像用途声明");
-      return;
-    }
-    this.setData({
-      avatarUrl,
-      avatarPreviewFailed: false
-    });
-  },
-
-  onAvatarLoadError() {
-    this.setData({ avatarPreviewFailed: true });
   },
 
   async submitLogin(event) {
     await withPageLoading(this, async () => {
       await this.requirePrivacyAuthorization();
 
-      const nickname = String(event?.detail?.value?.nickname || this.data.nickname || "").trim() || "微信用户";
-      const avatarTempPath = this.data.avatarUrl || "";
-      const avatarLocalPath = avatarTempPath ? await persistAvatarFile(avatarTempPath) : "";
-
       const code = await wxLoginCode();
       const res = await login({
-        code,
-        nickname
+        code
       });
 
       let user = normalizeStoredUser({
         ...(res.data.user || {}),
-        nickname,
-        avatarLocalPath
+        nickname: "微信用户",
+        avatarUrl: "",
+        avatarLocalPath: ""
       });
 
       clearAllCaches();
+      wx.removeStorageSync("profileNicknameReady");
+      wx.removeStorageSync("profileAvatarReady");
+      wx.removeStorageSync("profileSettingsConsent");
       wx.setStorageSync("token", res.data.token);
       wx.setStorageSync("user", user);
 
-      if (avatarLocalPath) {
-        try {
-          const avatarBase64 = await readFileBase64(avatarLocalPath);
-          const avatarRes = await uploadAvatar({
-            avatarBase64,
-            fileType: resolveAvatarFileType(avatarLocalPath)
-          });
-          user = normalizeStoredUser({
-            ...user,
-            ...(avatarRes.data || user),
-            nickname,
-            avatarLocalPath
-          });
-          wx.setStorageSync("user", user);
-        } catch (_error) {
-          // 头像同步失败不影响用户登录，后续可重新选择头像更新资料。
-        }
-      }
-
       showSuccessToast("已登录");
-      openRoute(ROUTES.home);
+      openRoute(ROUTES.profileSetup);
     }).catch((error) => {
       showErrorToast(error, "登录失败");
     });
@@ -124,5 +99,9 @@ Page({
 
   openPrivacy() {
     openRoute(ROUTES.privacy);
+  },
+
+  openServiceAgreement() {
+    openRoute(ROUTES.serviceAgreement);
   }
 });

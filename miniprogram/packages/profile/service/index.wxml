@@ -1,0 +1,60 @@
+<view class="page service-page">
+  <section-header title="用户服务协议" weui-icon="waiting" desc="说明使用规则、账号责任和服务边界。" />
+
+  <view class="service-hero">
+    <view class="hero-icon">
+      <mp-icon icon="waiting" color="#1f53c9" size="{{34}}" />
+    </view>
+    <view class="hero-copy">
+      <text class="hero-title">请在自愿使用前阅读本协议</text>
+      <text class="hero-desc">当你主动登录并使用记录、提醒、问题整理等功能时，表示你已阅读并同意按本协议使用本小程序。</text>
+    </view>
+  </view>
+
+  <view class="service-panel">
+    <view class="service-row">
+      <view class="service-index">01</view>
+      <view class="service-body">
+        <text class="service-title">服务内容</text>
+        <text class="service-text">本小程序提供健康检查摘要记录、复查提醒、线下咨询前问题整理、健康知识浏览和意见反馈等功能，帮助你管理个人健康信息。</text>
+      </view>
+    </view>
+    <view class="service-row">
+      <view class="service-index">02</view>
+      <view class="service-body">
+        <text class="service-title">自愿登录与资料填写</text>
+        <text class="service-text">你可以先浏览首页、隐私说明、服务边界和健康知识，再自行决定是否登录。登录后可进入资料引导页单独设置昵称和头像；若暂不设置，也不影响继续使用小程序。</text>
+      </view>
+    </view>
+    <view class="service-row">
+      <view class="service-index">03</view>
+      <view class="service-body">
+        <text class="service-title">账号与数据责任</text>
+        <text class="service-text">你应确保自行填写和保存的信息真实、准确、完整，并妥善保管自己的微信账号与设备，避免他人未经许可访问你的记录内容。</text>
+      </view>
+    </view>
+    <view class="service-row">
+      <view class="service-index">04</view>
+      <view class="service-body">
+        <text class="service-title">允许使用范围</text>
+        <text class="service-text">你可以使用本小程序记录个人检查摘要、安排复查计划、整理就诊前问题和查看健康管理知识，不得将其用于违法违规用途或冒充医疗机构服务。</text>
+      </view>
+    </view>
+    <view class="service-row">
+      <view class="service-index">05</view>
+      <view class="service-body">
+        <text class="service-title">服务边界</text>
+        <text class="service-text">本小程序仅用于健康信息记录与提醒，不提供在线诊断、治疗、处方、问诊、挂号、缴费或医疗报告官方查询服务。涉及健康判断时，请以线下正规医疗机构意见为准。</text>
+      </view>
+    </view>
+    <view class="service-row">
+      <view class="service-index">06</view>
+      <view class="service-body">
+        <text class="service-title">隐私与反馈</text>
+        <text class="service-text">你的数据处理方式以《隐私与服务说明》和微信侧《小程序隐私保护指引》为准。如对账号资料、反馈处理或数据删除有疑问，可通过“我的 - 意见反馈”联系我们。</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="safe-note">继续使用前，请同时阅读《隐私与服务说明》以及微信侧展示的《小程序隐私保护指引》。</view>
+</view>
