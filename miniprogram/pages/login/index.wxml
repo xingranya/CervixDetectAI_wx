@@ -17,13 +17,24 @@
     <form class="login-form" bind:submit="submitLogin">
       <view class="login-avatar-field">
         <text class="login-avatar-label">头像（可选）</text>
-        <button class="login-avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-          <image wx:if="{{avatarPreviewUrl}}" class="login-avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
-          <view wx:else class="login-avatar-placeholder">
-            <mp-icon icon="me" color="#5f6f86" size="{{32}}" />
-            <text class="login-avatar-placeholder-text">点击选择头像</text>
+        <view class="login-avatar-picker-wrap">
+          <!-- 未同意协议时：纯 view，不触发原生选择器 -->
+          <view wx:if="{{!setupEnabled}}" class="login-avatar-picker login-avatar-picker-disabled" catch:tap="onAvatarPickerTap">
+            <view class="login-avatar-placeholder">
+              <mp-icon icon="me" color="#a8b3c7" size="{{32}}" />
+              <text class="login-avatar-placeholder-text">点击选择头像</text>
+            </view>
           </view>
-        </button>
+          <!-- 已同意协议后：真正的 button + open-type -->
+          <button wx:else class="login-avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+            <image wx:if="{{avatarPreviewUrl}}" class="login-avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
+            <view wx:else class="login-avatar-placeholder">
+              <mp-icon icon="me" color="#5f6f86" size="{{32}}" />
+              <text class="login-avatar-placeholder-text">点击选择头像</text>
+            </view>
+          </button>
+        </view>
+        <text wx:if="{{!setupEnabled}}" class="login-avatar-hint">同意协议后可设置</text>
         <text wx:if="{{avatarUploadPending}}" class="login-avatar-note">头像已选中，登录完成后会上传并更新显示。</text>
       </view>
 
@@ -42,13 +53,13 @@
       </view>
 
       <view class="agreement-panel">
-        <text class="agreement-title">登录前可先阅读相关说明</text>
+        <text class="agreement-title">登录前请先同意以下协议</text>
         <view class="agreement-links">
           <text class="agreement-link" bind:tap="openServiceAgreement">《用户服务协议》</text>
           <text class="agreement-separator">与</text>
           <text class="agreement-link" bind:tap="openPrivacy">《隐私与服务说明》</text>
         </view>
-        <text class="agreement-note">首次点击登录时会弹出微信隐私保护指引；头像与昵称相关设置可单独完成，不与本次登录流程混用。</text>
+        <text class="agreement-note">点击登录按钮后会弹出协议确认弹窗，请阅读后主动勾选同意。不同意也可仅浏览小程序，不影响查看健康知识和功能入口。</text>
       </view>
 
       <button class="primary-button login-button" disabled="{{loading}}" form-type="submit">
@@ -65,6 +76,13 @@
   </view>
 
   <view class="safe-note">产品仅用于健康信息记录与提醒，不提供在线诊断、治疗、处方或问诊服务。</view>
+
+  <!-- 隐私协议同意弹窗 -->
+  <privacy-consent
+    visible="{{privacyConsentVisible}}"
+    bind:accept="onPrivacyAccept"
+    bind:decline="onPrivacyDecline"
+  />
 
   <!-- 资料设置同意弹窗 -->
   <view wx:if="{{consentPopupVisible}}" class="login-consent-mask" catch:touchmove="{{true}}">

@@ -1,0 +1,163 @@
+.privacy-consent-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 28, 48, 0.56);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48rpx 36rpx;
+}
+
+.privacy-consent-panel {
+  width: 100%;
+  max-width: 640rpx;
+  background: #ffffff;
+  border-radius: 32rpx;
+  padding: 0;
+  box-shadow: 0 32rpx 80rpx rgba(11, 28, 48, 0.36);
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.privacy-consent-header {
+  padding: 36rpx 36rpx 20rpx;
+}
+
+.privacy-consent-title {
+  display: block;
+  color: #0b1c30;
+  font-size: 36rpx;
+  font-weight: 900;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.privacy-consent-body {
+  max-height: 50vh;
+  padding: 0 36rpx;
+  box-sizing: border-box;
+}
+
+.privacy-consent-desc {
+  display: block;
+  color: #3e4a5f;
+  font-size: 27rpx;
+  line-height: 1.7;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+.privacy-consent-links {
+  margin-top: 18rpx;
+  line-height: 1.7;
+}
+
+.privacy-consent-link {
+  color: #1f53c9;
+  font-size: 27rpx;
+  font-weight: 800;
+  word-break: break-all;
+}
+
+.privacy-consent-separator {
+  margin: 0 8rpx;
+  color: #4d5d73;
+  font-size: 27rpx;
+}
+
+.privacy-consent-note {
+  display: block;
+  margin-top: 16rpx;
+  color: #66748a;
+  font-size: 24rpx;
+  line-height: 1.65;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+/* ---------- Checkbox ---------- */
+.privacy-consent-checkbox-row {
+  display: flex;
+  align-items: center;
+  margin-top: 28rpx;
+  padding: 16rpx 0;
+}
+
+.privacy-consent-checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #c3c6d6;
+  background: #f8f9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.privacy-consent-checkbox-checked {
+  background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
+  border-color: #1f53c9;
+}
+
+/* CSS 纯对勾，不依赖 icon 组件 */
+.privacy-consent-checkmark {
+  width: 16rpx;
+  height: 10rpx;
+  border-left: 3rpx solid #ffffff;
+  border-bottom: 3rpx solid #ffffff;
+  transform: rotate(-45deg);
+  margin-top: -2rpx;
+}
+
+.privacy-consent-checkbox-label {
+  margin-left: 14rpx;
+  color: #1e293b;
+  font-size: 27rpx;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* ---------- Actions ---------- */
+.privacy-consent-actions {
+  display: flex;
+  gap: 18rpx;
+  padding: 28rpx 36rpx 36rpx;
+}
+
+.privacy-consent-btn-decline,
+.privacy-consent-btn-confirm {
+  flex: 1;
+  height: 84rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.privacy-consent-btn-decline::after,
+.privacy-consent-btn-confirm::after {
+  border: 0;
+}
+
+.privacy-consent-btn-decline {
+  background: #f2f4fb;
+  color: #66748a;
+}
+
+.privacy-consent-btn-confirm {
+  background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
+  color: #ffffff;
+  box-shadow: 0 12rpx 26rpx rgba(31, 83, 201, 0.24);
+}
+
+.privacy-consent-btn-disabled {
+  background: #d4daf0 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: none !important;
+}

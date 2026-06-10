@@ -182,13 +182,19 @@
   font-weight: 800;
 }
 
+.login-avatar-picker-wrap {
+  position: relative;
+  display: inline-block;
+  margin-top: 14rpx;
+}
+
 .login-avatar-picker {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 180rpx !important;
   height: 180rpx !important;
-  margin-top: 14rpx;
+  margin-top: 0;
   padding: 0 !important;
   border: 1rpx solid rgba(195, 198, 214, 0.52) !important;
   border-radius: 50% !important;
@@ -198,6 +204,12 @@
 
 .login-avatar-picker::after {
   border: 0;
+}
+
+/* 未同意时的禁用态 */
+.login-avatar-picker-disabled {
+  opacity: 0.55;
+  border-style: dashed !important;
 }
 
 .login-avatar-preview {
@@ -219,6 +231,14 @@
 .login-avatar-placeholder-text {
   color: #5f6f86;
   font-size: 22rpx;
+}
+
+.login-avatar-hint {
+  display: block;
+  margin-top: 10rpx;
+  color: #8e9bb5;
+  font-size: 22rpx;
+  line-height: 1.4;
 }
 
 .login-avatar-note {

@@ -47,13 +47,17 @@ App({
     shortName: config.shortName,
     networkType: "unknown",
     isOnline: true,
-    hasNewVersion: false
+    hasNewVersion: false,
+    privacyConsentAgreed: false
   },
 
   onLaunch() {
     if (!wx.getStorageSync("deviceId")) {
       wx.setStorageSync("deviceId", createDeviceId());
     }
+
+    // 读取隐私协议同意状态（不会自动设置，仅读取用户之前的主动选择）
+    this.globalData.privacyConsentAgreed = !!wx.getStorageSync("privacyConsentAgreed");
 
     checkForUpdate();
 

@@ -1,0 +1,31 @@
+<view wx:if="{{visible}}" class="privacy-consent-mask" catch:touchmove="{{true}}">
+  <view class="privacy-consent-panel" catch:tap="{{true}}">
+    <view class="privacy-consent-header">
+      <text class="privacy-consent-title">隐私保护与服务协议</text>
+    </view>
+
+    <scroll-view class="privacy-consent-body" scroll-y bounces="{{false}}" show-scrollbar="{{false}}">
+      <text class="privacy-consent-desc">欢迎使用云端智诊。在使用登录、个人记录保存与复查提醒等功能前，请先阅读以下协议：</text>
+
+      <view class="privacy-consent-links">
+        <text class="privacy-consent-link" catch:tap="openServiceAgreement">《用户服务协议》</text>
+        <text class="privacy-consent-separator">与</text>
+        <text class="privacy-consent-link" catch:tap="openPrivacy">《隐私与服务说明》</text>
+      </view>
+
+      <text class="privacy-consent-note">我们会按照上述协议处理你的相关信息。你可以选择同意后使用完整功能，也可以仅浏览模式体验小程序。</text>
+
+      <view class="privacy-consent-checkbox-row" catch:tap="toggleCheckbox">
+        <view class="privacy-consent-checkbox {{checked ? 'privacy-consent-checkbox-checked' : ''}}">
+          <view wx:if="{{checked}}" class="privacy-consent-checkmark"></view>
+        </view>
+        <text class="privacy-consent-checkbox-label">我已阅读并同意上述协议</text>
+      </view>
+    </scroll-view>
+
+    <view class="privacy-consent-actions">
+      <button class="privacy-consent-btn-decline" catch:tap="onDecline">仅浏览</button>
+      <button class="privacy-consent-btn-confirm {{checked ? '' : 'privacy-consent-btn-disabled'}}" disabled="{{!checked}}" catch:tap="onConfirm">同意并继续</button>
+    </view>
+  </view>
+</view>

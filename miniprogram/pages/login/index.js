@@ -28,18 +28,51 @@ Page({
     avatarBase64Cache: "",
     avatarUploadPending: false,
     setupEnabled: false,
-    consentPopupVisible: false
+    consentPopupVisible: false,
+    privacyConsentVisible: false
   },
 
   onLoad() {
     if (getToken()) {
       openRoute(ROUTES.home);
     }
+    // 检查是否已同意隐私协议，未同意则自动弹出
+    this._checkPrivacyConsent();
+  },
+
+  // 检查隐私协议同意状态：未同意则显示弹窗
+  _checkPrivacyConsent() {
+    const agreed = !!wx.getStorageSync("privacyConsentAgreed");
+    if (!agreed) {
+      this.setData({ privacyConsentVisible: true });
+    }
+  },
+
+  // 用户主动点击“同意并继续”
+  onPrivacyAccept() {
+    this.setData({ privacyConsentVisible: false });
+  },
+
+  // 用户点击“仅浏览”
+  onPrivacyDecline() {
+    this.setData({ privacyConsentVisible: false });
+    wx.showToast({
+      title: "已进入浏览模式，登录需先同意协议",
+      icon: "none",
+      duration: 2000
+    });
   },
 
   // 昵称输入
   onNicknameInput(event) {
     this.setData({ "profileForm.nickname": event.detail.value });
+  },
+
+  // 头像点击拦截：未同意资料设置时先弹窗
+  onAvatarPickerTap() {
+    if (!this.data.setupEnabled) {
+      this.setData({ consentPopupVisible: true });
+    }
   },
 
   // 选择头像：仅做本地持久化 + base64 预览，绝不把 __tmp__ URL 作为 image src
@@ -107,6 +140,12 @@ Page({
 
   // 主按钮：登录 + 资料保存
   async submitLogin() {
+    // 必须先同意隐私协议才能登录
+    if (!wx.getStorageSync("privacyConsentAgreed")) {
+      this.setData({ privacyConsentVisible: true });
+      showErrorToast("请先阅读并同意隐私协议与服务协议", "登录前提示");
+      return;
+    }
     await withPageLoading(this, async () => {
       await this._performLogin({ uploadProfile: true });
     }).catch((error) => {
@@ -116,6 +155,12 @@ Page({
 
   // 跳过资料设置直接登录
   async skipSetupAndLogin() {
+    // 必须先同意隐私协议才能登录
+    if (!wx.getStorageSync("privacyConsentAgreed")) {
+      this.setData({ privacyConsentVisible: true });
+      showErrorToast("请先阅读并同意隐私协议与服务协议", "登录前提示");
+      return;
+    }
     await withPageLoading(this, async () => {
       await this._performLogin({ uploadProfile: false });
     }).catch((error) => {
@@ -130,8 +175,6 @@ Page({
       throw new Error("请先同意资料设置说明");
     }
 
-    await this.requirePrivacyAuthorization();
-
     const code = await wxLoginCode();
     const loginRes = await login({ code });
 
@@ -143,8 +186,22 @@ Page({
     });
 
     clearAllCaches();
-    wx.removeStorageSync("profileNicknameReady");
-    wx.removeStorageSync("profileAvatarReady");
+
+    // 根据服务端返回的实际用户数据决定资料就绪标记，
+    // 避免回头用户（已设过头像/昵称）再次进入个人页时被重复弹出设置弹窗。
+    const serverNickname = (loginRes.data.user && loginRes.data.user.nickname) || "";
+    const serverAvatarUrl = (loginRes.data.user && loginRes.data.user.avatarUrl) || "";
+    if (serverNickname && serverNickname !== "微信用户") {
+      wx.setStorageSync("profileNicknameReady", true);
+    } else {
+      wx.removeStorageSync("profileNicknameReady");
+    }
+    if (serverAvatarUrl) {
+      wx.setStorageSync("profileAvatarReady", true);
+    } else {
+      wx.removeStorageSync("profileAvatarReady");
+    }
+
     // 保留用户是否已同意资料设置的标识，若未同意则清掉
     if (!this.data.setupEnabled) {
       wx.removeStorageSync("profileSettingsConsent");
@@ -221,43 +278,6 @@ Page({
       console.warn("资料保存失败：", err);
       return false;
     }
-  },
-
-  requirePrivacyAuthorization() {
-    if (!wx.getPrivacySetting) {
-      return Promise.reject(new Error("当前基础库不支持隐私授权调试，请升级微信开发者工具基础库后重试"));
-    }
-
-    return new Promise((resolve, reject) => {
-      wx.getPrivacySetting({
-        success: (res) => {
-          if (!res.needAuthorization) {
-            resolve();
-            return;
-          }
-
-          if (!wx.requirePrivacyAuthorize) {
-            reject(new Error("当前环境未启用官方隐私授权弹窗，请升级基础库到 2.32.3 以上并清除授权数据后重试"));
-            return;
-          }
-
-          wx.requirePrivacyAuthorize({
-            success: () => resolve(),
-            fail: (error) => {
-              const errno = error && error.errno;
-              if (errno === 103 || errno === 104) {
-                reject(new Error("你暂未同意微信隐私保护指引"));
-                return;
-              }
-              reject(new Error("官方隐私授权弹窗未触发，请清除授权数据并确认开发者工具基础库版本后重试"));
-            }
-          });
-        },
-        fail: () => {
-          reject(new Error("当前环境无法读取隐私授权状态，请在微信开发者工具中升级基础库后重试"));
-        }
-      });
-    });
   },
 
   openPrivacy() {
