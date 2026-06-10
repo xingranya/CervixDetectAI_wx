@@ -7,12 +7,40 @@
       <text class="eyebrow">云端智诊</text>
     </view>
     <text class="login-title">女性健康记录与复查提醒助手</text>
-    <text class="login-desc">用于保存检查摘要、管理复查提醒、整理线下咨询前的问题。</text>
+    <text class="login-desc">保存检查摘要、管理复查提醒、整理线下咨询前的问题。</text>
   </view>
 
   <view class="card login-card">
+    <text class="login-card-title">登录后设置昵称与头像</text>
+    <text class="login-card-desc">登录仅用于保存你的个人记录。你可以直接选微信头像、使用微信昵称；不设置也不影响继续使用。</text>
+
     <form class="login-form" bind:submit="submitLogin">
-      <text class="avatar-tip">登录仅用于保存你的个人记录、提醒和备忘。昵称与头像都会在登录后于“我的”页单独设置。</text>
+      <view class="login-avatar-field">
+        <text class="login-avatar-label">头像（可选）</text>
+        <button class="login-avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image wx:if="{{avatarPreviewUrl}}" class="login-avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
+          <view wx:else class="login-avatar-placeholder">
+            <mp-icon icon="me" color="#5f6f86" size="{{32}}" />
+            <text class="login-avatar-placeholder-text">点击选择头像</text>
+          </view>
+        </button>
+        <text wx:if="{{avatarUploadPending}}" class="login-avatar-note">头像已选中，登录完成后会上传并更新显示。</text>
+      </view>
+
+      <view class="login-nickname-field">
+        <text class="login-nickname-label">昵称（可选）</text>
+        <input
+          class="login-nickname-input"
+          type="nickname"
+          maxlength="20"
+          value="{{profileForm.nickname}}"
+          bind:input="onNicknameInput"
+          placeholder="点击可输入，或从微信昵称中选择"
+          placeholder-class="login-nickname-placeholder"
+        />
+        <text class="login-nickname-hint">昵称将保存在云端，可随时修改。</text>
+      </view>
+
       <view class="agreement-panel">
         <text class="agreement-title">登录前可先阅读相关说明</text>
         <view class="agreement-links">
@@ -20,16 +48,38 @@
           <text class="agreement-separator">与</text>
           <text class="agreement-link" bind:tap="openPrivacy">《隐私与服务说明》</text>
         </view>
-        <text class="agreement-note">根据微信官方隐私接入方式，首次点击登录时会弹出微信隐私保护指引；头像与昵称相关设置将在登录后单独处理，不与本次登录流程混用。</text>
+        <text class="agreement-note">首次点击登录时会弹出微信隐私保护指引；头像与昵称相关设置可单独完成，不与本次登录流程混用。</text>
       </view>
+
       <button class="primary-button login-button" disabled="{{loading}}" form-type="submit">
         <view class="button-content">
           <mp-icon icon="me" color="#ffffff" size="{{18}}" />
           <text class="button-text">{{loading ? '正在登录' : '登录并继续'}}</text>
         </view>
       </button>
+
+      <button class="login-skip-button" disabled="{{loading}}" catch:tap="skipSetupAndLogin">
+        <text class="login-skip-button-text">暂不设置资料，直接登录</text>
+      </button>
     </form>
   </view>
 
   <view class="safe-note">产品仅用于健康信息记录与提醒，不提供在线诊断、治疗、处方或问诊服务。</view>
+
+  <!-- 资料设置同意弹窗 -->
+  <view wx:if="{{consentPopupVisible}}" class="login-consent-mask" catch:touchmove="{{true}}">
+    <view class="login-consent-panel" catch:tap="{{true}}">
+      <text class="login-consent-title">资料设置说明</text>
+      <text class="login-consent-desc">设置昵称和头像前，请先阅读相关说明。不同意也可以继续登录并使用小程序，只是本次不进行资料设置。</text>
+      <view class="agreement-links login-consent-links">
+        <text class="agreement-link" bind:tap="openServiceAgreement">《用户服务协议》</text>
+        <text class="agreement-separator">与</text>
+        <text class="agreement-link" bind:tap="openPrivacy">《隐私与服务说明》</text>
+      </view>
+      <view class="login-consent-actions">
+        <button class="login-consent-cancel" catch:tap="declineConsent">暂不设置</button>
+        <button class="login-consent-confirm" catch:tap="agreeConsent">同意并设置</button>
+      </view>
+    </view>
+  </view>
 </view>

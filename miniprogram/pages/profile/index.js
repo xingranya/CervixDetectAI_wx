@@ -145,7 +145,8 @@ Page({
     ],
     confirmDialog: {
       show: false
-    }
+    },
+    setupSheetVisible: false
   },
 
   onLoad() {
@@ -153,6 +154,7 @@ Page({
     this.renderProfileCache();
     this.scheduleSummaryRefresh();
     this.syncProfile();
+    this._maybeOpenSetupSheet();
   },
 
   onShow() {
@@ -162,6 +164,32 @@ Page({
     this.syncProfile();
     consumeCacheDirty(CACHE_KEYS.home);
     this.scheduleSummaryRefresh();
+    this._maybeOpenSetupSheet();
+  },
+
+  // 当用户已登录但尚未完成资料设置时，自动弹起完善资料弹窗。
+  // 使用 _setupSheetAutoShown 避免同一次会话内反复弹出。
+  _maybeOpenSetupSheet() {
+    if (this.data.setupSheetVisible) return;
+    if (!isLoggedIn()) return;
+    if (this._setupSheetAutoShown) return;
+    const nicknameReady = !!wx.getStorageSync("profileNicknameReady");
+    const avatarReady = !!wx.getStorageSync("profileAvatarReady");
+    // 昵称和头像都完成时不再自动弹；否则首次进入 profile 页时自动弹起。
+    if (nicknameReady && avatarReady) return;
+    this._setupSheetAutoShown = true;
+    this.setData({ setupSheetVisible: true });
+  },
+
+  openSetupSheet() {
+    this.setData({ setupSheetVisible: true });
+  },
+
+  onSetupSheetClosed() {
+    this.setData({ setupSheetVisible: false });
+    // 弹窗关闭后同步最新资料状态，避免页面展示过期。
+    this.renderStoredUser();
+    this.syncProfile();
   },
 
   refreshLoginState() {
@@ -356,7 +384,8 @@ Page({
   },
 
   goProfileSetup() {
-    openRoute(ROUTES.profileSetup);
+    // 不再跳转到独立页面，改为在当前 profile 页弹起完善资料弹窗。
+    this.openSetupSheet();
   },
 
   logout() {

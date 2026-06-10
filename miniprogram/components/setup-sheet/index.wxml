@@ -1,0 +1,85 @@
+<view wx:if="{{visible}}" class="setup-sheet-root {{_animating ? 'setup-sheet-closing' : 'setup-sheet-open'}}" catch:touchmove="{{true}}">
+  <view class="setup-sheet-mask" catch:tap="onMaskTap"></view>
+  <view class="setup-sheet-panel" aria-role="dialog" aria-modal="true">
+    <view class="setup-sheet-drag-bar" aria-hidden="true"></view>
+
+    <view class="setup-sheet-header">
+      <text class="setup-sheet-title">完善你的资料</text>
+      <view class="setup-sheet-close" catch:tap="onCloseTap" aria-label="关闭">
+        <mp-icon icon="close" color="#5f6f86" size="{{20}}" />
+      </view>
+    </view>
+
+    <scroll-view class="setup-sheet-body" scroll-y enhanced bounces="{{false}}" show-scrollbar="{{false}}">
+      <view class="setup-sheet-inner">
+        <text class="setup-sheet-desc">登录与资料设置分开处理。你可以单独设置昵称和头像；不设置也不影响继续使用。</text>
+
+        <view class="setup-sheet-card">
+          <text class="setup-sheet-section-title">资料设置说明</text>
+          <text class="setup-sheet-note">设置昵称或头像前，请先阅读相关说明。</text>
+          <view class="setup-sheet-agreement-links">
+            <text class="setup-sheet-agreement-link" catch:tap="openServiceAgreement">《用户服务协议》</text>
+            <text class="setup-sheet-agreement-separator">与</text>
+            <text class="setup-sheet-agreement-link" catch:tap="openPrivacy">《隐私与服务说明》</text>
+          </view>
+
+          <view wx:if="{{setupEnabled}}" class="setup-sheet-form">
+            <text class="setup-sheet-label">昵称</text>
+            <input
+              class="setup-sheet-input"
+              type="nickname"
+              maxlength="20"
+              value="{{profileForm.nickname}}"
+              bind:input="onNicknameInput"
+              placeholder="点击输入框可填写或选择微信昵称"
+              placeholder-class="setup-sheet-placeholder"
+            />
+
+            <text class="setup-sheet-label setup-sheet-avatar-label">头像</text>
+            <button class="setup-sheet-avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+              <image wx:if="{{avatarPreviewUrl}}" class="setup-sheet-avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
+              <view wx:else class="setup-sheet-avatar-placeholder">
+                <mp-icon icon="me" color="#5f6f86" size="{{32}}" />
+                <text class="setup-sheet-avatar-placeholder-text">点击选择头像</text>
+              </view>
+            </button>
+            <text wx:if="{{avatarUploadPending}}" class="setup-sheet-avatar-note">头像已选中，保存资料后会上传并更新显示。</text>
+
+            <button class="setup-sheet-primary-button" disabled="{{saving}}" catch:tap="saveProfile">
+              <view class="setup-sheet-button-content">
+                <text class="setup-sheet-button-text">{{saving ? '正在保存' : '保存资料'}}</text>
+              </view>
+            </button>
+          </view>
+
+          <view wx:else class="setup-sheet-actions">
+            <button class="setup-sheet-primary-button" catch:tap="showConsentPopup">
+              <view class="setup-sheet-button-content">
+                <text class="setup-sheet-button-text">开始设置资料</text>
+              </view>
+            </button>
+            <button class="setup-sheet-secondary-button" catch:tap="skipSetup">暂不设置，先体验</button>
+          </view>
+        </view>
+      </view>
+
+      <view class="setup-sheet-footer-safe"></view>
+    </scroll-view>
+
+    <view wx:if="{{popupVisible}}" class="setup-sheet-popup-mask" catch:touchmove="{{true}}">
+      <view class="setup-sheet-popup-panel" catch:tap="{{true}}">
+        <text class="setup-sheet-popup-title">资料设置说明</text>
+        <text class="setup-sheet-popup-desc">设置昵称和头像前，请先阅读相关说明。不同意也可以继续浏览和使用小程序，只是本次不进行资料设置。</text>
+        <view class="setup-sheet-agreement-links setup-sheet-popup-links">
+          <text class="setup-sheet-agreement-link" catch:tap="openServiceAgreement">《用户服务协议》</text>
+          <text class="setup-sheet-agreement-separator">与</text>
+          <text class="setup-sheet-agreement-link" catch:tap="openPrivacy">《隐私与服务说明》</text>
+        </view>
+        <view class="setup-sheet-popup-actions">
+          <button class="setup-sheet-popup-cancel" catch:tap="skipSetup">暂不设置</button>
+          <button class="setup-sheet-popup-confirm" catch:tap="agreeSetup">同意并设置</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

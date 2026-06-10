@@ -90,4 +90,10 @@
     bind:cancel="closeConfirmDialog"
     bind:confirm="confirmLogout"
   />
+
+  <setup-sheet
+    visible="{{setupSheetVisible}}"
+    loggedIn="{{!isGuest}}"
+    bind:closed="onSetupSheetClosed"
+  />
 </view>

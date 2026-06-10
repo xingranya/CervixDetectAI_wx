@@ -55,7 +55,31 @@ function readFileBase64(filePath) {
     wx.getFileSystemManager().readFile({
       filePath,
       encoding: "base64",
-      success: (res) => resolve(res.data || ""),
+      success: (res) => {
+        const data = res.data;
+        if (typeof data === "string") {
+          resolve(data);
+          return;
+        }
+        // 部分基础库对 HTTP URL 返回 ArrayBuffer 而非 base64 字符串，这里手动转换。
+        try {
+          const bytes = new Uint8Array(data);
+          let binary = "";
+          const chunkSize = 8192;
+          for (let i = 0; i < bytes.length; i += chunkSize) {
+            const chunk = bytes.subarray(i, Math.min(bytes.length, i + chunkSize));
+            binary += String.fromCharCode.apply(null, chunk);
+          }
+          // 小程序环境没有 btoa，用 wx.arrayBufferToBase64 兜底
+          if (typeof wx.arrayBufferToBase64 === "function") {
+            resolve(wx.arrayBufferToBase64(data) || "");
+          } else {
+            resolve(binary ? btoa(binary) : "");
+          }
+        } catch (_e) {
+          resolve("");
+        }
+      },
       fail: () => reject(new Error("头像读取失败，请重新选择"))
     });
   });
@@ -163,36 +187,47 @@ function persistAvatarFile(filePath) {
 
   // 开发者工具返回 http://127.0.0.1:PORT/__tmp__/xxx 之类的临时 URL，
   // 需要通过 readFile+writeFile 或 downloadFile+saveFile 持久化。
-  if (isDevToolsTempUrl(effectivePath)) {
-    return persistDevToolsTempFile(effectivePath);
-  }
+  const run = () => {
+    if (isDevToolsTempUrl(effectivePath)) {
+      return persistDevToolsTempFile(effectivePath);
+    }
 
-  return new Promise((resolve) => {
-    wx.getFileSystemManager().saveFile({
-      tempFilePath: effectivePath,
-      success: (res) => resolve(normalizeLocalAvatarPath(res.savedFilePath) || effectivePath),
-      fail: () => resolve(effectivePath)
+    return new Promise((resolve) => {
+      wx.getFileSystemManager().saveFile({
+        tempFilePath: effectivePath,
+        success: (res) => resolve(normalizeLocalAvatarPath(res.savedFilePath) || effectivePath),
+        fail: () => resolve(effectivePath)
+      });
     });
+  };
+
+  // 关键安全闸：返回值绝对不能是 __tmp__ 临时 URL，否则下游会把它用作 <image src>
+  // 触发渲染层 500。这里对任何“意外返回临时 URL”的情况统一清空为 ""。
+  return run().then((result) => {
+    if (isDevToolsTempUrl(result)) return "";
+    return result || "";
   });
 }
 
 function resolveAvatarFileType(filePath, base64Data) {
   // 优先从 base64 数据的文件头魔术字节检测真实类型，避免扩展名与内容不一致导致服务端校验失败。
-  if (base64Data) {
+  if (base64Data && typeof base64Data === "string" && base64Data.length > 16) {
     try {
       const buffer = wx.base64ToArrayBuffer(base64Data);
-      const header = new Uint8Array(buffer);
-      if (header.length >= 3 && header[0] === 0xff && header[1] === 0xd8 && header[2] === 0xff) {
-        return "image/jpeg";
-      }
-      if (header.length >= 8 && header[0] === 0x89 && header[1] === 0x50 && header[2] === 0x4e && header[3] === 0x47) {
-        return "image/png";
-      }
-      if (header.length >= 12) {
-        const riff = String.fromCharCode(header[0], header[1], header[2], header[3]);
-        const webp = String.fromCharCode(header[8], header[9], header[10], header[11]);
-        if (riff === "RIFF" && webp === "WEBP") {
-          return "image/webp";
+      if (buffer && typeof buffer.byteLength === "number" && buffer.byteLength >= 3) {
+        const header = new Uint8Array(buffer);
+        if (header.length >= 3 && header[0] === 0xff && header[1] === 0xd8 && header[2] === 0xff) {
+          return "image/jpeg";
+        }
+        if (header.length >= 8 && header[0] === 0x89 && header[1] === 0x50 && header[2] === 0x4e && header[3] === 0x47) {
+          return "image/png";
+        }
+        if (header.length >= 12) {
+          const riff = String.fromCharCode(header[0], header[1], header[2], header[3]);
+          const webp = String.fromCharCode(header[8], header[9], header[10], header[11]);
+          if (riff === "RIFF" && webp === "WEBP") {
+            return "image/webp";
+          }
         }
       }
     } catch (_e) {
