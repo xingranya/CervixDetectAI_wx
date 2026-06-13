@@ -1,0 +1,237 @@
+{
+  "id": "2026-06-12-220839",
+  "generated_at": "2026-06-12T14:08:39.142111Z",
+  "language": "zh",
+  "pages": [
+    {
+      "slug": "1-xiang-mu-gai-lan",
+      "title": "项目概览",
+      "file": "1-xiang-mu-gai-lan.md",
+      "section": "快速开始",
+      "level": "beginner"
+    },
+    {
+      "slug": "2-huan-jing-da-jian-yu-yun-xing",
+      "title": "环境搭建与运行",
+      "file": "2-huan-jing-da-jian-yu-yun-xing.md",
+      "section": "快速开始",
+      "level": "beginner"
+    },
+    {
+      "slug": "3-qian-duan-huan-jing-pei-zhi",
+      "title": "前端环境配置",
+      "file": "3-qian-duan-huan-jing-pei-zhi.md",
+      "section": "快速开始",
+      "group": "配置说明",
+      "level": "beginner"
+    },
+    {
+      "slug": "4-hou-duan-huan-jing-bian-liang-pei-zhi",
+      "title": "后端环境变量配置",
+      "file": "4-hou-duan-huan-jing-bian-liang-pei-zhi.md",
+      "section": "快速开始",
+      "group": "配置说明",
+      "level": "beginner"
+    },
+    {
+      "slug": "5-shu-ju-ku-chu-shi-hua",
+      "title": "数据库初始化",
+      "file": "5-shu-ju-ku-chu-shi-hua.md",
+      "section": "快速开始",
+      "group": "配置说明",
+      "level": "beginner"
+    },
+    {
+      "slug": "6-wei-xin-xiao-cheng-xu-ti-shen-zhi-nan",
+      "title": "微信小程序提审指南",
+      "file": "6-wei-xin-xiao-cheng-xu-ti-shen-zhi-nan.md",
+      "section": "快速开始",
+      "group": "提审与部署",
+      "level": "beginner"
+    },
+    {
+      "slug": "7-hou-duan-fu-wu-bu-shu",
+      "title": "后端服务部署",
+      "file": "7-hou-duan-fu-wu-bu-shu.md",
+      "section": "快速开始",
+      "group": "提审与部署",
+      "level": "beginner"
+    },
+    {
+      "slug": "8-xi-tong-fen-ceng-jia-gou",
+      "title": "系统分层架构",
+      "file": "8-xi-tong-fen-ceng-jia-gou.md",
+      "section": "深入理解",
+      "group": "整体架构",
+      "level": "intermediate"
+    },
+    {
+      "slug": "9-qian-hou-duan-jiao-hu-shi-xu",
+      "title": "前后端交互时序",
+      "file": "9-qian-hou-duan-jiao-hu-shi-xu.md",
+      "section": "深入理解",
+      "group": "整体架构",
+      "level": "intermediate"
+    },
+    {
+      "slug": "10-huan-cun-mo-xing-yu-shu-ju-tong-bu-ce-lue",
+      "title": "缓存模型与数据同步策略",
+      "file": "10-huan-cun-mo-xing-yu-shu-ju-tong-bu-ce-lue.md",
+      "section": "深入理解",
+      "group": "整体架构",
+      "level": "advanced"
+    },
+    {
+      "slug": "11-ye-mian-jie-gou-yu-fen-bao-ji-zhi",
+      "title": "页面结构与分包机制",
+      "file": "11-ye-mian-jie-gou-yu-fen-bao-ji-zhi.md",
+      "section": "深入理解",
+      "group": "前端核心",
+      "level": "intermediate"
+    },
+    {
+      "slug": "12-qing-qiu-feng-zhuang-yu-tokenguan-li",
+      "title": "请求封装与Token管理",
+      "file": "12-qing-qiu-feng-zhuang-yu-tokenguan-li.md",
+      "section": "深入理解",
+      "group": "前端核心",
+      "level": "intermediate"
+    },
+    {
+      "slug": "13-lu-you-guan-li-yu-ye-mian-zhuang-tai-ji",
+      "title": "路由管理与页面状态机",
+      "file": "13-lu-you-guan-li-yu-ye-mian-zhuang-tai-ji.md",
+      "section": "深入理解",
+      "group": "前端核心",
+      "level": "intermediate"
+    },
+    {
+      "slug": "14-gong-gong-zu-jian-she-ji",
+      "title": "公共组件设计",
+      "file": "14-gong-gong-zu-jian-she-ji.md",
+      "section": "深入理解",
+      "group": "前端核心",
+      "level": "intermediate"
+    },
+    {
+      "slug": "15-expresslu-you-yu-zhong-jian-jian-she-ji",
+      "title": "Express路由与中间件设计",
+      "file": "15-expresslu-you-yu-zhong-jian-jian-she-ji.md",
+      "section": "深入理解",
+      "group": "后端核心",
+      "level": "intermediate"
+    },
+    {
+      "slug": "16-ye-wu-fu-wu-ceng-jia-gou",
+      "title": "业务服务层架构",
+      "file": "16-ye-wu-fu-wu-ceng-jia-gou.md",
+      "section": "深入理解",
+      "group": "后端核心",
+      "level": "intermediate"
+    },
+    {
+      "slug": "17-shu-ju-ku-fang-wen-ceng-shi-xian",
+      "title": "数据库访问层实现",
+      "file": "17-shu-ju-ku-fang-wen-ceng-shi-xian.md",
+      "section": "深入理解",
+      "group": "后端核心",
+      "level": "advanced"
+    },
+    {
+      "slug": "18-jian-quan-ji-zhi-yu-hui-hua-guan-li",
+      "title": "鉴权机制与会话管理",
+      "file": "18-jian-quan-ji-zhi-yu-hui-hua-guan-li.md",
+      "section": "深入理解",
+      "group": "后端核心",
+      "level": "intermediate"
+    },
+    {
+      "slug": "19-shu-ju-ku-biao-jie-gou-she-ji",
+      "title": "数据库表结构设计",
+      "file": "19-shu-ju-ku-biao-jie-gou-she-ji.md",
+      "section": "深入理解",
+      "group": "数据模型",
+      "level": "intermediate"
+    },
+    {
+      "slug": "20-he-xin-ye-wu-shi-ti-guan-xi",
+      "title": "核心业务实体关系",
+      "file": "20-he-xin-ye-wu-shi-ti-guan-xi.md",
+      "section": "深入理解",
+      "group": "数据模型",
+      "level": "beginner"
+    },
+    {
+      "slug": "21-shu-ju-ku-sheng-ji-yu-qian-yi-jiao-ben",
+      "title": "数据库升级与迁移脚本",
+      "file": "21-shu-ju-ku-sheng-ji-yu-qian-yi-jiao-ben.md",
+      "section": "深入理解",
+      "group": "数据模型",
+      "level": "advanced"
+    },
+    {
+      "slug": "22-yin-si-xie-yi-shi-xian",
+      "title": "隐私协议实现",
+      "file": "22-yin-si-xie-yi-shi-xian.md",
+      "section": "深入理解",
+      "group": "合规与安全",
+      "level": "intermediate"
+    },
+    {
+      "slug": "23-he-gui-ci-lan-jie-ji-zhi",
+      "title": "合规词拦截机制",
+      "file": "23-he-gui-ci-lan-jie-ji-zhi.md",
+      "section": "深入理解",
+      "group": "合规与安全",
+      "level": "intermediate"
+    },
+    {
+      "slug": "24-tou-xiang-cun-chu-yu-kua-yu-chu-li",
+      "title": "头像存储与跨域处理",
+      "file": "24-tou-xiang-cun-chu-yu-kua-yu-chu-li.md",
+      "section": "深入理解",
+      "group": "合规与安全",
+      "level": "intermediate"
+    },
+    {
+      "slug": "25-jian-kang-jian-cha-ji-lu-guan-li",
+      "title": "健康检查记录管理",
+      "file": "25-jian-kang-jian-cha-ji-lu-guan-li.md",
+      "section": "深入理解",
+      "group": "功能模块详解",
+      "level": "intermediate"
+    },
+    {
+      "slug": "26-fu-cha-ti-xing-yu-ding-yue-xiao-xi",
+      "title": "复查提醒与订阅消息",
+      "file": "26-fu-cha-ti-xing-yu-ding-yue-xiao-xi.md",
+      "section": "深入理解",
+      "group": "功能模块详解",
+      "level": "intermediate"
+    },
+    {
+      "slug": "27-wen-ti-zheng-li-gong-neng",
+      "title": "问题整理功能",
+      "file": "27-wen-ti-zheng-li-gong-neng.md",
+      "section": "深入理解",
+      "group": "功能模块详解",
+      "level": "beginner"
+    },
+    {
+      "slug": "28-jian-kang-zhi-shi-wen-zhang-liu-lan",
+      "title": "健康知识文章浏览",
+      "file": "28-jian-kang-zhi-shi-wen-zhang-liu-lan.md",
+      "section": "深入理解",
+      "group": "功能模块详解",
+      "level": "beginner"
+    },
+    {
+      "slug": "29-yong-hu-deng-lu-yu-zi-liao-guan-li",
+      "title": "用户登录与资料管理",
+      "file": "29-yong-hu-deng-lu-yu-zi-liao-guan-li.md",
+      "section": "深入理解",
+      "group": "功能模块详解",
+      "level": "intermediate"
+    }
+  ]
+}
