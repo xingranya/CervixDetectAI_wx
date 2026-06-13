@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "通知中心",
+  "usingComponents": {
+    "section-header": "/components/section-header/index",
+    "empty-state": "/components/empty-state/index",
+    "mp-icon": "weui-miniprogram/icon/icon"
+  }
+}

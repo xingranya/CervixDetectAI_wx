@@ -1,0 +1,89 @@
+<view class="chat-page">
+  <!-- 欢迎提示 -->
+  <view wx:if="{{messages.length === 0}}" class="chat-welcome">
+    <view class="welcome-icon-wrap">
+      <mp-icon icon="chat" color="{{brandColor}}" size="{{36}}" />
+    </view>
+    <text class="welcome-title">健康科普助手</text>
+    <text class="welcome-desc">我可以帮你解答健康知识问题、解释检查术语，但不会提供诊断或治疗建议。</text>
+    <view class="welcome-suggestions">
+      <text class="suggestions-label">试试问我：</text>
+      <view class="suggestion-chips">
+        <view
+          wx:for="{{suggestions}}"
+          wx:key="text"
+          class="suggestion-chip"
+          hover-class="suggestion-chip-hover"
+          bind:tap="onSuggestionTap"
+          data-text="{{item.text}}"
+        >
+          <text>{{item.text}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 消息列表 -->
+  <scroll-view
+    wx:else
+    class="chat-messages"
+    scroll-y
+    scroll-into-view="{{scrollToId}}"
+    scroll-with-animation
+    enhanced
+    show-scrollbar="{{false}}"
+  >
+    <view
+      wx:for="{{messages}}"
+      wx:key="id"
+      id="msg-{{item.id}}"
+      class="chat-bubble-row chat-bubble-{{item.role}}"
+    >
+      <view class="chat-bubble chat-bubble-{{item.role}}-inner">
+        <text class="chat-bubble-text" user-select>{{item.content}}</text>
+        <view wx:if="{{item.role === 'assistant' && item.disclaimer}}" class="chat-disclaimer">
+          <text>{{item.disclaimer}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{isTyping}}" class="chat-bubble-row chat-bubble-assistant">
+      <view class="chat-bubble chat-bubble-assistant-inner">
+        <view class="typing-indicator">
+          <view class="typing-dot"></view>
+          <view class="typing-dot"></view>
+          <view class="typing-dot"></view>
+        </view>
+      </view>
+    </view>
+    <view id="msg-bottom" style="height: 20rpx;"></view>
+  </scroll-view>
+
+  <!-- 输入区 -->
+  <view class="chat-input-bar">
+    <view class="chat-input-wrap">
+      <input
+        class="chat-input"
+        value="{{inputValue}}"
+        placeholder="输入健康问题或术语..."
+        placeholder-class="chat-input-placeholder"
+        confirm-type="send"
+        bindinput="onInput"
+        bindconfirm="onSend"
+        disabled="{{isSending}}"
+      />
+    </view>
+    <button
+      class="chat-send-btn"
+      disabled="{{!inputValue || isSending}}"
+      hover-class="chat-send-btn-hover"
+      bind:tap="onSend"
+    >
+      <mp-icon icon="send" color="#ffffff" size="{{18}}" />
+    </button>
+  </view>
+
+  <!-- 免责声明底部 -->
+  <view class="chat-footer-disclaimer">
+    <text>本助手仅提供健康科普，不替代专业医疗建议</text>
+  </view>
+</view>

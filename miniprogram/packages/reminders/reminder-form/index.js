@@ -7,7 +7,7 @@ const {
   markCacheDirty,
   isLoggedIn
 } = require("../../../utils/request");
-const { withPageLoading } = require("../../../utils/form");
+const { withPageLoading, DRAFT_KEYS, saveDraft, loadDraft, clearDraft, formHasData, debounce } = require("../../../utils/form");
 const { showErrorToast, showSuccessToast, showErrorModal } = require("../../../utils/feedback");
 const { ROUTES, openRoute, navigateBackLater } = require("../../../utils/navigation");
 
@@ -27,10 +27,33 @@ const defaultForm = {
   title: "",
   date: "",
   desc: "",
-  done: false
+  done: false,
+  type: "follow_up",
+  priority: "medium",
+  notes: ""
 };
 
 const titleOptions = ["复查提醒", "资料准备", "记录整理", "线下咨询准备"];
+
+const REM_TYPE_OPTIONS = [
+  { value: "follow_up", label: "复查提醒" },
+  { value: "material", label: "资料准备" },
+  { value: "consultation", label: "线下咨询" },
+  { value: "record", label: "记录整理" }
+];
+
+const PRIORITY_OPTIONS = [
+  { value: "low", label: "低" },
+  { value: "medium", label: "中" },
+  { value: "high", label: "高" }
+];
+
+const TITLE_TO_TYPE = {
+  "复查提醒": "follow_up",
+  "资料准备": "material",
+  "记录整理": "record",
+  "线下咨询准备": "consultation"
+};
 const reminderTemplates = [
   {
     name: "复查",
@@ -89,6 +112,22 @@ function buildTitleOptionsView(activeTitle) {
   }));
 }
 
+function buildRemTypeOptions(activeType) {
+  return REM_TYPE_OPTIONS.map((opt) => ({
+    value: opt.value,
+    label: opt.label,
+    className: opt.value === activeType ? "choice-chip choice-chip-active" : "choice-chip"
+  }));
+}
+
+function buildPriorityOptions(activePriority) {
+  return PRIORITY_OPTIONS.map((opt) => ({
+    value: opt.value,
+    label: opt.label,
+    className: opt.value === activePriority ? "choice-chip choice-chip-active" : "choice-chip"
+  }));
+}
+
 function normalizeForm(form) {
   const source = form || {};
   return {
@@ -97,7 +136,10 @@ function normalizeForm(form) {
     title: String(source.title || defaultForm.title),
     date: String(source.date || defaultForm.date),
     desc: String(source.desc || defaultForm.desc),
-    done: !!source.done
+    done: !!source.done,
+    type: String(source.type || defaultForm.type),
+    priority: String(source.priority || defaultForm.priority),
+    notes: String(source.notes || defaultForm.notes)
   };
 }
 
@@ -111,15 +153,22 @@ function buildFormState(form) {
       date: nextForm.date,
       desc: nextForm.desc
     },
+    today: getTodayDate(),
     pageTitle: "新增复查提醒",
     title: nextForm.title,
     date: nextForm.date,
     dateDisplay: nextForm.date || "请选择日期",
     desc: nextForm.desc,
     done: nextForm.done,
+    type: nextForm.type,
+    priority: nextForm.priority,
+    notes: nextForm.notes,
     titleOptionsView: buildTitleOptionsView(currentTitle),
+    remTypeOptions: buildRemTypeOptions(nextForm.type),
+    priorityOptions: buildPriorityOptions(nextForm.priority),
     doneItems: [{ label: "标记为已完成", value: "done", checked: nextForm.done }],
-    descLength: nextForm.desc.length
+    descLength: nextForm.desc.length,
+    notesLength: nextForm.notes.length
   };
 }
 
@@ -128,7 +177,10 @@ function buildFormPayload(data) {
     title: String(data.title || ""),
     date: String(data.date || ""),
     desc: String(data.desc || ""),
-    done: !!data.done
+    done: !!data.done,
+    type: String(data.type || "follow_up"),
+    priority: String(data.priority || "medium"),
+    notes: String(data.notes || "")
   };
 }
 
@@ -164,6 +216,27 @@ Page({
       this.loadReminder(query.id);
       return;
     }
+
+    this._initDraftSave();
+
+    const draft = loadDraft(DRAFT_KEYS.reminder);
+    if (draft && draft.data) {
+      wx.showModal({
+        title: "发现草稿",
+        content: "有未保存的提醒草稿，是否恢复？",
+        confirmText: "恢复",
+        cancelText: "忽略",
+        success: (res) => {
+          if (res.confirm) {
+            this.setData(buildFormState(draft.data));
+          } else {
+            clearDraft(DRAFT_KEYS.reminder);
+            this.setData(buildFormState({ ...defaultForm, date: getTodayDate() }));
+          }
+        }
+      });
+      return;
+    }
     this.setData(buildFormState({ ...defaultForm, date: getTodayDate() }));
   },
 
@@ -183,6 +256,16 @@ Page({
     }
   },
 
+  _initDraftSave() {
+    this._saveDraft = debounce(() => {
+      saveDraft(DRAFT_KEYS.reminder, buildFormPayload(this.data));
+    }, 300);
+  },
+
+  _triggerDraftSave() {
+    if (this._saveDraft) this._saveDraft();
+  },
+
   updateTextField(field, inputValue) {
     const value = String(inputValue || "");
     const updates = {
@@ -193,7 +276,11 @@ Page({
     if (field === "desc") {
       updates.descLength = value.length;
     }
+    if (field === "notes") {
+      updates.notesLength = value.length;
+    }
     this.setData(updates);
+    this._triggerDraftSave();
   },
 
   onTitleInput(event) {
@@ -204,6 +291,10 @@ Page({
     this.updateTextField("desc", event.detail.value);
   },
 
+  onNotesInput(event) {
+    this.updateTextField("notes", event.detail.value);
+  },
+
   onDateChange(event) {
     this.setData({
       date: event.detail.value,
@@ -211,6 +302,7 @@ Page({
       dateDisplay: event.detail.value || "请选择日期",
       errorMessage: ""
     });
+    this._triggerDraftSave();
   },
 
   onTitleTemplateChange(event) {
@@ -228,10 +320,31 @@ Page({
     const title = String(event.currentTarget.dataset.title || titleOptions[0]);
     const index = findTitleIndex(title);
     const currentTitle = titleOptions[index] || titleOptions[0];
+    const mappedType = TITLE_TO_TYPE[currentTitle] || "follow_up";
     this.setData({
       title: currentTitle,
       "formModel.title": currentTitle,
+      type: mappedType,
       titleOptionsView: buildTitleOptionsView(currentTitle),
+      remTypeOptions: buildRemTypeOptions(mappedType),
+      errorMessage: ""
+    });
+  },
+
+  selectRemType(event) {
+    const value = String(event.currentTarget.dataset.value || "follow_up");
+    this.setData({
+      type: value,
+      remTypeOptions: buildRemTypeOptions(value),
+      errorMessage: ""
+    });
+  },
+
+  selectPriority(event) {
+    const value = String(event.currentTarget.dataset.value || "medium");
+    this.setData({
+      priority: value,
+      priorityOptions: buildPriorityOptions(value),
       errorMessage: ""
     });
   },
@@ -241,6 +354,24 @@ Page({
     const index = Number(event.currentTarget.dataset.index || 0);
     const template = templateMap[templateName] || reminderTemplates[index];
     if (!template) return;
+
+    const REMINDER_FIELDS = ["title", "desc", "notes"];
+    if (formHasData(this.data, REMINDER_FIELDS)) {
+      wx.showModal({
+        title: "应用模板",
+        content: "当前表单已有内容，应用模板将覆盖现有数据，是否继续？",
+        confirmText: "覆盖",
+        cancelText: "取消",
+        success: (res) => {
+          if (res.confirm) this._doApplyTemplate(template);
+        }
+      });
+      return;
+    }
+    this._doApplyTemplate(template);
+  },
+
+  _doApplyTemplate(template) {
     const nextForm = {
       ...buildFormPayload(this.data),
       ...template.form,
@@ -250,6 +381,7 @@ Page({
       ...buildFormState(nextForm),
       errorMessage: ""
     });
+    this._triggerDraftSave();
   },
 
   selectQuickDate(event) {
@@ -313,6 +445,7 @@ Page({
       setCachedData(CACHE_KEYS.reminderDetail(savedReminder.id), res);
       upsertCachedListItem(CACHE_KEYS.reminders, savedReminder, { prepend: !this.data.id });
       markCacheDirty(CACHE_KEYS.home);
+      clearDraft(DRAFT_KEYS.reminder);
       showSuccessToast("已保存");
       navigateBackLater();
     }).catch((error) => {

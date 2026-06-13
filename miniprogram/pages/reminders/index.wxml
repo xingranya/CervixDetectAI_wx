@@ -1,6 +1,6 @@
 <view class="page reminders-page">
   <section-header title="复查提醒" icon="/assets/icons/reminders-active.png">
-    <button slot="extra" class="mini-primary" bind:tap="createReminder">
+    <button slot="extra" class="mini-primary" hover-class="u-hover" bind:tap="createReminder">
       <view class="button-content">
         <mp-icon icon="add" color="rgb(24, 118, 210)" size="{{16}}" />
         <text class="button-text">新增</text>
@@ -45,18 +45,21 @@
     bindclear="onSearchClear"
   />
 
-  <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <view class="local-loading">
-      <view class="loading-ring"></view>
-      <text class="loading-text">正在加载复查提醒</text>
-    </view>
-    <text class="state-desc">请稍候，正在同步你的后续安排。</text>
+  <view wx:if="{{allReminders.length}}" class="filter-tab-row">
+    <button wx:for="{{typeTabs}}" wx:key="value" class="filter-tab {{item.active ? 'filter-tab-active' : ''}}" hover-class="u-hover" data-value="{{item.value}}" bind:tap="onTypeFilterChange">
+      <text>{{item.label}}</text>
+      <text wx:if="{{item.count > 0}}" class="filter-tab-count">{{item.count}}</text>
+    </button>
+  </view>
+
+  <view wx:if="{{pageStatus === 'loading'}}" class="skeleton-container">
+    <skeleton mode="list" rows="{{4}}" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载复查提醒</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadReminders">
+    <button class="primary-button" hover-class="u-hover" bind:tap="loadReminders">
       <text class="button-text">重新加载</text>
     </button>
   </view>
@@ -79,7 +82,7 @@
 
   <block wx:else>
     <view wx:for="{{reminders}}" wx:key="id" class="reminder-slide-cell">
-      <view class="card reminder-card {{item.done ? 'reminder-done' : ''}}">
+      <view class="card reminder-card {{item.done ? 'reminder-done' : ''}}" hover-class="u-hover">
         <view class="reminder-top">
           <view class="date-tile">
             <text class="date-month">{{item.dateMonthDay}}</text>
@@ -87,6 +90,7 @@
           </view>
           <view class="reminder-main">
             <text class="reminder-title">{{item.title}}</text>
+            <text wx:if="{{item.typeLabel}}" class="reminder-type-badge type-{{item.typeTone}}">{{item.typeLabel}}</text>
           </view>
           <view class="pill-wrap">
             <text class="pill">{{item.statusText}}</text>
@@ -107,19 +111,19 @@
               <text class="button-text">{{sendingReminderId === item.id ? '发送中' : '微信提醒'}}</text>
             </view>
           </button>
-          <button wx:if="{{!item.done}}" class="ghost-button small-button" bind:tap="markDone" data-id="{{item.id}}">
+          <button wx:if="{{!item.done}}" class="ghost-button small-button" hover-class="u-hover" bind:tap="markDone" data-id="{{item.id}}">
             <view class="button-content">
               <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{16}}" />
               <text class="button-text">标记完成</text>
             </view>
           </button>
-          <button class="text-button" bind:tap="editReminder" data-id="{{item.id}}">
+          <button class="text-button" hover-class="u-hover" bind:tap="editReminder" data-id="{{item.id}}">
             <view class="button-content">
               <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{16}}" />
               <text class="button-text">编辑</text>
             </view>
           </button>
-          <button class="text-button danger" bind:tap="deleteReminder" data-id="{{item.id}}">
+          <button class="text-button danger" hover-class="u-hover" bind:tap="deleteReminder" data-id="{{item.id}}">
             <view class="button-content">
               <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
               <text class="button-text">删除</text>
@@ -129,6 +133,14 @@
       </view>
     </view>
   </block>
+
+  <view wx:if="{{loadingMore}}" class="loading-more">
+    <text class="loading-more-text">加载中...</text>
+  </view>
+  <view wx:elif="{{!hasMore && allReminders.length > 0}}" class="loading-more">
+    <text class="loading-more-text">没有更多了</text>
+  </view>
+
   <weui-confirm
     show="{{confirmDialog.show}}"
     title="{{confirmDialog.title}}"

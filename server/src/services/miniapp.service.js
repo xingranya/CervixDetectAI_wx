@@ -22,6 +22,10 @@ const PROHIBITED_SERVICE_TERMS = [
 
 const FEEDBACK_TYPES = ["功能建议", "使用问题", "隐私与数据", "其他反馈"];
 
+const RECORD_STATUS_WHITELIST = ["已记录", "待复查", "待关注", "已完成"];
+const REMINDER_TYPE_WHITELIST = ["follow_up", "material", "consultation", "record"];
+const REMINDER_PRIORITY_WHITELIST = ["low", "medium", "high"];
+
 function cleanText(value, maxLength = 500) {
   return String(value || "").trim().slice(0, maxLength);
 }
@@ -149,8 +153,32 @@ function normalizeRecordPayload(payload = {}) {
     project: requireText(payload.project, "检查项目", 120),
     summary: requireText(payload.summary, "摘要", 500),
     suggestion: requireText(payload.suggestion, "提醒建议", 500),
-    status: cleanText(payload.status || "已记录", 40)
+    status: validateEnum(payload.status, RECORD_STATUS_WHITELIST, "记录状态", "已记录"),
+    hospital: cleanText(payload.hospital, 200) || "",
+    doctorName: cleanText(payload.doctorName || payload.doctor_name, 80) || "",
+    conclusion: cleanText(payload.conclusion, 2000) || null,
+    attachments: normalizeAttachments(payload.attachments)
   };
+}
+
+function normalizeAttachments(value) {
+  if (!value) return null;
+  const list = Array.isArray(value) ? value : [];
+  const urls = list
+    .map((item) => cleanText(typeof item === "string" ? item : item?.url || "", 500))
+    .filter((url) => url && /^https?:\/\//i.test(url))
+    .slice(0, 9);
+  return urls.length > 0 ? urls : null;
+}
+
+function validateEnum(value, whitelist, fieldName, fallback) {
+  const text = cleanText(value || fallback, 40);
+  if (whitelist.indexOf(text) === -1) {
+    const error = new Error(`${fieldName}值不合法`);
+    error.status = 400;
+    throw error;
+  }
+  return text;
 }
 
 function normalizeReminderPayload(payload = {}) {
@@ -158,6 +186,10 @@ function normalizeReminderPayload(payload = {}) {
     title: requireText(payload.title, "提醒标题", 120),
     date: requireDate(payload.date, "提醒日期"),
     desc: requireText(payload.desc || payload.description, "提醒内容", 500),
+    type: validateEnum(payload.type, REMINDER_TYPE_WHITELIST, "提醒类型", "follow_up"),
+    priority: validateEnum(payload.priority, REMINDER_PRIORITY_WHITELIST, "优先级", "medium"),
+    linkedRecordId: cleanText(payload.linkedRecordId || payload.linked_record_id, 32) || null,
+    notes: cleanText(payload.notes, 2000) || null,
     done: normalizeDone(payload.done)
   };
 }
@@ -209,8 +241,8 @@ async function getHome(userId) {
   return repository.getHome(userId);
 }
 
-async function listRecords(userId) {
-  return repository.listRecords(userId);
+async function listRecords(userId, options = {}) {
+  return repository.listRecords(userId, options);
 }
 
 async function getRecordById(userId, id) {
@@ -256,8 +288,8 @@ async function sendRecordReportSubscription(userId, id) {
   };
 }
 
-async function listReminders(userId) {
-  return repository.listReminders(userId);
+async function listReminders(userId, options = {}) {
+  return repository.listReminders(userId, options);
 }
 
 async function getReminderById(userId, id) {
@@ -348,6 +380,34 @@ async function createFeedback(userId, payload) {
   });
 }
 
+/* -------- 通知管理 -------- */
+
+async function listNotifications(userId, options = {}) {
+  return repository.listNotifications(userId, options);
+}
+
+async function getUnreadCount(userId) {
+  return repository.getUnreadCount(userId);
+}
+
+async function markNotificationRead(userId, notificationId) {
+  return repository.markNotificationRead(userId, cleanText(notificationId, 64));
+}
+
+async function markAllNotificationsRead(userId) {
+  return repository.markAllNotificationsRead(userId);
+}
+
+async function createNotification(userId, { type, title, content, extra } = {}) {
+  assertComplianceText(title || "", "通知标题");
+  return repository.createNotification(userId, {
+    type: cleanText(type, 40) || "system",
+    title: cleanText(title, 120) || "系统通知",
+    content: cleanText(content, 500) || "",
+    extra: extra || null
+  });
+}
+
 module.exports = {
   login,
   getSessionByToken,
@@ -375,5 +435,10 @@ module.exports = {
   updateQuestion,
   deleteQuestion,
   listArticles,
-  createFeedback
+  createFeedback,
+  listNotifications,
+  getUnreadCount,
+  markNotificationRead,
+  markAllNotificationsRead,
+  createNotification
 };

@@ -8,6 +8,7 @@
     "weui-confirm": "/components/weui-confirm/index",
     "mp-searchbar": "weui-miniprogram/searchbar/searchbar",
     "mp-badge": "weui-miniprogram/badge/badge",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "mp-icon": "weui-miniprogram/icon/icon",
+    "skeleton": "/components/skeleton/index"
   }
 }

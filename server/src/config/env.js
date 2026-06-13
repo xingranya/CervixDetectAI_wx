@@ -21,5 +21,15 @@ module.exports = {
     waitForConnections: true,
     connectionLimit: Number(process.env.DB_CONNECTION_LIMIT || 10),
     charset: "utf8mb4"
+  },
+  ai: {
+    apiKey: process.env.AI_API_KEY || "",
+    baseUrl: process.env.AI_BASE_URL || "https://dashscope.aliyuncs.com/api/v1",
+    model: process.env.AI_MODEL || "qwen-turbo",
+    maxTokens: Number(process.env.AI_MAX_TOKENS || 1024),
+    temperature: Number(process.env.AI_TEMPERATURE || 0.7)
+  },
+  webhook: {
+    secret: process.env.WEBHOOK_SECRET || ""
   }
 };

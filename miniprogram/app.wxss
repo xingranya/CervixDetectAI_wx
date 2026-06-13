@@ -1,6 +1,10 @@
+@import './styles/design-tokens.wxss';
+@import './styles/design-tokens-dark.wxss';
+@import './styles/utilities.wxss';
+
 page {
-  background: #f7f9fb;
-  color: #191c1e;
+  background: var(--wx-bg-secondary);
+  color: var(--wx-text-primary);
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
@@ -55,7 +59,7 @@ button[disabled] {
   min-height: 100vh;
   padding: 32rpx 28rpx calc(120rpx + env(safe-area-inset-bottom));
   box-sizing: border-box;
-  background: #f7f9fb;
+  background: var(--wx-bg-secondary);
 }
 
 mp-icon + .button-text,
@@ -75,15 +79,15 @@ mp-icon + .plain-link-text {
 .loading-ring {
   width: 46rpx;
   height: 46rpx;
-  border: 5rpx solid rgba(24, 118, 210, 0.16);
-  border-top-color: rgb(24, 118, 210);
+  border: 5rpx solid rgba(var(--wx-brand-500-rgb), 0.16);
+  border-top-color: var(--wx-brand-500);
   border-radius: 50%;
   animation: loadingRotate 0.8s linear infinite;
   box-sizing: border-box;
 }
 
 .loading-text {
-  color: #526174;
+  color: var(--wx-text-tertiary);
   font-size: 25rpx;
   font-weight: 700;
   line-height: 1.4;

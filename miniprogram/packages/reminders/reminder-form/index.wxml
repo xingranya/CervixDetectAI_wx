@@ -9,19 +9,19 @@
       <text class="panel-desc">选择后会自动填入提醒类型、内容和建议日期，可继续修改。</text>
     </view>
     <view class="template-row">
-      <button class="template-card" data-template="复查" bind:tap="applyTemplate">
+      <button class="template-card" hover-class="u-hover" data-template="复查" bind:tap="applyTemplate">
         <view class="template-title-wrap">
           <text class="template-title">复查</text>
         </view>
         <text class="template-desc">到期前安排复查</text>
       </button>
-      <button class="template-card" data-template="资料" bind:tap="applyTemplate">
+      <button class="template-card" hover-class="u-hover" data-template="资料" bind:tap="applyTemplate">
         <view class="template-title-wrap">
           <text class="template-title">资料</text>
         </view>
         <text class="template-desc">整理摘要和历史记录</text>
       </button>
-      <button class="template-card" data-template="问题" bind:tap="applyTemplate">
+      <button class="template-card" hover-class="u-hover" data-template="问题" bind:tap="applyTemplate">
         <view class="template-title-wrap">
           <text class="template-title">问题</text>
         </view>
@@ -37,7 +37,7 @@
         <text class="panel-desc">选择当前提醒最接近的用途。</text>
       </view>
       <view class="chip-row type-row">
-        <button wx:for="{{titleOptionsView}}" wx:key="title" class="{{item.className}}" data-title="{{item.title}}" bind:tap="selectTitle">
+        <button wx:for="{{remTypeOptions}}" wx:key="value" class="{{item.className}}" data-value="{{item.value}}" bind:tap="selectRemType">
           <text>{{item.label}}</text>
         </button>
       </view>
@@ -55,7 +55,7 @@
       </view>
       <mp-cells ext-class="form-weui-cells">
         <mp-cell title="提醒日期" prop="date" show-error="{{true}}" inline="{{false}}">
-          <picker mode="date" value="{{date}}" bind:change="onDateChange">
+          <picker mode="date" value="{{date}}" start="{{today}}" bind:change="onDateChange">
             <view class="select-field">
               <text class="select-value">{{dateDisplay}}</text>
               <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
@@ -100,10 +100,33 @@
         </mp-checkbox-group>
       </mp-cells>
     </view>
+
+    <view class="form-panel">
+      <view class="panel-heading">
+        <text class="panel-title">补充信息</text>
+        <text class="panel-desc">选填，可添加备注和优先级。</text>
+      </view>
+      <mp-cells ext-class="form-weui-cells">
+        <mp-cell title="优先级" inline="{{false}}">
+          <view class="chip-row priority-row">
+            <button wx:for="{{priorityOptions}}" wx:key="value" class="{{item.className}}" data-value="{{item.value}}" bind:tap="selectPriority">
+              <text>{{item.label}}</text>
+            </button>
+          </view>
+        </mp-cell>
+
+        <mp-cell title="备注" inline="{{false}}">
+          <view class="label-row">
+            <text class="field-hint">{{notesLength}} / 500</text>
+          </view>
+          <textarea class="form-textarea" value="{{notes}}" bind:input="onNotesInput" maxlength="500" placeholder="选填，补充提醒详情。" placeholder-class="form-placeholder" />
+        </mp-cell>
+      </mp-cells>
+    </view>
   </mp-form>
 
   <view class="submit-panel">
-    <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
+    <button class="primary-button form-submit" hover-class="u-hover" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
         <mp-icon icon="time" color="#ffffff" size="{{18}}" />
         <text class="button-text">{{submitText}}</text>

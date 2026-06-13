@@ -1,0 +1,160 @@
+/* ============================================================
+ *  CervixDetectAI_wx  设计令牌 (Design Tokens)
+ *  从主项目 design-tokens.scss 翻译，适配小程序 rpx 单位
+ * ============================================================ */
+
+page {
+  /* -------- 背景色 -------- */
+  --wx-bg-primary: #ffffff;
+  --wx-bg-secondary: #f8fafc;
+  --wx-bg-tertiary: #f0f4ff;
+  --wx-bg-input: #f8f9ff;
+  --wx-bg-glass: rgba(255, 255, 255, 0.78);
+  --wx-bg-glass-light: rgba(255, 255, 255, 0.62);
+
+  /* -------- 文字色 -------- */
+  --wx-text-primary: #1e293b;
+  --wx-text-secondary: #475569;
+  --wx-text-tertiary: #64748b;
+  --wx-text-on-primary: #ffffff;
+
+  /* -------- 品牌蓝 -------- */
+  --wx-brand-50: #eff6ff;
+  --wx-brand-100: #dbeafe;
+  --wx-brand-200: #bfdbfe;
+  --wx-brand-300: #93c5fd;
+  --wx-brand-400: #60a5fa;
+  --wx-brand-500: #2563eb;
+  --wx-brand-600: #1d4ed8;
+  --wx-brand-700: #0d47a1;
+  --wx-brand-800: #1e3a8a;
+  --wx-brand-900: #172554;
+
+  /* -------- 品牌蓝 rgba 派生 -------- */
+  --wx-brand-500-rgb: 37, 99, 235;
+  --wx-brand-700-rgb: 13, 71, 161;
+
+  /* -------- 语义色 -------- */
+  --wx-danger: #ba1a1a;
+  --wx-danger-light: rgba(186, 26, 26, 0.08);
+  --wx-success: #14b8a6;
+  --wx-success-light: rgba(20, 184, 166, 0.13);
+  --wx-warning: #f59e0b;
+  --wx-warning-light: rgba(245, 158, 11, 0.12);
+
+  /* -------- 医学诊断色阶 -------- */
+  --wx-diagnosis-normal: #14b8a6;
+  --wx-diagnosis-normal-bg: rgba(20, 184, 166, 0.10);
+  --wx-diagnosis-ascus: #f59e0b;
+  --wx-diagnosis-ascus-bg: rgba(245, 158, 11, 0.10);
+  --wx-diagnosis-lsil: #f97316;
+  --wx-diagnosis-lsil-bg: rgba(249, 115, 22, 0.10);
+  --wx-diagnosis-hsil: #ef4444;
+  --wx-diagnosis-hsil-bg: rgba(239, 68, 68, 0.10);
+  --wx-diagnosis-scc: #991b1b;
+  --wx-diagnosis-scc-bg: rgba(153, 27, 27, 0.10);
+
+  /* -------- 患者端状态色 -------- */
+  --wx-status-pending: #f59e0b;
+  --wx-status-pending-bg: rgba(245, 158, 11, 0.10);
+  --wx-status-done: #14b8a6;
+  --wx-status-done-bg: rgba(20, 184, 166, 0.10);
+  --wx-status-attention: #ef4444;
+  --wx-status-attention-bg: rgba(239, 68, 68, 0.10);
+
+  /* -------- 边框 -------- */
+  --wx-border-default: rgba(198, 210, 236, 0.58);
+  --wx-border-light: rgba(195, 198, 214, 0.48);
+  --wx-border-brand: rgba(37, 99, 235, 0.12);
+  --wx-border-white-90: rgba(255, 255, 255, 0.90);
+  --wx-border-white-72: rgba(198, 210, 236, 0.72);
+  --wx-border-card: rgba(199, 210, 232, 0.78);
+  --wx-border-card-light: rgba(205, 215, 232, 0.72);
+  --wx-border-subtle: rgba(199, 210, 232, 0.62);
+  --wx-border-divider: rgba(199, 210, 232, 0.48);
+  --wx-border-avatar: #6f8fe8;
+
+  /* -------- 卡片/面板背景 -------- */
+  --wx-bg-card: rgba(255, 255, 255, 0.82);
+  --wx-bg-card-88: rgba(255, 255, 255, 0.88);
+  --wx-bg-card-92: rgba(255, 255, 255, 0.92);
+  --wx-bg-card-96: rgba(255, 255, 255, 0.96);
+  --wx-bg-card-98: rgba(255, 255, 255, 0.98);
+  --wx-bg-section: #eef3ff;
+  --wx-bg-subtle: rgba(15, 23, 42, 0.06);
+  --wx-bg-subtle-14: rgba(15, 23, 42, 0.14);
+  --wx-bg-disabled: #f2f4fb;
+  --wx-bg-danger-light: rgba(186, 26, 26, 0.06);
+  --wx-bg-danger-surface: #fff3f1;
+  --wx-bg-hero-gradient-start: #ffffff;
+  --wx-bg-hero-gradient-end: #edf3ff;
+
+  /* -------- 文字色补充 -------- */
+  --wx-text-muted: #617089;
+  --wx-text-caption: #9aa6b8;
+  --wx-text-deep: #223044;
+  --wx-text-deep-secondary: #31445f;
+  --wx-text-brand-deep: #102a62;
+  --wx-text-brand-muted: #425d96;
+  --wx-text-hint: #8e9bb5;
+  --wx-text-hint-alt: #7d8ba3;
+  --wx-text-icon-placeholder: #a8b3c7;
+  --wx-text-warning-deep: #92600a;
+  --wx-text-success-deep: #0f766e;
+  --wx-text-form: #355173;
+  --wx-text-label: #42526b;
+
+  /* -------- Action-card 背景 -------- */
+  --wx-bg-action-blue: #f4f7ff;
+  --wx-bg-action-teal: #f0fbfa;
+  --wx-bg-action-sky: #f0f9ff;
+  --wx-bg-action-blue-border: rgba(113, 136, 255, 0.22);
+  --wx-bg-action-teal-border: rgba(42, 187, 169, 0.22);
+  --wx-bg-action-sky-border: rgba(56, 166, 222, 0.22);
+  --wx-bg-action-blue-deep: #e8edff;
+  --wx-bg-action-sky-deep: #e1f4ff;
+
+  /* -------- 特殊渐变/边框 -------- */
+  --wx-brand-disabled-start: #a8b8e6;
+  --wx-brand-disabled-end: #c6d2f0;
+  --wx-brand-ghost-bg: #8fa5e8;
+  --wx-border-form-focus: rgba(24, 118, 210, 0.32);
+  --wx-border-input-alt: rgba(176, 190, 215, 0.76);
+  --wx-border-list: #bdc8dc;
+
+  /* -------- 阴影补充 -------- */
+  --wx-shadow-panel: rgba(11, 28, 48, 0.32);
+  --wx-shadow-sheet: rgba(11, 28, 48, 0.18);
+  --wx-shadow-record: rgba(24, 67, 126, 0.07);
+  --wx-shadow-modal: rgba(11, 28, 48, 0.56);
+  --wx-shadow-button-disabled: rgba(11, 28, 48, 0.22);
+  --wx-shadow-confirm: rgba(15, 23, 42, 0.18);
+  --wx-shadow-bottom-sheet: rgba(15, 23, 42, 0.36);
+
+  /* -------- 遮罩 -------- */
+  --wx-overlay: rgba(11, 28, 48, 0.48);
+  --wx-overlay-light: rgba(11, 28, 48, 0.24);
+
+  /* -------- 圆角 -------- */
+  --wx-radius-xs: 12rpx;
+  --wx-radius-sm: 16rpx;
+  --wx-radius-md: 24rpx;
+  --wx-radius-lg: 32rpx;
+  --wx-radius-xl: 36rpx;
+  --wx-radius-pill: 999rpx;
+
+  /* -------- 间距 -------- */
+  --wx-space-xs: 8rpx;
+  --wx-space-sm: 16rpx;
+  --wx-space-md: 32rpx;
+  --wx-space-lg: 48rpx;
+  --wx-space-xl: 64rpx;
+
+  /* -------- 动画 -------- */
+  --wx-motion-fast: 160ms ease;
+  --wx-motion-normal: 280ms ease;
+  --wx-motion-slow: 400ms ease;
+  --wx-motion-spring: 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --wx-scale-press: scale(0.98);
+  --wx-scale-hover: scale(1.02);
+}

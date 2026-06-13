@@ -7,7 +7,7 @@ const {
   markCacheDirty,
   isLoggedIn
 } = require("../../../utils/request");
-const { withPageLoading } = require("../../../utils/form");
+const { withPageLoading, DRAFT_KEYS, saveDraft, loadDraft, clearDraft, formHasData, debounce } = require("../../../utils/form");
 const { showErrorToast, showSuccessToast, showErrorModal } = require("../../../utils/feedback");
 const { ROUTES, openRoute, navigateBackLater } = require("../../../utils/navigation");
 
@@ -24,6 +24,10 @@ const defaultForm = {
   project: "",
   summary: "",
   suggestion: "",
+  conclusion: "",
+  hospital: "",
+  doctorName: "",
+  attachments: [],
   status: "已记录"
 };
 
@@ -37,6 +41,9 @@ const recordTemplates = [
       project: "TCT / HPV 摘要记录",
       summary: "已完成本次检查摘要记录，后续可结合历史记录持续关注变化。",
       suggestion: "建议保存本次摘要，并按计划管理后续复查安排。",
+      conclusion: "",
+      hospital: "",
+      doctorName: "",
       status: "待复查"
     }
   },
@@ -48,6 +55,9 @@ const recordTemplates = [
       project: "历史检查资料整理",
       summary: "已整理近期检查日期、项目和摘要，方便复查前快速回顾。",
       suggestion: "建议复查前再次确认资料是否齐全，并提前列出需要咨询的问题。",
+      conclusion: "",
+      hospital: "",
+      doctorName: "",
       status: "待关注"
     }
   },
@@ -59,6 +69,9 @@ const recordTemplates = [
       project: "检查摘要记录",
       summary: "已记录本次检查摘要，便于后续咨询或复查时查看。",
       suggestion: "建议保留历史记录，后续咨询时一并出示。",
+      conclusion: "",
+      hospital: "",
+      doctorName: "",
       status: "已记录"
     }
   }
@@ -94,6 +107,10 @@ function normalizeForm(form) {
     project: String(source.project || defaultForm.project),
     summary: String(source.summary || defaultForm.summary),
     suggestion: String(source.suggestion || defaultForm.suggestion),
+    conclusion: String(source.conclusion || defaultForm.conclusion),
+    hospital: String(source.hospital || defaultForm.hospital),
+    doctorName: String(source.doctorName || defaultForm.doctorName),
+    attachments: Array.isArray(source.attachments) ? source.attachments : [],
     status: normalizeStatus(source.status)
   };
 }
@@ -109,6 +126,7 @@ function buildFormState(form) {
       suggestion: nextForm.suggestion,
       status: nextForm.status
     },
+    today: getTodayDate(),
     pageTitle: "新增检查记录",
     date: nextForm.date,
     dateDisplay: nextForm.date || "请选择日期",
@@ -116,10 +134,15 @@ function buildFormState(form) {
     project: nextForm.project,
     summary: nextForm.summary,
     suggestion: nextForm.suggestion,
+    conclusion: nextForm.conclusion,
+    hospital: nextForm.hospital,
+    doctorName: nextForm.doctorName,
+    attachments: nextForm.attachments,
     status: nextForm.status,
     statusItems: buildStatusItems(nextForm.status),
     summaryLength: nextForm.summary.length,
-    suggestionLength: nextForm.suggestion.length
+    suggestionLength: nextForm.suggestion.length,
+    conclusionLength: nextForm.conclusion.length
   };
 }
 
@@ -130,6 +153,10 @@ function buildFormPayload(data) {
     project: String(data.project || ""),
     summary: String(data.summary || ""),
     suggestion: String(data.suggestion || ""),
+    conclusion: String(data.conclusion || ""),
+    hospital: String(data.hospital || ""),
+    doctorName: String(data.doctorName || ""),
+    attachments: Array.isArray(data.attachments) ? data.attachments : [],
     status: normalizeStatus(data.status)
   };
 }
@@ -166,6 +193,27 @@ Page({
       this.loadRecord(query.id);
       return;
     }
+
+    this._initDraftSave();
+
+    const draft = loadDraft(DRAFT_KEYS.record);
+    if (draft && draft.data) {
+      wx.showModal({
+        title: "发现草稿",
+        content: "有未保存的记录草稿，是否恢复？",
+        confirmText: "恢复",
+        cancelText: "忽略",
+        success: (res) => {
+          if (res.confirm) {
+            this.setData(buildFormState(draft.data));
+          } else {
+            clearDraft(DRAFT_KEYS.record);
+            this.setData(buildFormState({ ...defaultForm, date: getTodayDate() }));
+          }
+        }
+      });
+      return;
+    }
     this.setData(buildFormState({ ...defaultForm, date: getTodayDate() }));
   },
 
@@ -183,6 +231,16 @@ Page({
     }
   },
 
+  _initDraftSave() {
+    this._saveDraft = debounce(() => {
+      saveDraft(DRAFT_KEYS.record, buildFormPayload(this.data));
+    }, 300);
+  },
+
+  _triggerDraftSave() {
+    if (this._saveDraft) this._saveDraft();
+  },
+
   updateTextField(field, inputValue) {
     const value = String(inputValue || "");
     const updates = {
@@ -196,7 +254,11 @@ Page({
     if (field === "suggestion") {
       updates.suggestionLength = value.length;
     }
+    if (field === "conclusion") {
+      updates.conclusionLength = value.length;
+    }
     this.setData(updates);
+    this._triggerDraftSave();
   },
 
   onTitleInput(event) {
@@ -215,6 +277,49 @@ Page({
     this.updateTextField("suggestion", event.detail.value);
   },
 
+  onConclusionInput(event) {
+    this.updateTextField("conclusion", event.detail.value);
+  },
+
+  onHospitalInput(event) {
+    this.updateTextField("hospital", event.detail.value);
+  },
+
+  onDoctorNameInput(event) {
+    this.updateTextField("doctorName", event.detail.value);
+  },
+
+  chooseAttachment() {
+    const remaining = 9 - this.data.attachments.length;
+    if (remaining <= 0) return;
+    wx.chooseMedia({
+      count: remaining,
+      mediaType: ["image"],
+      sourceType: ["album", "camera"],
+      success: (res) => {
+        const newItems = (res.tempFiles || []).map((file) => ({
+          url: file.tempFilePath,
+          tempFilePath: file.tempFilePath
+        }));
+        this.setData({
+          attachments: [...this.data.attachments, ...newItems]
+        });
+      }
+    });
+  },
+
+  previewAttachment(event) {
+    const index = Number(event.currentTarget.dataset.index || 0);
+    const urls = this.data.attachments.map((item) => item.url);
+    wx.previewImage({ current: urls[index], urls });
+  },
+
+  removeAttachment(event) {
+    const index = Number(event.currentTarget.dataset.index || 0);
+    const attachments = this.data.attachments.filter((_, i) => i !== index);
+    this.setData({ attachments });
+  },
+
   onDateChange(event) {
     this.setData({
       date: event.detail.value,
@@ -222,12 +327,31 @@ Page({
       dateDisplay: event.detail.value || "请选择日期",
       errorMessage: ""
     });
+    this._triggerDraftSave();
   },
 
   applyTemplate(event) {
     const index = Number(event.currentTarget.dataset.index || 0);
     const template = recordTemplates[index];
     if (!template) return;
+
+    const RECORD_FIELDS = ["title", "project", "summary", "suggestion", "conclusion", "hospital", "doctorName"];
+    if (formHasData(this.data, RECORD_FIELDS)) {
+      wx.showModal({
+        title: "应用模板",
+        content: "当前表单已有内容，应用模板将覆盖现有数据，是否继续？",
+        confirmText: "覆盖",
+        cancelText: "取消",
+        success: (res) => {
+          if (res.confirm) this._doApplyTemplate(template);
+        }
+      });
+      return;
+    }
+    this._doApplyTemplate(template);
+  },
+
+  _doApplyTemplate(template) {
     const nextForm = {
       ...buildFormPayload(this.data),
       ...template.form,
@@ -237,6 +361,7 @@ Page({
       ...buildFormState(nextForm),
       errorMessage: ""
     });
+    this._triggerDraftSave();
   },
 
   selectStatus(event) {
@@ -303,6 +428,7 @@ Page({
       setCachedData(CACHE_KEYS.recordDetail(savedRecord.id), res);
       upsertCachedListItem(CACHE_KEYS.records, savedRecord, { prepend: !this.data.id });
       markCacheDirty(CACHE_KEYS.home);
+      clearDraft(DRAFT_KEYS.record);
       showSuccessToast("已保存");
       navigateBackLater();
     }).catch((error) => {

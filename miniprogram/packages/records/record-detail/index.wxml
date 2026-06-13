@@ -9,7 +9,7 @@
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载记录详情</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="reloadDetail">
+    <button class="primary-button" hover-class="u-hover" bind:tap="reloadDetail">
       <text class="button-text">重新加载</text>
     </button>
   </view>
@@ -31,6 +31,41 @@
           <text class="detail-title">{{recordView.title}}</text>
           <text class="detail-project">{{recordView.projectText}}</text>
         </view>
+      </view>
+      <view wx:if="{{recordView.hospital || recordView.doctorName}}" class="hero-info-row">
+        <text wx:if="{{recordView.hospital}}" class="info-chip">{{recordView.hospital}}</text>
+        <text wx:if="{{recordView.doctorName}}" class="info-chip">{{recordView.doctorName}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{recordView.conclusionText}}" class="content-card conclusion-card">
+      <view class="section-head">
+        <view>
+          <text class="section-label">检查结论</text>
+          <text class="section-title">诊断结果</text>
+        </view>
+        <text wx:if="{{recordView.diagnosisTone}}" class="diagnosis-pill diagnosis-{{recordView.diagnosisTone}}">{{recordView.diagnosisToneLabel}}</text>
+      </view>
+      <text class="conclusion-text">{{recordView.conclusionText}}</text>
+    </view>
+
+    <view wx:if="{{recordView.attachments.length}}" class="content-card attachments-card">
+      <view class="section-head compact">
+        <view class="section-title-line">
+          <text class="section-label">附件图片</text>
+          <text class="section-title">检查报告附件</text>
+        </view>
+      </view>
+      <view class="detail-attachment-grid">
+        <image
+          wx:for="{{recordView.attachments}}"
+          wx:key="url"
+          class="detail-attachment-image"
+          src="{{item.url}}"
+          mode="aspectFill"
+          bind:tap="previewImage"
+          data-index="{{index}}"
+        />
       </view>
     </view>
 
@@ -74,13 +109,13 @@
     </view>
 
     <view class="manage-card">
-      <button class="manage-button" bind:tap="editRecord">
+      <button class="manage-button" hover-class="u-hover" bind:tap="editRecord">
         <view class="button-content">
           <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{18}}" />
           <text class="button-text">编辑记录</text>
         </view>
       </button>
-      <button class="manage-button danger" bind:tap="deleteRecord">
+      <button class="manage-button danger" hover-class="u-hover" bind:tap="deleteRecord">
         <view class="button-content">
           <mp-icon icon="delete" color="#ba1a1a" size="{{18}}" />
           <text class="button-text">删除记录</text>

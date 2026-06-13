@@ -53,13 +53,39 @@ function filterReminders(reminders, keyword) {
   });
 }
 
+const TYPE_LABELS = {
+  follow_up: "复查",
+  material: "资料",
+  consultation: "咨询",
+  record: "整理"
+};
+
+const TYPE_TONES = {
+  follow_up: "primary",
+  material: "info",
+  consultation: "warning",
+  record: "success"
+};
+
+const TYPE_FILTERS = [
+  { value: "all", label: "全部" },
+  { value: "follow_up", label: "复查" },
+  { value: "material", label: "资料" },
+  { value: "consultation", label: "咨询" }
+];
+
 function buildReminderView(reminder) {
   const dateText = String(reminder.date || "");
+  const type = String(reminder.type || "follow_up");
   return {
     ...reminder,
     dateMonthDay: formatShortDate(dateText),
     dateYear: dateText.length >= 4 ? dateText.slice(0, 4) : "",
     statusText: reminder.done ? "已完成" : "待处理",
+    typeLabel: TYPE_LABELS[type] || "",
+    typeTone: TYPE_TONES[type] || "primary",
+    priority: reminder.priority || "medium",
+    notes: reminder.notes || "",
     canNotify: hasReminderSubscriptionTemplate()
   };
 }
@@ -67,6 +93,24 @@ function buildReminderView(reminder) {
 function resolveReminderListStatus(allReminders, filteredReminders, keyword) {
   if (String(keyword || "").trim() && allReminders.length) return PAGE_STATUS.READY;
   return resolveListStatus(filteredReminders);
+}
+
+function filterByType(reminders, typeValue) {
+  if (!typeValue || typeValue === "all") return reminders;
+  return reminders.filter((item) => String(item.type || "follow_up") === typeValue);
+}
+
+function buildTypeTabs(reminders, activeFilter) {
+  const counts = { all: reminders.length };
+  reminders.forEach((item) => {
+    const t = String(item.type || "follow_up");
+    counts[t] = (counts[t] || 0) + 1;
+  });
+  return TYPE_FILTERS.map((tab) => ({
+    ...tab,
+    count: counts[tab.value] || 0,
+    active: tab.value === activeFilter
+  }));
 }
 
 Page({
@@ -81,6 +125,10 @@ Page({
     sendingReminderId: "",
     searchKeyword: "",
     searchEmpty: false,
+    typeFilter: "all",
+    typeTabs: buildTypeTabs([], "all"),
+    loadingMore: false,
+    hasMore: false,
     confirmDialog: {
       show: false,
       id: "",
@@ -88,6 +136,9 @@ Page({
       content: ""
     }
   },
+
+  _page: 1,
+  _hasMore: false,
 
   onShow() {
     const guest = !isLoggedIn();
@@ -104,10 +155,14 @@ Page({
     }
 
     const cachedReminders = getCachedData(CACHE_KEYS.reminders);
-    const hasCachedReminders = !!(cachedReminders && Array.isArray(cachedReminders.data));
+    const hasCachedReminders = !!(cachedReminders && cachedReminders.data);
 
     if (hasCachedReminders) {
-      this.applyReminders(cachedReminders.data);
+      const cacheData = cachedReminders.data;
+      const items = Array.isArray(cacheData) ? cacheData : (cacheData.items || []);
+      this._page = (cacheData && cacheData.page) || 1;
+      this._hasMore = !!(cacheData && cacheData.hasMore);
+      this.applyReminders(items);
     }
 
     const shouldRefresh = !hasCachedReminders
@@ -121,14 +176,17 @@ Page({
 
   applyReminders(reminders) {
     const nextReminders = sortReminders(reminders).map(buildReminderView);
-    const filteredReminders = filterReminders(nextReminders, this.data.searchKeyword);
+    const typeFiltered = filterByType(nextReminders, this.data.typeFilter);
+    const filteredReminders = filterReminders(typeFiltered, this.data.searchKeyword);
     const searchEmpty = !!String(this.data.searchKeyword || "").trim() && nextReminders.length > 0 && !filteredReminders.length;
     this.setData({
       reminders: filteredReminders,
       allReminders: nextReminders,
       summary: buildReminderSummary(nextReminders),
+      typeTabs: buildTypeTabs(nextReminders, this.data.typeFilter),
       pageStatus: resolveReminderListStatus(nextReminders, filteredReminders, this.data.searchKeyword),
       searchEmpty,
+      hasMore: this._hasMore,
       errorMessage: ""
     });
   },
@@ -146,7 +204,11 @@ Page({
       const res = await request("/reminders", {
         cacheKey: CACHE_KEYS.reminders
       });
-      this.applyReminders(res.data || []);
+      const data = res.data || {};
+      const items = Array.isArray(data) ? data : (data.items || []);
+      this._page = data.page || 1;
+      this._hasMore = !!data.hasMore;
+      this.applyReminders(items);
     } catch (error) {
       if (this.data.reminders.length) return;
       this.setData({
@@ -162,6 +224,38 @@ Page({
   async onPullDownRefresh() {
     await this.loadReminders({ silent: true });
     wx.stopPullDownRefresh();
+  },
+
+  async onReachBottom() {
+    if (!this._hasMore || this.data.loadingMore || !isLoggedIn()) return;
+    this.setData({ loadingMore: true });
+    try {
+      const nextPage = this._page + 1;
+      const res = await request(`/reminders?page=${nextPage}&pageSize=20`);
+      const data = res.data || {};
+      const newItems = data.items || [];
+      this._page = data.page || nextPage;
+      this._hasMore = !!data.hasMore;
+      if (newItems.length) {
+        const merged = [...this.data.allReminders, ...newItems.map(buildReminderView)];
+        this.applyReminders(merged.map((item) => ({
+          id: item.id,
+          title: item.title,
+          date: item.date,
+          desc: item.desc,
+          type: item.type,
+          priority: item.priority,
+          linkedRecordId: item.linkedRecordId,
+          notes: item.notes,
+          done: item.done
+        })));
+        this.setData({ loadingMore: false });
+      } else {
+        this.setData({ hasMore: false, loadingMore: false });
+      }
+    } catch (error) {
+      this.setData({ loadingMore: false });
+    }
   },
 
   createReminder() {
@@ -181,7 +275,8 @@ Page({
 
   onSearchInput(event) {
     const searchKeyword = event.detail.value || "";
-    const reminders = filterReminders(this.data.allReminders, searchKeyword);
+    const typeFiltered = filterByType(this.data.allReminders, this.data.typeFilter);
+    const reminders = filterReminders(typeFiltered, searchKeyword);
     const searchEmpty = !!String(searchKeyword || "").trim() && this.data.allReminders.length > 0 && !reminders.length;
     this.setData({
       searchKeyword,
@@ -193,6 +288,12 @@ Page({
 
   onSearchClear() {
     this.onSearchInput({ detail: { value: "" } });
+  },
+
+  onTypeFilterChange(event) {
+    const value = event.currentTarget.dataset.value || "all";
+    this.setData({ typeFilter: value });
+    this.applyReminders(this.data.allReminders);
   },
 
   editReminder(event) {

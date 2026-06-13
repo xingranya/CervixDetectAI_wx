@@ -1,7 +1,7 @@
 .privacy-consent-mask {
   position: fixed;
   inset: 0;
-  background: rgba(11, 28, 48, 0.56);
+  background: var(--wx-shadow-modal);
   z-index: 10000;
   display: flex;
   align-items: center;
@@ -12,10 +12,10 @@
 .privacy-consent-panel {
   width: 100%;
   max-width: 640rpx;
-  background: #ffffff;
+  background: var(--wx-bg-primary);
   border-radius: 32rpx;
   padding: 0;
-  box-shadow: 0 32rpx 80rpx rgba(11, 28, 48, 0.36);
+  box-shadow: 0 32rpx 80rpx var(--wx-shadow-bottom-sheet);
   box-sizing: border-box;
   overflow: visible;
 }
@@ -26,7 +26,7 @@
 
 .privacy-consent-title {
   display: block;
-  color: #0b1c30;
+  color: var(--wx-text-primary);
   font-size: 36rpx;
   font-weight: 900;
   line-height: 1.4;
@@ -41,7 +41,7 @@
 
 .privacy-consent-desc {
   display: block;
-  color: #3e4a5f;
+  color: var(--wx-text-secondary);
   font-size: 27rpx;
   line-height: 1.7;
   word-break: break-all;
@@ -54,7 +54,7 @@
 }
 
 .privacy-consent-link {
-  color: #1f53c9;
+  color: var(--wx-brand-500);
   font-size: 27rpx;
   font-weight: 800;
   word-break: break-all;
@@ -62,14 +62,14 @@
 
 .privacy-consent-separator {
   margin: 0 8rpx;
-  color: #4d5d73;
+  color: var(--wx-text-secondary);
   font-size: 27rpx;
 }
 
 .privacy-consent-note {
   display: block;
   margin-top: 16rpx;
-  color: #66748a;
+  color: var(--wx-text-tertiary);
   font-size: 24rpx;
   line-height: 1.65;
   word-break: break-all;
@@ -89,7 +89,7 @@
   height: 40rpx;
   border-radius: 8rpx;
   border: 2rpx solid #c3c6d6;
-  background: #f8f9ff;
+  background: var(--wx-bg-input);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,23 +98,23 @@
 }
 
 .privacy-consent-checkbox-checked {
-  background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
-  border-color: #1f53c9;
+  background: linear-gradient(135deg, var(--wx-brand-500), var(--wx-brand-600));
+  border-color: var(--wx-brand-500);
 }
 
 /* CSS 纯对勾，不依赖 icon 组件 */
 .privacy-consent-checkmark {
   width: 16rpx;
   height: 10rpx;
-  border-left: 3rpx solid #ffffff;
-  border-bottom: 3rpx solid #ffffff;
+  border-left: 3rpx solid var(--wx-text-on-primary);
+  border-bottom: 3rpx solid var(--wx-text-on-primary);
   transform: rotate(-45deg);
   margin-top: -2rpx;
 }
 
 .privacy-consent-checkbox-label {
   margin-left: 14rpx;
-  color: #1e293b;
+  color: var(--wx-text-primary);
   font-size: 27rpx;
   font-weight: 700;
   line-height: 1.5;
@@ -146,14 +146,14 @@
 }
 
 .privacy-consent-btn-decline {
-  background: #f2f4fb;
-  color: #66748a;
+  background: var(--wx-bg-disabled);
+  color: var(--wx-text-tertiary);
 }
 
 .privacy-consent-btn-confirm {
-  background: linear-gradient(135deg, #1f53c9 0%, #406de4 100%);
-  color: #ffffff;
-  box-shadow: 0 12rpx 26rpx rgba(31, 83, 201, 0.24);
+  background: linear-gradient(135deg, var(--wx-brand-500), var(--wx-brand-600));
+  color: var(--wx-text-on-primary);
+  box-shadow: 0 12rpx 26rpx rgba(var(--wx-brand-500-rgb), 0.24);
 }
 
 .privacy-consent-btn-disabled {

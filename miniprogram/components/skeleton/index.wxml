@@ -1,0 +1,50 @@
+<view class="skeleton-wrap">
+  <!-- Hero Mode -->
+  <block wx:if="{{mode === 'hero'}}">
+    <view class="sk-hero">
+      <view class="sk-row sk-mb-12">
+        <view class="sk-circle sk-60"></view>
+        <view class="sk-col sk-flex">
+          <view class="sk-line sk-h20 sk-w60"></view>
+          <view class="sk-line sk-h14 sk-w40 sk-mt-8"></view>
+        </view>
+      </view>
+      <view class="sk-row sk-gap-12">
+        <view class="sk-card sk-h80 sk-flex-1"></view>
+        <view class="sk-card sk-h80 sk-flex-1"></view>
+        <view class="sk-card sk-h80 sk-flex-1"></view>
+      </view>
+    </view>
+  </block>
+
+  <!-- Card Mode -->
+  <block wx:elif="{{mode === 'card'}}">
+    <view class="sk-card-block">
+      <view class="sk-line sk-h20 sk-w50 sk-mb-12"></view>
+      <view class="sk-line sk-h14 sk-w80 sk-mb-8"></view>
+      <view class="sk-line sk-h14 sk-w65"></view>
+    </view>
+  </block>
+
+  <!-- List Mode -->
+  <block wx:elif="{{mode === 'list'}}">
+    <view class="sk-list">
+      <view wx:for="{{rowList}}" wx:key="*this" class="sk-list-item">
+        <view class="sk-circle sk-48"></view>
+        <view class="sk-col sk-flex">
+          <view class="sk-line sk-h16 sk-w70 sk-mb-8"></view>
+          <view class="sk-line sk-h12 sk-w45"></view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- Default: simple shimmer block -->
+  <block wx:else>
+    <view class="sk-card-block">
+      <view class="sk-line sk-h16 sk-w60 sk-mb-12"></view>
+      <view class="sk-line sk-h12 sk-w80 sk-mb-8"></view>
+      <view class="sk-line sk-h12 sk-w50"></view>
+    </view>
+  </block>
+</view>

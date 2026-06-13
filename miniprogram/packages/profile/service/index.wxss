@@ -14,10 +14,10 @@
   gap: 22rpx;
   margin-bottom: 24rpx;
   padding: 28rpx;
-  border: 1rpx solid rgba(199, 210, 232, 0.78);
+  border: 1rpx solid var(--wx-border-card);
   border-radius: 26rpx;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 14rpx 36rpx rgba(31, 83, 201, 0.07);
+  background: var(--wx-bg-card);
+  box-shadow: 0 14rpx 36rpx rgba(var(--wx-brand-500-rgb), 0.07);
 }
 
 .hero-icon {
@@ -27,7 +27,7 @@
   width: 84rpx;
   height: 84rpx;
   border-radius: 22rpx;
-  background: #eef3ff;
+  background: var(--wx-bg-section);
   flex: 0 0 auto;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .hero-title {
-  color: #0b1c30;
+  color: var(--wx-text-primary);
   font-size: 34rpx;
   font-weight: 900;
   line-height: 1.28;
@@ -54,17 +54,17 @@
 
 .hero-desc {
   margin-top: 10rpx;
-  color: #617089;
+  color: var(--wx-text-muted);
   font-size: 25rpx;
   line-height: 1.62;
 }
 
 .service-panel {
   overflow: hidden;
-  border: 1rpx solid rgba(199, 210, 232, 0.78);
+  border: 1rpx solid var(--wx-border-card);
   border-radius: 26rpx;
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 16rpx 40rpx rgba(31, 83, 201, 0.06);
+  background: var(--wx-bg-card-88);
+  box-shadow: 0 16rpx 40rpx rgba(var(--wx-brand-500-rgb), 0.06);
 }
 
 .service-row {
@@ -72,7 +72,7 @@
   align-items: flex-start;
   gap: 20rpx;
   padding: 28rpx;
-  border-bottom: 1rpx solid rgba(199, 210, 232, 0.48);
+  border-bottom: 1rpx solid var(--wx-border-divider);
 }
 
 .service-row:last-child {
@@ -86,15 +86,15 @@
   width: 58rpx;
   height: 44rpx;
   border-radius: 999rpx;
-  background: #eef3ff;
-  color: #1f53c9;
+  background: var(--wx-bg-section);
+  color: var(--wx-brand-500);
   font-size: 22rpx;
   font-weight: 900;
   flex: 0 0 auto;
 }
 
 .service-title {
-  color: #10233c;
+  color: var(--wx-text-primary);
   font-size: 29rpx;
   font-weight: 900;
   line-height: 1.35;
@@ -102,7 +102,7 @@
 
 .service-text {
   margin-top: 10rpx;
-  color: #66748a;
+  color: var(--wx-text-tertiary);
   font-size: 26rpx;
   line-height: 1.68;
 }
@@ -110,10 +110,10 @@
 .safe-note {
   margin-top: 20rpx;
   padding: 20rpx;
-  border: 1rpx solid rgba(199, 210, 232, 0.62);
+  border: 1rpx solid var(--wx-border-subtle);
   border-radius: 18rpx;
-  background: rgba(255, 255, 255, 0.7);
-  color: #66748a;
+  background: var(--wx-bg-glass);
+  color: var(--wx-text-tertiary);
   font-size: 24rpx;
   line-height: 1.6;
 }

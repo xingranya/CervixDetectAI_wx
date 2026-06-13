@@ -1,8 +1,28 @@
 const express = require("express");
+const rateLimit = require("express-rate-limit");
 const miniappService = require("../services/miniapp.service");
+const aiAssistant = require("../services/ai-assistant.service");
 const { authenticate } = require("../middleware/auth");
 
 const router = express.Router();
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  keyGenerator: (req) => req.ip,
+  message: { success: false, message: "登录尝试过于频繁，请15分钟后再试" }
+});
+
+const aiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  keyGenerator: (req) => req.user?.id || req.ip,
+  message: { success: false, message: "AI助手请求过于频繁，请稍后再试" }
+});
 
 function ok(res, data) {
   res.json({ success: true, data });
@@ -14,7 +34,7 @@ function asyncRoute(handler) {
   };
 }
 
-router.post("/auth/login", asyncRoute(async (req, res) => {
+router.post("/auth/login", loginLimiter, asyncRoute(async (req, res) => {
   ok(res, await miniappService.login(req.body || {}));
 }));
 
@@ -45,7 +65,11 @@ router.get("/home", asyncRoute(async (req, res) => {
 }));
 
 router.get("/records", asyncRoute(async (req, res) => {
-  ok(res, await miniappService.listRecords(req.user.id));
+  ok(res, await miniappService.listRecords(req.user.id, {
+    status: req.query.status,
+    page: req.query.page,
+    pageSize: req.query.pageSize
+  }));
 }));
 
 router.post("/records", asyncRoute(async (req, res) => {
@@ -77,7 +101,11 @@ router.post("/records/:id/report-subscription", asyncRoute(async (req, res) => {
 }));
 
 router.get("/reminders", asyncRoute(async (req, res) => {
-  ok(res, await miniappService.listReminders(req.user.id));
+  ok(res, await miniappService.listReminders(req.user.id, {
+    type: req.query.type,
+    page: req.query.page,
+    pageSize: req.query.pageSize
+  }));
 }));
 
 router.get("/reminders/:id", asyncRoute(async (req, res) => {
@@ -140,6 +168,51 @@ router.delete("/questions/:id", asyncRoute(async (req, res) => {
 
 router.post("/feedback", asyncRoute(async (req, res) => {
   ok(res, await miniappService.createFeedback(req.user.id, req.body));
+}));
+
+/* ---- AI 健康助手 ---- */
+router.post("/assistant/chat", aiLimiter, asyncRoute(async (req, res) => {
+  const stream = req.body?.stream === true;
+  if (stream) {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.flushHeaders();
+    await aiAssistant.chatStream(req.user.id, req.body?.messages || [], res);
+  } else {
+    const result = await aiAssistant.chat(req.user.id, req.body?.messages || []);
+    ok(res, result);
+  }
+}));
+
+router.post("/assistant/explain", aiLimiter, asyncRoute(async (req, res) => {
+  const term = String(req.body?.term || "").trim();
+  if (!term) return res.status(400).json({ success: false, message: "请输入需要解释的术语" });
+  const result = await aiAssistant.explainTerm(term);
+  ok(res, result);
+}));
+
+/* ---- 通知中心 ---- */
+router.get("/notifications", asyncRoute(async (req, res) => {
+  const limit = Math.min(Number(req.query.limit) || 20, 50);
+  const offset = Number(req.query.offset) || 0;
+  const notifications = await miniappService.listNotifications(req.user.id, { limit, offset });
+  ok(res, notifications);
+}));
+
+router.get("/notifications/unread-count", asyncRoute(async (req, res) => {
+  const count = await miniappService.getUnreadCount(req.user.id);
+  ok(res, { count });
+}));
+
+router.patch("/notifications/:id/read", asyncRoute(async (req, res) => {
+  const result = await miniappService.markNotificationRead(req.user.id, req.params.id);
+  ok(res, result);
+}));
+
+router.patch("/notifications/read-all", asyncRoute(async (req, res) => {
+  const result = await miniappService.markAllNotificationsRead(req.user.id);
+  ok(res, result);
 }));
 
 module.exports = router;

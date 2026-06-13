@@ -3,9 +3,9 @@
 .notify-panel,
 .manage-card {
   box-sizing: border-box;
-  border: 1rpx solid rgba(205, 215, 232, 0.72);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 14rpx 36rpx rgba(24, 67, 126, 0.06);
+  border: 1rpx solid var(--wx-border-card-light);
+  background: var(--wx-bg-card-88);
+  box-shadow: var(--wx-shadow-soft);
 }
 
 .card {
@@ -27,12 +27,12 @@
   height: 78rpx;
   padding: 0 28rpx;
   border-radius: 18rpx;
-  background: rgb(24, 118, 210);
-  color: #ffffff;
+  background: var(--wx-brand-500);
+  color: var(--wx-text-on-primary);
   font-size: 28rpx;
   font-weight: 800;
   line-height: normal;
-  box-shadow: 0 14rpx 30rpx rgba(24, 118, 210, 0.2);
+  box-shadow: 0 14rpx 30rpx rgba(var(--wx-brand-500-rgb), 0.2);
 }
 
 .primary-button::after,
@@ -62,7 +62,7 @@
   border-radius: 26rpx;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(244, 248, 255, 0.96) 100%);
-  box-shadow: 0 14rpx 34rpx rgba(24, 67, 126, 0.07);
+  box-shadow: 0 14rpx 34rpx var(--wx-shadow-record);
 }
 
 .hero-meta,
@@ -84,10 +84,10 @@
   align-items: center;
   min-height: 56rpx;
   padding: 0 18rpx;
-  border: 1rpx solid rgba(24, 118, 210, 0.12);
+  border: 1rpx solid var(--wx-border-brand);
   border-radius: 18rpx;
-  background: rgba(24, 118, 210, 0.06);
-  color: #0d47a1;
+  background: rgba(var(--wx-brand-500-rgb), 0.06);
+  color: var(--wx-brand-700);
 }
 
 .date-day {
@@ -101,8 +101,8 @@
   display: block;
   margin-left: 14rpx;
   padding-left: 14rpx;
-  border-left: 1rpx solid rgba(24, 118, 210, 0.18);
-  color: #526174;
+  border-left: 1rpx solid rgba(var(--wx-brand-500-rgb), 0.18);
+  color: var(--wx-text-tertiary);
   font-size: 24rpx;
   font-weight: 800;
   line-height: 1;
@@ -112,10 +112,10 @@
   display: block;
   min-height: 48rpx;
   padding: 0 18rpx;
-  border-radius: 999rpx;
-  border: 1rpx solid rgba(24, 118, 210, 0.12);
-  background: rgba(24, 118, 210, 0.06);
-  color: #0d47a1;
+  border-radius: var(--wx-radius-pill);
+  border: 1rpx solid var(--wx-border-brand);
+  background: rgba(var(--wx-brand-500-rgb), 0.06);
+  color: var(--wx-brand-700);
   font-size: 24rpx;
   font-weight: 900;
   line-height: 48rpx;
@@ -140,8 +140,8 @@
   width: 86rpx;
   height: 86rpx;
   border-radius: 22rpx;
-  border: 1rpx solid rgba(24, 118, 210, 0.12);
-  background: rgba(24, 118, 210, 0.07);
+  border: 1rpx solid var(--wx-border-brand);
+  background: rgba(var(--wx-brand-500-rgb), 0.07);
   flex: 0 0 auto;
 }
 
@@ -168,7 +168,7 @@
 }
 
 .detail-title {
-  color: #191c1e;
+  color: var(--wx-text-primary);
   font-size: 36rpx;
   font-weight: 900;
   line-height: 1.22;
@@ -177,7 +177,7 @@
 
 .detail-project {
   margin-top: 8rpx;
-  color: #414752;
+  color: var(--wx-text-secondary);
   font-size: 25rpx;
   font-weight: 700;
   line-height: 1.42;
@@ -208,14 +208,14 @@
 }
 
 .section-label {
-  color: #526174;
+  color: var(--wx-text-tertiary);
   font-size: 23rpx;
   font-weight: 800;
 }
 
 .section-title {
   margin-top: 6rpx;
-  color: #191c1e;
+  color: var(--wx-text-primary);
   font-size: 31rpx;
   font-weight: 900;
   line-height: 1.28;
@@ -242,22 +242,22 @@
   align-items: center;
   min-height: 40rpx;
   padding: 0 16rpx;
-  border: 1rpx solid rgba(24, 118, 210, 0.12);
-  border-radius: 999rpx;
-  background: rgba(24, 118, 210, 0.06);
-  color: #0d47a1;
+  border: 1rpx solid var(--wx-border-brand);
+  border-radius: var(--wx-radius-pill);
+  background: rgba(var(--wx-brand-500-rgb), 0.06);
+  color: var(--wx-brand-700);
 }
 
 .summary-text,
 .suggestion-text {
-  color: #223044;
+  color: var(--wx-text-deep);
   font-size: 28rpx;
   line-height: 1.72;
   font-weight: 500;
 }
 
 .suggestion-text {
-  color: #31445f;
+  color: var(--wx-text-deep-secondary);
   font-size: 27rpx;
 }
 
@@ -266,7 +266,7 @@
   gap: 22rpx;
   padding: 24rpx;
   border-radius: 26rpx;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--wx-bg-card-92);
 }
 
 .notify-copy {
@@ -275,14 +275,14 @@
 }
 
 .notify-title {
-  color: #102a62;
+  color: var(--wx-text-brand-deep);
   font-size: 28rpx;
   font-weight: 900;
 }
 
 .notify-desc {
   margin-top: 8rpx;
-  color: #526174;
+  color: var(--wx-text-tertiary);
   font-size: 24rpx;
   line-height: 1.5;
 }
@@ -297,16 +297,16 @@
   gap: 18rpx;
   padding: 18rpx;
   border-radius: 24rpx;
-  background: rgba(255, 255, 255, 0.88);
+  background: var(--wx-bg-card-88);
 }
 
 .manage-button {
   flex: 1;
   height: 72rpx;
-  border: 1rpx solid rgba(24, 118, 210, 0.14);
+  border: 1rpx solid rgba(var(--wx-brand-500-rgb), 0.14);
   border-radius: 18rpx;
-  background: rgba(255, 255, 255, 0.72);
-  color: #0d47a1;
+  background: var(--wx-bg-glass);
+  color: var(--wx-brand-700);
   font-size: 26rpx;
   font-weight: 800;
   line-height: normal;
@@ -315,16 +315,102 @@
 .manage-button.danger {
   border-color: rgba(186, 26, 26, 0.18);
   background: rgba(255, 245, 244, 0.82);
-  color: #ba1a1a;
+  color: var(--wx-danger);
 }
 
 .safe-note {
   margin-top: 24rpx;
   padding: 22rpx 24rpx;
-  border: 1rpx solid rgba(195, 198, 214, 0.48);
+  border: 1rpx solid var(--wx-border-light);
   border-radius: 20rpx;
-  background: rgba(255, 255, 255, 0.68);
-  color: #3e4a5f;
+  background: var(--wx-bg-glass-light);
+  color: var(--wx-text-secondary);
   font-size: 24rpx;
   line-height: 1.6;
+}
+
+/* ---- Hospital / Doctor Info Chips ---- */
+.hero-info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 18rpx;
+  padding-top: 18rpx;
+  border-top: 1rpx solid rgba(205, 215, 232, 0.45);
+}
+
+.info-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44rpx;
+  padding: 0 18rpx;
+  border-radius: var(--wx-radius-pill);
+  background: rgba(var(--wx-brand-500-rgb), 0.06);
+  border: 1rpx solid rgba(var(--wx-brand-500-rgb), 0.12);
+  color: var(--wx-brand-700);
+  font-size: 23rpx;
+  font-weight: 700;
+}
+
+/* ---- Conclusion Card ---- */
+.conclusion-card {
+  border-color: rgba(202, 213, 230, 0.7);
+  background: rgba(247, 250, 254, 0.92);
+}
+
+.conclusion-text {
+  color: var(--wx-text-primary);
+  font-size: 28rpx;
+  line-height: 1.72;
+  font-weight: 500;
+}
+
+/* ---- Diagnosis Pill ---- */
+.diagnosis-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44rpx;
+  padding: 0 18rpx;
+  border-radius: var(--wx-radius-pill);
+  font-size: 22rpx;
+  font-weight: 800;
+}
+
+.diagnosis-normal {
+  background: var(--wx-diagnosis-normal-bg);
+  color: var(--wx-diagnosis-normal);
+}
+
+.diagnosis-ascus {
+  background: var(--wx-diagnosis-ascus-bg);
+  color: var(--wx-diagnosis-ascus);
+}
+
+.diagnosis-lsil {
+  background: var(--wx-diagnosis-lsil-bg);
+  color: var(--wx-diagnosis-lsil);
+}
+
+.diagnosis-hsil {
+  background: var(--wx-diagnosis-hsil-bg);
+  color: var(--wx-diagnosis-hsil);
+}
+
+.diagnosis-scc {
+  background: var(--wx-diagnosis-scc-bg);
+  color: var(--wx-diagnosis-scc);
+}
+
+/* ---- Attachments Grid ---- */
+.detail-attachment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12rpx;
+}
+
+.detail-attachment-image {
+  aspect-ratio: 1;
+  width: 100%;
+  border-radius: 12rpx;
+  border: 1rpx solid rgba(205, 215, 232, 0.6);
 }

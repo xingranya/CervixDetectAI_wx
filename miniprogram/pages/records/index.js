@@ -54,6 +54,39 @@ function resolveRecordListStatus(allRecords, filteredRecords, keyword) {
   return resolveListStatus(filteredRecords);
 }
 
+const STATUS_FILTERS = [
+  { value: "all", label: "全部" },
+  { value: "pending", label: "待关注" },
+  { value: "done", label: "已完成" }
+];
+
+function isPendingStatus(record) {
+  const status = String(record.status || "");
+  return status.indexOf("待") > -1 || status.indexOf("复查") > -1;
+}
+
+function isDoneStatus(record) {
+  return String(record.status || "") === "已完成";
+}
+
+function filterByStatus(records, filterValue) {
+  if (!filterValue || filterValue === "all") return records;
+  if (filterValue === "pending") return records.filter(isPendingStatus);
+  if (filterValue === "done") return records.filter(isDoneStatus);
+  return records;
+}
+
+function buildFilterTabs(allRecords, activeFilter) {
+  const pendingCount = allRecords.filter(isPendingStatus).length;
+  const doneCount = allRecords.filter(isDoneStatus).length;
+  const counts = { all: allRecords.length, pending: pendingCount, done: doneCount };
+  return STATUS_FILTERS.map((tab) => ({
+    ...tab,
+    count: counts[tab.value] || 0,
+    active: tab.value === activeFilter
+  }));
+}
+
 Page({
   data: {
     records: [],
@@ -64,6 +97,10 @@ Page({
     isGuest: !isLoggedIn(),
     searchKeyword: "",
     searchEmpty: false,
+    statusFilter: "all",
+    filterTabs: buildFilterTabs([], "all"),
+    loadingMore: false,
+    hasMore: false,
     confirmDialog: {
       show: false,
       id: "",
@@ -71,6 +108,9 @@ Page({
       content: ""
     }
   },
+
+  _page: 1,
+  _hasMore: false,
 
   onShow() {
     const guest = !isLoggedIn();
@@ -87,10 +127,14 @@ Page({
     }
 
     const cachedRecords = getCachedData(CACHE_KEYS.records);
-    const hasCachedRecords = !!(cachedRecords && Array.isArray(cachedRecords.data));
+    const hasCachedRecords = !!(cachedRecords && cachedRecords.data);
 
     if (hasCachedRecords) {
-      this.applyRecords(cachedRecords.data);
+      const cacheData = cachedRecords.data;
+      const items = Array.isArray(cacheData) ? cacheData : (cacheData.items || []);
+      this._page = (cacheData && cacheData.page) || 1;
+      this._hasMore = !!(cacheData && cacheData.hasMore);
+      this.applyRecords(items);
     }
 
     const shouldRefresh = !hasCachedRecords
@@ -104,14 +148,17 @@ Page({
 
   applyRecords(records) {
     const allRecords = records.map(buildRecordView);
-    const filteredRecords = filterRecords(allRecords, this.data.searchKeyword);
+    const statusFiltered = filterByStatus(allRecords, this.data.statusFilter);
+    const filteredRecords = filterRecords(statusFiltered, this.data.searchKeyword);
     const searchEmpty = !!String(this.data.searchKeyword || "").trim() && allRecords.length > 0 && !filteredRecords.length;
     this.setData({
       records: filteredRecords,
       allRecords,
       summary: buildRecordSummary(allRecords),
+      filterTabs: buildFilterTabs(allRecords, this.data.statusFilter),
       pageStatus: resolveRecordListStatus(allRecords, filteredRecords, this.data.searchKeyword),
       searchEmpty,
+      hasMore: this._hasMore,
       errorMessage: ""
     });
   },
@@ -129,7 +176,11 @@ Page({
       const res = await request("/records", {
         cacheKey: CACHE_KEYS.records
       });
-      this.applyRecords(res.data || []);
+      const data = res.data || {};
+      const items = Array.isArray(data) ? data : (data.items || []);
+      this._page = data.page || 1;
+      this._hasMore = !!data.hasMore;
+      this.applyRecords(items);
     } catch (error) {
       if (this.data.records.length) return;
       this.setData({
@@ -145,6 +196,40 @@ Page({
   async onPullDownRefresh() {
     await this.loadRecords({ silent: true });
     wx.stopPullDownRefresh();
+  },
+
+  async onReachBottom() {
+    if (!this._hasMore || this.data.loadingMore || !isLoggedIn()) return;
+    this.setData({ loadingMore: true });
+    try {
+      const nextPage = this._page + 1;
+      const res = await request(`/records?page=${nextPage}&pageSize=20`);
+      const data = res.data || {};
+      const newItems = data.items || [];
+      this._page = data.page || nextPage;
+      this._hasMore = !!data.hasMore;
+      if (newItems.length) {
+        const merged = [...this.data.allRecords, ...newItems.map(buildRecordView)];
+        this.applyRecords(merged.map((item) => ({
+          id: item.id,
+          date: item.date,
+          title: item.title,
+          project: item.project,
+          summary: item.summary,
+          suggestion: item.suggestion,
+          status: item.status,
+          hospital: item.hospital,
+          doctorName: item.doctorName,
+          conclusion: item.conclusion,
+          attachments: item.attachments
+        })));
+        this.setData({ loadingMore: false });
+      } else {
+        this.setData({ hasMore: false, loadingMore: false });
+      }
+    } catch (error) {
+      this.setData({ loadingMore: false });
+    }
   },
 
   openDetail(event) {
@@ -168,7 +253,8 @@ Page({
 
   onSearchInput(event) {
     const searchKeyword = event.detail.value || "";
-    const records = filterRecords(this.data.allRecords, searchKeyword);
+    const statusFiltered = filterByStatus(this.data.allRecords, this.data.statusFilter);
+    const records = filterRecords(statusFiltered, searchKeyword);
     const searchEmpty = !!String(searchKeyword || "").trim() && this.data.allRecords.length > 0 && !records.length;
     this.setData({
       searchKeyword,
@@ -180,6 +266,12 @@ Page({
 
   onSearchClear() {
     this.onSearchInput({ detail: { value: "" } });
+  },
+
+  onFilterChange(event) {
+    const value = event.currentTarget.dataset.value || "all";
+    this.setData({ statusFilter: value });
+    this.applyRecords(this.data.allRecords);
   },
 
   onSearchSelect(event) {

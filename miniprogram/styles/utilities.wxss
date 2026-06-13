@@ -1,0 +1,241 @@
+/* ============================================================
+ *  CervixDetectAI_wx  工具类 (Utility Classes)
+ *  基于 design-tokens.wxss 令牌，提供常用组合样式
+ * ============================================================ */
+
+/* -------- 卡片 -------- */
+.u-card {
+  padding: 28rpx;
+  border: 1rpx solid var(--wx-border-default);
+  border-radius: var(--wx-radius-sm);
+  background: var(--wx-bg-primary);
+  box-shadow: var(--wx-shadow-card);
+  box-sizing: border-box;
+}
+
+.u-card-elevated {
+  padding: 28rpx;
+  border: 1rpx solid var(--wx-border-default);
+  border-radius: var(--wx-radius-md);
+  background: var(--wx-bg-primary);
+  box-shadow: var(--wx-shadow-elevated);
+  box-sizing: border-box;
+}
+
+.u-glass-surface {
+  padding: 28rpx;
+  border: 1rpx solid var(--wx-border-white-90);
+  border-radius: var(--wx-radius-md);
+  background: var(--wx-bg-glass);
+  backdrop-filter: blur(10rpx);
+  -webkit-backdrop-filter: blur(10rpx);
+  box-shadow: var(--wx-shadow-card);
+  box-sizing: border-box;
+}
+
+/* -------- 按钮 -------- */
+.u-primary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 86rpx;
+  border-radius: var(--wx-radius-sm);
+  background: linear-gradient(135deg, var(--wx-brand-500), var(--wx-brand-600));
+  color: var(--wx-text-on-primary);
+  font-size: 30rpx;
+  font-weight: 800;
+  line-height: normal;
+  box-shadow: var(--wx-shadow-button);
+  white-space: nowrap;
+}
+
+.u-primary-button::after {
+  border: 0;
+}
+
+.u-primary-button-hover {
+  opacity: 0.88;
+  transform: var(--wx-scale-press);
+}
+
+.u-ghost-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 76rpx;
+  border-radius: var(--wx-radius-sm);
+  border: 1rpx solid var(--wx-border-default);
+  background: var(--wx-bg-primary);
+  color: var(--wx-brand-500);
+  font-size: 28rpx;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.u-ghost-button::after {
+  border: 0;
+}
+
+.u-text-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--wx-brand-500);
+  font-size: 26rpx;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.u-text-button::after {
+  border: 0;
+}
+
+/* -------- 标签胶囊 -------- */
+.u-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44rpx;
+  padding: 0 18rpx;
+  border-radius: var(--wx-radius-pill);
+  background: var(--wx-brand-100);
+  color: var(--wx-brand-700);
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.u-pill-success {
+  background: var(--wx-status-done-bg);
+  color: var(--wx-status-done);
+}
+
+.u-pill-warning {
+  background: var(--wx-status-pending-bg);
+  color: var(--wx-status-pending);
+}
+
+.u-pill-danger {
+  background: var(--wx-status-attention-bg);
+  color: var(--wx-status-attention);
+}
+
+/* -------- 安全提示条 -------- */
+.u-safe-note {
+  padding: 20rpx;
+  border-radius: var(--wx-radius-md);
+  background: var(--wx-bg-glass-light);
+  border: 1rpx solid var(--wx-border-light);
+  color: var(--wx-text-secondary);
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+/* -------- 文字层级 -------- */
+.u-text-primary {
+  color: var(--wx-text-primary);
+}
+
+.u-text-secondary {
+  color: var(--wx-text-secondary);
+}
+
+.u-text-tertiary {
+  color: var(--wx-text-tertiary);
+}
+
+.u-text-brand {
+  color: var(--wx-brand-500);
+}
+
+.u-text-danger {
+  color: var(--wx-danger);
+}
+
+.u-section-title {
+  margin: 0 0 20rpx;
+  font-size: 34rpx;
+  font-weight: 800;
+  color: var(--wx-text-primary);
+}
+
+.u-section-kicker {
+  display: block;
+  color: var(--wx-text-secondary);
+  font-size: 22rpx;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+/* -------- 图标容器 -------- */
+.u-icon-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84rpx;
+  height: 84rpx;
+  border-radius: 20rpx;
+  background: var(--wx-brand-100);
+  flex: 0 0 auto;
+}
+
+.u-icon-chip-image {
+  width: 58rpx;
+  height: 58rpx;
+  display: block;
+}
+
+/* -------- 分隔线 -------- */
+.u-divider {
+  height: 1rpx;
+  background: var(--wx-border-default);
+  margin: var(--wx-space-md) 0;
+}
+
+/* -------- Flex 辅助 -------- */
+.u-row {
+  display: flex;
+  align-items: center;
+  gap: var(--wx-space-sm);
+}
+
+.u-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wx-space-sm);
+}
+
+.u-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wx-space-sm);
+}
+
+/* ---- 微交互 ---- */
+
+.u-interactive {
+  transition: transform var(--wx-motion-fast), box-shadow var(--wx-motion-fast);
+}
+
+.u-interactive:active {
+  transform: var(--wx-scale-press);
+}
+
+/* 通用按压反馈：用于 hover-class */
+.u-hover {
+  opacity: 0.82;
+  transform: scale(0.98);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.u-fade-in {
+  animation: u-fade-in var(--wx-motion-normal) ease both;
+}
+
+@keyframes u-fade-in {
+  from { opacity: 0; transform: translateY(12rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}

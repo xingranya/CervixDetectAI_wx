@@ -28,7 +28,7 @@
 }
 
 .section-title {
-  color: #0b1c30;
+  color: var(--wx-text-primary);
   font-size: 35rpx;
   font-weight: 900;
   line-height: 1.22;
@@ -37,7 +37,7 @@
 .section-desc {
   display: block;
   margin-top: 8rpx;
-  color: #5f6f86;
+  color: var(--wx-text-tertiary);
   font-size: 25rpx;
   line-height: 1.6;
 }

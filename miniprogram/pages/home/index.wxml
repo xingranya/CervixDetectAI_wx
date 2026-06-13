@@ -1,24 +1,30 @@
 <view class="page home-page">
-  <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <text class="state-title">正在加载健康记录</text>
-    <text class="state-desc">请稍候，正在同步你的健康管理信息。</text>
+  <view wx:if="{{pageStatus === 'loading'}}" class="skeleton-container">
+    <skeleton mode="hero" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载首页</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadHome">
+    <button class="primary-button" hover-class="u-hover" bind:tap="loadHome">
       <text class="button-text">重新加载</text>
     </button>
   </view>
 
   <block wx:else>
     <view class="hero dashboard-card">
-      <view class="home-brand">
-        <image class="home-brand-logo" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
-        <text class="home-brand-name">云端智诊</text>
-      </view>
       <view class="hero-top-row">
+        <view class="home-brand">
+          <image class="home-brand-logo" src="/assets/icons/logo.png" mode="aspectFit" />
+          <text class="home-brand-name">云端智诊</text>
+        </view>
+        <view class="hero-top-spacer"></view>
+        <view class="notification-entry" hover-class="u-hover" bind:tap="goPage" data-path="{{notificationPath}}">
+          <mp-icon icon="notification" color="#475569" size="{{22}}" />
+          <view wx:if="{{unreadCount > 0}}" class="notification-badge">{{unreadCount > 99 ? '99+' : unreadCount}}</view>
+        </view>
+      </view>
+      <view class="hero-user-row">
         <view class="avatar-wrap">
           <image
             wx:if="{{activeAvatarUrl && !isGuest}}"
@@ -26,14 +32,14 @@
             src="{{activeAvatarUrl}}"
             mode="aspectFill"
           />
-          <mp-icon wx:else icon="me" color="#005dac" size="{{32}}" />
-          <view class="status-dot"></view>
+          <mp-icon wx:else icon="me" color="{{brandColor}}" size="{{32}}" />
+          <view class="status-dot status-dot-{{home.healthTone}}"></view>
         </view>
         <view class="hero-top-copy">
           <view class="status-row">
-            <view class="status-pill">
-              <view class="status-dot-inline"></view>
-              <text>{{isGuest ? '体验中' : '记录中'}}</text>
+            <view class="status-pill status-pill-{{home.healthTone}}">
+              <view class="status-dot-inline status-dot-inline-{{home.healthTone}}"></view>
+              <text>{{home.healthLabel || (isGuest ? '体验中' : '记录中')}}</text>
             </view>
           </view>
         </view>
@@ -45,7 +51,7 @@
       <text class="hero-title">{{isGuest ? '当前处于体验模式' : home.userName + '，请按计划管理健康记录'}}</text>
       <text class="hero-desc">{{home.latestSummary}}</text>
       <view class="metric-row">
-        <view wx:for="{{home.metrics}}" wx:key="label" class="metric-item">
+        <view wx:for="{{home.metrics}}" wx:key="label" class="metric-item metric-item-{{item.tone}}">
           <text class="metric-value">{{item.value}}</text>
           <text class="metric-label">{{item.label}}</text>
         </view>
@@ -53,7 +59,7 @@
       <view wx:if="{{isGuest}}" class="guest-entry-card">
         <text class="guest-entry-title">先浏览功能，再决定是否登录</text>
         <text class="guest-entry-desc">登录仅在你需要保存个人记录、提醒和备忘时使用，头像与昵称均为选填。</text>
-        <button class="primary-button guest-entry-button" bind:tap="goLogin">
+        <button class="primary-button guest-entry-button" hover-class="u-hover" bind:tap="goLogin">
           <view class="button-content">
             <mp-icon icon="me" color="#ffffff" size="{{18}}" />
             <text class="button-text guest-entry-button-text">登录保存数据</text>
@@ -86,7 +92,9 @@
       </view>
     </view>
 
-    <view class="card latest-card">
+    <view class="card latest-card timeline-card">
+      <view class="timeline-line"></view>
+      <view class="timeline-dot"></view>
       <view class="card-head">
         <view class="card-title-row">
           <view class="icon-chip">
@@ -100,7 +108,7 @@
         <text class="pill">{{home.latestDate || '待记录'}}</text>
       </view>
       <text class="latest-desc">{{home.nextReminder}}</text>
-      <button class="primary-button" bind:tap="goPage" data-path="/pages/records/index">
+      <button class="primary-button" hover-class="u-hover" bind:tap="goPage" data-path="/pages/records/index">
         <view class="button-content">
           <mp-icon icon="note" color="#ffffff" size="{{18}}" />
           <text class="button-text">查看检查记录</text>

@@ -3,8 +3,10 @@ const path = require("path");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const rateLimit = require("express-rate-limit");
 const env = require("./config/env");
 const miniappRouter = require("./routes/miniapp");
+const webhookRouter = require("./routes/webhook");
 const { errorHandler, notFoundHandler } = require("./middleware/errorHandler");
 
 const app = express();
@@ -17,6 +19,13 @@ app.use(helmet({
 app.use(cors({ origin: env.allowedOrigin }));
 app.use(express.json({ limit: "3mb" }));
 app.use(morgan("dev"));
+app.use(rateLimit({
+  windowMs: 60 * 1000,
+  max: 120,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: { success: false, message: "请求过于频繁，请稍后再试" }
+}));
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads"), {
   setHeaders: (res) => {
     // 头像会被小程序渲染层作为跨域图片加载，需允许资源跨域嵌入。
@@ -36,6 +45,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/miniapp", miniappRouter);
+app.use("/api/webhook", webhookRouter);
 app.use(notFoundHandler);
 app.use(errorHandler);
 

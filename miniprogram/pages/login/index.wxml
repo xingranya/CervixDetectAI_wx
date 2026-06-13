@@ -2,7 +2,7 @@
   <view class="login-hero">
     <view class="brand-lockup">
       <view class="login-mark-wrap">
-        <image class="login-mark" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
+        <image class="login-mark" src="/assets/icons/logo.png" mode="aspectFit" />
       </view>
       <text class="eyebrow">云端智诊</text>
     </view>
@@ -55,21 +55,21 @@
       <view class="agreement-panel">
         <text class="agreement-title">登录前请先同意以下协议</text>
         <view class="agreement-links">
-          <text class="agreement-link" bind:tap="openServiceAgreement">《用户服务协议》</text>
+          <text class="agreement-link" hover-class="u-hover" bind:tap="openServiceAgreement">《用户服务协议》</text>
           <text class="agreement-separator">与</text>
-          <text class="agreement-link" bind:tap="openPrivacy">《隐私与服务说明》</text>
+          <text class="agreement-link" hover-class="u-hover" bind:tap="openPrivacy">《隐私与服务说明》</text>
         </view>
         <text class="agreement-note">点击登录按钮后会弹出协议确认弹窗，请阅读后主动勾选同意。不同意也可仅浏览小程序，不影响查看健康知识和功能入口。</text>
       </view>
 
-      <button class="primary-button login-button" disabled="{{loading}}" form-type="submit">
+      <button class="primary-button login-button" hover-class="u-hover" disabled="{{loading}}" form-type="submit">
         <view class="button-content">
           <mp-icon icon="me" color="#ffffff" size="{{18}}" />
           <text class="button-text">{{loading ? '正在登录' : '登录并继续'}}</text>
         </view>
       </button>
 
-      <button class="login-skip-button" disabled="{{loading}}" catch:tap="skipSetupAndLogin">
+      <button class="login-skip-button" hover-class="u-hover" disabled="{{loading}}" catch:tap="skipSetupAndLogin">
         <text class="login-skip-button-text">暂不设置资料，直接登录</text>
       </button>
     </form>
@@ -90,13 +90,13 @@
       <text class="login-consent-title">资料设置说明</text>
       <text class="login-consent-desc">设置昵称和头像前，请先阅读相关说明。不同意也可以继续登录并使用小程序，只是本次不进行资料设置。</text>
       <view class="agreement-links login-consent-links">
-        <text class="agreement-link" bind:tap="openServiceAgreement">《用户服务协议》</text>
+        <text class="agreement-link" hover-class="u-hover" bind:tap="openServiceAgreement">《用户服务协议》</text>
         <text class="agreement-separator">与</text>
-        <text class="agreement-link" bind:tap="openPrivacy">《隐私与服务说明》</text>
+        <text class="agreement-link" hover-class="u-hover" bind:tap="openPrivacy">《隐私与服务说明》</text>
       </view>
       <view class="login-consent-actions">
-        <button class="login-consent-cancel" catch:tap="declineConsent">暂不设置</button>
-        <button class="login-consent-confirm" catch:tap="agreeConsent">同意并设置</button>
+        <button class="login-consent-cancel" hover-class="u-hover" catch:tap="declineConsent">暂不设置</button>
+        <button class="login-consent-confirm" hover-class="u-hover" catch:tap="agreeConsent">同意并设置</button>
       </view>
     </view>
   </view>

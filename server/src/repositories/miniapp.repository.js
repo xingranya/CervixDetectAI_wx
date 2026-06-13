@@ -41,8 +41,23 @@ function mapRecord(row) {
     project: row.project,
     summary: row.summary,
     suggestion: row.suggestion,
-    status: row.status
+    status: row.status,
+    hospital: row.hospital || "",
+    doctorName: row.doctor_name || "",
+    conclusion: row.conclusion || "",
+    attachments: parseJsonField(row.attachments)
   };
+}
+
+function parseJsonField(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
 }
 
 function mapReminder(row) {
@@ -51,6 +66,10 @@ function mapReminder(row) {
     title: row.title,
     date: row.remind_date,
     desc: row.description,
+    type: row.type || "follow_up",
+    priority: row.priority || "medium",
+    linkedRecordId: row.linked_record_id || null,
+    notes: row.notes || "",
     done: Boolean(row.done)
   };
 }
@@ -198,21 +217,44 @@ async function updateProfile(userId, payload = {}) {
 }
 
 async function getHome(userId) {
-  const [user] = await db.query(
-    "SELECT nickname FROM wx_users WHERE id = ? LIMIT 1",
+  const [summaryRows] = await db.query(
+    `
+      SELECT
+        u.nickname,
+        (SELECT COUNT(*) FROM wx_health_records WHERE user_id = u.id) AS record_count,
+        (SELECT COUNT(*) FROM wx_reminders WHERE user_id = u.id AND done = 0) AS pending_count,
+        (SELECT DATE_FORMAT(remind_date, '%Y-%m-%d') FROM wx_reminders WHERE user_id = u.id AND done = 0 ORDER BY remind_date ASC LIMIT 1) AS next_remind_date
+      FROM wx_users u
+      WHERE u.id = ?
+      LIMIT 1
+    `,
     [userId]
   );
 
-  const [latestRecord] = await db.query(
+  const summary = summaryRows[0];
+  if (!summary) {
+    return {
+      userName: "微信用户",
+      latestTitle: "最近一次健康检查摘要",
+      latestDate: "",
+      latestSummary: "暂无检查摘要，可先添加健康记录。",
+      nextReminder: "暂无待处理提醒",
+      disclaimer: "本小程序仅用于健康信息记录与提醒，具体健康问题请前往线下正规机构咨询。",
+      metrics: [
+        { label: "已记录", value: "0 次" },
+        { label: "待关注", value: "0 项" },
+        { label: "下次提醒", value: "暂无" }
+      ]
+    };
+  }
+
+  const [detailRows] = await db.query(
     `
       SELECT
         id,
         DATE_FORMAT(record_date, '%Y-%m-%d') AS record_date,
         title,
-        project,
-        summary,
-        suggestion,
-        status
+        summary
       FROM wx_health_records
       WHERE user_id = ?
       ORDER BY record_date DESC, created_at DESC
@@ -221,64 +263,65 @@ async function getHome(userId) {
     [userId]
   );
 
-  const [nextReminder] = await db.query(
-    `
-      SELECT DATE_FORMAT(remind_date, '%Y-%m-%d') AS remind_date
-      FROM wx_reminders
-      WHERE user_id = ? AND done = 0
-      ORDER BY remind_date ASC
-      LIMIT 1
-    `,
-    [userId]
-  );
-
-  const [recordCount] = await db.query(
-    "SELECT COUNT(*) AS total FROM wx_health_records WHERE user_id = ?",
-    [userId]
-  );
-  const [pendingCount] = await db.query(
-    "SELECT COUNT(*) AS total FROM wx_reminders WHERE user_id = ? AND done = 0",
-    [userId]
-  );
-
-  const latest = latestRecord ? mapRecord(latestRecord) : null;
-  const nextReminderText = nextReminder
-    ? `${nextReminder.remind_date} 前完成复查提醒`
+  const latest = detailRows[0] ? mapRecord(detailRows[0]) : null;
+  const nextReminderText = summary.next_remind_date
+    ? `${summary.next_remind_date} 前完成复查提醒`
     : "暂无待处理提醒";
 
   return {
-    userName: user?.nickname || "微信用户",
+    userName: summary.nickname || "微信用户",
     latestTitle: latest?.title || "最近一次健康检查摘要",
     latestDate: latest?.date || "",
     latestSummary: latest?.summary || "暂无检查摘要，可先添加健康记录。",
     nextReminder: nextReminderText,
     disclaimer: "本小程序仅用于健康信息记录与提醒，具体健康问题请前往线下正规机构咨询。",
     metrics: [
-      { label: "已记录", value: `${recordCount.total || 0} 次` },
-      { label: "待关注", value: `${pendingCount.total || 0} 项` },
-      { label: "下次提醒", value: nextReminder?.remind_date ? nextReminder.remind_date.slice(5) : "暂无" }
+      { label: "已记录", value: `${summary.record_count || 0} 次` },
+      { label: "待关注", value: `${summary.pending_count || 0} 项` },
+      { label: "下次提醒", value: summary.next_remind_date ? summary.next_remind_date.slice(5) : "暂无" }
     ]
   };
 }
 
-async function listRecords(userId) {
+async function listRecords(userId, options = {}) {
+  const status = options.status;
+  const page = Math.max(1, Number(options.page) || 1);
+  const pageSize = Math.min(Math.max(1, Number(options.pageSize) || 20), 50);
+  const offset = (page - 1) * pageSize;
+  const params = [userId];
+  let whereClause = "WHERE user_id = ?";
+  if (status) {
+    whereClause += " AND status = ?";
+    params.push(status);
+  }
+
+  const [countRows] = await db.query(
+    `SELECT COUNT(*) AS total FROM wx_health_records ${whereClause}`,
+    params
+  );
+  const total = countRows?.total || 0;
+
   const rows = await db.query(
     `
       SELECT
         id,
         DATE_FORMAT(record_date, '%Y-%m-%d') AS record_date,
-        title,
-        project,
-        summary,
-        suggestion,
-        status
+        title, project, summary, suggestion, status,
+        hospital, doctor_name, conclusion, attachments
       FROM wx_health_records
-      WHERE user_id = ?
+      ${whereClause}
       ORDER BY record_date DESC, created_at DESC
+      LIMIT ? OFFSET ?
     `,
-    [userId]
+    [...params, pageSize, offset]
   );
-  return rows.map(mapRecord);
+
+  return {
+    items: rows.map(mapRecord),
+    total,
+    page,
+    hasMore: offset + rows.length < total
+  };
 }
 
 async function getRecordById(userId, id) {
@@ -287,11 +330,8 @@ async function getRecordById(userId, id) {
       SELECT
         id,
         DATE_FORMAT(record_date, '%Y-%m-%d') AS record_date,
-        title,
-        project,
-        summary,
-        suggestion,
-        status
+        title, project, summary, suggestion, status,
+        hospital, doctor_name, conclusion, attachments
       FROM wx_health_records
       WHERE id = ? AND user_id = ?
       LIMIT 1
@@ -306,10 +346,12 @@ async function createRecord(userId, payload) {
   await db.query(
     `
       INSERT INTO wx_health_records
-        (id, user_id, record_date, title, project, summary, suggestion, status, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+        (id, user_id, record_date, title, project, summary, suggestion, status,
+         hospital, doctor_name, conclusion, attachments, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
     `,
-    [id, userId, payload.date, payload.title, payload.project, payload.summary, payload.suggestion, payload.status]
+    [id, userId, payload.date, payload.title, payload.project, payload.summary, payload.suggestion, payload.status,
+     payload.hospital || "", payload.doctorName || "", payload.conclusion || null, payload.attachments ? JSON.stringify(payload.attachments) : null]
   );
   return getRecordById(userId, id);
 }
@@ -318,10 +360,13 @@ async function updateRecord(userId, id, payload) {
   await db.query(
     `
       UPDATE wx_health_records
-      SET record_date = ?, title = ?, project = ?, summary = ?, suggestion = ?, status = ?, updated_at = NOW()
+      SET record_date = ?, title = ?, project = ?, summary = ?, suggestion = ?, status = ?,
+          hospital = ?, doctor_name = ?, conclusion = ?, attachments = ?, updated_at = NOW()
       WHERE id = ? AND user_id = ?
     `,
-    [payload.date, payload.title, payload.project, payload.summary, payload.suggestion, payload.status, id, userId]
+    [payload.date, payload.title, payload.project, payload.summary, payload.suggestion, payload.status,
+     payload.hospital || "", payload.doctorName || "", payload.conclusion || null, payload.attachments ? JSON.stringify(payload.attachments) : null,
+     id, userId]
   );
   return getRecordById(userId, id);
 }
@@ -334,23 +379,49 @@ async function deleteRecord(userId, id) {
   return { deleted: result.affectedRows > 0 };
 }
 
-async function listReminders(userId) {
+async function listReminders(userId, options = {}) {
+  const type = options.type;
+  const page = Math.max(1, Number(options.page) || 1);
+  const pageSize = Math.min(Math.max(1, Number(options.pageSize) || 20), 50);
+  const offset = (page - 1) * pageSize;
+  const params = [userId];
+  let whereClause = "WHERE user_id = ?";
+  if (type) {
+    whereClause += " AND type = ?";
+    params.push(type);
+  }
+
+  const [countRows] = await db.query(
+    `SELECT COUNT(*) AS total FROM wx_reminders ${whereClause}`,
+    params
+  );
+  const total = countRows?.total || 0;
+
   const rows = await db.query(
     `
-      SELECT id, title, DATE_FORMAT(remind_date, '%Y-%m-%d') AS remind_date, description, done
+      SELECT id, title, DATE_FORMAT(remind_date, '%Y-%m-%d') AS remind_date, description,
+             type, priority, linked_record_id, notes, done
       FROM wx_reminders
-      WHERE user_id = ?
+      ${whereClause}
       ORDER BY done ASC, remind_date ASC, created_at DESC
+      LIMIT ? OFFSET ?
     `,
-    [userId]
+    [...params, pageSize, offset]
   );
-  return rows.map(mapReminder);
+
+  return {
+    items: rows.map(mapReminder),
+    total,
+    page,
+    hasMore: offset + rows.length < total
+  };
 }
 
 async function getReminderById(userId, id) {
   const [row] = await db.query(
     `
-      SELECT id, title, DATE_FORMAT(remind_date, '%Y-%m-%d') AS remind_date, description, done
+      SELECT id, title, DATE_FORMAT(remind_date, '%Y-%m-%d') AS remind_date, description,
+             type, priority, linked_record_id, notes, done
       FROM wx_reminders
       WHERE id = ? AND user_id = ?
       LIMIT 1
@@ -365,10 +436,13 @@ async function createReminder(userId, payload) {
   await db.query(
     `
       INSERT INTO wx_reminders
-        (id, user_id, title, remind_date, description, done, completed_at, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, IF(? = 1, NOW(), NULL), NOW(), NOW())
+        (id, user_id, title, remind_date, description, type, priority, linked_record_id, notes,
+         done, completed_at, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, IF(? = 1, NOW(), NULL), NOW(), NOW())
     `,
-    [id, userId, payload.title, payload.date, payload.desc, payload.done ? 1 : 0, payload.done ? 1 : 0]
+    [id, userId, payload.title, payload.date, payload.desc, payload.type || "follow_up",
+     payload.priority || "medium", payload.linkedRecordId || null, payload.notes || null,
+     payload.done ? 1 : 0, payload.done ? 1 : 0]
   );
   return getReminderById(userId, id);
 }
@@ -380,12 +454,18 @@ async function updateReminder(userId, id, payload) {
       SET title = ?,
           remind_date = ?,
           description = ?,
+          type = ?,
+          priority = ?,
+          linked_record_id = ?,
+          notes = ?,
           done = ?,
           completed_at = IF(? = 1, COALESCE(completed_at, NOW()), NULL),
           updated_at = NOW()
       WHERE id = ? AND user_id = ?
     `,
-    [payload.title, payload.date, payload.desc, payload.done ? 1 : 0, payload.done ? 1 : 0, id, userId]
+    [payload.title, payload.date, payload.desc, payload.type || "follow_up",
+     payload.priority || "medium", payload.linkedRecordId || null, payload.notes || null,
+     payload.done ? 1 : 0, payload.done ? 1 : 0, id, userId]
   );
   return getReminderById(userId, id);
 }
@@ -440,14 +520,23 @@ async function saveQuestions(userId, questions) {
   if (!questions.length) {
     return { questions: [] };
   }
-  const createdQuestions = [];
+
+  const now = new Date();
+  const valueClauses = [];
+  const params = [];
+
   for (const questionText of questions) {
-    createdQuestions.push(await createQuestion(userId, {
-      questionText,
-      answerText: ""
-    }));
+    valueClauses.push("(?, ?, ?, NOW(), NOW())");
+    params.push(userId, questionText, "");
   }
-  return { questions: createdQuestions };
+
+  await db.query(
+    `INSERT INTO wx_user_questions (user_id, question_text, answer_text, created_at, updated_at)
+     VALUES ${valueClauses.join(", ")}`,
+    params
+  );
+
+  return { questions: await listQuestions(userId) };
 }
 
 async function getQuestionById(userId, id) {
@@ -534,6 +623,69 @@ async function createFeedback(userId, payload = {}) {
   };
 }
 
+/* -------- 通知管理 -------- */
+
+function mapNotification(row) {
+  return {
+    id: row.id,
+    type: row.type || "system",
+    title: row.title,
+    content: row.content,
+    extra: parseJsonField(row.extra),
+    isRead: !!row.is_read,
+    createdAt: row.created_at,
+    readAt: row.read_at || null
+  };
+}
+
+async function listNotifications(userId, { limit = 20, offset = 0 } = {}) {
+  const rows = await db.query(
+    `
+      SELECT id, type, title, content, extra, is_read, created_at, read_at
+      FROM wx_notifications
+      WHERE user_id = ?
+      ORDER BY created_at DESC
+      LIMIT ? OFFSET ?
+    `,
+    [userId, limit, offset]
+  );
+  return rows.map(mapNotification);
+}
+
+async function getUnreadCount(userId) {
+  const rows = await db.query(
+    `SELECT COUNT(*) AS cnt FROM wx_notifications WHERE user_id = ? AND is_read = 0`,
+    [userId]
+  );
+  return Number(rows[0]?.cnt || 0);
+}
+
+async function markNotificationRead(userId, notificationId) {
+  const result = await db.query(
+    `UPDATE wx_notifications SET is_read = 1, read_at = NOW() WHERE id = ? AND user_id = ? AND is_read = 0`,
+    [notificationId, userId]
+  );
+  return { updated: result.affectedRows > 0 };
+}
+
+async function markAllNotificationsRead(userId) {
+  const result = await db.query(
+    `UPDATE wx_notifications SET is_read = 1, read_at = NOW() WHERE user_id = ? AND is_read = 0`,
+    [userId]
+  );
+  return { updated: result.affectedRows };
+}
+
+async function createNotification(userId, { type = "system", title, content, extra = null } = {}) {
+  const id = createCompactId();
+  await db.query(
+    `INSERT INTO wx_notifications (id, user_id, type, title, content, extra, is_read, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, 0, NOW())`,
+    [id, userId, type, title, content, extra ? JSON.stringify(extra) : null]
+  );
+  return { id, type, title, content, extra, isRead: false, createdAt: new Date(), readAt: null };
+}
+
 module.exports = {
   login,
   getSessionByToken,
@@ -559,5 +711,10 @@ module.exports = {
   updateQuestion,
   deleteQuestion,
   listArticles,
-  createFeedback
+  createFeedback,
+  listNotifications,
+  getUnreadCount,
+  markNotificationRead,
+  markAllNotificationsRead,
+  createNotification
 };

@@ -1,6 +1,6 @@
 <view class="page records-page">
   <section-header title="检查记录" weui-icon="note">
-    <button slot="extra" class="mini-primary" bind:tap="createRecord">
+    <button slot="extra" class="mini-primary" hover-class="u-hover" bind:tap="createRecord">
       <view class="button-content">
         <mp-icon icon="add" color="rgb(24, 118, 210)" size="{{16}}" />
         <text class="button-text">新增</text>
@@ -46,18 +46,21 @@
     bindselectresult="onSearchSelect"
   />
 
-  <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <view class="local-loading">
-      <view class="loading-ring"></view>
-      <text class="loading-text">正在加载检查记录</text>
-    </view>
-    <text class="state-desc">请稍候，正在同步你的历史摘要。</text>
+  <view wx:if="{{allRecords.length}}" class="filter-tab-row">
+    <button wx:for="{{filterTabs}}" wx:key="value" class="filter-tab {{item.active ? 'filter-tab-active' : ''}}" hover-class="u-hover" data-value="{{item.value}}" bind:tap="onFilterChange">
+      <text>{{item.label}}</text>
+      <text wx:if="{{item.count > 0}}" class="filter-tab-count">{{item.count}}</text>
+    </button>
+  </view>
+
+  <view wx:if="{{pageStatus === 'loading'}}" class="skeleton-container">
+    <skeleton mode="list" rows="{{4}}" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
     <text class="state-title">暂时无法加载检查记录</text>
     <text class="state-desc">{{errorMessage}}</text>
-    <button class="primary-button" bind:tap="loadRecords">
+    <button class="primary-button" hover-class="u-hover" bind:tap="loadRecords">
       <text class="button-text">重新加载</text>
     </button>
   </view>
@@ -82,7 +85,7 @@
     <view class="records-list">
       <view wx:for="{{records}}" wx:key="id" class="timeline-item">
         <view class="slide-cell">
-          <view class="card record-card" bind:tap="openDetail" data-id="{{item.id}}">
+          <view class="card record-card" hover-class="u-hover" bind:tap="openDetail" data-id="{{item.id}}">
             <view class="record-top">
               <view class="record-title-block">
                 <text class="record-title">{{item.title}}</text>
@@ -100,13 +103,13 @@
               <text class="record-summary">{{item.summary}}</text>
             </view>
             <view class="record-actions">
-              <button class="text-button" catch:tap="editRecord" data-id="{{item.id}}">
+              <button class="text-button" hover-class="u-hover" catch:tap="editRecord" data-id="{{item.id}}">
                 <view class="button-content">
                   <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{16}}" />
                   <text class="button-text">编辑</text>
                 </view>
               </button>
-              <button class="text-button danger" catch:tap="deleteRecord" data-id="{{item.id}}">
+              <button class="text-button danger" hover-class="u-hover" catch:tap="deleteRecord" data-id="{{item.id}}">
                 <view class="button-content">
                   <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
                   <text class="button-text">删除</text>
@@ -118,6 +121,13 @@
       </view>
     </view>
   </block>
+
+  <view wx:if="{{loadingMore}}" class="loading-more">
+    <text class="loading-more-text">加载中...</text>
+  </view>
+  <view wx:elif="{{!hasMore && allRecords.length > 0}}" class="loading-more">
+    <text class="loading-more-text">没有更多了</text>
+  </view>
 
   <view class="safe-note">记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。</view>
   <weui-confirm

@@ -13,7 +13,9 @@ const ROUTES = {
   serviceAgreement: "/packages/profile/service/index",
   profileSetup: "/packages/profile/setup/index",
   compliance: "/packages/profile/compliance/index",
-  feedback: "/packages/profile/feedback/index"
+  feedback: "/packages/profile/feedback/index",
+  assistantChat: "/packages/assistant/chat/index",
+  notifications: "/packages/notifications/list/index"
 };
 
 const TAB_ROUTES = [
@@ -45,7 +47,12 @@ function openRoute(route, query = {}, options = {}) {
 }
 
 function navigateBackLater() {
-  wx.navigateBack();
+  const pages = getCurrentPages();
+  if (pages.length > 1) {
+    wx.navigateBack();
+  } else {
+    wx.switchTab({ url: "/pages/home/index" });
+  }
 }
 
 module.exports = {

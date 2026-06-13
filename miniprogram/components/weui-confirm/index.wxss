@@ -6,17 +6,17 @@
   align-items: center;
   justify-content: center;
   padding: 48rpx;
-  background: rgba(11, 28, 48, 0.42);
+  background: var(--wx-overlay);
   box-sizing: border-box;
 }
 
 .confirm-panel {
   width: 100%;
   padding: 34rpx 30rpx 28rpx;
-  border: 1rpx solid rgba(199, 210, 232, 0.78);
+  border: 1rpx solid var(--wx-border-card);
   border-radius: 24rpx;
-  background: #ffffff;
-  box-shadow: 0 24rpx 64rpx rgba(15, 23, 42, 0.18);
+  background: var(--wx-bg-primary);
+  box-shadow: 0 24rpx 64rpx var(--wx-shadow-confirm);
   box-sizing: border-box;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .confirm-title {
-  color: #0b1c30;
+  color: var(--wx-text-primary);
   font-size: 32rpx;
   font-weight: 900;
   line-height: 1.35;
@@ -35,7 +35,7 @@
 
 .confirm-content {
   margin-top: 18rpx;
-  color: #3e4a5f;
+  color: var(--wx-text-secondary);
   font-size: 30rpx;
   line-height: 1.62;
   text-align: center;
@@ -85,18 +85,18 @@
 }
 
 .confirm-cancel {
-  border: 1rpx solid rgba(24, 118, 210, 0.16);
-  background: rgba(24, 118, 210, 0.08);
-  color: #0d47a1;
+  border: 1rpx solid rgba(var(--wx-brand-500-rgb), 0.16);
+  background: rgba(var(--wx-brand-500-rgb), 0.08);
+  color: var(--wx-brand-700);
 }
 
 .confirm-submit {
-  background: rgb(24, 118, 210);
-  color: #ffffff;
-  box-shadow: 0 10rpx 24rpx rgba(24, 118, 210, 0.18);
+  background: var(--wx-brand-500);
+  color: var(--wx-text-on-primary);
+  box-shadow: 0 10rpx 24rpx rgba(var(--wx-brand-500-rgb), 0.18);
 }
 
 .confirm-submit-warn {
-  background: #ba1a1a;
+  background: var(--wx-danger);
   box-shadow: 0 10rpx 24rpx rgba(186, 26, 26, 0.16);
 }

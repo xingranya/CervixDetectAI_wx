@@ -32,9 +32,9 @@ const GUEST_HOME = {
 };
 
 const DEFAULT_METRICS = [
-  { label: "已记录", value: "0次" },
-  { label: "待关注", value: "0项" },
-  { label: "下次提醒", value: "暂无" }
+  { label: "已记录", value: "0次", tone: "success", icon: "check" },
+  { label: "待关注", value: "0项", tone: "warning", icon: "bell" },
+  { label: "下次提醒", value: "暂无", tone: "info", icon: "calendar" }
 ];
 
 function normalizeMetric(metric, fallback) {
@@ -44,7 +44,9 @@ function normalizeMetric(metric, fallback) {
     : source.value;
   return {
     label: source.label || fallback.label,
-    value
+    value,
+    tone: source.tone || fallback.tone || "default",
+    icon: source.icon || fallback.icon || ""
   };
 }
 
@@ -53,9 +55,17 @@ function normalizeMetrics(metrics) {
   return DEFAULT_METRICS.map((fallback, index) => normalizeMetric(list[index], fallback));
 }
 
+function resolveStatusTone(latestSummary, latestTitle) {
+  const text = (latestSummary || "") + (latestTitle || "");
+  if (text.indexOf("待复查") > -1 || text.indexOf("异常") > -1) return "attention";
+  if (text.indexOf("待关注") > -1) return "pending";
+  return "normal";
+}
+
 function normalizeHome(home) {
   const source = home || {};
   const metrics = normalizeMetrics(source.metrics);
+  const healthTone = resolveStatusTone(source.latestSummary, source.latestTitle);
   return {
     userName: source.userName || "微信用户",
     latestTitle: source.latestTitle || "还没有检查记录",
@@ -64,7 +74,9 @@ function normalizeHome(home) {
     nextReminder: source.nextReminder || "添加复查或资料准备提醒，把后续安排放进计划里。",
     nextReminderValue: metrics[2].value,
     disclaimer: source.disclaimer || "记录内容用于个人健康管理和复查准备，不作为诊断、治疗或紧急医疗建议。",
-    metrics
+    metrics,
+    healthTone,
+    healthLabel: healthTone === "normal" ? "状态正常" : healthTone === "pending" ? "待关注" : healthTone === "attention" ? "需复查" : "记录中"
   };
 }
 
@@ -82,6 +94,9 @@ Page({
     pageStatus: PAGE_STATUS.LOADING,
     errorMessage: "",
     isGuest: !isLoggedIn(),
+    brandColor: "#2563eb",
+    notificationPath: ROUTES.notifications,
+    unreadCount: 0,
     actions: [
       {
         label: "检查记录",
@@ -110,6 +125,13 @@ Page({
         path: ROUTES.articles,
         tone: "cyan",
         icon: "/assets/icons/articles-active.png"
+      },
+      {
+        label: "健康助手",
+        desc: "AI科普问答",
+        path: ROUTES.assistantChat,
+        tone: "blue",
+        icon: "/assets/icons/questions-active.png"
       }
     ]
   },
@@ -124,6 +146,9 @@ Page({
     const wasGuest = this.data.isGuest;
     this.refreshLoginState();
     const isGuest = this.data.isGuest;
+    if (!isGuest) {
+      this.fetchUnreadCount();
+    }
     if (wasGuest && !isGuest) {
       this.setData({
         home: null,
@@ -145,6 +170,15 @@ Page({
       user,
       activeAvatarUrl: resolveActiveAvatarUrl(user)
     });
+  },
+
+  async fetchUnreadCount() {
+    try {
+      const res = await request("/notifications/unread-count", { method: "GET" });
+      this.setData({ unreadCount: res.data?.count || 0 });
+    } catch (error) {
+      // Silent - unread count is non-critical
+    }
   },
 
   renderCachedHome() {

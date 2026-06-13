@@ -9,19 +9,19 @@
       <text class="panel-desc">选择后会自动填入标题、项目、摘要和建议，可继续修改。</text>
     </view>
     <view class="template-row">
-      <button class="template-card" data-index="0" bind:tap="applyTemplate">
+      <button class="template-card" hover-class="u-hover" data-index="0" bind:tap="applyTemplate">
         <view class="template-title-wrap">
           <text class="template-title">筛查摘要</text>
         </view>
         <text class="template-desc">TCT / HPV 等摘要</text>
       </button>
-      <button class="template-card" data-index="1" bind:tap="applyTemplate">
+      <button class="template-card" hover-class="u-hover" data-index="1" bind:tap="applyTemplate">
         <view class="template-title-wrap">
           <text class="template-title">复查准备</text>
         </view>
         <text class="template-desc">复查前资料整理</text>
       </button>
-      <button class="template-card" data-index="2" bind:tap="applyTemplate">
+      <button class="template-card" hover-class="u-hover" data-index="2" bind:tap="applyTemplate">
         <view class="template-title-wrap">
           <text class="template-title">日常记录</text>
         </view>
@@ -38,7 +38,7 @@
       </view>
       <mp-cells ext-class="form-weui-cells">
         <mp-cell title="检查日期" prop="date" show-error="{{true}}" inline="{{false}}">
-          <picker mode="date" value="{{date}}" bind:change="onDateChange">
+          <picker mode="date" value="{{date}}" start="2000-01-01" end="{{today}}" bind:change="onDateChange">
             <view class="select-field">
               <text class="select-value">{{dateDisplay}}</text>
               <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
@@ -52,6 +52,14 @@
 
         <mp-cell title="检查项目" prop="project" show-error="{{true}}" inline="{{false}}">
           <input class="form-input" value="{{project}}" bind:input="onProjectInput" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" placeholder-class="form-placeholder" />
+        </mp-cell>
+
+        <mp-cell title="检查医院" inline="{{false}}">
+          <input class="form-input" value="{{hospital}}" bind:input="onHospitalInput" maxlength="100" placeholder="选填，如：北京协和医院" placeholder-class="form-placeholder" />
+        </mp-cell>
+
+        <mp-cell title="主治医生" inline="{{false}}">
+          <input class="form-input" value="{{doctorName}}" bind:input="onDoctorNameInput" maxlength="40" placeholder="选填，如：张医生" placeholder-class="form-placeholder" />
         </mp-cell>
       </mp-cells>
     </view>
@@ -75,7 +83,33 @@
           </view>
           <textarea class="form-textarea" value="{{suggestion}}" bind:input="onSuggestionInput" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" placeholder-class="form-placeholder" />
         </mp-cell>
+
+        <mp-cell title="检查结论" inline="{{false}}">
+          <view class="label-row">
+            <text class="field-hint">{{conclusionLength}} / 500</text>
+          </view>
+          <textarea class="form-textarea" value="{{conclusion}}" bind:input="onConclusionInput" maxlength="500" placeholder="选填，如：未见异常 / ASCUS 等" placeholder-class="form-placeholder" />
+        </mp-cell>
       </mp-cells>
+    </view>
+
+    <view class="form-panel">
+      <view class="panel-heading">
+        <text class="panel-title">附件图片</text>
+        <text class="panel-desc">选填，上传检查报告照片等附件（最多9张）。</text>
+      </view>
+      <view class="attachment-grid">
+        <view wx:for="{{attachments}}" wx:key="url" class="attachment-item">
+          <image class="attachment-image" src="{{item.url}}" mode="aspectFill" bind:tap="previewAttachment" data-index="{{index}}" />
+          <view class="attachment-remove" catch:tap="removeAttachment" data-index="{{index}}">
+            <text class="attachment-remove-icon">×</text>
+          </view>
+        </view>
+        <view wx:if="{{attachments.length < 9}}" class="attachment-add" bind:tap="chooseAttachment">
+          <text class="attachment-add-icon">+</text>
+          <text class="attachment-add-text">添加图片</text>
+        </view>
+      </view>
     </view>
 
     <view class="form-panel">
@@ -92,7 +126,7 @@
   </mp-form>
 
   <view class="submit-panel">
-    <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitForm">
+    <button class="primary-button form-submit" hover-class="u-hover" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
         <mp-icon icon="note" color="#ffffff" size="{{18}}" />
         <text class="button-text">{{submitText}}</text>

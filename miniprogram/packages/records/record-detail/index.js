@@ -16,6 +16,27 @@ const {
   requestReportSubscription
 } = require("../utils/report-subscription");
 
+const DIAGNOSIS_KEYWORDS = {
+  normal: { keys: ["未见异常", "正常", "阴性", "NILM", "无异常"], label: "正常", tone: "normal" },
+  ascus: { keys: ["ASCUS", "ASC-US", "非典型鳞状细胞"], label: "ASCUS", tone: "ascus" },
+  lsil: { keys: ["LSIL", "低级别"], label: "LSIL", tone: "lsil" },
+  hsil: { keys: ["HSIL", "高级别", "CIN"], label: "HSIL", tone: "hsil" },
+  scc: { keys: ["SCC", "鳞状细胞癌", "恶性"], label: "SCC", tone: "scc" }
+};
+
+function resolveDiagnosisTone(conclusion) {
+  const text = String(conclusion || "").toUpperCase();
+  if (!text) return { tone: "", label: "" };
+  const order = ["scc", "hsil", "lsil", "ascus", "normal"];
+  for (const key of order) {
+    const entry = DIAGNOSIS_KEYWORDS[key];
+    if (entry.keys.some((k) => text.indexOf(k.toUpperCase()) > -1)) {
+      return { tone: entry.tone, label: entry.label };
+    }
+  }
+  return { tone: "", label: "" };
+}
+
 function buildRecordView(record) {
   if (!record) return null;
 
@@ -26,6 +47,9 @@ function buildRecordView(record) {
   const dateParts = String(record.date || "").split("-");
   const dateMonthDay = dateParts.length === 3 ? `${dateParts[1]}-${dateParts[2]}` : record.date;
   const dateYear = dateParts.length === 3 ? dateParts[0] : "";
+  const conclusion = String(record.conclusion || "");
+  const diagnosis = resolveDiagnosisTone(conclusion);
+  const attachments = Array.isArray(record.attachments) ? record.attachments : [];
 
   return {
     ...record,
@@ -35,7 +59,13 @@ function buildRecordView(record) {
     dateYear,
     summaryText: record.summary || "暂无检查摘要",
     suggestionText: record.suggestion || "暂无后续提醒",
-    projectText: record.project || "检查摘要记录"
+    projectText: record.project || "检查摘要记录",
+    hospital: record.hospital || "",
+    doctorName: record.doctorName || "",
+    conclusionText: conclusion || "",
+    diagnosisTone: diagnosis.tone,
+    diagnosisToneLabel: diagnosis.label,
+    attachments
   };
 }
 
@@ -183,6 +213,15 @@ Page({
       navigateBackLater();
     } catch (error) {
       showErrorToast(error, "删除失败");
+    }
+  },
+
+  previewImage(event) {
+    const index = Number(event.currentTarget.dataset.index || 0);
+    const attachments = this.data.recordView ? this.data.recordView.attachments : [];
+    const urls = attachments.map((item) => item.url);
+    if (urls.length) {
+      wx.previewImage({ current: urls[index], urls });
     }
   }
 });

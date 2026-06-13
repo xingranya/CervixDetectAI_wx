@@ -36,6 +36,18 @@
         "compliance/index",
         "feedback/index"
       ]
+    },
+    {
+      "root": "packages/assistant",
+      "pages": [
+        "chat/index"
+      ]
+    },
+    {
+      "root": "packages/notifications",
+      "pages": [
+        "list/index"
+      ]
     }
   ],
   "preloadRule": {
@@ -44,7 +56,8 @@
       "packages": [
         "packages/records",
         "packages/reminders",
-        "packages/tools"
+        "packages/tools",
+        "packages/assistant"
       ]
     },
     "pages/profile/index": {
@@ -65,7 +78,7 @@
   },
   "tabBar": {
     "color": "#66748a",
-    "selectedColor": "#1f53c9",
+    "selectedColor": "#2563eb",
     "backgroundColor": "#f8f9ff",
     "borderStyle": "white",
     "list": [
@@ -96,6 +109,8 @@
     ]
   },
   "style": "v2",
+  "darkmode": true,
+  "themeLocation": "styles/theme.json",
   "lazyCodeLoading": "requiredComponents",
   "sitemapLocation": "sitemap.json"
 }

@@ -38,6 +38,10 @@ CREATE TABLE IF NOT EXISTS wx_health_records (
   summary VARCHAR(500) NOT NULL,
   suggestion VARCHAR(500) NOT NULL,
   status VARCHAR(40) NOT NULL DEFAULT '已记录',
+  hospital VARCHAR(200) DEFAULT '' COMMENT '检查机构',
+  doctor_name VARCHAR(80) DEFAULT '' COMMENT '主检医生',
+  conclusion TEXT DEFAULT NULL COMMENT '结论摘要',
+  attachments JSON DEFAULT NULL COMMENT '报告图片URL列表',
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
@@ -53,6 +57,10 @@ CREATE TABLE IF NOT EXISTS wx_reminders (
   title VARCHAR(120) NOT NULL,
   remind_date DATE NOT NULL,
   description VARCHAR(500) NOT NULL,
+  type VARCHAR(40) NOT NULL DEFAULT 'follow_up' COMMENT '类型:follow_up/medication/test/custom',
+  priority VARCHAR(20) NOT NULL DEFAULT 'medium' COMMENT '优先级:high/medium/low',
+  linked_record_id VARCHAR(32) DEFAULT NULL COMMENT '关联检查记录ID',
+  notes TEXT DEFAULT NULL COMMENT '备注',
   done TINYINT(1) NOT NULL DEFAULT 0,
   completed_at DATETIME NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -115,6 +123,24 @@ CREATE TABLE IF NOT EXISTS wx_feedback (
     FOREIGN KEY (user_id) REFERENCES wx_users (id)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户反馈';
+
+CREATE TABLE IF NOT EXISTS wx_notifications (
+  id VARCHAR(32) NOT NULL,
+  user_id BIGINT UNSIGNED NOT NULL,
+  type VARCHAR(40) NOT NULL DEFAULT 'system' COMMENT '类型: system/reminder/record/ai',
+  title VARCHAR(120) NOT NULL,
+  content TEXT NOT NULL,
+  extra JSON DEFAULT NULL COMMENT '扩展数据(跳转路径等)',
+  is_read TINYINT(1) NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  read_at DATETIME DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY idx_wx_notifications_user_read (user_id, is_read),
+  KEY idx_wx_notifications_user_created (user_id, created_at DESC),
+  CONSTRAINT fk_wx_notifications_user
+    FOREIGN KEY (user_id) REFERENCES wx_users (id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='应用内通知';
 
 INSERT INTO wx_users (id, openid, nickname, avatar_url, phone, gender)
 VALUES (1, 'demo-openid-001', '张女士', NULL, NULL, 'female')
