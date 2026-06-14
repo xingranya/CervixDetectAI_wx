@@ -1,0 +1,196 @@
+<mxfile host="Electron">
+  <diagram id="es5WnqH_M5Frmh5TiTe6" name="第 1 页">
+    <mxGraphModel dx="1435" dy="923" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;" value="CervixDetectAI 数据库索引设计图" vertex="1">
+          <mxGeometry height="40" width="400" x="400" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;" value="数据库: cervixdetectai_wx | 共 8 个索引 | 设计原则: 主键索引 + 外键索引 + 复合索引优化查询" vertex="1">
+          <mxGeometry height="25" width="600" x="300" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_users" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="wx_users 索引" vertex="1">
+          <mxGeometry height="120" width="350" x="130" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_users_h" parent="idx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#dae8fc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="350" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_users_r1" parent="idx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="PK | id | BIGINT | 主键索引" vertex="1">
+          <mxGeometry height="26" width="350" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_users_r2" parent="idx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="UK | uk_wx_users_openid | openid | 唯一索引" vertex="1">
+          <mxGeometry height="26" width="350" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_users_desc" parent="idx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;fontStyle=2;" value="目的: 确保微信用户 openid 唯一性" vertex="1">
+          <mxGeometry height="24" width="350" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_sessions" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="wx_sessions 索引" vertex="1">
+          <mxGeometry height="120" width="350" x="130" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_sessions_h" parent="idx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#d5e8d4;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="350" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_sessions_r1" parent="idx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="PK | token | CHAR(64) | 主键索引" vertex="1">
+          <mxGeometry height="26" width="350" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_sessions_r2" parent="idx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="IDX | idx_wx_sessions_user_expires | (user_id, expires_at) | 复合索引" vertex="1">
+          <mxGeometry height="26" width="350" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_sessions_desc" parent="idx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;fontStyle=2;" value="目的: 优化会话查询和清理过期会话" vertex="1">
+          <mxGeometry height="24" width="350" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_health" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="wx_health_records 索引" vertex="1">
+          <mxGeometry height="120" width="350" x="130" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_health_h" parent="idx_health" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fff2cc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="350" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_health_r1" parent="idx_health" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="PK | id | VARCHAR(32) | 主键索引" vertex="1">
+          <mxGeometry height="26" width="350" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_health_r2" parent="idx_health" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="IDX | idx_wx_health_records_user_date | (user_id, record_date) | 复合索引" vertex="1">
+          <mxGeometry height="26" width="350" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_health_desc" parent="idx_health" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;fontStyle=2;" value="目的: 优化用户按日期查询健康记录" vertex="1">
+          <mxGeometry height="24" width="350" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_reminders" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="wx_reminders 索引" vertex="1">
+          <mxGeometry height="120" width="380" x="130" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_reminders_h" parent="idx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#e1d5e7;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="380" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_reminders_r1" parent="idx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="PK | id | VARCHAR(32) | 主键索引" vertex="1">
+          <mxGeometry height="26" width="380" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_reminders_r2" parent="idx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="IDX | idx_wx_reminders_user_done_date | (user_id, done, remind_date) | 复合索引" vertex="1">
+          <mxGeometry height="26" width="380" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_reminders_desc" parent="idx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;fontStyle=2;" value="目的: 优化查询用户的待办提醒" vertex="1">
+          <mxGeometry height="24" width="380" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_templates" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#f8cecc;strokeColor=#b85450;" value="wx_question_templates 索引" vertex="1">
+          <mxGeometry height="120" width="370" x="500" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_templates_h" parent="idx_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f8cecc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="370" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_templates_r1" parent="idx_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="PK | id | BIGINT | 主键索引" vertex="1">
+          <mxGeometry height="26" width="370" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_templates_r2" parent="idx_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="IDX | idx_wx_question_templates_active_sort | (is_active, sort_order) | 复合索引" vertex="1">
+          <mxGeometry height="26" width="370" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_templates_desc" parent="idx_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;fontStyle=2;" value="目的: 优化启用模板的排序查询" vertex="1">
+          <mxGeometry height="24" width="370" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_questions" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="wx_user_questions 索引" vertex="1">
+          <mxGeometry height="120" width="400" x="500" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_questions_h" parent="idx_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fff2cc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="400" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_questions_r1" parent="idx_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="PK | id | BIGINT | 主键索引" vertex="1">
+          <mxGeometry height="26" width="400" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_questions_r2" parent="idx_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="IDX | idx_wx_user_questions_user_time | (user_id, updated_at, created_at) | 复合索引" vertex="1">
+          <mxGeometry height="26" width="400" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_questions_desc" parent="idx_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;fontStyle=2;" value="目的: 优化用户问题的时间排序查询" vertex="1">
+          <mxGeometry height="24" width="400" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_articles" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="wx_articles 索引" vertex="1">
+          <mxGeometry height="120" width="350" x="500" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_articles_h" parent="idx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#d5e8d4;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="350" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_articles_r1" parent="idx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="PK | id | VARCHAR(32) | 主键索引" vertex="1">
+          <mxGeometry height="26" width="350" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_articles_r2" parent="idx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="IDX | idx_wx_articles_active_sort | (is_active, sort_order) | 复合索引" vertex="1">
+          <mxGeometry height="26" width="350" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_articles_desc" parent="idx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;fontStyle=2;" value="目的: 优化上架文章的排序查询" vertex="1">
+          <mxGeometry height="24" width="350" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_feedback" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="wx_feedback 索引" vertex="1">
+          <mxGeometry height="120" width="350" x="520" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_feedback_h" parent="idx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#dae8fc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="350" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_feedback_r1" parent="idx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="PK | id | CHAR(36) | 主键索引" vertex="1">
+          <mxGeometry height="26" width="350" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_feedback_r2" parent="idx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="IDX | idx_wx_feedback_user_time | (user_id, created_at) | 复合索引" vertex="1">
+          <mxGeometry height="26" width="350" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="idx_feedback_desc" parent="idx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;fontStyle=2;" value="目的: 优化用户反馈的时间查询" vertex="1">
+          <mxGeometry height="24" width="350" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" value="索引设计原则" vertex="1">
+          <mxGeometry height="30" width="200" x="910" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=left;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=6;" value="1. 主键索引" vertex="1">
+          <mxGeometry height="80" width="250" x="910" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1_h" parent="legend1" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="250" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1_r1" parent="legend1" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="所有表均使用主键索引" vertex="1">
+          <mxGeometry height="22" width="250" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1_r2" parent="legend1" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="确保记录唯一性" vertex="1">
+          <mxGeometry height="22" width="250" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=left;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=6;" value="2. 外键索引" vertex="1">
+          <mxGeometry height="80" width="250" x="910" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2_h" parent="legend2" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="250" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2_r1" parent="legend2" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="所有外键字段自动创建索引" vertex="1">
+          <mxGeometry height="22" width="250" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2_r2" parent="legend2" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="优化关联查询性能" vertex="1">
+          <mxGeometry height="22" width="250" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=left;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=6;" value="3. 复合索引" vertex="1">
+          <mxGeometry height="100" width="250" x="910" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3_h" parent="legend3" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="250" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3_r1" parent="legend3" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="根据查询模式设计复合索引" vertex="1">
+          <mxGeometry height="22" width="250" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3_r2" parent="legend3" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="避免索引失效" vertex="1">
+          <mxGeometry height="22" width="250" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3_r3" parent="legend3" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="关键查询尽量使用覆盖索引" vertex="1">
+          <mxGeometry height="22" width="250" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=left;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=6;" value="索引类型说明" vertex="1">
+          <mxGeometry height="120" width="250" x="910" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_h" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="250" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_r1" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="PK = 主键索引 (PRIMARY KEY)" vertex="1">
+          <mxGeometry height="22" width="250" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_r2" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="UK = 唯一索引 (UNIQUE)" vertex="1">
+          <mxGeometry height="22" width="250" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_r3" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="IDX = 普通索引 (INDEX)" vertex="1">
+          <mxGeometry height="22" width="250" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_r4" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=6;" value="绿底 = 索引定义行" vertex="1">
+          <mxGeometry height="22" width="250" y="96" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

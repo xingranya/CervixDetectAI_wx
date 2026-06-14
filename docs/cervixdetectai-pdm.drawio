@@ -1,0 +1,337 @@
+<mxfile host="Electron">
+  <diagram id="9tni6ea2R-Qa1V7zn_8P" name="第 1 页">
+    <mxGraphModel dx="1555" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="wx_users" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="wx_users [用户表]" vertex="1">
+          <mxGeometry height="254" width="340" x="650" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_h" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#dae8fc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="340" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_r1" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="PK | id | BIGINT UNSIGNED | NOT NULL | AUTO_INCREMENT" vertex="1">
+          <mxGeometry height="24" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_r2" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="UK | openid | VARCHAR(128) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="64" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_r3" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | nickname | VARCHAR(80) | NOT NULL | DEFAULT &#39;微信用户&#39;" vertex="1">
+          <mxGeometry height="24" width="340" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_r4" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | avatar_url | VARCHAR(500) | NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_r5" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | phone | VARCHAR(32) | NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_r6" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | gender | VARCHAR(16) | NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_r7" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | created_at | DATETIME | NOT NULL | DEFAULT NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="184" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_r8" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | updated_at | DATETIME | NOT NULL | ON UPDATE NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="208" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_users_idx" parent="wx_users" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="INDEX: uk_openid (openid)" vertex="1">
+          <mxGeometry height="22" width="340" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_sessions" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="wx_sessions [会话表]" vertex="1">
+          <mxGeometry height="180" width="340" x="150" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_sessions_h" parent="wx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#d5e8d4;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="340" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_sessions_r1" parent="wx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="PK | token | CHAR(64) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_sessions_r2" parent="wx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="FK | user_id | BIGINT UNSIGNED | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="64" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_sessions_r3" parent="wx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | expires_at | DATETIME | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_sessions_r4" parent="wx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | created_at | DATETIME | NOT NULL | DEFAULT NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_sessions_idx1" parent="wx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="FK → wx_users.id ON DELETE CASCADE" vertex="1">
+          <mxGeometry height="20" width="340" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_sessions_idx2" parent="wx_sessions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="INDEX: idx_user_expires (user_id, expires_at)" vertex="1">
+          <mxGeometry height="20" width="340" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_records" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="wx_health_records [健康检查记录表]" vertex="1">
+          <mxGeometry height="316" width="340" x="150" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_h" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fff2cc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="340" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r1" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="PK | id | VARCHAR(32) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r2" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="FK | user_id | BIGINT UNSIGNED | NOT NULL" vertex="1">
+          <mxGeometry height="20" width="340" y="64" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r3" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | record_date | DATE | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="84" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r4" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | title | VARCHAR(120) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r5" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | project | VARCHAR(120) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="132" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r6" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | summary | VARCHAR(500) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r7" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | suggestion | VARCHAR(500) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r8" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | status | VARCHAR(40) | NOT NULL | DEFAULT &#39;已记录&#39;" vertex="1">
+          <mxGeometry height="24" width="340" y="204" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r9" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | created_at | DATETIME | NOT NULL | DEFAULT NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="228" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_r10" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | updated_at | DATETIME | NOT NULL | ON UPDATE NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="252" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_idx1" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="FK → wx_users.id ON DELETE CASCADE" vertex="1">
+          <mxGeometry height="20" width="340" y="276" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_health_idx2" parent="wx_health_records" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="INDEX: idx_user_date (user_id, record_date)" vertex="1">
+          <mxGeometry height="20" width="340" y="296" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="wx_reminders [复查提醒表]" vertex="1">
+          <mxGeometry height="320" width="340" x="650" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_h" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#e1d5e7;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="340" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r1" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="PK | id | VARCHAR(32) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r2" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="FK | user_id | BIGINT UNSIGNED | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="64" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r3" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="FK | linked_record_id | VARCHAR(32) | NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r4" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | title | VARCHAR(120) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r5" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | remind_date | DATE | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r6" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | description | VARCHAR(500) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r7" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | done | TINYINT(1) | NOT NULL | DEFAULT 0" vertex="1">
+          <mxGeometry height="24" width="340" y="184" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r8" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | completed_at | DATETIME | NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="208" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r9" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | created_at | DATETIME | NOT NULL | DEFAULT NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_r10" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | updated_at | DATETIME | NOT NULL | ON UPDATE NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="256" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_idx1" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="FK → wx_users.id ON DELETE CASCADE" vertex="1">
+          <mxGeometry height="20" width="340" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_reminders_idx2" parent="wx_reminders" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="INDEX: idx_user_done_date (user_id, done, remind_date)" vertex="1">
+          <mxGeometry height="20" width="340" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_question_templates" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#f8cecc;strokeColor=#b85450;" value="wx_question_templates [问题模板表]" vertex="1">
+          <mxGeometry height="204" width="340" x="1050" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_templates_h" parent="wx_question_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f8cecc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="340" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_templates_r1" parent="wx_question_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="PK | id | BIGINT UNSIGNED | NOT NULL | AUTO_INCREMENT" vertex="1">
+          <mxGeometry height="24" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_templates_r2" parent="wx_question_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | content | VARCHAR(255) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="64" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_templates_r3" parent="wx_question_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | sort_order | INT | NOT NULL | DEFAULT 0" vertex="1">
+          <mxGeometry height="24" width="340" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_templates_r4" parent="wx_question_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | is_active | TINYINT(1) | NOT NULL | DEFAULT 1" vertex="1">
+          <mxGeometry height="24" width="340" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_templates_r5" parent="wx_question_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | created_at | DATETIME | NOT NULL | DEFAULT NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_templates_r6" parent="wx_question_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | updated_at | DATETIME | NOT NULL | ON UPDATE NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_templates_idx" parent="wx_question_templates" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="INDEX: idx_active_sort (is_active, sort_order)" vertex="1">
+          <mxGeometry height="20" width="340" y="184" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_user_questions" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="wx_user_questions [用户问题表]" vertex="1">
+          <mxGeometry height="224" width="340" x="1050" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_uquestions_h" parent="wx_user_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fff2cc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="340" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_uquestions_r1" parent="wx_user_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="PK | id | BIGINT UNSIGNED | NOT NULL | AUTO_INCREMENT" vertex="1">
+          <mxGeometry height="24" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_uquestions_r2" parent="wx_user_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="FK | user_id | BIGINT UNSIGNED | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="64" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_uquestions_r3" parent="wx_user_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | question_text | VARCHAR(255) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_uquestions_r4" parent="wx_user_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | answer_text | TEXT | NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_uquestions_r5" parent="wx_user_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | created_at | DATETIME | NOT NULL | DEFAULT NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_uquestions_r6" parent="wx_user_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | updated_at | DATETIME | NOT NULL | ON UPDATE NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_uquestions_idx1" parent="wx_user_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="FK → wx_users.id ON DELETE CASCADE" vertex="1">
+          <mxGeometry height="20" width="340" y="184" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_uquestions_idx2" parent="wx_user_questions" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="INDEX: idx_user_time (user_id, updated_at, created_at)" vertex="1">
+          <mxGeometry height="20" width="340" y="204" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="wx_articles [健康知识文章表]" vertex="1">
+          <mxGeometry height="260" width="340" x="1010" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_h" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#d5e8d4;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="340" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_r1" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="PK | id | VARCHAR(32) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_r2" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | title | VARCHAR(120) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="64" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_r3" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | summary | VARCHAR(500) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_r4" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | content | TEXT | NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_r5" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | sort_order | INT | NOT NULL | DEFAULT 0" vertex="1">
+          <mxGeometry height="24" width="340" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_r6" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | is_active | TINYINT(1) | NOT NULL | DEFAULT 1" vertex="1">
+          <mxGeometry height="24" width="340" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_r7" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | created_at | DATETIME | NOT NULL | DEFAULT NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="184" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_r8" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | updated_at | DATETIME | NOT NULL | ON UPDATE NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="208" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_articles_idx" parent="wx_articles" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="INDEX: idx_active_sort (is_active, sort_order)" vertex="1">
+          <mxGeometry height="20" width="340" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="wx_feedback [用户反馈表]" vertex="1">
+          <mxGeometry height="224" width="340" x="150" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback_h" parent="wx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#dae8fc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="340" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback_r1" parent="wx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="PK | id | CHAR(36) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback_r2" parent="wx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="FK | user_id | BIGINT UNSIGNED | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="64" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback_r3" parent="wx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | feedback_type | VARCHAR(40) | NOT NULL | DEFAULT &#39;其他反馈&#39;" vertex="1">
+          <mxGeometry height="24" width="340" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback_r4" parent="wx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | contact | VARCHAR(120) | NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback_r5" parent="wx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | content | VARCHAR(1000) | NOT NULL" vertex="1">
+          <mxGeometry height="24" width="340" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback_r6" parent="wx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=4;fontFamily=Courier New;" value="   | created_at | DATETIME | NOT NULL | DEFAULT NOW()" vertex="1">
+          <mxGeometry height="24" width="340" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback_idx1" parent="wx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="FK → wx_users.id ON DELETE CASCADE" vertex="1">
+          <mxGeometry height="20" width="340" y="184" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_feedback_idx2" parent="wx_feedback" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontStyle=2;" value="INDEX: idx_user_time (user_id, created_at)" vertex="1">
+          <mxGeometry height="20" width="340" y="204" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=2;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;fontSize=12;fontStyle=1;" target="wx_sessions" value="1:N">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="510" y="280" />
+              <mxPoint x="510" y="170" />
+            </Array>
+            <mxPoint x="650" y="280" as="sourcePoint" />
+            <mxPoint x="510" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge2" edge="1" parent="1" source="wx_users" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=2;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;fontSize=12;fontStyle=1;" target="wx_health_records" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" edge="1" parent="1" source="wx_users" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=2;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;fontSize=12;fontStyle=1;" target="wx_reminders" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" edge="1" parent="1" source="wx_users" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=2;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;fontSize=12;fontStyle=1;" target="wx_user_questions" value="1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" edge="1" parent="1" source="wx_users" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0;exitY=1;exitDx=0;exitDy=0;strokeColor=#666666;strokeWidth=2;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;fontSize=12;fontStyle=1;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" target="wx_feedback" value="1:N">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="530" />
+              <mxPoint x="540" y="530" />
+              <mxPoint x="540" y="656" />
+            </Array>
+            <mxPoint x="870" y="530" as="sourcePoint" />
+            <mxPoint x="540" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge6" edge="1" parent="1" source="wx_health_records" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.8;exitDx=0;exitDy=0;entryX=0;entryY=0.2;entryDx=0;entryDy=0;strokeColor=#999999;strokeWidth=1;dashed=1;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;fontSize=10;" target="wx_reminders" value="0..1:N">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;" value="CervixDetectAI 系统数据库物理模型 (PDM)" vertex="1">
+          <mxGeometry height="40" width="500" x="500" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;" value="数据库: cervixdetectai_wx | MySQL 8.x | utf8mb4_unicode_ci" vertex="1">
+          <mxGeometry height="25" width="500" x="500" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;" value="图例" vertex="1">
+          <mxGeometry height="170" width="120" x="520" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_h" parent="legend" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="120" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_r1" parent="legend" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="PK = 主键" vertex="1">
+          <mxGeometry height="20" width="120" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_r2" parent="legend" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="FK = 外键" vertex="1">
+          <mxGeometry height="20" width="120" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_r3" parent="legend" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="UK = 唯一约束" vertex="1">
+          <mxGeometry height="20" width="120" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_r4" parent="legend" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="1:N = 一对多" vertex="1">
+          <mxGeometry height="20" width="120" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_r5" parent="legend" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="0..1:N = 可选一对多" vertex="1">
+          <mxGeometry height="20" width="120" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_r6" parent="legend" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="绿底 = 索引" vertex="1">
+          <mxGeometry height="20" width="120" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_r7" parent="legend" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff3e0;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="橙底 = 外键约束" vertex="1">
+          <mxGeometry height="20" width="120" y="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
