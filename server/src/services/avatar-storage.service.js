@@ -95,9 +95,32 @@ async function saveAvatar(req, payload) {
   const filePath = path.join(AVATAR_DIR, fileName);
   await fs.writeFile(filePath, buffer);
 
-  return `${resolvePublicBaseUrl(req)}/uploads/avatars/${fileName}`;
+  const newUrl = `${resolvePublicBaseUrl(req)}/uploads/avatars/${fileName}`;
+
+  // 异步删除旧头像文件，不阻塞当前请求
+  const oldAvatarUrl = payload.oldAvatarUrl;
+  if (oldAvatarUrl) {
+    setImmediate(() => removeOldAvatar(oldAvatarUrl));
+  }
+
+  return newUrl;
+}
+
+async function removeOldAvatar(avatarUrl) {
+  try {
+    if (!avatarUrl || typeof avatarUrl !== "string") return;
+    const match = avatarUrl.match(/\/uploads\/avatars\/([^/?#]+)/);
+    if (!match) return;
+    const oldPath = path.join(AVATAR_DIR, match[1]);
+    await fs.unlink(oldPath);
+  } catch (err) {
+    if (err.code !== "ENOENT") {
+      console.error("[Avatar] Failed to remove old avatar:", err.message);
+    }
+  }
 }
 
 module.exports = {
-  saveAvatar
+  saveAvatar,
+  removeOldAvatar
 };

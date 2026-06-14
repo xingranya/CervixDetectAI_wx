@@ -20,27 +20,27 @@ Sources: [env.js](server/src/config/env.js#L1-L26), [database.js](server/src/con
 
 下表列出了所有可配置的环境变量，按功能分为四个类别：服务器配置、CORS 与公共 URL、微信小程序配置、数据库连接配置。
 
-| 变量名 | 默认值 | 必填 | 说明 |
-|--------|--------|------|------|
-| **服务器配置** | | | |
-| `PORT` | `3789` | 否 | 服务器监听端口 |
-| `HOST` | `0.0.0.0` | 否 | 服务器监听地址，`0.0.0.0` 表示接受所有网络接口的连接 |
-| **CORS 与公共 URL** | | | |
-| `MINIAPP_ALLOWED_ORIGIN` | `*` | 否 | CORS 允许的来源，`*` 表示允许所有来源 |
-| `MINIAPP_PUBLIC_BASE_URL` | 空 | 生产环境必填 | 头像返回 URL 的前缀，建议配置为公网 HTTPS 域名 |
-| **微信小程序配置** | | | |
-| `WECHAT_APP_ID` | 空 | 是 | 微信小程序 AppID，从微信公众平台获取 |
-| `WECHAT_APP_SECRET` | 空 | 是 | 微信小程序 AppSecret，从微信公众平台获取 |
-| `WECHAT_REPORT_TEMPLATE_ID` | `eZJlyXlekmNOsM1mLn8bcn29P2k-WAXo0XunYj96uSk` | 否 | 报告提醒的订阅消息模板 ID |
-| `WECHAT_REMINDER_TEMPLATE_ID` | `Mpn-CisfT0yxvsrkrzSfHbZQY7Vr2rwWesquRE-dgn8` | 否 | 复查提醒的订阅消息模板 ID |
-| `WECHAT_MINIPROGRAM_STATE` | `formal` | 否 | 小程序状态，`formal` 为正式版，`developer` 为开发版，`trial` 为体验版 |
-| **数据库连接配置** | | | |
-| `DB_HOST` | `127.0.0.1` | 是 | MySQL 服务器地址 |
-| `DB_PORT` | `3306` | 否 | MySQL 服务器端口 |
-| `DB_NAME` | `cervixdetectai_wx` | 是 | 数据库名称 |
-| `DB_USER` | `root` | 是 | 数据库用户名 |
-| `DB_PASSWORD` | 空 | 是 | 数据库密码 |
-| `DB_CONNECTION_LIMIT` | `10` | 否 | 数据库连接池最大连接数 |
+| 变量名                          | 默认值                                          | 必填         | 说明                                                                        |
+| ------------------------------- | ----------------------------------------------- | ------------ | --------------------------------------------------------------------------- |
+| **服务器配置**            |                                                 |              |                                                                             |
+| `PORT`                        | `3789`                                        | 否           | 服务器监听端口                                                              |
+| `HOST`                        | `0.0.0.0`                                     | 否           | 服务器监听地址，`0.0.0.0` 表示接受所有网络接口的连接                      |
+| **CORS 与公共 URL**       |                                                 |              |                                                                             |
+| `MINIAPP_ALLOWED_ORIGIN`      | `*`                                           | 否           | CORS 允许的来源，`*` 表示允许所有来源                                     |
+| `MINIAPP_PUBLIC_BASE_URL`     | 空                                              | 生产环境必填 | 头像返回 URL 的前缀，建议配置为公网 HTTPS 域名                              |
+| **微信小程序配置**        |                                                 |              |                                                                             |
+| `WECHAT_APP_ID`               | 空                                              | 是           | 微信小程序 AppID，从微信公众平台获取                                        |
+| `WECHAT_APP_SECRET`           | 空                                              | 是           | 微信小程序 AppSecret，从微信公众平台获取                                    |
+| `WECHAT_REPORT_TEMPLATE_ID`   | `eZJlyXlekmNOsM1mLn8bcn29P2k-WAXo0XunYj96uSk` | 否           | 报告提醒的订阅消息模板 ID                                                   |
+| `WECHAT_REMINDER_TEMPLATE_ID` | `Mpn-CisfT0yxvsrkrzSfHbZQY7Vr2rwWesquRE-dgn8` | 否           | 复查提醒的订阅消息模板 ID                                                   |
+| `WECHAT_MINIPROGRAM_STATE`    | `formal`                                      | 否           | 小程序状态，`formal` 为正式版，`developer` 为开发版，`trial` 为体验版 |
+| **数据库连接配置**        |                                                 |              |                                                                             |
+| `DB_HOST`                     | `127.0.0.1`                                   | 是           | MySQL 服务器地址                                                            |
+| `DB_PORT`                     | `3306`                                        | 否           | MySQL 服务器端口                                                            |
+| `DB_NAME`                     | `cervixdetectai_wx`                           | 是           | 数据库名称                                                                  |
+| `DB_USER`                     | `root`                                        | 是           | 数据库用户名                                                                |
+| `DB_PASSWORD`                 | 空                                              | 是           | 数据库密码                                                                  |
+| `DB_CONNECTION_LIMIT`         | `10`                                          | 否           | 数据库连接池最大连接数                                                      |
 
 Sources: [env.js](server/src/config/env.js#L3-L25)
 
@@ -167,10 +167,12 @@ flowchart TD
 ### 问题 1：服务启动后无法访问
 
 **可能原因**：
+
 - `PORT` 端口被其他程序占用
 - `HOST` 配置为 `127.0.0.1` 导致外部无法访问
 
 **解决方案**：
+
 ```bash
 # 检查端口占用情况
 lsof -i :3789
@@ -183,11 +185,13 @@ HOST=0.0.0.0
 ### 问题 2：数据库连接失败
 
 **可能原因**：
+
 - `DB_HOST`、`DB_PORT`、`DB_USER`、`DB_PASSWORD` 配置错误
 - MySQL 服务未启动
 - 数据库用户权限不足
 
 **解决方案**：
+
 ```bash
 # 测试数据库连接
 mysql -h <DB_HOST> -P <DB_PORT> -u <DB_USER> -p
@@ -200,10 +204,12 @@ brew services list      # macOS
 ### 问题 3：微信登录失败
 
 **可能原因**：
+
 - `WECHAT_APP_ID` 或 `WECHAT_APP_SECRET` 配置错误
 - AppSecret 已被重置
 
 **解决方案**：
+
 1. 登录微信公众平台核对 AppID 和 AppSecret
 2. 检查服务日志中的错误信息
 3. 确保服务器 IP 已加入微信接口 IP 白名单（如果配置了白名单）
@@ -211,11 +217,13 @@ brew services list      # macOS
 ### 问题 4：订阅消息发送失败
 
 **可能原因**：
+
 - `WECHAT_APP_ID` 或 `WECHAT_APP_SECRET` 未配置
 - 模板 ID 不正确
 - 用户未订阅消息
 
 **解决方案**：
+
 1. 检查服务日志中的错误码
 2. 常见错误码：
    - `40001`：AppSecret 无效
@@ -314,7 +322,7 @@ HOST=0.0.0.0
 MINIAPP_ALLOWED_ORIGIN=https://your-domain.com
 MINIAPP_PUBLIC_BASE_URL=https://your-domain.com
 
-WECHAT_APP_ID=wx1234567890abcdef
+WECHAT_APP_ID=xxxxxxxxx
 WECHAT_APP_SECRET=your-app-secret-here
 WECHAT_MINIPROGRAM_STATE=formal
 
