@@ -1,0 +1,210 @@
+<mxfile host="Electron">
+  <diagram id="Uo9ddAahhRsB0BzyUQ4H" name="第 1 页">
+    <mxGraphModel dx="811" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;" value="CervixDetectAI 系统部署架构图" vertex="1">
+          <mxGeometry height="40" width="400" x="400" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="client_layer" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="客户端层" vertex="1">
+          <mxGeometry height="180" width="700" x="50" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="client_h" parent="client_layer" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#dae8fc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="700" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_miniprogram" parent="client_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" value="微信小程序&#xa;(WXML/WXSS/JS)" vertex="1">
+          <mxGeometry height="80" width="180" x="50" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_devtools" parent="client_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" value="微信开发者工具&#xa;(开发调试)" vertex="1">
+          <mxGeometry height="80" width="180" x="280" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wx_realdevice" parent="client_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" value="真机/体验版&#xa;(测试/生产)" vertex="1">
+          <mxGeometry height="80" width="150" x="510" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="network_layer" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="网络传输层" vertex="1">
+          <mxGeometry height="100" width="700" x="50" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="network_h" parent="network_layer" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#d5e8d4;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="700" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="https" parent="network_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666666;fontSize=11;" value="HTTPS (443)&#xa;SSL/TLS 加密" vertex="1">
+          <mxGeometry height="40" width="200" x="100" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="domain" parent="network_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666666;fontSize=11;" value="xcx.hpvsc.icu&#xa;(ICP备案域名)" vertex="1">
+          <mxGeometry height="40" width="200" x="400" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="server_layer" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="服务器层 (Linux Ubuntu 20.04+)" vertex="1">
+          <mxGeometry height="280" width="700" x="50" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="server_h" parent="server_layer" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fff2cc;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="700" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx" parent="server_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" value="Nginx 反向代理&#xa;- SSL终结&#xa;- 负载均衡&#xa;- 静态缓存&#xa;- 请求限流" vertex="1">
+          <mxGeometry height="100" width="160" x="30" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nodejs" parent="server_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=10;align=left;spacingLeft=8;" value="Node.js API 服务&#xa;(Express 4.18)&#xa;- 端口: 3789&#xa;- PM2 进程管理&#xa;- 自动重启" vertex="1">
+          <mxGeometry height="100" width="180" x="230" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uploads" parent="server_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c62828;fontSize=10;align=left;spacingLeft=8;" value="静态资源&#xa;- uploads/avatars/&#xa;- public/agreements/" vertex="1">
+          <mxGeometry height="100" width="160" x="450" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="env_config" parent="server_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=9;align=left;spacingLeft=6;" value="环境配置 (.env)&#xa;- WECHAT_APP_ID&#xa;- WECHAT_APP_SECRET&#xa;- DB_HOST/PORT/NAME&#xa;- DB_USER/PASSWORD" vertex="1">
+          <mxGeometry height="80" width="160" x="30" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="wechat_api" parent="server_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;fontSize=9;align=left;spacingLeft=6;" value="微信API&#xa;- jscode2session&#xa;- 订阅消息&#xa;- access_token" vertex="1">
+          <mxGeometry height="80" width="180" x="230" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="ssl_cert" parent="server_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00695c;fontSize=9;align=left;spacingLeft=6;" value="SSL证书&#xa;- Let&#39;s Encrypt&#xa;- 自动续期" vertex="1">
+          <mxGeometry height="80" width="160" x="450" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="db_layer" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="数据库层" vertex="1">
+          <mxGeometry height="160" width="700" x="50" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="db_h" parent="db_layer" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#e1d5e7;strokeColor=none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="10" width="700" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mysql" parent="db_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666666;fontSize=11;" value="MySQL 8.0&#xa;- 端口: 3306&#xa;- 字符集: utf8mb4&#xa;- 连接池: 10" vertex="1">
+          <mxGeometry height="80" width="200" x="50" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="database" parent="db_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" value="cervixdetectai_wx&#xa;8 张业务表" vertex="1">
+          <mxGeometry height="80" width="180" x="300" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="backup" parent="db_layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" value="备份策略&#xa;- 每天 mysqldump&#xa;- 文件级备份" vertex="1">
+          <mxGeometry height="80" width="140" x="530" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_c1" edge="1" parent="1" source="wx_miniprogram" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=2;" target="https" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_c2" edge="1" parent="1" source="wx_devtools" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=2;" target="https" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_c3" edge="1" parent="1" source="wx_realdevice" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=2;" target="https" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_n1" edge="1" parent="1" source="https" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=2;" target="nginx" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_n2" edge="1" parent="1" source="domain" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=2;" target="nginx" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_s2" edge="1" parent="1" source="nginx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#82b366;strokeWidth=2;fontSize=9;" target="uploads" value="express.static">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="570" />
+              <mxPoint x="260" y="630" />
+              <mxPoint x="480" y="630" />
+              <mxPoint x="480" y="570" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_d1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#9673a6;strokeWidth=2;fontSize=9;" target="mysql" value="mysql2 连接池">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="620" />
+              <mxPoint x="410" y="750" />
+              <mxPoint x="200" y="750" />
+            </Array>
+            <mxPoint x="410" y="620" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" value="部署组件说明" vertex="1">
+          <mxGeometry height="30" width="200" x="850" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=left;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=6;" value="技术栈" vertex="1">
+          <mxGeometry height="140" width="280" x="850" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1_h" parent="legend1" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="280" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1_r1" parent="legend1" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="运行时: Node.js ≥ 18.0 LTS" vertex="1">
+          <mxGeometry height="22" width="280" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1_r2" parent="legend1" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="Web框架: Express 4.18" vertex="1">
+          <mxGeometry height="22" width="280" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1_r3" parent="legend1" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="数据库: MySQL ≥ 8.0" vertex="1">
+          <mxGeometry height="22" width="280" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1_r4" parent="legend1" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="进程管理: PM2" vertex="1">
+          <mxGeometry height="22" width="280" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1_r5" parent="legend1" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="反向代理: Nginx" vertex="1">
+          <mxGeometry height="22" width="280" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=left;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=6;" value="部署方式" vertex="1">
+          <mxGeometry height="120" width="280" x="850" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2_h" parent="legend2" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="280" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2_r1" parent="legend2" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#e8f5e9;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="方案一: PM2 + Nginx (推荐)" vertex="1">
+          <mxGeometry height="22" width="280" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2_r2" parent="legend2" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="方案二: systemd + Nginx" vertex="1">
+          <mxGeometry height="22" width="280" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2_r3" parent="legend2" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="方案三: Docker Compose" vertex="1">
+          <mxGeometry height="22" width="280" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2_r4" parent="legend2" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="操作系统: Ubuntu 20.04+ / CentOS 7+" vertex="1">
+          <mxGeometry height="22" width="280" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=left;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=6;" value="关键端口" vertex="1">
+          <mxGeometry height="100" width="280" x="850" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3_h" parent="legend3" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="280" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3_r1" parent="legend3" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="443: HTTPS (Nginx)" vertex="1">
+          <mxGeometry height="22" width="280" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3_r2" parent="legend3" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="3789: Node.js API (内部)" vertex="1">
+          <mxGeometry height="22" width="280" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3_r3" parent="legend3" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="3306: MySQL (内部)" vertex="1">
+          <mxGeometry height="22" width="280" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=left;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=6;" value="安全配置" vertex="1">
+          <mxGeometry height="140" width="280" x="850" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_h" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="280" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_r1" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="HTTPS: TLS 1.2/1.3" vertex="1">
+          <mxGeometry height="22" width="280" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_r2" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="CORS: 白名单控制" vertex="1">
+          <mxGeometry height="22" width="280" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_r3" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="安全头: X-Frame-Options 等" vertex="1">
+          <mxGeometry height="22" width="280" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_r4" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="防火墙: 仅开放必要端口" vertex="1">
+          <mxGeometry height="22" width="280" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4_r5" parent="legend4" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="密钥管理: .env 文件权限 600" vertex="1">
+          <mxGeometry height="22" width="280" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="legend5" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=left;resizeLast=1;fillColor=#f5f5f5;strokeColor=#666666;spacingLeft=6;" value="监控与维护" vertex="1">
+          <mxGeometry height="120" width="280" x="850" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="legend5_h" parent="legend5" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#f5f5f5;strokeColor=none;" value="" vertex="1">
+          <mxGeometry height="5" width="280" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend5_r1" parent="legend5" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="日志: PM2 logs / Nginx access.log" vertex="1">
+          <mxGeometry height="22" width="280" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend5_r2" parent="legend5" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="健康检查: GET /health" vertex="1">
+          <mxGeometry height="22" width="280" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="legend5_r3" parent="legend5" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="备份: 每天 mysqldump + 文件备份" vertex="1">
+          <mxGeometry height="22" width="280" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="legend5_r4" parent="legend5" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" value="SSL续期: Let&#39;s Encrypt 自动续期" vertex="1">
+          <mxGeometry height="22" width="280" y="96" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,165 @@
+<mxGraphModel dx="1422" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <mxCell id="title" value="CervixDetectAI 数据库视图设计图" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="400" y="20" width="400" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="subtitle" value="视图 (Views) | 存储过程 (Stored Procedures) | 触发器 (Triggers)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="350" y="55" width="500" height="25" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="section1" value="基础表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+      <mxGeometry x="50" y="100" width="500" height="160" as="geometry"/>
+    </mxCell>
+    <mxCell id="tbl_users" value="wx_users&#xa;用户表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="80" y="140" width="120" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="tbl_records" value="wx_health_records&#xa;健康记录表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="240" y="140" width="140" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="tbl_reminders" value="wx_reminders&#xa;复查提醒表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="420" y="140" width="110" height="50" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="section2" value="视图 (Views)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+      <mxGeometry x="50" y="320" width="750" height="280" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_overview" value="v_user_health_overview&#xa;用户健康概览视图" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="80" y="370" width="300" height="200" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_overview_h" value="" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fff;strokeColor=#none;spacingTop=2;" vertex="1" parent="view_overview">
+      <mxGeometry y="30" width="300" height="10" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_overview_r1" value="user_id | BIGINT | 用户ID" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_overview">
+      <mxGeometry y="40" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_overview_r2" value="nickname | VARCHAR(80) | 用户昵称" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_overview">
+      <mxGeometry y="64" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_overview_r3" value="record_count | INT | 记录总数 (COUNT)" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_overview">
+      <mxGeometry y="88" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_overview_r4" value="latest_record_date | DATE | 最近记录日期 (MAX)" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_overview">
+      <mxGeometry y="112" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_overview_r5" value="pending_reminder_count | INT | 待办提醒数 (SUM)" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_overview">
+      <mxGeometry y="136" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_overview_r6" value="next_remind_date | DATE | 下次提醒日期 (MIN)" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_overview">
+      <mxGeometry y="160" width="300" height="24" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="view_pending" value="v_pending_reminders&#xa;待办提醒视图" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="450" y="370" width="300" height="200" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_pending_h" value="" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fff;strokeColor=#none;spacingTop=2;" vertex="1" parent="view_pending">
+      <mxGeometry y="30" width="300" height="10" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_pending_r1" value="id | VARCHAR(32) | 提醒ID" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_pending">
+      <mxGeometry y="40" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_pending_r2" value="user_id | BIGINT | 用户ID" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_pending">
+      <mxGeometry y="64" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_pending_r3" value="nickname | VARCHAR(80) | 用户昵称" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_pending">
+      <mxGeometry y="88" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_pending_r4" value="title | VARCHAR(120) | 提醒标题" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_pending">
+      <mxGeometry y="112" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_pending_r5" value="remind_date | DATE | 提醒日期" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_pending">
+      <mxGeometry y="136" width="300" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="view_pending_r6" value="description | VARCHAR(500) | 提醒内容" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="view_pending">
+      <mxGeometry y="160" width="300" height="24" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="section3" value="存储过程 (Stored Procedures)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+      <mxGeometry x="50" y="650" width="750" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="proc1" value="p_create_health_record&#xa;新增健康检查记录&#xa;- 事务保证原子性&#xa;- 自动生成UUID主键&#xa;- 默认状态兜底" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#f57c00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="80" y="690" width="300" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="proc2" value="p_complete_reminder&#xa;标记提醒完成&#xa;- 设置 done=1&#xa;- 维护 completed_at&#xa;- user_id 防越权" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#f57c00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="450" y="690" width="300" height="80" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="section4" value="触发器 (Triggers)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c62828;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+      <mxGeometry x="50" y="850" width="750" height="130" as="geometry"/>
+    </mxCell>
+    <mxCell id="trg1" value="trg_health_record_before_insert&#xa;检查记录默认值兜底&#xa;BEFORE INSERT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#c62828;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="80" y="890" width="200" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="trg2" value="trg_reminder_before_update&#xa;提醒完成时间维护&#xa;BEFORE UPDATE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#c62828;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="310" y="890" width="200" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="trg3" value="trg_feedback_before_insert&#xa;反馈内容非空校验&#xa;BEFORE INSERT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#c62828;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="540" y="890" width="200" height="60" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="edge1" value="LEFT JOIN" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;strokeColor=#82b366;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="tbl_users" target="view_overview">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge2" value="LEFT JOIN" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#82b366;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="tbl_records" target="view_overview">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge3" value="LEFT JOIN" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.7;entryY=0;entryDx=0;entryDy=0;strokeColor=#82b366;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="tbl_reminders" target="view_overview">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge4" value="JOIN" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;strokeColor=#82b366;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="tbl_users" target="view_pending">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge5" value="JOIN" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.8;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;strokeColor=#82b366;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="tbl_reminders" target="view_pending">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="edge6" value="INSERT" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#f57c00;strokeWidth=1;dashed=1;fontSize=9;" edge="1" parent="1" source="tbl_records" target="proc1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge7" value="UPDATE" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#f57c00;strokeWidth=1;dashed=1;fontSize=9;" edge="1" parent="1" source="tbl_reminders" target="proc2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="edge8" value="BEFORE INSERT" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#c62828;strokeWidth=1;dotted=1;fontSize=9;" edge="1" parent="1" source="tbl_records" target="trg1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge9" value="BEFORE UPDATE" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#c62828;strokeWidth=1;dotted=1;fontSize=9;" edge="1" parent="1" source="tbl_reminders" target="trg2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="legend_title" value="设计说明" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="900" y="100" width="200" height="30" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="legend1" value="视图用途" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="900" y="140" width="280" height="120" as="geometry"/>
+    </mxCell>
+    <mxCell id="legend1_text" value="v_user_health_overview&#xa;→ 首页概览、后台统计&#xa;&#xa;v_pending_reminders&#xa;→ 提醒页、管理后台检索" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="910" y="170" width="260" height="80" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="legend2" value="存储过程用途" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="900" y="280" width="280" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="legend2_text" value="p_create_health_record&#xa;→ 事务写入 + UUID生成 + 默认值&#xa;&#xa;p_complete_reminder&#xa;→ 状态变更 + 时间戳维护" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="910" y="310" width="260" height="60" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="legend3" value="触发器用途" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c62828;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="900" y="400" width="280" height="120" as="geometry"/>
+    </mxCell>
+    <mxCell id="legend3_text" value="trg_health_record_before_insert&#xa;→ 默认状态兜底 (status='已记录')&#xa;&#xa;trg_reminder_before_update&#xa;→ 完成时间自动维护&#xa;&#xa;trg_feedback_before_insert&#xa;→ 反馈内容非空校验" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="910" y="430" width="260" height="80" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="legend4" value="设计原则" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="900" y="540" width="280" height="120" as="geometry"/>
+    </mxCell>
+    <mxCell id="legend4_text" value="视图: 简化复杂查询，聚合统计&#xa;&#xa;存储过程: 封装事务，保证原子性&#xa;&#xa;触发器: 兜底约束，最后防线&#xa;&#xa;数据库层 + 应用层双重保障" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="910" y="570" width="260" height="80" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>
