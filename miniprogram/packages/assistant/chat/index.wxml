@@ -1,31 +1,40 @@
 <view class="chat-page">
-  <!-- 欢迎提示 -->
+
+  <!-- ========== 欢迎页 ========== -->
   <view wx:if="{{messages.length === 0}}" class="chat-welcome">
-    <view class="welcome-icon-wrap">
-      <mp-icon icon="chat" color="{{brandColor}}" size="{{36}}" />
+    <view class="welcome-hero">
+      <view class="welcome-avatar">
+        <image class="welcome-avatar-img" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
+        <view class="welcome-avatar-ring"></view>
+      </view>
+      <text class="welcome-title">健康科普助手</text>
+      <text class="welcome-subtitle">云端智诊 · AI 健康顾问</text>
     </view>
-    <text class="welcome-title">健康科普助手</text>
-    <text class="welcome-desc">我可以帮你解答健康知识问题、解释检查术语，但不会提供诊断或治疗建议。</text>
-    <view class="welcome-suggestions">
-      <text class="suggestions-label">试试问我：</text>
-      <view class="suggestion-chips">
+
+    <view class="welcome-card">
+      <text class="welcome-card-desc">我可以帮你解答健康知识问题、解释检查术语，但不会提供诊断或治疗建议。</text>
+      <view class="welcome-divider"></view>
+      <text class="welcome-card-label">试试问我</text>
+      <view class="suggestion-grid">
         <view
           wx:for="{{suggestions}}"
           wx:key="text"
-          class="suggestion-chip"
-          hover-class="suggestion-chip-hover"
+          class="suggestion-item"
+          hover-class="suggestion-item-hover"
           bind:tap="onSuggestionTap"
           data-text="{{item.text}}"
           aria-role="button"
           aria-label="{{item.text}}"
         >
-          <text>{{item.text}}</text>
+          <text class="suggestion-icon">{{item.icon}}</text>
+          <text class="suggestion-text">{{item.text}}</text>
+          <text class="suggestion-arrow">›</text>
         </view>
       </view>
     </view>
   </view>
 
-  <!-- 消息列表 -->
+  <!-- ========== 消息列表 ========== -->
   <scroll-view
     wx:else
     class="chat-messages"
@@ -35,59 +44,103 @@
     enhanced
     show-scrollbar="{{false}}"
   >
-    <view
-      wx:for="{{messages}}"
-      wx:key="id"
-      id="msg-{{item.id}}"
-      class="chat-bubble-row chat-bubble-{{item.role}}"
-    >
-      <view class="chat-bubble chat-bubble-{{item.role}}-inner">
-        <text class="chat-bubble-text" user-select>{{item.content}}</text>
-        <view wx:if="{{item.role === 'assistant' && item.disclaimer}}" class="chat-disclaimer">
-          <text>{{item.disclaimer}}</text>
-        </view>
+    <view class="chat-messages-inner">
+      <!-- 系统提示 -->
+      <view class="chat-system-hint">
+        <text>本助手仅提供健康科普，不替代专业医疗建议</text>
       </view>
-    </view>
-    <view wx:if="{{isTyping}}" class="chat-bubble-row chat-bubble-assistant">
-      <view class="chat-bubble chat-bubble-assistant-inner">
-        <view class="typing-indicator">
-          <view class="typing-dot"></view>
-          <view class="typing-dot"></view>
-          <view class="typing-dot"></view>
+
+      <block wx:for="{{messages}}" wx:key="id">
+        <view id="msg-{{item.id}}" class="msg-row msg-row-{{item.role}}">
+
+          <!-- 助手消息 -->
+          <block wx:if="{{item.role === 'assistant'}}">
+            <view class="msg-avatar msg-avatar-bot">
+              <image class="msg-avatar-img" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
+            </view>
+            <view class="msg-body msg-body-bot">
+              <text class="msg-time">{{item.time}}</text>
+
+              <!-- 深度思考面板 -->
+              <view wx:if="{{item.reasoning}}" class="think-panel {{thinkCollapsed[item.id] ? 'think-collapsed' : 'think-expanded'}}">
+                <view class="think-header" bind:tap="toggleThinkPanel" data-id="{{item.id}}">
+                  <view class="think-header-left">
+                    <text class="think-icon">💭</text>
+                    <text class="think-label">深度思考</text>
+                  </view>
+                  <text class="think-toggle {{thinkCollapsed[item.id] ? 'think-toggle-down' : 'think-toggle-up'}}">▾</text>
+                </view>
+                <view wx:if="{{!thinkCollapsed[item.id]}}" class="think-content">
+                  <text class="think-text" user-select>{{item.reasoning}}</text>
+                </view>
+              </view>
+
+              <!-- 消息气泡 -->
+              <view class="msg-bubble msg-bubble-bot">
+                <!-- 加载中 -->
+                <view wx:if="{{item.loading}}" class="loading-skeleton">
+                  <view class="skeleton-line skeleton-line-long"></view>
+                  <view class="skeleton-line skeleton-line-medium"></view>
+                  <view class="skeleton-line skeleton-line-short"></view>
+                </view>
+                <!-- 正文 -->
+                <text wx:else class="msg-text" user-select>{{item.content}}</text>
+              </view>
+
+              <!-- 免责声明 -->
+              <view wx:if="{{item.disclaimer && !item.loading}}" class="msg-disclaimer">
+                <text class="disclaimer-icon">⚕️</text>
+                <text class="disclaimer-text">{{item.disclaimer}}</text>
+              </view>
+            </view>
+          </block>
+
+          <!-- 用户消息 -->
+          <block wx:if="{{item.role === 'user'}}">
+            <view class="msg-body msg-body-user">
+              <text class="msg-time msg-time-right">{{item.time}}</text>
+              <view class="msg-bubble msg-bubble-user">
+                <text class="msg-text msg-text-user" user-select>{{item.content}}</text>
+              </view>
+            </view>
+            <view class="msg-avatar msg-avatar-user">
+              <text class="msg-avatar-emoji">👤</text>
+            </view>
+          </block>
+
         </view>
-      </view>
+      </block>
+
+      <view id="msg-bottom" style="height: 20rpx;"></view>
     </view>
-    <view id="msg-bottom" style="height: 20rpx;"></view>
   </scroll-view>
 
-  <!-- 输入区 -->
-  <view class="chat-input-bar">
-    <view class="chat-input-wrap">
-      <input
-        class="chat-input"
-        value="{{inputValue}}"
-        placeholder="输入健康问题或术语..."
-        placeholder-class="chat-input-placeholder"
-        confirm-type="send"
-        bindinput="onInput"
-        bindconfirm="onSend"
-        disabled="{{isSending}}"
-      />
+  <!-- ========== 输入区 ========== -->
+  <view class="chat-input-area">
+    <view class="input-bar">
+      <view class="input-field-wrap">
+        <input
+          class="input-field"
+          value="{{inputValue}}"
+          placeholder="输入健康问题或术语..."
+          placeholder-class="input-placeholder"
+          confirm-type="send"
+          bindinput="onInput"
+          bindconfirm="onSend"
+          disabled="{{isSending}}"
+        />
+      </view>
+      <view
+        class="send-btn {{inputValue && !isSending ? 'send-btn-active' : 'send-btn-disabled'}}"
+        bind:tap="onSend"
+        aria-role="button"
+        aria-label="发送"
+      >
+        <text class="send-btn-icon">↑</text>
+      </view>
     </view>
-    <button
-      class="chat-send-btn"
-      disabled="{{!inputValue || isSending}}"
-      hover-class="chat-send-btn-hover"
-      bind:tap="onSend"
-      aria-role="button"
-      aria-label="发送"
-    >
-      <mp-icon icon="send" color="#ffffff" size="{{18}}" />
-    </button>
-  </view>
-
-  <!-- 免责声明底部 -->
-  <view class="chat-footer-disclaimer">
-    <text>本助手仅提供健康科普，不替代专业医疗建议</text>
+    <view class="input-footer">
+      <text>AI 回复仅供参考 · 不替代专业医疗意见</text>
+    </view>
   </view>
 </view>

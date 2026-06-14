@@ -2,7 +2,7 @@
   <view class="login-hero">
     <view class="brand-lockup">
       <view class="login-mark-wrap">
-        <image class="login-mark" src="/assets/icons/logo.png" mode="aspectFit" />
+        <image class="login-mark" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
       </view>
       <text class="eyebrow">云端智诊</text>
     </view>

@@ -1,5 +1,5 @@
 const express = require("express");
-const rateLimit = require("express-rate-limit");
+const { rateLimit, ipKeyGenerator } = require("express-rate-limit");
 const miniappService = require("../services/miniapp.service");
 const aiAssistant = require("../services/ai-assistant.service");
 const { authenticate } = require("../middleware/auth");
@@ -11,7 +11,7 @@ const loginLimiter = rateLimit({
   max: 10,
   standardHeaders: "draft-7",
   legacyHeaders: false,
-  keyGenerator: (req) => req.ip,
+  keyGenerator: (req) => ipKeyGenerator(req.ip),
   message: { success: false, message: "登录尝试过于频繁，请15分钟后再试" }
 });
 
@@ -20,7 +20,7 @@ const aiLimiter = rateLimit({
   max: 10,
   standardHeaders: "draft-7",
   legacyHeaders: false,
-  keyGenerator: (req) => req.user?.id || req.ip,
+  keyGenerator: (req) => req.user?.id ? String(req.user.id) : ipKeyGenerator(req.ip),
   message: { success: false, message: "AI助手请求过于频繁，请稍后再试" }
 });
 

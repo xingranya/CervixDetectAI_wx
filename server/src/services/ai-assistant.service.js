@@ -61,28 +61,99 @@ function buildChatMessages(userMessages) {
   return messages;
 }
 
-async function callDashScope(messages, options = {}) {
-  const { apiKey, baseUrl, model, maxTokens, temperature } = env.ai;
+function resolveAiEndpoint() {
+  const { provider, endpoint, baseUrl } = env.ai;
+  if (provider === "openai" && endpoint) {
+    return endpoint;
+  }
+  return `${baseUrl}/services/aigc/text-generation/generation`;
+}
+
+function resolveAiHeaders() {
+  const { apiKey, provider } = env.ai;
+  if (provider === "openai") {
+    return {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`
+    };
+  }
+  return {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${apiKey}`,
+    "X-DashScope-SSE": "enable"
+  };
+}
+
+function buildAiRequestBody(messages, options = {}) {
+  const { provider, model, maxTokens, temperature } = env.ai;
+  if (provider === "openai") {
+    return {
+      model,
+      messages,
+      max_tokens: options.maxTokens || maxTokens,
+      temperature: options.temperature || temperature,
+      stream: !!options.stream
+    };
+  }
+  return {
+    model,
+    input: { messages },
+    parameters: {
+      max_tokens: options.maxTokens || maxTokens,
+      temperature: options.temperature || temperature,
+      result_format: "message",
+      ...(options.stream ? { incremental_output: true } : {})
+    }
+  };
+}
+
+function extractReplyFromResponse(data) {
+  const { provider } = env.ai;
+  if (provider === "openai") {
+    const msg = data?.choices?.[0]?.message || {};
+    return {
+      content: msg.content || "",
+      reasoning: msg.reasoning_content || ""
+    };
+  }
+  const outMsg = data?.output?.choices?.[0]?.message || {};
+  return {
+    content: outMsg.content || data?.output?.text || "",
+    reasoning: outMsg.reasoning_content || ""
+  };
+}
+
+function extractStreamDelta(jsonStr) {
+  const { provider } = env.ai;
+  const data = JSON.parse(jsonStr);
+  if (provider === "openai") {
+    const delta = data?.choices?.[0]?.delta || {};
+    return {
+      content: delta.content || "",
+      reasoning: delta.reasoning_content || ""
+    };
+  }
+  const msg = data?.output?.choices?.[0]?.message || {};
+  return {
+    content: msg.content || "",
+    reasoning: msg.reasoning_content || ""
+  };
+}
+
+async function callAiApi(messages, options = {}) {
+  const { apiKey } = env.ai;
   if (!apiKey) {
     throw new Error("AI服务未配置，请联系管理员设置 AI_API_KEY");
   }
 
-  const response = await fetch(`${baseUrl}/services/aigc/text-generation/generation`, {
+  const url = resolveAiEndpoint();
+  const headers = resolveAiHeaders();
+  const body = buildAiRequestBody(messages, options);
+
+  const response = await fetch(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`,
-      "X-DashScope-SSE": "enable"
-    },
-    body: JSON.stringify({
-      model,
-      input: { messages },
-      parameters: {
-        max_tokens: options.maxTokens || maxTokens,
-        temperature: options.temperature || temperature,
-        result_format: "message"
-      }
-    })
+    headers,
+    body: JSON.stringify(body)
   });
 
   if (!response.ok) {
@@ -91,10 +162,8 @@ async function callDashScope(messages, options = {}) {
   }
 
   const data = await response.json();
-  const content = data?.output?.choices?.[0]?.message?.content
-    || data?.output?.text
-    || "";
-  return content;
+  const extracted = extractReplyFromResponse(data);
+  return extracted;
 }
 
 async function chat(userId, userMessages) {
@@ -111,11 +180,15 @@ async function chat(userId, userMessages) {
   }
 
   const messages = buildChatMessages(userMessages);
-  const rawReply = await callDashScope(messages);
-  const sanitized = sanitizeOutput(rawReply);
+  const extracted = await callAiApi(messages);
+  const sanitized = sanitizeOutput(extracted.content);
   const reply = ensureDisclaimer(sanitized || "抱歉，暂时无法生成回复，请稍后重试。");
 
-  return { reply, disclaimer: DISCLAIMER };
+  return {
+    reply,
+    disclaimer: DISCLAIMER,
+    reasoning: extracted.reasoning || ""
+  };
 }
 
 async function chatStream(userId, userMessages, res) {
@@ -132,7 +205,7 @@ async function chatStream(userId, userMessages, res) {
   }
 
   const messages = buildChatMessages(userMessages);
-  const { apiKey, baseUrl, model, maxTokens, temperature } = env.ai;
+  const { apiKey } = env.ai;
 
   if (!apiKey) {
     res.write(`data: ${JSON.stringify({ text: "AI服务未配置，请联系管理员。", done: true, disclaimer: DISCLAIMER })}\n\n`);
@@ -150,23 +223,14 @@ async function chatStream(userId, userMessages, res) {
 
   let response;
   try {
-    response = await fetch(`${baseUrl}/services/aigc/text-generation/generation`, {
+    response = await fetch(resolveAiEndpoint(), {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
-        "X-DashScope-SSE": "enable"
-      },
-      body: JSON.stringify({
-        model,
-        input: { messages },
-        parameters: {
-          max_tokens: maxTokens,
-          temperature,
-          result_format: "message",
-          incremental_output: true
-        }
-      }),
+      headers: resolveAiHeaders(),
+      body: JSON.stringify(buildAiRequestBody(messages, {
+        maxTokens: env.ai.maxTokens,
+        temperature: env.ai.temperature,
+        stream: true
+      })),
       signal: controller.signal
     });
   } catch (err) {
@@ -198,11 +262,13 @@ async function chatStream(userId, userMessages, res) {
         try {
           const jsonStr = line.slice(5).trim();
           if (!jsonStr) return;
-          const data = JSON.parse(jsonStr);
-          const delta = data?.output?.choices?.[0]?.message?.content || "";
-          if (delta) {
-            accumulated += delta;
-            const sanitized = sanitizeOutput(delta);
+          const delta = extractStreamDelta(jsonStr);
+          if (delta.reasoning) {
+            res.write(`data: ${JSON.stringify({ reasoning: delta.reasoning, done: false })}\n\n`);
+          }
+          if (delta.content) {
+            accumulated += delta.content;
+            const sanitized = sanitizeOutput(delta.content);
             if (sanitized) {
               res.write(`data: ${JSON.stringify({ text: sanitized, done: false })}\n\n`);
             }
@@ -242,11 +308,15 @@ async function explainTerm(term) {
     { role: "user", content: `请用通俗易懂的语言解释以下医学/健康术语，包括它的含义、可能的原因和一般建议（不提供诊断结论）：\n\n${term}` }
   ];
 
-  const rawReply = await callDashScope(messages);
-  const sanitized = sanitizeOutput(rawReply);
+  const extracted = await callAiApi(messages);
+  const sanitized = sanitizeOutput(extracted.content);
   const explanation = ensureDisclaimer(sanitized || `暂无该术语的解释，建议咨询线下专业医疗机构。`);
 
-  return { explanation, disclaimer: DISCLAIMER };
+  return {
+    explanation,
+    disclaimer: DISCLAIMER,
+    reasoning: extracted.reasoning || ""
+  };
 }
 
 module.exports = {

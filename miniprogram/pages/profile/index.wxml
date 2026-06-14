@@ -17,7 +17,7 @@
       </view>
       <view class="profile-user-body">
         <view class="profile-brand">
-          <image class="profile-brand-logo" src="/assets/icons/logo.png" mode="aspectFit" />
+          <image class="profile-brand-logo" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
           <text class="profile-label">{{appName}}</text>
         </view>
         <text class="profile-title">{{user.nickname || '微信用户'}}</text>

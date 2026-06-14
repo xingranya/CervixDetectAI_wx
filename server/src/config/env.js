@@ -24,6 +24,13 @@ module.exports = {
   },
   ai: {
     apiKey: process.env.AI_API_KEY || "",
+    // 供应商: "dashscope"(默认，阿里云百炼) 或 "openai"(OpenAI 兼容格式)
+    provider: process.env.AI_PROVIDER || "dashscope",
+    // OpenAI 兼容模式下的完整端点 URL（包含路径）
+    // 例如: https://api.openai.com/v1/chat/completions
+    //       https://api.deepseek.com/v1/chat/completions
+    endpoint: process.env.AI_ENDPOINT || "",
+    // dashscope 模式的 base URL（不含路径）
     baseUrl: process.env.AI_BASE_URL || "https://dashscope.aliyuncs.com/api/v1",
     model: process.env.AI_MODEL || "qwen-turbo",
     maxTokens: Number(process.env.AI_MAX_TOKENS || 1024),

@@ -15,7 +15,7 @@
     <view class="hero dashboard-card">
       <view class="hero-top-row">
         <view class="home-brand">
-          <image class="home-brand-logo" src="/assets/icons/logo.png" mode="aspectFit" />
+          <image class="home-brand-logo" src="https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31" mode="aspectFit" />
           <text class="home-brand-name">云端智诊</text>
         </view>
         <view class="hero-top-spacer"></view>
