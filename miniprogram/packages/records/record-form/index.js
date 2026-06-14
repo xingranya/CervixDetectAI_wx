@@ -85,6 +85,22 @@ const formRules = [
   { name: "status", rules: { required: true, message: "请选择记录状态" } }
 ];
 
+function normalizeRecordAttachment(item) {
+  if (!item) return null;
+  if (typeof item === "string") {
+    const url = String(item).trim();
+    return url ? { url } : null;
+  }
+
+  const url = String(item.url || item.tempFilePath || item.path || "").trim();
+  return url ? { ...item, url } : null;
+}
+
+function normalizeRecordAttachments(value) {
+  if (!Array.isArray(value)) return [];
+  return value.map(normalizeRecordAttachment).filter(Boolean);
+}
+
 function normalizeStatus(status) {
   return statusOptions.indexOf(status) > -1 ? status : statusOptions[0];
 }
@@ -110,7 +126,7 @@ function normalizeForm(form) {
     conclusion: String(source.conclusion || defaultForm.conclusion),
     hospital: String(source.hospital || defaultForm.hospital),
     doctorName: String(source.doctorName || defaultForm.doctorName),
-    attachments: Array.isArray(source.attachments) ? source.attachments : [],
+    attachments: normalizeRecordAttachments(source.attachments),
     status: normalizeStatus(source.status)
   };
 }
@@ -156,7 +172,7 @@ function buildFormPayload(data) {
     conclusion: String(data.conclusion || ""),
     hospital: String(data.hospital || ""),
     doctorName: String(data.doctorName || ""),
-    attachments: Array.isArray(data.attachments) ? data.attachments : [],
+    attachments: normalizeRecordAttachments(data.attachments),
     status: normalizeStatus(data.status)
   };
 }

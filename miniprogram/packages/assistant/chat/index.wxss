@@ -65,6 +65,7 @@
   align-items: center;
   padding: 60rpx 32rpx 32rpx;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .welcome-hero {

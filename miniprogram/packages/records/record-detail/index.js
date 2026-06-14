@@ -37,6 +37,22 @@ function resolveDiagnosisTone(conclusion) {
   return { tone: "", label: "" };
 }
 
+function normalizeRecordAttachment(item) {
+  if (!item) return null;
+  if (typeof item === "string") {
+    const url = String(item).trim();
+    return url ? { url } : null;
+  }
+
+  const url = String(item.url || item.tempFilePath || item.path || "").trim();
+  return url ? { ...item, url } : null;
+}
+
+function normalizeRecordAttachments(value) {
+  if (!Array.isArray(value)) return [];
+  return value.map(normalizeRecordAttachment).filter(Boolean);
+}
+
 function buildRecordView(record) {
   if (!record) return null;
 
@@ -49,10 +65,11 @@ function buildRecordView(record) {
   const dateYear = dateParts.length === 3 ? dateParts[0] : "";
   const conclusion = String(record.conclusion || "");
   const diagnosis = resolveDiagnosisTone(conclusion);
-  const attachments = Array.isArray(record.attachments) ? record.attachments : [];
+  const attachments = normalizeRecordAttachments(record.attachments);
 
   return {
     ...record,
+    attachments,
     statusText,
     statusTone,
     dateMonthDay,
@@ -64,8 +81,7 @@ function buildRecordView(record) {
     doctorName: record.doctorName || "",
     conclusionText: conclusion || "",
     diagnosisTone: diagnosis.tone,
-    diagnosisToneLabel: diagnosis.label,
-    attachments
+    diagnosisToneLabel: diagnosis.label
   };
 }
 

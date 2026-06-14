@@ -8,11 +8,11 @@
         <view class="welcome-avatar-ring"></view>
       </view>
       <text class="welcome-title">健康科普助手</text>
-      <text class="welcome-subtitle">云端智诊 · AI 健康顾问</text>
+      <text class="welcome-subtitle">云端智诊 · AI 健康科普助手</text>
     </view>
 
     <view class="welcome-card">
-      <text class="welcome-card-desc">我可以帮你解答健康知识问题、解释检查术语，但不会提供诊断或治疗建议。</text>
+      <text class="welcome-card-desc">我可以帮你解释健康术语、整理复查准备重点和提供一般性健康科普，但不会提供诊断、治疗或用药建议。</text>
       <view class="welcome-divider"></view>
       <text class="welcome-card-label">试试问我</text>
       <view class="suggestion-grid">
@@ -132,7 +132,7 @@
         <input
           class="input-field"
           value="{{inputValue}}"
-          placeholder="输入健康问题或术语..."
+          placeholder="输入健康术语、筛查常识或复查准备问题..."
           placeholder-class="input-placeholder"
           confirm-type="send"
           bindinput="onInput"
@@ -150,7 +150,7 @@
       </view>
     </view>
     <view class="input-footer">
-      <text>AI 回复仅供参考 · 不替代专业医疗意见</text>
+      <text>仅限健康科普与记录整理 · 不提供诊断、治疗、处方或问诊</text>
     </view>
   </view>
 </view>

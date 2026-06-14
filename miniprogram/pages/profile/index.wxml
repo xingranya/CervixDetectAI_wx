@@ -68,7 +68,8 @@
         aria-label="{{item.title}}，{{item.desc}}"
       >
           <view class="profile-menu-icon-wrap">
-          <mp-icon wx:if="{{item.weuiIcon}}" icon="{{item.weuiIcon}}" color="#1f53c9" size="{{24}}" />
+          <image wx:if="{{item.icon}}" class="profile-menu-icon" src="{{item.icon}}" mode="aspectFit" />
+          <mp-icon wx:elif="{{item.weuiIcon}}" icon="{{item.weuiIcon}}" color="#1f53c9" size="{{24}}" />
         </view>
         <view class="profile-menu-body">
           <text class="menu-title">{{item.title}}</text>
@@ -86,7 +87,10 @@
     </view>
   </button>
   <button wx:if="{{!isGuest}}" class="delete-account-button" hover-class="u-hover" bind:tap="requestDeleteAccount" aria-role="button" aria-label="注销账户">
-    <text class="delete-account-text">注销账户并删除所有数据</text>
+    <view class="button-content">
+      <image class="button-icon delete-account-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
+      <text class="delete-account-text">注销账户并删除所有数据</text>
+    </view>
   </button>
   <weui-confirm
     show="{{confirmDialog.show}}"

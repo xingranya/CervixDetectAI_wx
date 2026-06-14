@@ -2,7 +2,7 @@
   <section-header title="检查记录" weui-icon="info">
     <button slot="extra" class="mini-primary" hover-class="u-hover" bind:tap="createRecord" aria-role="button" aria-label="新增检查记录">
       <view class="button-content">
-        <mp-icon icon="add" color="rgb(24, 118, 210)" size="{{16}}" />
+        <image class="action-inline-icon" src="/assets/icons/plus-active.png" mode="aspectFit" />
         <text class="button-text">新增</text>
       </view>
     </button>
@@ -83,7 +83,7 @@
 
   <block wx:else>
     <view class="records-list" aria-role="list">
-      <view wx:for="{{records}}" wx:key="id" class="timeline-item u-fade-in" style="animation-delay: {{index * 50}}ms" aria-role="listitem">
+      <view wx:for="{{records}}" wx:key="id" class="timeline-item" aria-role="listitem">
         <view class="slide-cell">
           <view class="card record-card" hover-class="u-hover" bind:tap="openDetail" data-id="{{item.id}}" aria-label="{{item.title}}，{{item.dateText}}，{{item.status}}">
             <view class="record-top">
@@ -105,13 +105,13 @@
             <view class="record-actions">
               <button class="text-button" hover-class="u-hover" catch:tap="editRecord" data-id="{{item.id}}" aria-role="button" aria-label="编辑">
                 <view class="button-content">
-                  <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{16}}" />
+                  <image class="action-inline-icon" src="/assets/icons/detail-active.png" mode="aspectFit" />
                   <text class="button-text">编辑</text>
                 </view>
               </button>
               <button class="text-button danger" hover-class="u-hover" catch:tap="deleteRecord" data-id="{{item.id}}" aria-role="button" aria-label="删除">
                 <view class="button-content">
-                  <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
+                  <image class="action-inline-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
                   <text class="button-text">删除</text>
                 </view>
               </button>

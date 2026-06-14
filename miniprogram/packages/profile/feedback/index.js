@@ -17,6 +17,45 @@ const formRules = [
   }
 ];
 
+function normalizeAttachmentItem(item) {
+  if (!item) return null;
+  if (typeof item === "string") {
+    const url = String(item).trim();
+    return url ? { url } : null;
+  }
+
+  const url = String(
+    item.url
+    || item.tempFilePath
+    || item.path
+    || item.thumbTempFilePath
+    || item.thumb
+    || ""
+  ).trim();
+
+  return url ? { ...item, url } : null;
+}
+
+function normalizeAttachmentFiles(detail) {
+  const source = detail || {};
+  const rawList = [];
+
+  if (Array.isArray(source.tempFilePaths)) rawList.push(...source.tempFilePaths);
+  if (Array.isArray(source.tempFiles)) rawList.push(...source.tempFiles);
+  if (Array.isArray(source.files)) rawList.push(...source.files);
+  if (Array.isArray(source.urls)) rawList.push(...source.urls);
+
+  return rawList
+    .map(normalizeAttachmentItem)
+    .filter(Boolean);
+}
+
+function buildGalleryUrls(files) {
+  return (Array.isArray(files) ? files : [])
+    .map((item) => String(item && item.url || "").trim())
+    .filter(Boolean);
+}
+
 Page({
   data: {
     form: { ...DEFAULT_FORM },
@@ -55,21 +94,20 @@ Page({
   },
 
   onAttachmentSelect(event) {
-    const paths = (event.detail && event.detail.tempFilePaths) || [];
-    const nextFiles = paths.map((url) => ({ url }));
+    const nextFiles = normalizeAttachmentFiles(event.detail);
     const files = this.data.attachmentFiles.concat(nextFiles).slice(0, 3);
     this.setData({
       attachmentFiles: files,
-      galleryUrls: files.map((item) => item.url)
+      galleryUrls: buildGalleryUrls(files)
     });
   },
 
   onAttachmentDelete(event) {
-    const index = event.detail.index;
+    const index = Number(event.detail && event.detail.index);
     const attachmentFiles = this.data.attachmentFiles.filter((_, fileIndex) => fileIndex !== index);
     this.setData({
       attachmentFiles,
-      galleryUrls: attachmentFiles.map((item) => item.url)
+      galleryUrls: buildGalleryUrls(attachmentFiles)
     });
   },
 
@@ -79,7 +117,7 @@ Page({
     this.setData({
       galleryShow: true,
       galleryCurrent: index,
-      galleryUrls: this.data.attachmentFiles.map((item) => item.url)
+      galleryUrls: buildGalleryUrls(this.data.attachmentFiles)
     });
   },
 
@@ -92,18 +130,12 @@ Page({
   },
 
   onGalleryDelete(event) {
-    const index = event.detail.index;
+    const index = Number(event.detail && event.detail.index);
     const attachmentFiles = this.data.attachmentFiles.filter((_, fileIndex) => fileIndex !== index);
     this.setData({
       attachmentFiles,
-      galleryUrls: attachmentFiles.map((item) => item.url),
+      galleryUrls: buildGalleryUrls(attachmentFiles),
       galleryShow: attachmentFiles.length > 0
-    });
-  },
-
-  uploadAttachmentPreview() {
-    return Promise.resolve({
-      urls: this.data.attachmentFiles.map((item) => item.url)
     });
   },
 

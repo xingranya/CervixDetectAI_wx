@@ -96,6 +96,7 @@ Page({
     isGuest: !isLoggedIn(),
     brandColor: "#2563eb",
     notificationPath: ROUTES.notifications,
+    assistantChatPath: ROUTES.assistantChat,
     unreadCount: 0,
     actions: [
       {
@@ -125,13 +126,6 @@ Page({
         path: ROUTES.articles,
         tone: "cyan",
         icon: "/assets/icons/articles-active.png"
-      },
-      {
-        label: "健康助手",
-        desc: "AI科普问答",
-        path: ROUTES.assistantChat,
-        tone: "blue",
-        icon: "/assets/icons/questions-active.png"
       }
     ]
   },

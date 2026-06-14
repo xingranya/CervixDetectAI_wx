@@ -3,7 +3,6 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "section-header": "/components/section-header/index",
-    "empty-state": "/components/empty-state/index",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "empty-state": "/components/empty-state/index"
   }
 }

@@ -121,4 +121,17 @@
 
     <view class="safe-note">{{home.disclaimer}}</view>
   </block>
+
+  <!-- AI 助手悬浮入口 -->
+  <view
+    class="ai-fab"
+    hover-class="ai-fab-pressed"
+    bind:tap="goPage"
+    data-path="{{assistantChatPath}}"
+    aria-role="button"
+    aria-label="健康助手"
+  >
+    <text class="ai-fab-icon">✦</text>
+    <text class="ai-fab-label">健康助手</text>
+  </view>
 </view>

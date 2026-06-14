@@ -28,6 +28,70 @@ const DEFAULT_METRICS = [
   { label: "下次提醒", value: "--" }
 ];
 
+const PROFILE_ICON_MAP = {
+  info_circle: "info",
+  waiting: "info",
+  time: "info",
+  lock: "info",
+  note: "info",
+  comment: "info",
+  calendar: "info",
+  bell: "info",
+  "safe-success": "success"
+};
+
+function normalizeMenuWeuiIcon(icon) {
+  const key = String(icon || "").trim();
+  return PROFILE_ICON_MAP[key] || key;
+}
+
+function buildProfileMenus() {
+  return [
+    {
+      title: "检查记录",
+      desc: "查看和维护历史摘要",
+      icon: "/assets/icons/records-active.png",
+      path: ROUTES.records
+    },
+    {
+      title: "复查提醒",
+      desc: "管理后续安排",
+      icon: "/assets/icons/reminders-active.png",
+      path: ROUTES.reminders
+    },
+    {
+      title: "问题整理",
+      desc: "保存线下咨询重点",
+      icon: "/assets/icons/questions-active.png",
+      path: ROUTES.questions
+    },
+    {
+      title: "隐私与服务说明",
+      desc: "查看数据用途和边界",
+      icon: "/assets/icons/privacy-active.png",
+      path: ROUTES.privacy
+    },
+    {
+      title: "用户服务协议",
+      desc: "查看登录与使用规则",
+      icon: "/assets/icons/detail-active.png",
+      path: ROUTES.serviceAgreement
+    },
+    {
+      title: "合规与服务边界",
+      desc: "确认健康记录工具的使用范围",
+      icon: "/assets/icons/check-active.png",
+      path: ROUTES.compliance
+    },
+    {
+      title: "意见反馈",
+      desc: "提交使用问题和改进建议",
+      icon: "/assets/icons/articles-active.png",
+      path: ROUTES.feedback
+    }
+  ];
+}
+
 function normalizeUser(user) {
   return normalizeStoredUser(user);
 }
@@ -100,50 +164,7 @@ Page({
     user: DEFAULT_USER,
     activeAvatarUrl: "",
     metrics: DEFAULT_METRICS,
-    menus: [
-      {
-        title: "检查记录",
-        desc: "查看和维护历史摘要",
-        weuiIcon: "note",
-        path: ROUTES.records
-      },
-      {
-        title: "复查提醒",
-        desc: "管理后续安排",
-        weuiIcon: "time",
-        path: ROUTES.reminders
-      },
-      {
-        title: "问题整理",
-        desc: "保存线下咨询重点",
-        weuiIcon: "comment",
-        path: ROUTES.questions
-      },
-      {
-        title: "隐私与服务说明",
-        desc: "查看数据用途和边界",
-        weuiIcon: "info",
-        path: ROUTES.privacy
-      },
-      {
-        title: "用户服务协议",
-        desc: "查看登录与使用规则",
-        weuiIcon: "info",
-        path: ROUTES.serviceAgreement
-      },
-      {
-        title: "合规与服务边界",
-        desc: "确认健康记录工具的使用范围",
-        weuiIcon: "info",
-        path: ROUTES.compliance
-      },
-      {
-        title: "意见反馈",
-        desc: "提交使用问题和改进建议",
-        weuiIcon: "comment",
-        path: ROUTES.feedback
-      }
-    ],
+    menus: buildProfileMenus(),
     confirmDialog: {
       show: false
     },

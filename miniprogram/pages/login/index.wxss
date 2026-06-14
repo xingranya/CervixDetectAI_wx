@@ -137,7 +137,7 @@
 .login-desc {
   display: block;
   margin-top: 16rpx;
-  color: var(--wx-text-secondary);
+  color: #334155;
   font-size: 28rpx;
   line-height: 1.7;
 }
@@ -158,7 +158,7 @@
 .login-card-desc {
   display: block;
   margin-top: 10rpx;
-  color: var(--wx-text-secondary);
+  color: #334155;
   font-size: 25rpx;
   line-height: 1.6;
 }
@@ -229,14 +229,14 @@
 }
 
 .login-avatar-placeholder-text {
-  color: var(--wx-text-tertiary);
+  color: #475569;
   font-size: 22rpx;
 }
 
 .login-avatar-hint {
   display: block;
   margin-top: 10rpx;
-  color: var(--wx-text-hint);
+  color: #475569;
   font-size: 22rpx;
   line-height: 1.4;
 }
@@ -244,7 +244,7 @@
 .login-avatar-note {
   display: block;
   margin-top: 12rpx;
-  color: var(--wx-text-tertiary);
+  color: #475569;
   font-size: 23rpx;
   line-height: 1.6;
 }
@@ -266,13 +266,13 @@
 }
 
 .login-nickname-placeholder {
-  color: var(--wx-text-hint-alt);
+  color: #64748b;
 }
 
 .login-nickname-hint {
   display: block;
   margin-top: 10rpx;
-  color: var(--wx-text-tertiary);
+  color: #475569;
   font-size: 23rpx;
   line-height: 1.5;
 }
@@ -301,6 +301,10 @@
 
 .agreement-links {
   margin-top: 12rpx;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8rpx;
   line-height: 1.7;
 }
 
@@ -310,18 +314,25 @@
 }
 
 .agreement-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56rpx;
+  padding: 0 16rpx;
+  border-radius: 999rpx;
   color: var(--wx-brand-500);
   font-weight: 800;
+  background: rgba(var(--wx-brand-500-rgb), 0.08);
 }
 
 .agreement-separator {
-  margin: 0 8rpx;
-  color: var(--wx-text-secondary);
+  margin: 0;
+  color: #475569;
 }
 
 .agreement-note {
   margin-top: 12rpx;
-  color: var(--wx-text-tertiary);
+  color: #475569;
   font-size: 24rpx;
   line-height: 1.6;
 }

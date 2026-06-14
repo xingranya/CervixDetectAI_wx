@@ -237,7 +237,7 @@
 }
 
 .follow-label {
-  color: var(--wx-text-secondary);
+  color: #334155;
   font-size: 22rpx;
   font-weight: 700;
   line-height: 1.25;
@@ -266,7 +266,7 @@
 .hero-time {
   flex: 0 0 auto;
   max-width: 168rpx;
-  color: var(--wx-text-secondary);
+  color: #475569;
   font-size: 21rpx;
   line-height: 1.35;
   text-align: right;
@@ -278,7 +278,7 @@
 .hero-desc {
   display: block;
   margin-top: 14rpx;
-  color: var(--wx-text-secondary);
+  color: #334155;
   font-size: 27rpx;
   line-height: 1.52;
 }
@@ -314,7 +314,7 @@
 
 .metric-label {
   margin-top: 12rpx;
-  color: var(--wx-text-secondary);
+  color: #475569;
   font-size: 23rpx;
   line-height: 1.25;
 }
@@ -340,7 +340,7 @@
 
 .guest-entry-desc {
   margin-top: 10rpx;
-  color: var(--wx-text-secondary);
+  color: #334155;
   font-size: 25rpx;
   line-height: 1.6;
 }
@@ -377,7 +377,7 @@
 
 .section-subtitle {
   display: block;
-  color: var(--wx-text-secondary);
+  color: #475569;
   font-size: 26rpx;
   line-height: 1.4;
 }
@@ -399,7 +399,7 @@
 
 .state-desc {
   margin: 14rpx 0 24rpx;
-  color: var(--wx-text-tertiary);
+  color: #475569;
   font-size: 26rpx;
   line-height: 1.6;
 }
@@ -553,7 +553,7 @@
 
 .action-desc {
   margin-top: 8rpx;
-  color: var(--wx-text-tertiary);
+  color: #475569;
   font-size: 23rpx;
   line-height: 1.28;
 }
@@ -688,4 +688,44 @@
   background: var(--wx-brand-500);
   border: 4rpx solid var(--wx-bg-secondary);
   box-sizing: content-box;
+}
+
+/* -------- AI 悬浮按钮 -------- */
+.ai-fab {
+  position: fixed;
+  right: 24rpx;
+  bottom: 60rpx;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8rpx;
+  padding: 16rpx 28rpx;
+  border-radius: 999rpx;
+  background: #1876d2;
+  box-shadow: 0 6rpx 20rpx rgba(24,118,210,0.35);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.ai-fab-pressed {
+  transform: scale(0.95);
+  box-shadow: 0 3rpx 10rpx rgba(24,118,210,0.25);
+}
+
+.ai-fab::after {
+  border: 0;
+}
+
+.ai-fab-icon {
+  color: #ffffff;
+  font-size: 32rpx;
+  line-height: 1;
+}
+
+.ai-fab-label {
+  color: #ffffff;
+  font-size: 26rpx;
+  font-weight: 800;
+  letter-spacing: 0;
+  white-space: nowrap;
 }

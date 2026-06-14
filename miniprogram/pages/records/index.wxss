@@ -77,6 +77,14 @@
   flex: 0 0 auto;
 }
 
+.action-inline-icon {
+  display: block;
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 8rpx;
+  flex: 0 0 auto;
+}
+
 .danger {
   background: var(--wx-danger-light);
   color: var(--wx-danger);

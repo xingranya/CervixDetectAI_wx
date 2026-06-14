@@ -2,7 +2,7 @@
   <section-header title="复查提醒" icon="/assets/icons/reminders-active.png">
     <button slot="extra" class="mini-primary" hover-class="u-hover" bind:tap="createReminder" aria-role="button" aria-label="新增复查提醒">
       <view class="button-content">
-        <mp-icon icon="add" color="rgb(24, 118, 210)" size="{{16}}" />
+        <image class="action-inline-icon" src="/assets/icons/plus-active.png" mode="aspectFit" />
         <text class="button-text">新增</text>
       </view>
     </button>
@@ -81,7 +81,7 @@
   />
 
   <block wx:else>
-    <view wx:for="{{reminders}}" wx:key="id" class="reminder-slide-cell u-fade-in" style="animation-delay: {{index * 50}}ms" aria-role="listitem">
+    <view wx:for="{{reminders}}" wx:key="id" class="reminder-slide-cell" aria-role="listitem">
       <view class="card reminder-card {{item.done ? 'reminder-done' : ''}}" hover-class="u-hover" aria-label="{{item.title}}，{{item.dateMonthDay}}，{{item.statusText}}">
         <view class="reminder-top">
           <view class="date-tile">
@@ -113,19 +113,19 @@
           </button>
           <button wx:if="{{!item.done}}" class="ghost-button small-button" hover-class="u-hover" bind:tap="markDone" data-id="{{item.id}}">
             <view class="button-content">
-              <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{16}}" />
+              <image class="action-inline-icon" src="/assets/icons/check-active.png" mode="aspectFit" />
               <text class="button-text">标记完成</text>
             </view>
           </button>
           <button class="text-button" hover-class="u-hover" bind:tap="editReminder" data-id="{{item.id}}">
             <view class="button-content">
-              <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{16}}" />
+              <image class="action-inline-icon" src="/assets/icons/detail-active.png" mode="aspectFit" />
               <text class="button-text">编辑</text>
             </view>
           </button>
           <button class="text-button danger" hover-class="u-hover" bind:tap="deleteReminder" data-id="{{item.id}}">
             <view class="button-content">
-              <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
+              <image class="action-inline-icon" src="/assets/icons/trash-danger.png" mode="aspectFit" />
               <text class="button-text">删除</text>
             </view>
           </button>
