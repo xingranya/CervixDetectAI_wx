@@ -230,7 +230,10 @@ async function updateProfile(userId, payload = {}) {
 
 async function uploadAvatar(req, payload = {}) {
   const user = await getMe(req.user.id);
-  const avatarUrl = await avatarStorage.saveAvatar(req, payload);
+  const avatarUrl = await avatarStorage.saveAvatar(req, {
+    ...payload,
+    oldAvatarUrl: user?.avatarUrl || null
+  });
   return repository.updateProfile(req.user.id, {
     nickname: user?.nickname || "微信用户",
     avatarUrl
@@ -408,6 +411,20 @@ async function createNotification(userId, { type, title, content, extra } = {}) 
   });
 }
 
+async function logout(token) {
+  return repository.deleteSessionByToken(token);
+}
+
+async function cleanExpiredSessions() {
+  const count = await repository.cleanExpiredSessions();
+  console.log(`[Session] Cleaned ${count} expired session(s)`);
+  return count;
+}
+
+async function deleteAccount(userId) {
+  return repository.deleteAccount(userId);
+}
+
 module.exports = {
   login,
   getSessionByToken,
@@ -440,5 +457,8 @@ module.exports = {
   getUnreadCount,
   markNotificationRead,
   markAllNotificationsRead,
-  createNotification
+  createNotification,
+  logout,
+  cleanExpiredSessions,
+  deleteAccount
 };

@@ -1,11 +1,11 @@
-<view class="card empty-card">
+<view class="card empty-card" aria-role="status">
   <view wx:if="{{weuiIcon}}" class="empty-icon-wrap">
     <mp-icon wx:if="{{weuiIcon}}" icon="{{weuiIcon}}" color="#1f53c9" size="{{36}}" />
   </view>
   <image wx:elif="{{icon}}" class="empty-icon" src="{{icon}}" mode="aspectFit" />
   <text class="empty-title">{{title}}</text>
   <text class="empty-desc">{{desc}}</text>
-  <button wx:if="{{buttonText}}" class="primary-button empty-button" bind:tap="handleAction">
+  <button wx:if="{{buttonText}}" class="primary-button empty-button" bind:tap="handleAction" aria-role="button" aria-label="{{buttonText}}">
     <text class="button-text">{{buttonText}}</text>
   </button>
 </view>

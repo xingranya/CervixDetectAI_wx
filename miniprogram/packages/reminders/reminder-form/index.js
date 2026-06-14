@@ -191,7 +191,8 @@ Page({
     formRules,
     submitText: "保存提醒",
     errorMessage: "",
-    loading: false
+    loading: false,
+    fieldErrors: {}
   },
 
   async onLoad(query) {
@@ -200,6 +201,8 @@ Page({
       openRoute(ROUTES.login, {}, { redirect: true });
       return;
     }
+
+    wx.setNavigationBarTitle({ title: query.id ? "编辑复查提醒" : "新增复查提醒" });
 
     if (query.id) {
       this.setData({
@@ -401,6 +404,23 @@ Page({
       done,
       doneItems: [{ label: "标记为已完成", value: "done", checked: done }]
     });
+  },
+
+  validateField(field) {
+    const value = String(this.data[field] || "").trim();
+    const labels = {
+      title: "请选择或填写提醒标题",
+      date: "请选择提醒日期",
+      desc: "请填写提醒内容"
+    };
+    return value ? "" : (labels[field] || "");
+  },
+
+  onFieldBlur(e) {
+    const field = e.currentTarget.dataset.field;
+    if (!field) return;
+    const error = this.validateField(field);
+    this.setData({ [`fieldErrors.${field}`]: error });
   },
 
   validateForm() {

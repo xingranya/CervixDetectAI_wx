@@ -55,21 +55,21 @@
       <view class="agreement-panel">
         <text class="agreement-title">登录前请先同意以下协议</text>
         <view class="agreement-links">
-          <text class="agreement-link" hover-class="u-hover" bind:tap="openServiceAgreement">《用户服务协议》</text>
+          <text class="agreement-link" hover-class="u-hover" bind:tap="openServiceAgreement" aria-role="link" aria-label="用户服务协议">《用户服务协议》</text>
           <text class="agreement-separator">与</text>
-          <text class="agreement-link" hover-class="u-hover" bind:tap="openPrivacy">《隐私与服务说明》</text>
+          <text class="agreement-link" hover-class="u-hover" bind:tap="openPrivacy" aria-role="link" aria-label="隐私与服务说明">《隐私与服务说明》</text>
         </view>
         <text class="agreement-note">点击登录按钮后会弹出协议确认弹窗，请阅读后主动勾选同意。不同意也可仅浏览小程序，不影响查看健康知识和功能入口。</text>
       </view>
 
-      <button class="primary-button login-button" hover-class="u-hover" disabled="{{loading}}" form-type="submit">
+      <button class="primary-button login-button" hover-class="u-hover" disabled="{{loading}}" form-type="submit" aria-role="button" aria-label="登录并继续">
         <view class="button-content">
           <mp-icon icon="me" color="#ffffff" size="{{18}}" />
           <text class="button-text">{{loading ? '正在登录' : '登录并继续'}}</text>
         </view>
       </button>
 
-      <button class="login-skip-button" hover-class="u-hover" disabled="{{loading}}" catch:tap="skipSetupAndLogin">
+      <button class="login-skip-button" hover-class="u-hover" disabled="{{loading}}" catch:tap="skipSetupAndLogin" aria-role="button" aria-label="暂不设置资料，直接登录">
         <text class="login-skip-button-text">暂不设置资料，直接登录</text>
       </button>
     </form>

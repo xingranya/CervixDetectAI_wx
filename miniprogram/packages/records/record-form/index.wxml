@@ -47,11 +47,13 @@
         </mp-cell>
 
         <mp-cell title="记录标题" prop="title" show-error="{{true}}" inline="{{false}}">
-          <input class="form-input" value="{{title}}" bind:input="onTitleInput" maxlength="60" placeholder="例如：女性健康筛查记录" placeholder-class="form-placeholder" />
+          <input class="form-input" value="{{title}}" bind:input="onTitleInput" bind:blur="onFieldBlur" data-field="title" maxlength="60" placeholder="例如：女性健康筛查记录" placeholder-class="form-placeholder" />
+          <text wx:if="{{fieldErrors.title}}" class="field-error">{{fieldErrors.title}}</text>
         </mp-cell>
 
         <mp-cell title="检查项目" prop="project" show-error="{{true}}" inline="{{false}}">
-          <input class="form-input" value="{{project}}" bind:input="onProjectInput" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" placeholder-class="form-placeholder" />
+          <input class="form-input" value="{{project}}" bind:input="onProjectInput" bind:blur="onFieldBlur" data-field="project" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" placeholder-class="form-placeholder" />
+          <text wx:if="{{fieldErrors.project}}" class="field-error">{{fieldErrors.project}}</text>
         </mp-cell>
 
         <mp-cell title="检查医院" inline="{{false}}">
@@ -74,14 +76,16 @@
           <view class="label-row">
             <text class="field-hint">{{summaryLength}} / 500</text>
           </view>
-          <textarea class="form-textarea" value="{{summary}}" bind:input="onSummaryInput" maxlength="500" placeholder="记录检查摘要，便于后续查看。" placeholder-class="form-placeholder" />
+          <textarea class="form-textarea" value="{{summary}}" bind:input="onSummaryInput" bind:blur="onFieldBlur" data-field="summary" maxlength="500" placeholder="记录检查摘要，便于后续查看。" placeholder-class="form-placeholder" />
+          <text wx:if="{{fieldErrors.summary}}" class="field-error">{{fieldErrors.summary}}</text>
         </mp-cell>
 
         <mp-cell title="提醒建议" prop="suggestion" show-error="{{true}}" inline="{{false}}">
           <view class="label-row">
             <text class="field-hint">{{suggestionLength}} / 500</text>
           </view>
-          <textarea class="form-textarea" value="{{suggestion}}" bind:input="onSuggestionInput" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" placeholder-class="form-placeholder" />
+          <textarea class="form-textarea" value="{{suggestion}}" bind:input="onSuggestionInput" bind:blur="onFieldBlur" data-field="suggestion" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" placeholder-class="form-placeholder" />
+          <text wx:if="{{fieldErrors.suggestion}}" class="field-error">{{fieldErrors.suggestion}}</text>
         </mp-cell>
 
         <mp-cell title="检查结论" inline="{{false}}">
@@ -100,7 +104,7 @@
       </view>
       <view class="attachment-grid">
         <view wx:for="{{attachments}}" wx:key="url" class="attachment-item">
-          <image class="attachment-image" src="{{item.url}}" mode="aspectFill" bind:tap="previewAttachment" data-index="{{index}}" />
+          <image class="attachment-image" src="{{item.url}}" mode="aspectFill" lazy-load bind:tap="previewAttachment" data-index="{{index}}" />
           <view class="attachment-remove" catch:tap="removeAttachment" data-index="{{index}}">
             <text class="attachment-remove-icon">×</text>
           </view>

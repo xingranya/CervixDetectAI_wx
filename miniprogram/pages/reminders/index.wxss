@@ -25,7 +25,7 @@
 
 .primary-button {
   white-space: nowrap;
-  height: 86rpx;
+  height: 88rpx;
   border-radius: var(--wx-radius-sm);
   background: var(--wx-brand-500);
   color: var(--wx-text-on-primary);

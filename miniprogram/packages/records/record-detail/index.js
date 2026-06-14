@@ -209,6 +209,7 @@ Page({
       removeCachedListItem(CACHE_KEYS.records, this.data.record.id);
       clearCachedData(CACHE_KEYS.recordDetail(this.data.record.id));
       markCacheDirty(CACHE_KEYS.home);
+      if (wx.vibrateShort) wx.vibrateShort({ type: "medium" });
       showSuccessToast("已删除");
       navigateBackLater();
     } catch (error) {

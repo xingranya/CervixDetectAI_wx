@@ -16,6 +16,8 @@
           hover-class="suggestion-chip-hover"
           bind:tap="onSuggestionTap"
           data-text="{{item.text}}"
+          aria-role="button"
+          aria-label="{{item.text}}"
         >
           <text>{{item.text}}</text>
         </view>
@@ -77,6 +79,8 @@
       disabled="{{!inputValue || isSending}}"
       hover-class="chat-send-btn-hover"
       bind:tap="onSend"
+      aria-role="button"
+      aria-label="发送"
     >
       <mp-icon icon="send" color="#ffffff" size="{{18}}" />
     </button>

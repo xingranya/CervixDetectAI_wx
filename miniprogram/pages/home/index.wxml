@@ -19,7 +19,7 @@
           <text class="home-brand-name">云端智诊</text>
         </view>
         <view class="hero-top-spacer"></view>
-        <view class="notification-entry" hover-class="u-hover" bind:tap="goPage" data-path="{{notificationPath}}">
+        <view class="notification-entry" hover-class="u-hover" bind:tap="goPage" data-path="{{notificationPath}}" aria-role="button" aria-label="通知中心，{{unreadCount}}条未读">
           <mp-icon icon="notification" color="#475569" size="{{22}}" />
           <view wx:if="{{unreadCount > 0}}" class="notification-badge">{{unreadCount > 99 ? '99+' : unreadCount}}</view>
         </view>
@@ -31,6 +31,7 @@
             class="home-avatar"
             src="{{activeAvatarUrl}}"
             mode="aspectFill"
+            lazy-load
           />
           <mp-icon wx:else icon="me" color="{{brandColor}}" size="{{32}}" />
           <view class="status-dot status-dot-{{home.healthTone}}"></view>
@@ -73,7 +74,7 @@
       <text class="section-subtitle">把复查准备放进日常计划</text>
     </view>
 
-    <view class="action-grid">
+    <view class="action-grid" aria-role="list">
       <view
         wx:for="{{actions}}"
         wx:key="label"
@@ -81,6 +82,8 @@
         hover-class="action-card-pressed"
         bind:tap="goPage"
         data-path="{{item.path}}"
+        aria-role="listitem"
+        aria-label="{{item.label}}，{{item.desc}}"
       >
         <view class="action-icon-wrap">
           <image class="action-icon" src="{{item.icon}}" mode="aspectFit" />
@@ -108,7 +111,7 @@
         <text class="pill">{{home.latestDate || '待记录'}}</text>
       </view>
       <text class="latest-desc">{{home.nextReminder}}</text>
-      <button class="primary-button" hover-class="u-hover" bind:tap="goPage" data-path="/pages/records/index">
+      <button class="primary-button" hover-class="u-hover" bind:tap="goPage" data-path="/pages/records/index" aria-role="button" aria-label="查看检查记录">
         <view class="button-content">
           <mp-icon icon="note" color="#ffffff" size="{{18}}" />
           <text class="button-text">查看检查记录</text>

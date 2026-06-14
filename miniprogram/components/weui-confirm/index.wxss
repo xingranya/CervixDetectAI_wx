@@ -6,8 +6,15 @@
   align-items: center;
   justify-content: center;
   padding: 48rpx;
-  background: var(--wx-overlay);
+  background: transparent;
   box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+
+.confirm-mask-show {
+  background: var(--wx-overlay);
+  opacity: 1;
 }
 
 .confirm-panel {
@@ -18,6 +25,14 @@
   background: var(--wx-bg-primary);
   box-shadow: 0 24rpx 64rpx var(--wx-shadow-confirm);
   box-sizing: border-box;
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 280ms ease;
+}
+
+.confirm-panel-show {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .confirm-title,

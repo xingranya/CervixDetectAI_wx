@@ -118,6 +118,12 @@ Page({
     }
   },
 
+  async onPullDownRefresh() {
+    await this.loadNotifications({ silent: true });
+    this.loadUnreadCount();
+    wx.stopPullDownRefresh();
+  },
+
   async markAllRead() {
     try {
       await request("/notifications/read-all", { method: "PATCH" });

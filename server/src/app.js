@@ -8,6 +8,7 @@ const env = require("./config/env");
 const miniappRouter = require("./routes/miniapp");
 const webhookRouter = require("./routes/webhook");
 const { errorHandler, notFoundHandler } = require("./middleware/errorHandler");
+const miniappService = require("./services/miniapp.service");
 
 const app = express();
 const port = env.port;
@@ -54,5 +55,13 @@ if (require.main === module) {
     console.log(`CervixDetectAI wx server listening on http://${env.host}:${port}`);
   });
 }
+
+// 每 24 小时清理过期 session
+const SESSION_CLEANUP_INTERVAL = 24 * 60 * 60 * 1000;
+setInterval(() => {
+  miniappService.cleanExpiredSessions().catch((err) => {
+    console.error("[Session] Cleanup failed:", err.message);
+  });
+}, SESSION_CLEANUP_INTERVAL);
 
 module.exports = app;

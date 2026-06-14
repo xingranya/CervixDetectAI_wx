@@ -24,7 +24,7 @@
 
 .primary-button {
   white-space: nowrap;
-  height: 86rpx;
+  height: 88rpx;
   border-radius: var(--wx-radius-sm);
   background: var(--wx-brand-500);
   color: var(--wx-text-on-primary);
@@ -98,8 +98,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 76rpx;
-  height: 76rpx;
+  width: 84rpx;
+  height: 84rpx;
   border-radius: 20rpx;
   background: var(--wx-brand-200);
   flex: 0 0 auto;

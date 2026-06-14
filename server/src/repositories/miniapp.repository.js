@@ -686,6 +686,38 @@ async function createNotification(userId, { type = "system", title, content, ext
   return { id, type, title, content, extra, isRead: false, createdAt: new Date(), readAt: null };
 }
 
+async function cleanExpiredSessions() {
+  const result = await db.query(
+    "DELETE FROM wx_sessions WHERE expires_at <= NOW()"
+  );
+  return result.affectedRows || 0;
+}
+
+async function deleteSessionByToken(token) {
+  const result = await db.query(
+    "DELETE FROM wx_sessions WHERE token = ?",
+    [token]
+  );
+  return { deleted: result.affectedRows > 0 };
+}
+
+async function deleteAccount(userId) {
+  const tables = [
+    "wx_sessions",
+    "wx_health_records",
+    "wx_reminders",
+    "wx_user_questions",
+    "wx_notifications",
+    "wx_feedback"
+  ];
+  for (const table of tables) {
+    await db.query(`DELETE FROM ${table} WHERE user_id = ?`, [userId]);
+  }
+  // 删除用户主记录
+  await db.query("DELETE FROM wx_users WHERE id = ?", [userId]);
+  return { deleted: true };
+}
+
 module.exports = {
   login,
   getSessionByToken,
@@ -716,5 +748,8 @@ module.exports = {
   getUnreadCount,
   markNotificationRead,
   markAllNotificationsRead,
-  createNotification
+  createNotification,
+  cleanExpiredSessions,
+  deleteSessionByToken,
+  deleteAccount
 };

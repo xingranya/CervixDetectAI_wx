@@ -168,7 +168,8 @@ Page({
     formRules,
     submitText: "保存记录",
     errorMessage: "",
-    loading: false
+    loading: false,
+    fieldErrors: {}
   },
 
   async onLoad(query) {
@@ -177,6 +178,8 @@ Page({
       openRoute(ROUTES.login, {}, { redirect: true });
       return;
     }
+
+    wx.setNavigationBarTitle({ title: query.id ? "编辑检查记录" : "新增检查记录" });
 
     if (query.id) {
       this.setData({
@@ -402,6 +405,25 @@ Page({
     }
     this.setData({ errorMessage: "" });
     return true;
+  },
+
+  validateField(field) {
+    const value = String(this.data[field] || "").trim();
+    const labels = {
+      date: "请选择检查日期",
+      title: "请填写记录标题",
+      project: "请填写检查项目",
+      summary: "请填写摘要",
+      suggestion: "请填写提醒建议"
+    };
+    return value ? "" : (labels[field] || "");
+  },
+
+  onFieldBlur(e) {
+    const field = e.currentTarget.dataset.field;
+    if (!field) return;
+    const error = this.validateField(field);
+    this.setData({ [`fieldErrors.${field}`]: error });
   },
 
   onFormFail(event) {

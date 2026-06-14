@@ -71,7 +71,7 @@
         data-index="{{index}}"
         bind:tap="previewAttachment"
       >
-        <image class="attachment-preview-image" src="{{item.url}}" mode="aspectFill" />
+        <image class="attachment-preview-image" src="{{item.url}}" mode="aspectFill" lazy-load />
       </button>
     </view>
     </mp-form>

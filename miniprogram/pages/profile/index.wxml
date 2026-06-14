@@ -7,6 +7,7 @@
           class="profile-avatar"
           src="{{activeAvatarUrl}}"
           mode="aspectFill"
+          lazy-load
           data-url="{{activeAvatarUrl}}"
           bind:error="onAvatarLoadError"
         />
@@ -54,7 +55,7 @@
       <text class="profile-section-desc">快速进入你的健康管理事项</text>
     </view>
 
-    <view class="profile-menu-list">
+    <view class="profile-menu-list" aria-role="list">
       <view
         wx:for="{{menus}}"
         wx:key="title"
@@ -63,6 +64,8 @@
         bind:tap="openMenu"
         data-path="{{item.path}}"
         data-tab="{{item.tab}}"
+        aria-role="listitem"
+        aria-label="{{item.title}}，{{item.desc}}"
       >
           <view class="profile-menu-icon-wrap">
           <mp-icon wx:if="{{item.weuiIcon}}" icon="{{item.weuiIcon}}" color="#1f53c9" size="{{24}}" />
@@ -76,11 +79,14 @@
     </view>
   </view>
 
-  <button wx:if="{{!isGuest}}" class="logout-button" hover-class="u-hover" bind:tap="logout">
+  <button wx:if="{{!isGuest}}" class="logout-button" hover-class="u-hover" bind:tap="logout" aria-role="button" aria-label="退出登录">
     <view class="button-content">
       <mp-icon icon="close" color="#ba1a1a" size="{{18}}" />
       <text class="button-text">退出登录</text>
     </view>
+  </button>
+  <button wx:if="{{!isGuest}}" class="delete-account-button" hover-class="u-hover" bind:tap="requestDeleteAccount" aria-role="button" aria-label="注销账户">
+    <text class="delete-account-text">注销账户并删除所有数据</text>
   </button>
   <weui-confirm
     show="{{confirmDialog.show}}"
@@ -90,6 +96,15 @@
     confirm-warn="{{true}}"
     bind:cancel="closeConfirmDialog"
     bind:confirm="confirmLogout"
+  />
+  <weui-confirm
+    show="{{deleteConfirm.show}}"
+    title="注销账户"
+    content="注销后您的所有检查记录、提醒、问答和反馈数据将被永久删除，无法恢复。确认注销吗？"
+    confirm-text="确认注销"
+    confirm-warn="{{true}}"
+    bind:cancel="closeDeleteConfirm"
+    bind:confirm="confirmDeleteAccount"
   />
 
   <setup-sheet

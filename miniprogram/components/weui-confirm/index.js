@@ -25,6 +25,21 @@ Component({
       value: false
     }
   },
+  data: {
+    visible: false,
+    maskShow: false
+  },
+  observers: {
+    show(val) {
+      if (val) {
+        this.setData({ visible: true });
+        setTimeout(() => this.setData({ maskShow: true }), 20);
+      } else if (this.data.visible) {
+        this.setData({ maskShow: false });
+        setTimeout(() => this.setData({ visible: false }), 280);
+      }
+    }
+  },
   methods: {
     noop() {
       return undefined;

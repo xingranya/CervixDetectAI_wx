@@ -101,6 +101,7 @@ Page({
     filterTabs: buildFilterTabs([], "all"),
     loadingMore: false,
     hasMore: false,
+    showBackToTop: false,
     confirmDialog: {
       show: false,
       id: "",
@@ -111,6 +112,17 @@ Page({
 
   _page: 1,
   _hasMore: false,
+
+  onPageScroll(e) {
+    const show = e.scrollTop > 600;
+    if (show !== this.data.showBackToTop) {
+      this.setData({ showBackToTop: show });
+    }
+  },
+
+  scrollToTop() {
+    wx.pageScrollTo({ scrollTop: 0, duration: 300 });
+  },
 
   onShow() {
     const guest = !isLoggedIn();
@@ -314,6 +326,7 @@ Page({
       removeCachedListItem(CACHE_KEYS.records, id);
       markCacheDirty(CACHE_KEYS.home);
       const records = this.data.allRecords.filter((item) => item.id !== id);
+      if (wx.vibrateShort) wx.vibrateShort({ type: "medium" });
       showSuccessToast("已删除");
       this.applyRecords(records);
     } catch (error) {

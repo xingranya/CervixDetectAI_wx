@@ -146,6 +146,9 @@ Page({
     confirmDialog: {
       show: false
     },
+    deleteConfirm: {
+      show: false
+    },
     setupSheetVisible: false
   },
 
@@ -407,11 +410,35 @@ Page({
 
   confirmLogout() {
     this.closeConfirmDialog();
+    this._clearLocalData();
+    openRoute(ROUTES.login, {}, { reLaunch: true });
+  },
+
+  requestDeleteAccount() {
+    if (!isLoggedIn()) return;
+    this.setData({ "deleteConfirm.show": true });
+  },
+
+  closeDeleteConfirm() {
+    this.setData({ "deleteConfirm.show": false });
+  },
+
+  async confirmDeleteAccount() {
+    this.closeDeleteConfirm();
+    try {
+      await request("/me/account", { method: "DELETE" });
+    } catch (_error) {
+      // 即使服务端返回错误，仍然清除本地数据
+    }
+    this._clearLocalData();
+    openRoute(ROUTES.login, {}, { reLaunch: true });
+  },
+
+  _clearLocalData() {
     wx.removeStorageSync("token");
     wx.removeStorageSync("user");
     wx.removeStorageSync("profileNicknameReady");
     wx.removeStorageSync("profileAvatarReady");
     clearAllCaches();
-    openRoute(ROUTES.login, {}, { reLaunch: true });
   }
 });

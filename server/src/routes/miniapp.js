@@ -48,6 +48,14 @@ router.get("/articles", asyncRoute(async (req, res) => {
 
 router.use(authenticate);
 
+router.delete("/me/session", asyncRoute(async (req, res) => {
+  ok(res, await miniappService.logout(req.user.token));
+}));
+
+router.delete("/me/account", asyncRoute(async (req, res) => {
+  ok(res, await miniappService.deleteAccount(req.user.id));
+}));
+
 router.get("/me", asyncRoute(async (req, res) => {
   ok(res, await miniappService.getMe(req.user.id));
 }));

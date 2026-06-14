@@ -31,7 +31,7 @@
   />
 
   <block wx:else>
-    <view class="notification-list">
+    <view class="notification-list" aria-role="list">
       <view
         wx:for="{{notifications}}"
         wx:key="id"
@@ -40,6 +40,8 @@
         bind:tap="onNotificationTap"
         data-id="{{item.id}}"
         data-extra="{{item.extra}}"
+        aria-role="listitem"
+        aria-label="{{item.title}}，{{item.isRead ? '已读' : '未读'}}"
       >
         <view class="notification-header">
           <view class="notification-type-icon type-{{item.type}}">

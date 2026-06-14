@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "通知中心",
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "section-header": "/components/section-header/index",
     "empty-state": "/components/empty-state/index",

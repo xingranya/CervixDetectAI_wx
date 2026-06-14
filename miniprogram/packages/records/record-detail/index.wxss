@@ -24,7 +24,7 @@
 }
 
 .primary-button {
-  height: 78rpx;
+  height: 88rpx;
   padding: 0 28rpx;
   border-radius: 18rpx;
   background: var(--wx-brand-500);
@@ -320,9 +320,9 @@
 
 .safe-note {
   margin-top: 24rpx;
-  padding: 22rpx 24rpx;
+  padding: 20rpx;
   border: 1rpx solid var(--wx-border-light);
-  border-radius: 20rpx;
+  border-radius: 18rpx;
   background: var(--wx-bg-glass-light);
   color: var(--wx-text-secondary);
   font-size: 24rpx;

@@ -1,9 +1,6 @@
 <view class="page detail-page">
-  <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
-    <view class="local-loading">
-      <view class="loading-ring"></view>
-      <text class="loading-text">正在加载记录详情</text>
-    </view>
+  <view wx:if="{{pageStatus === 'loading'}}" class="skeleton-container">
+    <skeleton mode="card" rows="{{6}}" />
   </view>
 
   <view wx:elif="{{pageStatus === 'error'}}" class="card state-card">
@@ -63,8 +60,11 @@
           class="detail-attachment-image"
           src="{{item.url}}"
           mode="aspectFill"
+          lazy-load
           bind:tap="previewImage"
           data-index="{{index}}"
+          aria-role="img"
+          aria-label="附件图片{{index + 1}}"
         />
       </view>
     </view>
@@ -109,13 +109,13 @@
     </view>
 
     <view class="manage-card">
-      <button class="manage-button" hover-class="u-hover" bind:tap="editRecord">
+      <button class="manage-button" hover-class="u-hover" bind:tap="editRecord" aria-role="button" aria-label="编辑记录">
         <view class="button-content">
           <mp-icon icon="note" color="rgb(24, 118, 210)" size="{{18}}" />
           <text class="button-text">编辑记录</text>
         </view>
       </button>
-      <button class="manage-button danger" hover-class="u-hover" bind:tap="deleteRecord">
+      <button class="manage-button danger" hover-class="u-hover" bind:tap="deleteRecord" aria-role="button" aria-label="删除记录">
         <view class="button-content">
           <mp-icon icon="delete" color="#ba1a1a" size="{{18}}" />
           <text class="button-text">删除记录</text>

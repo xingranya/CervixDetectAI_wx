@@ -360,3 +360,25 @@
   margin-right: 10rpx;
   flex: 0 0 auto;
 }
+
+.delete-account-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 72rpx;
+  margin-top: 20rpx;
+  border: none;
+  border-radius: 18rpx;
+  background: transparent;
+}
+
+.delete-account-button::after {
+  border: 0;
+}
+
+.delete-account-text {
+  font-size: 24rpx;
+  color: var(--wx-text-tertiary);
+}

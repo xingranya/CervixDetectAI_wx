@@ -2,6 +2,7 @@
   "navigationBarTitleText": "记录详情",
   "usingComponents": {
     "weui-confirm": "/components/weui-confirm/index",
+    "skeleton": "/components/skeleton/index",
     "mp-icon": "weui-miniprogram/icon/icon"
   }
 }

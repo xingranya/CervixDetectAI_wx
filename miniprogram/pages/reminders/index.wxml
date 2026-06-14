@@ -1,6 +1,6 @@
 <view class="page reminders-page">
   <section-header title="复查提醒" icon="/assets/icons/reminders-active.png">
-    <button slot="extra" class="mini-primary" hover-class="u-hover" bind:tap="createReminder">
+    <button slot="extra" class="mini-primary" hover-class="u-hover" bind:tap="createReminder" aria-role="button" aria-label="新增复查提醒">
       <view class="button-content">
         <mp-icon icon="add" color="rgb(24, 118, 210)" size="{{16}}" />
         <text class="button-text">新增</text>
@@ -81,8 +81,8 @@
   />
 
   <block wx:else>
-    <view wx:for="{{reminders}}" wx:key="id" class="reminder-slide-cell">
-      <view class="card reminder-card {{item.done ? 'reminder-done' : ''}}" hover-class="u-hover">
+    <view wx:for="{{reminders}}" wx:key="id" class="reminder-slide-cell u-fade-in" style="animation-delay: {{index * 50}}ms" aria-role="listitem">
+      <view class="card reminder-card {{item.done ? 'reminder-done' : ''}}" hover-class="u-hover" aria-label="{{item.title}}，{{item.dateMonthDay}}，{{item.statusText}}">
         <view class="reminder-top">
           <view class="date-tile">
             <text class="date-month">{{item.dateMonthDay}}</text>
@@ -150,4 +150,7 @@
     bind:cancel="closeConfirmDialog"
     bind:confirm="confirmDeleteReminder"
   />
+  <view class="u-back-to-top {{showBackToTop ? '' : 'u-back-to-top-hidden'}}" bind:tap="scrollToTop" aria-role="button" aria-label="回到顶部">
+    <mp-icon icon="arrow" color="rgb(24, 118, 210)" size="{{20}}" />
+  </view>
 </view>

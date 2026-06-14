@@ -1,12 +1,12 @@
-<view wx:if="{{show}}" class="confirm-mask" bind:tap="handleClose">
-  <view class="confirm-panel" catch:tap="noop">
+<view wx:if="{{visible}}" class="confirm-mask {{maskShow ? 'confirm-mask-show' : ''}}" bind:tap="handleClose">
+  <view class="confirm-panel {{maskShow ? 'confirm-panel-show' : ''}}" catch:tap="noop" aria-role="dialog" aria-label="{{title}}">
     <text class="confirm-title">{{title}}</text>
     <text class="confirm-content">{{content}}</text>
     <view class="confirm-actions">
-      <button class="confirm-button confirm-cancel" bind:tap="handleCancel">
+      <button class="confirm-button confirm-cancel" hover-class="u-hover" bind:tap="handleCancel" aria-role="button" aria-label="{{cancelText || '取消'}}">
         <text>{{cancelText || '取消'}}</text>
       </button>
-      <button class="confirm-button confirm-submit {{confirmWarn ? 'confirm-submit-warn' : ''}}" bind:tap="handleConfirm">
+      <button class="confirm-button confirm-submit {{confirmWarn ? 'confirm-submit-warn' : ''}}" hover-class="u-hover" bind:tap="handleConfirm" aria-role="button" aria-label="{{confirmText || '确定'}}">
         <text>{{confirmText || '确定'}}</text>
       </button>
     </view>
