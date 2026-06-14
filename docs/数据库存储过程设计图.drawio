@@ -1,0 +1,148 @@
+<mxfile host="Electron">
+  <diagram id="cIcxx5fkV0LkOOGBW7SA" name="第 1 页">
+    <mxGraphModel dx="1333" dy="857" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;" value="CervixDetectAI 数据库存储过程设计图" vertex="1">
+          <mxGeometry height="40" width="430" x="350" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="proc1_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=16;fontStyle=1;verticalAlign=top;" value="p_create_health_record 新增健康检查记录" vertex="1">
+          <mxGeometry height="380" width="620" x="50" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="proc1_input" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e3f2fd;strokeColor=#1976d2;" value="输入参数" vertex="1">
+          <mxGeometry height="190" width="260" x="80" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p1i_h" parent="proc1_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#e3f2fd;strokeColor=#none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="5" width="260" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="p1i_r1" parent="proc1_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="p_user_id | BIGINT UNSIGNED | 用户ID" vertex="1">
+          <mxGeometry height="22" width="260" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p1i_r2" parent="proc1_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="p_record_date | DATE | 检查日期" vertex="1">
+          <mxGeometry height="22" width="260" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p1i_r3" parent="proc1_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="p_title | VARCHAR(120) | 记录标题" vertex="1">
+          <mxGeometry height="22" width="260" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="p1i_r4" parent="proc1_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="p_project | VARCHAR(120) | 检查项目" vertex="1">
+          <mxGeometry height="22" width="260" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="p1i_r5" parent="proc1_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="p_summary | VARCHAR(500) | 检查摘要" vertex="1">
+          <mxGeometry height="22" width="260" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="p1i_r6" parent="proc1_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="p_suggestion | VARCHAR(500) | 建议提醒" vertex="1">
+          <mxGeometry height="22" width="260" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p1i_r7" parent="proc1_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="p_status | VARCHAR(40) | 记录状态" vertex="1">
+          <mxGeometry height="22" width="260" y="162" as="geometry" />
+        </mxCell>
+        <mxCell id="proc1_logic" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e8f5e9;strokeColor=#388e3c;" value="执行逻辑" vertex="1">
+          <mxGeometry height="190" width="280" x="370" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p1l_h" parent="proc1_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#e8f5e9;strokeColor=#none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="5" width="280" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="p1l_r1" parent="proc1_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="1. START TRANSACTION" vertex="1">
+          <mxGeometry height="22" width="280" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p1l_r2" parent="proc1_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="2. SET v_id = REPLACE(UUID(), &#39;-&#39;, &#39;&#39;)" vertex="1">
+          <mxGeometry height="22" width="280" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p1l_r3" parent="proc1_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="3. INSERT INTO wx_health_records" vertex="1">
+          <mxGeometry height="22" width="280" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="p1l_r4" parent="proc1_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="   (id, user_id, record_date, ...)" vertex="1">
+          <mxGeometry height="22" width="280" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="p1l_r5" parent="proc1_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="4. COMMIT" vertex="1">
+          <mxGeometry height="22" width="280" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="p1l_r6" parent="proc1_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="5. SELECT * FROM wx_health_records" vertex="1">
+          <mxGeometry height="22" width="280" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p1l_r7" parent="proc1_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="   WHERE id = v_id" vertex="1">
+          <mxGeometry height="22" width="280" y="162" as="geometry" />
+        </mxCell>
+        <mxCell id="proc1_output" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fce4ec;strokeColor=#c62828;" value="输出" vertex="1">
+          <mxGeometry height="50" width="570" x="80" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="p1o_h" parent="proc1_output" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fce4ec;strokeColor=#none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="5" width="570" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="p1o_r1" parent="proc1_output" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=center;" value="返回新插入的完整记录 (SELECT * FROM wx_health_records WHERE id = v_id)" vertex="1">
+          <mxGeometry height="20" width="570" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="proc1_features" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#666666;" value="特性说明" vertex="1">
+          <mxGeometry height="40" width="570" x="80" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="proc1_feat_text" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#666666;fontStyle=2;" value="事务保证原子性 | 自动生成UUID主键 | COALESCE+NULLIF 默认状态兜底 | EXIT HANDLER 异常回滚" vertex="1">
+          <mxGeometry height="25" width="570" x="80" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="proc2_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=16;fontStyle=1;verticalAlign=top;" value="p_complete_reminder 标记提醒完成" vertex="1">
+          <mxGeometry height="380" width="620" x="50" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="proc2_input" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e3f2fd;strokeColor=#1976d2;" value="输入参数" vertex="1">
+          <mxGeometry height="80" width="260" x="80" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="p2i_h" parent="proc2_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#e3f2fd;strokeColor=#none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="5" width="260" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="p2i_r1" parent="proc2_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="p_user_id | BIGINT UNSIGNED | 用户ID" vertex="1">
+          <mxGeometry height="22" width="260" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p2i_r2" parent="proc2_input" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;" value="p_reminder_id | VARCHAR(32) | 提醒ID" vertex="1">
+          <mxGeometry height="22" width="260" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="proc2_logic" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e8f5e9;strokeColor=#388e3c;" value="执行逻辑" vertex="1">
+          <mxGeometry height="120" width="280" x="370" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="p2l_h" parent="proc2_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#e8f5e9;strokeColor=#none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="5" width="280" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="p2l_r1" parent="proc2_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="1. UPDATE wx_reminders" vertex="1">
+          <mxGeometry height="22" width="280" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p2l_r2" parent="proc2_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="   SET done = 1" vertex="1">
+          <mxGeometry height="22" width="280" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p2l_r3" parent="proc2_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="       completed_at = NOW()" vertex="1">
+          <mxGeometry height="22" width="280" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="p2l_r4" parent="proc2_logic" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="       updated_at = NOW()" vertex="1">
+          <mxGeometry height="22" width="280" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="proc2_where" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff9c4;strokeColor=#f9a825;" value="WHERE 条件" vertex="1">
+          <mxGeometry height="60" width="280" x="370" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="p2w_h" parent="proc2_where" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fff9c4;strokeColor=#none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="5" width="280" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="p2w_r1" parent="proc2_where" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=9;align=left;spacingLeft=4;fontFamily=Courier New;" value="id = p_reminder_id AND user_id = p_user_id" vertex="1">
+          <mxGeometry height="22" width="280" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="proc2_output" parent="1" style="shape=table;startSize=25;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fce4ec;strokeColor=#c62828;" value="输出" vertex="1">
+          <mxGeometry height="60" width="260" x="80" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="p2o_h" parent="proc2_output" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;fillColor=#fce4ec;strokeColor=#none;spacingTop=2;" value="" vertex="1">
+          <mxGeometry height="5" width="260" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="p2o_r1" parent="proc2_output" style="shape=partialRectangle;collapsible=0;dropTarget=0;points=[];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fillColor=#fff;strokeColor=#cccccc;fontSize=10;align=center;" value="返回更新后的完整提醒记录" vertex="1">
+          <mxGeometry height="22" width="260" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="proc2_features" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#666666;" value="特性说明" vertex="1">
+          <mxGeometry height="40" width="570" x="80" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="proc2_feat_text" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#666666;fontStyle=2;" value="user_id 限定归属防越权 | 统一维护时间戳 | 封装状态变更逻辑" vertex="1">
+          <mxGeometry height="25" width="570" x="80" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;" value="设计说明" vertex="1">
+          <mxGeometry height="780" width="320" x="720" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_text" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;spacingLeft=10;spacingTop=5;" value="【存储过程设计原则】&#xa;&#xa;1. 事务原子性&#xa;   使用 START TRANSACTION&#xa;   和 COMMIT 保证操作完整性&#xa;&#xa;2. 主键生成&#xa;   使用 REPLACE(UUID(), &#39;-&#39;, &#39;&#39;)&#xa;   生成32位紧凑UUID&#xa;&#xa;3. 默认值兜底&#xa;   COALESCE(NULLIF(p_status, &#39;&#39;), &#39;已记录&#39;)&#xa;   空字符串和NULL统一规整&#xa;&#xa;4. 异常处理&#xa;   DECLARE EXIT HANDLER&#xa;   FOR SQLEXCEPTION&#xa;   BEGIN ROLLBACK; RESIGNAL; END&#xa;&#xa;5. 防越权&#xa;   WHERE user_id = p_user_id&#xa;   限定数据归属&#xa;&#xa;6. 写后读模式&#xa;   INSERT/UPDATE 后立即 SELECT&#xa;   返回数据库最新状态&#xa;&#xa;【使用场景】&#xa;&#xa;p_create_health_record&#xa;→ 用户提交健康检查记录&#xa;→ 后端服务层调用&#xa;&#xa;p_complete_reminder&#xa;→ 用户标记提醒完成&#xa;→ 提醒页操作调用&#xa;&#xa;【调用示例】&#xa;&#xa;CALL p_create_health_record(&#xa;  1, &#39;2024-01-15&#39;,&#xa;  &#39;TCT检查&#39;, &#39;宫颈TCT&#39;,&#xa;  &#39;结果正常&#39;, &#39;定期复查&#39;,&#xa;  &#39;已记录&#39;&#xa;);&#xa;&#xa;CALL p_complete_reminder(&#xa;  1, &#39;abc123def456&#39;&#xa;);" vertex="1">
+          <mxGeometry height="740" width="300" x="730" y="115" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
