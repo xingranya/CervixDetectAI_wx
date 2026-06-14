@@ -1,3 +1,20 @@
+const ICON_MAP = {
+  info_circle: "info",
+  waiting: "info",
+  time: "info",
+  "safe-success": "success",
+  lock: "info",
+  note: "info",
+  comment: "info",
+  calendar: "info",
+  bell: "info"
+};
+
+function normalizeWeuiIcon(icon) {
+  const key = String(icon || "").trim();
+  return ICON_MAP[key] || key;
+}
+
 Component({
   options: {
     multipleSlots: true
@@ -18,6 +35,19 @@ Component({
     desc: {
       type: String,
       value: ""
+    }
+  },
+  data: {
+    normalizedWeuiIcon: ""
+  },
+  observers: {
+    weuiIcon(value) {
+      this.setData({ normalizedWeuiIcon: normalizeWeuiIcon(value) });
+    }
+  },
+  lifetimes: {
+    attached() {
+      this.setData({ normalizedWeuiIcon: normalizeWeuiIcon(this.properties.weuiIcon) });
     }
   }
 });

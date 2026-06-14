@@ -1,6 +1,6 @@
 <view class="card empty-card" aria-role="status">
-  <view wx:if="{{weuiIcon}}" class="empty-icon-wrap">
-    <mp-icon wx:if="{{weuiIcon}}" icon="{{weuiIcon}}" color="#1f53c9" size="{{36}}" />
+  <view wx:if="{{normalizedWeuiIcon}}" class="empty-icon-wrap">
+    <mp-icon wx:if="{{normalizedWeuiIcon}}" icon="{{normalizedWeuiIcon}}" color="#1f53c9" size="{{36}}" />
   </view>
   <image wx:elif="{{icon}}" class="empty-icon" src="{{icon}}" mode="aspectFit" />
   <text class="empty-title">{{title}}</text>

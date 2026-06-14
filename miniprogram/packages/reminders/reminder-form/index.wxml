@@ -1,5 +1,5 @@
 <view class="page reminder-form-page">
-  <section-header title="{{pageTitle}}" weui-icon="time" desc="设置线下复查、资料准备或咨询前整理提醒。" />
+  <section-header title="{{pageTitle}}" weui-icon="info" desc="设置线下复查、资料准备或咨询前整理提醒。" />
 
   <mp-toptips msg="{{errorMessage}}" type="error" show="{{!!errorMessage}}" />
 
@@ -130,7 +130,7 @@
   <view class="submit-panel">
     <button class="primary-button form-submit" hover-class="u-hover" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
-        <mp-icon icon="time" color="#ffffff" size="{{18}}" />
+        <mp-icon icon="info" color="#ffffff" size="{{18}}" />
         <text class="button-text">{{submitText}}</text>
       </view>
     </button>

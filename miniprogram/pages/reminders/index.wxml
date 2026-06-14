@@ -68,7 +68,7 @@
     wx:elif="{{pageStatus === 'empty'}}"
     title="{{isGuest ? '体验模式下不展示个人提醒' : '还没有提醒'}}"
     desc="{{isGuest ? '你可以先浏览提醒页布局和说明；需要保存自己的复查计划时，再自行登录。' : '添加复查或资料准备提醒，把后续安排放进计划里。'}}"
-    weui-icon="time"
+    weui-icon="info"
     button-text="{{isGuest ? '前往登录' : '添加提醒'}}"
     bind:action="createReminder"
   />
@@ -119,7 +119,7 @@
           </button>
           <button class="text-button" hover-class="u-hover" bind:tap="editReminder" data-id="{{item.id}}">
             <view class="button-content">
-              <mp-icon icon="info_circle" color="rgb(24, 118, 210)" size="{{16}}" />
+              <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{16}}" />
               <text class="button-text">编辑</text>
             </view>
           </button>

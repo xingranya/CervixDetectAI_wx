@@ -285,9 +285,9 @@ async function getHome(userId) {
 
 async function listRecords(userId, options = {}) {
   const status = options.status;
-  const page = Math.max(1, Number(options.page) || 1);
-  const pageSize = Math.min(Math.max(1, Number(options.pageSize) || 20), 50);
-  const offset = (page - 1) * pageSize;
+  const page = Math.max(1, parseInt(options.page, 10) || 1);
+  const pageSize = Math.min(Math.max(1, parseInt(options.pageSize, 10) || 20), 50);
+  const offset = parseInt((page - 1) * pageSize, 10);
   const params = [userId];
   let whereClause = "WHERE user_id = ?";
   if (status) {
@@ -313,7 +313,7 @@ async function listRecords(userId, options = {}) {
       ORDER BY record_date DESC, created_at DESC
       LIMIT ? OFFSET ?
     `,
-    [...params, pageSize, offset]
+    [...params, parseInt(pageSize, 10), parseInt(offset, 10)]
   );
 
   return {
@@ -381,9 +381,9 @@ async function deleteRecord(userId, id) {
 
 async function listReminders(userId, options = {}) {
   const type = options.type;
-  const page = Math.max(1, Number(options.page) || 1);
-  const pageSize = Math.min(Math.max(1, Number(options.pageSize) || 20), 50);
-  const offset = (page - 1) * pageSize;
+  const page = Math.max(1, parseInt(options.page, 10) || 1);
+  const pageSize = Math.min(Math.max(1, parseInt(options.pageSize, 10) || 20), 50);
+  const offset = parseInt((page - 1) * pageSize, 10);
   const params = [userId];
   let whereClause = "WHERE user_id = ?";
   if (type) {
@@ -406,7 +406,7 @@ async function listReminders(userId, options = {}) {
       ORDER BY done ASC, remind_date ASC, created_at DESC
       LIMIT ? OFFSET ?
     `,
-    [...params, pageSize, offset]
+    [...params, parseInt(pageSize, 10), parseInt(offset, 10)]
   );
 
   return {
@@ -647,7 +647,7 @@ async function listNotifications(userId, { limit = 20, offset = 0 } = {}) {
       ORDER BY created_at DESC
       LIMIT ? OFFSET ?
     `,
-    [userId, limit, offset]
+    [userId, parseInt(limit, 10), parseInt(offset, 10)]
   );
   return rows.map(mapNotification);
 }
@@ -716,9 +716,9 @@ async function deleteAccount(userId) {
   try {
     await connection.beginTransaction();
     for (const table of tables) {
-      await connection.execute(`DELETE FROM ${table} WHERE user_id = ?`, [userId]);
+      await connection.query(`DELETE FROM ${table} WHERE user_id = ?`, [userId]);
     }
-    await connection.execute("DELETE FROM wx_users WHERE id = ?", [userId]);
+    await connection.query("DELETE FROM wx_users WHERE id = ?", [userId]);
     await connection.commit();
     return { deleted: true };
   } catch (error) {

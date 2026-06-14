@@ -1,9 +1,9 @@
 <view class="page service-page">
-  <section-header title="用户服务协议" weui-icon="waiting" desc="说明使用规则、账号责任和服务边界。" />
+  <section-header title="用户服务协议" weui-icon="info" desc="说明使用规则、账号责任和服务边界。" />
 
   <view class="service-hero">
     <view class="hero-icon">
-      <mp-icon icon="waiting" color="#1f53c9" size="{{34}}" />
+      <mp-icon icon="info" color="#1f53c9" size="{{34}}" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">请在自愿使用前阅读本协议</text>

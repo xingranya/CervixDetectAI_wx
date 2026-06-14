@@ -20,7 +20,7 @@
         </view>
         <view class="hero-top-spacer"></view>
         <view class="notification-entry" hover-class="u-hover" bind:tap="goPage" data-path="{{notificationPath}}" aria-role="button" aria-label="通知中心，{{unreadCount}}条未读">
-          <mp-icon icon="info_circle" color="#475569" size="{{22}}" />
+          <mp-icon icon="info" color="#475569" size="{{22}}" />
           <view wx:if="{{unreadCount > 0}}" class="notification-badge">{{unreadCount > 99 ? '99+' : unreadCount}}</view>
         </view>
       </view>
@@ -113,7 +113,7 @@
       <text class="latest-desc">{{home.nextReminder}}</text>
       <button class="primary-button" hover-class="u-hover" bind:tap="goPage" data-path="/pages/records/index" aria-role="button" aria-label="查看检查记录">
         <view class="button-content">
-          <mp-icon icon="info_circle" color="#ffffff" size="{{18}}" />
+          <mp-icon icon="info" color="#ffffff" size="{{18}}" />
           <text class="button-text">查看检查记录</text>
         </view>
       </button>

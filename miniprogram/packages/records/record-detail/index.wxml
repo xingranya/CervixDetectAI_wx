@@ -22,7 +22,7 @@
       </view>
       <view class="hero-title-row">
         <view class="hero-icon">
-          <mp-icon icon="info_circle" color="rgb(24, 118, 210)" size="{{30}}" />
+          <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{30}}" />
         </view>
         <view class="hero-copy">
           <text class="detail-title">{{recordView.title}}</text>
@@ -75,7 +75,7 @@
           <text class="section-label">检查摘要</text>
           <text class="section-title">本次记录重点</text>
         </view>
-        <mp-icon icon="info_circle" color="rgb(24, 118, 210)" size="{{26}}" />
+        <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{26}}" />
       </view>
       <text class="summary-text">{{recordView.summaryText}}</text>
     </view>
@@ -102,7 +102,7 @@
         bind:tap="subscribeReportReminder"
       >
         <view class="button-content">
-          <mp-icon icon="time" color="#ffffff" size="{{18}}" />
+          <mp-icon icon="info" color="#ffffff" size="{{18}}" />
           <text class="button-text">{{subscribingReport ? '发送中' : '开启提醒'}}</text>
         </view>
       </button>
@@ -111,7 +111,7 @@
     <view class="manage-card">
       <button class="manage-button" hover-class="u-hover" bind:tap="editRecord" aria-role="button" aria-label="编辑记录">
         <view class="button-content">
-          <mp-icon icon="info_circle" color="rgb(24, 118, 210)" size="{{18}}" />
+          <mp-icon icon="info" color="rgb(24, 118, 210)" size="{{18}}" />
           <text class="button-text">编辑记录</text>
         </view>
       </button>
