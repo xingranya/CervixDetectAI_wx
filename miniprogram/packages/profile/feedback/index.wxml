@@ -1,9 +1,9 @@
 <view class="page feedback-page">
-  <section-header title="意见反馈" weui-icon="comment" desc="提交使用问题、改进建议或隐私数据疑问。" />
+  <section-header title="意见反馈" weui-icon="info_circle" desc="提交使用问题、改进建议或隐私数据疑问。" />
 
   <view class="feedback-hero">
     <view class="hero-icon">
-      <mp-icon icon="comment" color="#ffffff" size="{{28}}" />
+      <mp-icon icon="info_circle" color="#ffffff" size="{{28}}" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">告诉我们哪里不好用</text>
@@ -78,7 +78,7 @@
 
     <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitFeedback">
       <view class="button-content">
-        <mp-icon icon="comment" color="#ffffff" size="{{18}}" />
+        <mp-icon icon="info_circle" color="#ffffff" size="{{18}}" />
         <text class="button-text">{{loading ? '正在提交' : (isGuest ? '登录后提交' : '提交反馈')}}</text>
       </view>
     </button>

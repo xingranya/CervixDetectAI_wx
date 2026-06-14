@@ -1,5 +1,5 @@
 <view class="page record-form-page">
-  <section-header title="{{pageTitle}}" weui-icon="note" desc="保存已有检查摘要，方便后续复查和线下咨询时查看。" />
+  <section-header title="{{pageTitle}}" weui-icon="info_circle" desc="保存已有检查摘要，方便后续复查和线下咨询时查看。" />
 
   <mp-toptips msg="{{errorMessage}}" type="error" show="{{!!errorMessage}}" />
 
@@ -132,7 +132,7 @@
   <view class="submit-panel">
     <button class="primary-button form-submit" hover-class="u-hover" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
-        <mp-icon icon="note" color="#ffffff" size="{{18}}" />
+        <mp-icon icon="info_circle" color="#ffffff" size="{{18}}" />
         <text class="button-text">{{submitText}}</text>
       </view>
     </button>

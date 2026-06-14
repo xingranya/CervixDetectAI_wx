@@ -1,9 +1,9 @@
 <view class="page questions-page">
-  <section-header title="问题整理" weui-icon="comment" desc="把线下咨询前想确认的重点提前列好。" />
+  <section-header title="问题整理" weui-icon="info_circle" desc="把线下咨询前想确认的重点提前列好。" />
 
   <view class="question-hero">
     <view class="hero-icon">
-      <mp-icon icon="comment" color="#1f53c9" size="{{32}}" />
+      <mp-icon icon="info_circle" color="#1f53c9" size="{{32}}" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">保存线下沟通重点</text>
@@ -55,7 +55,7 @@
       <textarea class="form-textarea" value="{{customQuestion}}" bind:input="onCustomInput" maxlength="255" placeholder="例如：复查前需要准备哪些历史资料？" />
       <button class="primary-button save-button" bind:tap="saveSelected">
         <view class="button-content">
-          <mp-icon icon="comment" color="#ffffff" size="{{18}}" />
+          <mp-icon icon="info_circle" color="#ffffff" size="{{18}}" />
           <text class="button-text">{{isGuest ? '登录后保存' : '保存到问题清单'}}</text>
         </view>
       </button>
@@ -74,7 +74,7 @@
           <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bind:input="onAnswerInput" maxlength="1000" placeholder="记录线下咨询后的个人备忘。" />
           <view class="question-actions">
             <button class="text-button" bind:tap="saveAnswer" data-id="{{item.id}}">
-              <mp-icon icon="note" color="#1f53c9" size="{{16}}" />
+              <mp-icon icon="info_circle" color="#1f53c9" size="{{16}}" />
               <text class="button-text">保存备忘</text>
             </button>
             <button class="text-button danger" bind:tap="deleteQuestion" data-id="{{item.id}}">

@@ -21,7 +21,7 @@
           <!-- 未同意协议时：纯 view，不触发原生选择器 -->
           <view wx:if="{{!setupEnabled}}" class="login-avatar-picker login-avatar-picker-disabled" catch:tap="onAvatarPickerTap">
             <view class="login-avatar-placeholder">
-              <mp-icon icon="me" color="#a8b3c7" size="{{32}}" />
+              <mp-icon icon="info" color="#a8b3c7" size="{{32}}" />
               <text class="login-avatar-placeholder-text">点击选择头像</text>
             </view>
           </view>
@@ -29,7 +29,7 @@
           <button wx:else class="login-avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
             <image wx:if="{{avatarPreviewUrl}}" class="login-avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
             <view wx:else class="login-avatar-placeholder">
-              <mp-icon icon="me" color="#5f6f86" size="{{32}}" />
+              <mp-icon icon="info" color="#5f6f86" size="{{32}}" />
               <text class="login-avatar-placeholder-text">点击选择头像</text>
             </view>
           </button>
@@ -64,7 +64,7 @@
 
       <button class="primary-button login-button" hover-class="u-hover" disabled="{{loading}}" form-type="submit" aria-role="button" aria-label="登录并继续">
         <view class="button-content">
-          <mp-icon icon="me" color="#ffffff" size="{{18}}" />
+          <mp-icon icon="info" color="#ffffff" size="{{18}}" />
           <text class="button-text">{{loading ? '正在登录' : '登录并继续'}}</text>
         </view>
       </button>

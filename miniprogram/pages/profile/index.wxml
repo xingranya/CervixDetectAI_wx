@@ -12,7 +12,7 @@
           bind:error="onAvatarLoadError"
         />
         <view wx:else class="profile-avatar-default">
-          <mp-icon icon="me" color="#ffffff" size="{{34}}" />
+          <mp-icon icon="info" color="#ffffff" size="{{34}}" />
         </view>
       </view>
       <view class="profile-user-body">
@@ -42,7 +42,7 @@
       <text class="guest-panel-desc">你可以先浏览隐私说明、健康知识、服务边界和功能入口；需要保存个人记录时，再自行选择登录。</text>
       <button class="guest-login-button" hover-class="u-hover" bind:tap="goLogin">
         <view class="button-content">
-          <mp-icon icon="me" color="#ffffff" size="{{18}}" />
+          <mp-icon icon="info" color="#ffffff" size="{{18}}" />
           <text class="button-text">去登录</text>
         </view>
       </button>

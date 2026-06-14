@@ -29,7 +29,7 @@
       <button class="avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
         <image wx:if="{{avatarPreviewUrl}}" class="avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
         <view wx:else class="avatar-placeholder">
-          <mp-icon icon="me" color="#5f6f86" size="{{32}}" />
+          <mp-icon icon="info" color="#5f6f86" size="{{32}}" />
           <text class="avatar-placeholder-text">点击选择头像</text>
         </view>
       </button>
