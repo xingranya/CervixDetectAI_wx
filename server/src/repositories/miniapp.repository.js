@@ -702,6 +702,8 @@ async function deleteSessionByToken(token) {
 }
 
 async function deleteAccount(userId) {
+  const pool = db.getPool();
+  const connection = await pool.getConnection();
   const tables = [
     "wx_sessions",
     "wx_health_records",
@@ -710,12 +712,21 @@ async function deleteAccount(userId) {
     "wx_notifications",
     "wx_feedback"
   ];
-  for (const table of tables) {
-    await db.query(`DELETE FROM ${table} WHERE user_id = ?`, [userId]);
+
+  try {
+    await connection.beginTransaction();
+    for (const table of tables) {
+      await connection.execute(`DELETE FROM ${table} WHERE user_id = ?`, [userId]);
+    }
+    await connection.execute("DELETE FROM wx_users WHERE id = ?", [userId]);
+    await connection.commit();
+    return { deleted: true };
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
   }
-  // 删除用户主记录
-  await db.query("DELETE FROM wx_users WHERE id = ?", [userId]);
-  return { deleted: true };
 }
 
 module.exports = {

@@ -247,6 +247,13 @@ function buildInflightKey(path, options, baseUrl) {
   return `${method}:${baseUrl}${path}:${options.cacheKey || ""}`;
 }
 
+function createRequestAbortError(message = "请求已取消") {
+  const error = new Error(message);
+  error.code = "REQUEST_ABORTED";
+  error.aborted = true;
+  return error;
+}
+
 function request(path, options = {}) {
   const baseUrl = resolveBaseUrl();
   const method = (options.method || "GET").toUpperCase();
@@ -319,6 +326,84 @@ function request(path, options = {}) {
   return promise;
 }
 
+function requestStream(path, options = {}) {
+  const baseUrl = resolveBaseUrl();
+  const method = (options.method || "GET").toUpperCase();
+
+  let settled = false;
+  let requestTask = null;
+
+  const promise = new Promise((resolve, reject) => {
+    requestTask = wx.request({
+      url: `${baseUrl}${path}`,
+      method,
+      data: options.data || {},
+      timeout: options.timeout || config.requestTimeout || 12000,
+      enableChunked: true,
+      responseType: "arraybuffer",
+      header: {
+        "content-type": "application/json",
+        ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
+        ...(options.header || {})
+      },
+      success: (res) => {
+        let body = res.data;
+        if (typeof body === "string") {
+          try {
+            body = JSON.parse(body);
+          } catch (_error) {
+            body = res.data;
+          }
+        }
+        if (res.statusCode === 401) {
+          settled = true;
+          if (getToken()) {
+            redirectLogin();
+            reject(new Error(getErrorMessage(body, "登录状态已失效，请重新登录")));
+            return;
+          }
+          reject(createLoginRequiredError(getErrorMessage(body, "登录后可继续使用此功能")));
+          return;
+        }
+        if (res.statusCode >= 400 || (body && typeof body === "object" && body.success === false)) {
+          settled = true;
+          reject(new Error(getErrorMessage(body, "请求失败，请稍后再试")));
+          return;
+        }
+        settled = true;
+        resolve(body);
+      },
+      fail: (error) => {
+        if (settled) return;
+        settled = true;
+        const errMsg = error && error.errMsg ? error.errMsg : "";
+        if (errMsg.indexOf("abort") > -1) {
+          reject(createRequestAbortError());
+          return;
+        }
+        reject(normalizeRequestError(error, baseUrl));
+      }
+    });
+
+    if (requestTask && typeof requestTask.onChunkReceived === "function" && typeof options.onChunk === "function") {
+      requestTask.onChunkReceived((chunkRes) => {
+        options.onChunk(chunkRes && chunkRes.data !== undefined ? chunkRes.data : chunkRes);
+      });
+    }
+  });
+
+  return {
+    task: requestTask,
+    promise,
+    abort() {
+      if (requestTask && typeof requestTask.abort === "function") {
+        requestTask.abort();
+      }
+    },
+    supportsChunked: !!(requestTask && typeof requestTask.onChunkReceived === "function")
+  };
+}
+
 function clearAllCaches() {
   Object.keys(responseCache).forEach((key) => {
     delete responseCache[key];
@@ -359,6 +444,7 @@ function createFeedback(payload) {
 module.exports = {
   CACHE_KEYS,
   request,
+  requestStream,
   login,
   updateProfile,
   uploadAvatar,

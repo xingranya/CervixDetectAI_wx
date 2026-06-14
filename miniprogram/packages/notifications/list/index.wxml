@@ -1,5 +1,5 @@
 <view class="page notifications-page">
-  <section-header title="通知中心" weui-icon="info" desc="查看系统通知、复查提醒和健康助手消息。" />
+  <section-header title="通知中心" weui-icon="info" desc="查看系统通知。" />
 
   <view wx:if="{{unreadCount > 0}}" class="action-bar">
     <text class="unread-summary">{{unreadCount}} 条未读</text>
@@ -26,7 +26,7 @@
   <empty-state
     wx:elif="{{pageStatus === 'empty'}}"
     title="暂无通知"
-    desc="当有新的复查提醒、记录更新或健康助手消息时，会在这里展示。"
+    desc="当有新的系统通知时，会在这里展示。"
     weui-icon="info"
   />
 

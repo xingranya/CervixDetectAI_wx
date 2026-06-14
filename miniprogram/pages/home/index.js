@@ -7,7 +7,7 @@ const {
 } = require("../../utils/request");
 const { ROUTES, openRoute } = require("../../utils/navigation");
 const { PAGE_STATUS, resolveDetailStatus } = require("../../utils/page-state");
-const { getErrorMessage } = require("../../utils/feedback");
+const { getErrorMessage, showErrorModal } = require("../../utils/feedback");
 const { normalizeStoredUser } = require("../../utils/avatar");
 
 const DEFAULT_USER = normalizeStoredUser({
@@ -263,8 +263,13 @@ Page({
     wx.stopPullDownRefresh();
   },
 
-  goPage(event) {
+  async goPage(event) {
     const path = event.currentTarget.dataset.path;
+    if (path === ROUTES.assistantChat && !isLoggedIn()) {
+      await showErrorModal("登录后可使用健康助手。");
+      openRoute(ROUTES.login);
+      return;
+    }
     openRoute(path);
   },
 

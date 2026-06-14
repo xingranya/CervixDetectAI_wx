@@ -14,6 +14,7 @@ const {
   readFileBase64,
   resolveAvatarFileType
 } = require("../../utils/avatar");
+const { showErrorModal } = require("../../utils/feedback");
 
 const DEFAULT_USER = normalizeStoredUser({
   nickname: "微信用户",
@@ -427,11 +428,11 @@ Page({
     this.closeDeleteConfirm();
     try {
       await request("/me/account", { method: "DELETE" });
-    } catch (_error) {
-      // 即使服务端返回错误，仍然清除本地数据
+      this._clearLocalData();
+      openRoute(ROUTES.login, {}, { reLaunch: true });
+    } catch (error) {
+      await showErrorModal(error, "注销失败，请稍后再试");
     }
-    this._clearLocalData();
-    openRoute(ROUTES.login, {}, { reLaunch: true });
   },
 
   _clearLocalData() {

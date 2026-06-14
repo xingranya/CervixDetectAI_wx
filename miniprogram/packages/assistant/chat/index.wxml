@@ -76,7 +76,7 @@
               </view>
 
               <!-- 消息气泡 -->
-              <view class="msg-bubble msg-bubble-bot">
+              <view class="msg-bubble msg-bubble-bot {{item.streaming ? 'msg-bubble-streaming' : ''}}">
                 <!-- 加载中 -->
                 <view wx:if="{{item.loading}}" class="loading-skeleton">
                   <view class="skeleton-line skeleton-line-long"></view>
@@ -84,7 +84,10 @@
                   <view class="skeleton-line skeleton-line-short"></view>
                 </view>
                 <!-- 正文 -->
-                <text wx:else class="msg-text" user-select>{{item.content}}</text>
+                <view wx:else class="msg-text-wrap">
+                  <text class="msg-text" user-select>{{item.content}}</text>
+                  <text wx:if="{{item.streaming}}" class="msg-stream-cursor">▍</text>
+                </view>
               </view>
 
               <!-- 免责声明 -->
@@ -104,7 +107,14 @@
               </view>
             </view>
             <view class="msg-avatar msg-avatar-user">
-              <text class="msg-avatar-emoji">👤</text>
+              <image
+                wx:if="{{userAvatarUrl}}"
+                class="msg-avatar-img msg-avatar-user-img"
+                src="{{userAvatarUrl}}"
+                mode="aspectFill"
+                bind:error="onUserAvatarError"
+              />
+              <text wx:else class="msg-avatar-emoji">👤</text>
             </view>
           </block>
 

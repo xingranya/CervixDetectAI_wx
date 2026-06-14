@@ -61,6 +61,21 @@ function buildChatMessages(userMessages) {
   return messages;
 }
 
+function isOpenAiCompatibleProvider() {
+  return env.ai.provider === "openai";
+}
+
+function isDeepSeekOpenAiMode() {
+  if (!isOpenAiCompatibleProvider()) return false;
+  const endpoint = String(env.ai.endpoint || "").toLowerCase();
+  const model = String(env.ai.model || "").toLowerCase();
+  return endpoint.indexOf("deepseek") > -1 || model.indexOf("deepseek") > -1;
+}
+
+function shouldUseThinkingMode() {
+  return isDeepSeekOpenAiMode() && env.ai.enableThinking;
+}
+
 function resolveAiEndpoint() {
   const { provider, endpoint, baseUrl } = env.ai;
   if (provider === "openai" && endpoint) {
@@ -87,14 +102,28 @@ function resolveAiHeaders() {
 function buildAiRequestBody(messages, options = {}) {
   const { provider, model, maxTokens, temperature } = env.ai;
   if (provider === "openai") {
-    return {
+    const body = {
       model,
       messages,
       max_tokens: options.maxTokens || maxTokens,
-      temperature: options.temperature || temperature,
       stream: !!options.stream
     };
+
+    if (shouldUseThinkingMode()) {
+      body.thinking = {
+        type: env.ai.enableThinking ? "enabled" : "disabled"
+      };
+      body.reasoning_effort = options.reasoningEffort || env.ai.reasoningEffort || "high";
+    } else {
+      body.temperature = options.temperature || temperature;
+      if (isDeepSeekOpenAiMode()) {
+        body.thinking = { type: "disabled" };
+      }
+    }
+
+    return body;
   }
+
   return {
     model,
     input: { messages },
@@ -140,6 +169,73 @@ function extractStreamDelta(jsonStr) {
   };
 }
 
+function writeStreamEvent(res, payload) {
+  res.write(`data: ${JSON.stringify(payload)}\n\n`);
+}
+
+function parseSseFrame(frame) {
+  const payload = String(frame || "")
+    .split("\n")
+    .filter((line) => line.startsWith("data:"))
+    .map((line) => line.slice(5).trim())
+    .join("\n")
+    .trim();
+
+  if (!payload || payload === "[DONE]") {
+    return "";
+  }
+
+  return payload;
+}
+
+function consumeSseBuffer(buffer, onPayload, flush = false) {
+  const normalized = String(buffer || "").replace(/\r\n/g, "\n");
+  if (!normalized) return "";
+
+  const frames = normalized.split("\n\n");
+  const rest = flush ? "" : frames.pop();
+  const consumable = flush && rest ? [...frames, rest] : frames;
+
+  consumable.forEach((frame) => {
+    const payload = parseSseFrame(frame);
+    if (payload) {
+      onPayload(payload);
+    }
+  });
+
+  return rest || "";
+}
+
+async function readResponseStream(body, onTextChunk) {
+  if (body && typeof body.getReader === "function") {
+    const reader = body.getReader();
+    const decoder = new TextDecoder("utf-8");
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (value) {
+        onTextChunk(decoder.decode(value, { stream: true }));
+      }
+    }
+
+    const tail = decoder.decode();
+    if (tail) {
+      onTextChunk(tail);
+    }
+    return;
+  }
+
+  if (body && typeof body[Symbol.asyncIterator] === "function") {
+    for await (const chunk of body) {
+      onTextChunk(Buffer.isBuffer(chunk) ? chunk.toString("utf-8") : String(chunk || ""));
+    }
+    return;
+  }
+
+  throw new Error("当前运行环境不支持流式读取");
+}
+
 async function callAiApi(messages, options = {}) {
   const { apiKey } = env.ai;
   if (!apiKey) {
@@ -162,8 +258,7 @@ async function callAiApi(messages, options = {}) {
   }
 
   const data = await response.json();
-  const extracted = extractReplyFromResponse(data);
-  return extracted;
+  return extractReplyFromResponse(data);
 }
 
 async function chat(userId, userMessages) {
@@ -180,7 +275,9 @@ async function chat(userId, userMessages) {
   }
 
   const messages = buildChatMessages(userMessages);
-  const extracted = await callAiApi(messages);
+  const extracted = await callAiApi(messages, {
+    reasoningEffort: env.ai.reasoningEffort
+  });
   const sanitized = sanitizeOutput(extracted.content);
   const reply = ensureDisclaimer(sanitized || "抱歉，暂时无法生成回复，请稍后重试。");
 
@@ -198,24 +295,28 @@ async function chatStream(userId, userMessages, res) {
 
   const complianceError = checkCompliance(lastMessage?.content);
   if (complianceError) {
-    const fullReply = ensureDisclaimer(complianceError);
-    res.write(`data: ${JSON.stringify({ text: fullReply, done: true, disclaimer: DISCLAIMER })}\n\n`);
+    writeStreamEvent(res, {
+      text: ensureDisclaimer(complianceError),
+      done: true,
+      disclaimer: DISCLAIMER
+    });
     res.end();
     return;
   }
 
-  const messages = buildChatMessages(userMessages);
   const { apiKey } = env.ai;
-
   if (!apiKey) {
-    res.write(`data: ${JSON.stringify({ text: "AI服务未配置，请联系管理员。", done: true, disclaimer: DISCLAIMER })}\n\n`);
+    writeStreamEvent(res, {
+      text: "AI服务未配置，请联系管理员。",
+      done: true,
+      disclaimer: DISCLAIMER
+    });
     res.end();
     return;
   }
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 60000);
-
   res.on("close", () => {
     controller.abort();
     clearTimeout(timeout);
@@ -226,75 +327,93 @@ async function chatStream(userId, userMessages, res) {
     response = await fetch(resolveAiEndpoint(), {
       method: "POST",
       headers: resolveAiHeaders(),
-      body: JSON.stringify(buildAiRequestBody(messages, {
+      body: JSON.stringify(buildAiRequestBody(buildChatMessages(userMessages), {
         maxTokens: env.ai.maxTokens,
         temperature: env.ai.temperature,
+        reasoningEffort: env.ai.reasoningEffort,
         stream: true
       })),
       signal: controller.signal
     });
-  } catch (err) {
+  } catch (error) {
     clearTimeout(timeout);
-    if (err.name === "AbortError") {
-      res.write(`data: ${JSON.stringify({ text: "AI响应超时，请稍后重试。", done: true, disclaimer: DISCLAIMER })}\n\n`);
-    } else {
-      res.write(`data: ${JSON.stringify({ text: "AI服务调用异常，请稍后重试。", done: true, disclaimer: DISCLAIMER })}\n\n`);
-    }
+    writeStreamEvent(res, {
+      text: error && error.name === "AbortError"
+        ? "AI响应超时，请稍后重试。"
+        : "AI服务调用异常，请稍后重试。",
+      done: true,
+      disclaimer: DISCLAIMER
+    });
     res.end();
     return;
   }
 
   if (!response.ok || !response.body) {
     clearTimeout(timeout);
-    res.write(`data: ${JSON.stringify({ text: "AI服务暂时不可用，请稍后重试。", done: true, disclaimer: DISCLAIMER })}\n\n`);
+    writeStreamEvent(res, {
+      text: "AI服务暂时不可用，请稍后重试。",
+      done: true,
+      disclaimer: DISCLAIMER
+    });
     res.end();
     return;
   }
 
+  let buffer = "";
   let accumulated = "";
-  const reader = response.body;
 
-  reader.on("data", (chunk) => {
-    const text = chunk.toString("utf-8");
-    const lines = text.split("\n");
-    lines.forEach((line) => {
-      if (line.startsWith("data:")) {
+  try {
+    await readResponseStream(response.body, (chunkText) => {
+      buffer += chunkText;
+      buffer = consumeSseBuffer(buffer, (payload) => {
         try {
-          const jsonStr = line.slice(5).trim();
-          if (!jsonStr) return;
-          const delta = extractStreamDelta(jsonStr);
+          const delta = extractStreamDelta(payload);
           if (delta.reasoning) {
-            res.write(`data: ${JSON.stringify({ reasoning: delta.reasoning, done: false })}\n\n`);
+            writeStreamEvent(res, { reasoning: delta.reasoning, done: false });
           }
           if (delta.content) {
             accumulated += delta.content;
             const sanitized = sanitizeOutput(delta.content);
             if (sanitized) {
-              res.write(`data: ${JSON.stringify({ text: sanitized, done: false })}\n\n`);
+              writeStreamEvent(res, { text: sanitized, done: false });
             }
           }
         } catch {
-          // skip malformed chunks
+          // 忽略单个坏分片，保持后续分片继续输出
         }
-      }
+      });
     });
-  });
 
-  reader.on("end", () => {
-    clearTimeout(timeout);
-    res.write(`data: ${JSON.stringify({ text: "", done: true, disclaimer: DISCLAIMER })}\n\n`);
-    res.end();
-  });
+    consumeSseBuffer(buffer, (payload) => {
+      try {
+        const delta = extractStreamDelta(payload);
+        if (delta.reasoning) {
+          writeStreamEvent(res, { reasoning: delta.reasoning, done: false });
+        }
+        if (delta.content) {
+          accumulated += delta.content;
+          const sanitized = sanitizeOutput(delta.content);
+          if (sanitized) {
+            writeStreamEvent(res, { text: sanitized, done: false });
+          }
+        }
+      } catch {
+        // 忽略尾部分片解析异常
+      }
+    }, true);
 
-  reader.on("error", () => {
     clearTimeout(timeout);
-    if (!accumulated) {
-      res.write(`data: ${JSON.stringify({ text: "AI响应中断，请稍后重试。", done: true, disclaimer: DISCLAIMER })}\n\n`);
-    } else {
-      res.write(`data: ${JSON.stringify({ text: "", done: true, disclaimer: DISCLAIMER })}\n\n`);
-    }
+    writeStreamEvent(res, { text: "", done: true, disclaimer: DISCLAIMER });
     res.end();
-  });
+  } catch (error) {
+    clearTimeout(timeout);
+    writeStreamEvent(res, {
+      text: accumulated ? "" : "AI响应中断，请稍后重试。",
+      done: true,
+      disclaimer: DISCLAIMER
+    });
+    res.end();
+  }
 }
 
 async function explainTerm(term) {
@@ -308,9 +427,11 @@ async function explainTerm(term) {
     { role: "user", content: `请用通俗易懂的语言解释以下医学/健康术语，包括它的含义、可能的原因和一般建议（不提供诊断结论）：\n\n${term}` }
   ];
 
-  const extracted = await callAiApi(messages);
+  const extracted = await callAiApi(messages, {
+    reasoningEffort: env.ai.reasoningEffort
+  });
   const sanitized = sanitizeOutput(extracted.content);
-  const explanation = ensureDisclaimer(sanitized || `暂无该术语的解释，建议咨询线下专业医疗机构。`);
+  const explanation = ensureDisclaimer(sanitized || "暂无该术语的解释，建议咨询线下专业医疗机构。");
 
   return {
     explanation,

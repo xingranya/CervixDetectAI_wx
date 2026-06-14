@@ -1,5 +1,52 @@
 @import '../../../styles/design-tokens.wxss';
 
+@keyframes welcomeRingPulse {
+  0% {
+    transform: scale(0.96);
+    opacity: 0.42;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.78;
+  }
+  100% {
+    transform: scale(0.96);
+    opacity: 0.42;
+  }
+}
+
+@keyframes messageFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(16rpx);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes streamCursorBlink {
+  0%, 45% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes streamBubbleGlow {
+  0% {
+    box-shadow: 0 4rpx 14rpx rgba(var(--wx-brand-500-rgb), 0.08);
+  }
+  50% {
+    box-shadow: 0 8rpx 24rpx rgba(var(--wx-brand-500-rgb), 0.16);
+  }
+  100% {
+    box-shadow: 0 4rpx 14rpx rgba(var(--wx-brand-500-rgb), 0.08);
+  }
+}
+
 /* ======== 页面容器 ======== */
 .chat-page {
   display: flex;
@@ -49,6 +96,7 @@
   bottom: -8rpx;
   border-radius: 46rpx;
   border: 2rpx solid rgba(var(--wx-brand-500-rgb), 0.15);
+  animation: welcomeRingPulse 2.6s ease-in-out infinite;
 }
 
 .welcome-title {
@@ -171,6 +219,7 @@
   display: flex;
   margin-bottom: 32rpx;
   align-items: flex-start;
+  animation: messageFadeInUp 240ms ease-out;
 }
 
 .msg-row-user {
@@ -202,6 +251,7 @@
   background: linear-gradient(145deg, #e8ecf5, #d4dae8);
   margin-left: 16rpx;
   border: 1rpx solid rgba(100, 116, 139, 0.12);
+  overflow: hidden;
 }
 
 .msg-avatar-img {
@@ -209,6 +259,12 @@
   height: 68rpx;
   border-radius: 22rpx;
   display: block;
+}
+
+.msg-avatar-user-img {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 22rpx;
 }
 
 .msg-avatar-emoji {
@@ -254,6 +310,11 @@
   box-shadow: 0 2rpx 8rpx rgba(11, 28, 48, 0.04);
 }
 
+.msg-bubble-streaming {
+  border-color: rgba(var(--wx-brand-500-rgb), 0.22);
+  animation: streamBubbleGlow 1.6s ease-in-out infinite;
+}
+
 .msg-bubble-user {
   background: linear-gradient(135deg, var(--wx-brand-500), var(--wx-brand-600));
   border-bottom-right-radius: 8rpx;
@@ -264,6 +325,17 @@
   font-size: 28rpx;
   line-height: 1.7;
   color: var(--wx-text-primary);
+}
+
+.msg-text-wrap {
+  display: inline;
+}
+
+.msg-stream-cursor {
+  display: inline-block;
+  margin-left: 4rpx;
+  color: var(--wx-brand-500);
+  animation: streamCursorBlink 1s steps(1) infinite;
 }
 
 .msg-text-user {

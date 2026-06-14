@@ -422,7 +422,10 @@ async function cleanExpiredSessions() {
 }
 
 async function deleteAccount(userId) {
-  return repository.deleteAccount(userId);
+  const user = await getMe(userId);
+  const result = await repository.deleteAccount(userId);
+  await avatarStorage.removeOldAvatar(user?.avatarUrl || "");
+  return result;
 }
 
 module.exports = {

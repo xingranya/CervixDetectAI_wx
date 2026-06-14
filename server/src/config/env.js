@@ -34,7 +34,9 @@ module.exports = {
     baseUrl: process.env.AI_BASE_URL || "https://dashscope.aliyuncs.com/api/v1",
     model: process.env.AI_MODEL || "qwen-turbo",
     maxTokens: Number(process.env.AI_MAX_TOKENS || 1024),
-    temperature: Number(process.env.AI_TEMPERATURE || 0.7)
+    temperature: Number(process.env.AI_TEMPERATURE || 0.7),
+    enableThinking: process.env.AI_THINKING_ENABLED !== "false",
+    reasoningEffort: process.env.AI_REASONING_EFFORT || "high"
   },
   webhook: {
     secret: process.env.WEBHOOK_SECRET || ""
