@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-06-16T12:08:21.766Z",
+  "achievements": [
+    "本周完成 19 次提交，涵盖核心功能全面落地",
+    "健康助手聊天页面完成（骨架屏 + SSE 流式响应 + 双重合规拦截），含 TDesign Chat 组件集成",
+    "登录流程重构完成：分离登录与资料设置、隐私授权弹窗、用户服务协议页、头像异步清理",
+    "首页 UI 大幅优化，多页面图标统一为 info_circle，视觉风格一致",
+    "新增账户注销功能与无障碍支持，提升审核合规度",
+    "数据库文档体系完善：ER 图、索引设计图、部署架构图、视图设计图、存储过程设计图共 8 份 drawio",
+    "docs/ 目录清理 4049 行冗余文件（备份文件、markdown 文档、redesign 截图），仓库瘦身",
+    "数据库查询与分页参数处理重构，组件（empty-state / section-header）增加 WeUI icon 规范化",
+    "request.js 新增缓存降级与 inflight 请求合并，后端限流 120 req/min 落地"
+  ],
+  "improvements": [
+    "assistant/chat/index.js 达 481 行，建议拆分消息渲染、SSE 解析、合规检查为独立模块",
+    "ai-assistant.service.js 达 487 行，输入/输出合规检查可提取为 middleware 或独立 utils",
+    "OpenWolf .wolf/memory.md 为空、cerebrum.md 无任何 Do-Not-Repeat 记录，跨会话学习链路断裂，建议立即回填本周关键发现",
+    "项目无任何测试文件（无 __tests__/、*.test.js、*.spec.js），后端 services 层尤其需要单元测试覆盖",
+    "request.js 同时承担缓存、降级、SSE、token 注入 4 项职责，建议按关注点拆分为 cache-manager + http-client + stream-client",
+    "server/.env.example 已新增但 .env 实际值未同步校验，建议增加启动时必填项检查（validateEnv）",
+    "组件 JSON 中 usingComponents 部分路径使用相对路径，统一为绝对路径可减少分包加载歧义"
+  ],
+  "next_tasks": [
+    "微信小程序提审准备：配置 HTTPS 公网域名、在微信后台添加 request 合法域名、填写版本描述与隐私说明",
+    "补充端到端自测清单：逐页面走查登录→首页→记录→提醒→助手→个人中心主流程，记录截图",
+    "为 ai-assistant.service.js 编写单元测试：覆盖输入违禁词、输出诊断语、正常科普、流式中断 4 类场景",
+    "为 miniapp.repository.js 关键查询补充索引命中验证，避免生产环境慢查询",
+    "首页健康数据卡片接入真实后端接口（当前 home/index.js 可能仍使用 mock 数据）",
+    "体验版灰度发布：邀请 3-5 名目标用户真机测试，收集反馈后修复再提正式版",
+    "备份并回填 .wolf/cerebrum.md：将本周发现的项目约定（CommonJS、--wx- 前缀、分包策略）写入，防止后续会话重复踩坑"
+  ],
+  "risks": [
+    "AI 合规拦截仅在 service 层实现，无前置网关层兜底；若 service 被绕过或新增路由遗漏，可能触发审核拒绝",
+    "零测试覆盖：任何回归改动都无法自动验证，提审前最后一轮修改极易引入新 bug",
+    ".wolf/memory.md 和 cerebrum.md 完全为空，OpenWolf 上下文管理形同虚设，下次会话将从零开始理解项目",
+    "assistant/chat/index.js + ai-assistant.service.js 两个 480+ 行文件是最大变更热点，合修改频率高，耦合风险大",
+    "项目未配置 CI/CD 流水线，提审版本依赖手动构建，无法保证代码一致性",
+    "docs/ 删除的 submission-checklist.md 和 category-guide.md 包含提审策略和类目选择指导，删除后可能导致提审时遗漏关键配置项",
+    "server/.env 中包含 AI API Key 和微信 AppSecret，需确认 .env 已被 .gitignore 覆盖且未泄露"
+  ]
+}
