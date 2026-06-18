@@ -5,24 +5,58 @@
 
   <view wx:if="{{messages.length === 0}}" class="chat-welcome">
     <view class="welcome-hero">
-      <image class="welcome-avatar-img" src="{{botAvatar}}" mode="aspectFit" />
+      <view class="welcome-avatar-shell">
+        <view class="welcome-avatar-glow"></view>
+        <image class="welcome-avatar-img" src="{{botAvatar}}" mode="aspectFit" />
+      </view>
       <text class="welcome-title">健康科普助手</text>
-      <text class="welcome-subtitle">筛查常识、术语解释、复查准备</text>
+      <text class="welcome-subtitle">整理筛查常识、术语解释和复查准备问题</text>
+      <view class="welcome-pill-row">
+        <view class="welcome-pill">
+          <t-icon name="check-circle" size="24rpx" />
+          <text>科普信息</text>
+        </view>
+        <view class="welcome-pill">
+          <t-icon name="time" size="24rpx" />
+          <text>复查准备</text>
+        </view>
+      </view>
     </view>
 
     <view class="welcome-card">
-      <view class="welcome-card-label">可以这样问</view>
+      <view class="welcome-card-head">
+        <view>
+          <text class="welcome-card-title">可以这样问</text>
+          <text class="welcome-card-subtitle">选择一个问题，快速开始整理</text>
+        </view>
+        <t-icon class="welcome-card-icon" name="chat-bubble-help" size="34rpx" />
+      </view>
       <view class="suggestion-grid">
-        <view
-          wx:for="{{suggestions}}"
-          wx:key="text"
-          class="suggestion-item"
-          hover-class="suggestion-item-hover"
-          bind:tap="onSuggestionTap"
-          data-text="{{item.text}}"
-        >
-          <t-icon class="suggestion-icon" name="{{item.icon}}" size="30rpx" />
-          <text class="suggestion-text">{{item.text}}</text>
+        <view wx:for="{{suggestionRows}}" wx:key="id" class="suggestion-row">
+          <view
+            class="suggestion-item"
+            hover-class="suggestion-item-hover"
+            bind:tap="onSuggestionTap"
+            data-text="{{item.left.text}}"
+          >
+            <view class="suggestion-icon-wrap">
+              <t-icon class="suggestion-icon" name="{{item.left.icon}}" size="34rpx" />
+            </view>
+            <text class="suggestion-text">{{item.left.text}}</text>
+          </view>
+          <view
+            wx:if="{{item.right}}"
+            class="suggestion-item"
+            hover-class="suggestion-item-hover"
+            bind:tap="onSuggestionTap"
+            data-text="{{item.right.text}}"
+          >
+            <view class="suggestion-icon-wrap">
+              <t-icon class="suggestion-icon" name="{{item.right.icon}}" size="34rpx" />
+            </view>
+            <text class="suggestion-text">{{item.right.text}}</text>
+          </view>
+          <view wx:else class="suggestion-item suggestion-item-placeholder"></view>
         </view>
       </view>
     </view>
@@ -51,13 +85,13 @@
       >
         <view slot="content" class="message-content">
           <t-chat-loading
-            wx:if="{{item.status === 'pending' && !item.reasoning}}"
+            wx:if="{{item.status === 'pending' && !item.showThinking && !item.reasoning}}"
             animation="gradient"
             text="正在梳理健康科普要点..."
           />
 
           <t-chat-thinking
-            wx:if="{{item.reasoning}}"
+            wx:if="{{item.showThinking || item.reasoning}}"
             class="thinking-panel"
             content="{{item.thinkingContent}}"
             status="{{item.status === 'complete' ? 'complete' : 'pending'}}"
@@ -65,7 +99,9 @@
             animation="gradient"
             collapsed="{{false}}"
             max-height="{{220}}"
-          />
+          >
+            <text slot="content" class="thinking-stream-text">{{item.reasoning}}</text>
+          </t-chat-thinking>
 
           <t-chat-content
             wx:if="{{item.text}}"
@@ -111,8 +147,9 @@
   />
 
   <t-chat-sender
-    class="chat-sender"
+    class="chat-sender {{senderKeyboardActive ? 'chat-sender-keyboard' : ''}}"
     value="{{inputValue}}"
+    custom-style="{{senderKeyboardStyle}}"
     placeholder="输入健康术语、筛查常识或复查准备问题..."
     loading="{{isSending}}"
     visible="{{senderVisible}}"
@@ -120,10 +157,12 @@
     attachments-props="{{senderAttachmentsProps}}"
     render-presets="{{senderPresets}}"
     textarea-props="{{textareaProps}}"
-    adjust-position="{{true}}"
+    adjust-position="{{false}}"
+    auto-rise-with-keyboard="{{true}}"
     bind:change="onInputChange"
     bind:send="onSend"
     bind:stop="onStopStream"
+    bind:keyboardheightchange="onSenderKeyboardHeightChange"
     bind:fileChange="onSenderFileChange"
     bind:fileSelect="onSenderFileSelect"
     bind:fileDelete="onSenderFileDelete"

@@ -9,8 +9,9 @@ const { showErrorModal } = require("../../../utils/feedback");
 
 const DEFAULT_DISCLAIMER = "以上信息仅供参考，请以线下医疗机构意见为准。";
 const BOT_AVATAR = "https://img1.tucang.cc/api/image/show/45b4f4864a1e97681b52b7a1e1f5cc31";
-const THINKING_PLACEHOLDER = "正在理解你的问题，先梳理健康科普边界、关键信息和适合继续追问的方向。";
-const STREAM_FLUSH_INTERVAL = 24;
+const STREAM_RENDER_INTERVAL = 24;
+const STREAM_REASONING_CHARS_PER_TICK = 1;
+const STREAM_CONTENT_CHARS_PER_TICK = 2;
 
 let messageCounter = 0;
 function createMessageId() {
@@ -25,6 +26,18 @@ const DEFAULT_SUGGESTIONS = [
   { icon: "chart-bubble", text: "LSIL 和 HSIL 有什么区别？" },
   { icon: "notification", text: "如何管理复查提醒？" }
 ];
+
+function chunkSuggestions(list) {
+  const result = [];
+  for (let i = 0; i < list.length; i += 2) {
+    result.push({
+      id: `row_${i}`,
+      left: list[i],
+      right: list[i + 1] || null
+    });
+  }
+  return result;
+}
 
 function normalizeChatFile(item) {
   if (!item) return null;
@@ -183,7 +196,7 @@ function consumeEventBuffer(buffer, onPayload, flush = false) {
 
 function buildThinkingTitle(item) {
   const reasoningText = String(item.reasoning || "");
-  const charCount = reasoningText === THINKING_PLACEHOLDER ? 0 : reasoningText.length;
+  const charCount = reasoningText.length;
   let elapsedText = "";
   if (item.thinkingEndAt && item.thinkingStartAt) {
     elapsedText = `${((item.thinkingEndAt - item.thinkingStartAt) / 1000).toFixed(1)}s`;
@@ -194,6 +207,14 @@ function buildThinkingTitle(item) {
   if (elapsedText) titleParts.push(elapsedText);
   titleParts.push(`${charCount}字`);
   return titleParts.join(" · ");
+}
+
+function splitTextByChars(text, count) {
+  const chars = Array.from(String(text || ""));
+  return {
+    head: chars.slice(0, count).join(""),
+    rest: chars.slice(count).join("")
+  };
 }
 
 function resolveUserAvatar() {
@@ -213,7 +234,7 @@ Page({
     chatData: [],
     inputValue: "",
     isSending: false,
-    suggestions: DEFAULT_SUGGESTIONS,
+    suggestionRows: chunkSuggestions(DEFAULT_SUGGESTIONS),
     botAvatar: BOT_AVATAR,
     userAvatarUrl: "",
     userAvatarLocalPath: "",
@@ -223,6 +244,8 @@ Page({
     ],
     textareaProps: { autosize: { maxHeight: 264, minHeight: 48 } },
     senderVisible: false,
+    senderKeyboardActive: false,
+    senderKeyboardStyle: "",
     senderFiles: [],
     senderAttachmentsProps: {
       items: [],
@@ -254,6 +277,10 @@ Page({
 
   onUnload() {
     this._pageUnmounted = true;
+    if (this._streamRenderTimer) {
+      clearTimeout(this._streamRenderTimer);
+      this._streamRenderTimer = null;
+    }
     if (this._streamFlushTimer) {
       clearTimeout(this._streamFlushTimer);
       this._streamFlushTimer = null;
@@ -354,6 +381,19 @@ Page({
     this.setData({ senderVisible: !!(event && event.detail) });
   },
 
+  onSenderKeyboardHeightChange(event) {
+    const height = Number(event && event.detail && event.detail.height || 0);
+    const active = height > 0;
+    const style = active ? "transform: translateY(-28px);" : "";
+
+    if (active !== this.data.senderKeyboardActive || style !== this.data.senderKeyboardStyle) {
+      this.setData({
+        senderKeyboardActive: active,
+        senderKeyboardStyle: style
+      });
+    }
+  },
+
   onDeepThinkTap() {
     this.setData({ deepThinkActive: !this.data.deepThinkActive });
   },
@@ -417,7 +457,8 @@ Page({
       id: createMessageId(),
       role: "assistant",
       content: "",
-      reasoning: this.data.deepThinkActive ? THINKING_PLACEHOLDER : "",
+      reasoning: "",
+      showThinking: this.data.deepThinkActive,
       disclaimer: "",
       loading: true,
       streaming: true,
@@ -447,12 +488,12 @@ Page({
       const content = [];
 
       // 深度思考 → chat-thinking 项；标题中展示耗时与字数
-      if (item.reasoning) {
+      if (item.showThinking || item.reasoning) {
         content.push({
           type: "thinking",
           data: {
             title: buildThinkingTitle(item),
-            text: item.reasoning
+            text: ""
           }
         });
       }
@@ -493,12 +534,13 @@ Page({
         status: status,
         placement: item.role === "user" ? "right" : "left",
         streaming: !!item.streaming,
+        showThinking: !!item.showThinking,
         reasoning: item.reasoning || "",
         text: item.content || "",
         attachments: Array.isArray(item.attachments) ? item.attachments : [],
         thinkingContent: {
           title: buildThinkingTitle(item),
-          text: item.reasoning || ""
+          text: ""
         },
         contentItem: {
           type: item.role === "assistant" ? "markdown" : "text",
@@ -579,7 +621,7 @@ Page({
       }
 
       if (!this._streamDone) {
-        this._finishAssistantMessage(assistantMsgId, {
+        this._finishAssistantWhenQueueEmpty(assistantMsgId, {
           loading: false,
           streaming: false,
           disclaimer: this._getAssistantMessage(assistantMsgId)?.disclaimer || DEFAULT_DISCLAIMER
@@ -591,7 +633,7 @@ Page({
       if (!this._streamHasPayload) {
         return this._sendChatRequestFallback(apiMessages, assistantMsgId);
       }
-      this._finishAssistantMessage(assistantMsgId, {
+      this._finishAssistantWhenQueueEmpty(assistantMsgId, {
         loading: false,
         streaming: false,
         disclaimer: DEFAULT_DISCLAIMER
@@ -669,7 +711,7 @@ Page({
     if (packet.done) {
       this._streamHasPayload = true;
       this._streamDone = true;
-      this._finishAssistantMessage(msgId, {
+      this._finishAssistantWhenQueueEmpty(msgId, {
         loading: false,
         streaming: false,
         disclaimer: packet.disclaimer || DEFAULT_DISCLAIMER
@@ -678,7 +720,19 @@ Page({
   },
 
   _appendAssistantDelta(msgId, delta) {
-    // 累积 delta 并节流刷新，避免流式输出时每个 chunk 都全量 setData
+    if (!this._streamQueues) this._streamQueues = {};
+    const queue = this._streamQueues[msgId] || { content: "", reasoning: "", finalUpdates: null };
+    if (delta.content) {
+      queue.content += delta.content;
+    }
+    if (delta.reasoning) {
+      queue.reasoning += delta.reasoning;
+    }
+    this._streamQueues[msgId] = queue;
+    this._scheduleStreamRender(0);
+  },
+
+  _appendPendingDelta(msgId, delta) {
     if (!this._pendingDelta) this._pendingDelta = {};
     const entry = this._pendingDelta[msgId] || { content: "", reasoning: "", contentTouched: false };
     if (delta.content) {
@@ -692,12 +746,69 @@ Page({
     this._scheduleStreamFlush();
   },
 
+  _finishAssistantWhenQueueEmpty(msgId, updates) {
+    const queue = this._streamQueues && this._streamQueues[msgId];
+    if (queue && (queue.content || queue.reasoning)) {
+      queue.finalUpdates = updates;
+      this._streamQueues[msgId] = queue;
+      this._scheduleStreamRender(0);
+      return;
+    }
+    this._finishAssistantMessage(msgId, updates);
+  },
+
+  _scheduleStreamRender(delay = STREAM_RENDER_INTERVAL) {
+    if (this._streamRenderTimer || this._pageUnmounted) return;
+    this._streamRenderTimer = setTimeout(() => {
+      this._streamRenderTimer = null;
+      this._drainStreamQueue();
+    }, delay);
+  },
+
+  _drainStreamQueue() {
+    const queues = this._streamQueues;
+    if (!queues) return;
+
+    let hasMore = false;
+    Object.keys(queues).forEach((msgId) => {
+      const queue = queues[msgId];
+      if (!queue) return;
+
+      if (queue.reasoning) {
+        const next = splitTextByChars(queue.reasoning, STREAM_REASONING_CHARS_PER_TICK);
+        queue.reasoning = next.rest;
+        this._appendPendingDelta(msgId, { reasoning: next.head });
+      } else if (queue.content) {
+        const next = splitTextByChars(queue.content, STREAM_CONTENT_CHARS_PER_TICK);
+        queue.content = next.rest;
+        this._appendPendingDelta(msgId, { content: next.head });
+      }
+
+      if (queue.reasoning || queue.content) {
+        queues[msgId] = queue;
+        hasMore = true;
+        return;
+      }
+
+      delete queues[msgId];
+      if (queue.finalUpdates) {
+        this._finishAssistantMessage(msgId, queue.finalUpdates);
+      }
+    });
+
+    this._flushStreamDelta();
+    this._streamQueues = Object.keys(queues).length ? queues : null;
+    if (hasMore) {
+      this._scheduleStreamRender();
+    }
+  },
+
   _scheduleStreamFlush() {
     if (this._streamFlushTimer || this._pageUnmounted) return;
     this._streamFlushTimer = setTimeout(() => {
       this._streamFlushTimer = null;
       this._flushStreamDelta();
-    }, STREAM_FLUSH_INTERVAL);
+    }, STREAM_RENDER_INTERVAL);
   },
 
   _flushStreamDelta() {
@@ -713,12 +824,13 @@ Page({
       const entry = pending[item.id];
       if (!entry) return item;
       const nextReasoning = entry.reasoning
-        ? (item.reasoning === THINKING_PLACEHOLDER ? entry.reasoning : `${item.reasoning || ""}${entry.reasoning}`)
+        ? `${item.reasoning || ""}${entry.reasoning}`
         : item.reasoning;
       return {
         ...item,
         content: entry.contentTouched ? `${item.content || ""}${entry.content}` : item.content,
         reasoning: nextReasoning,
+        showThinking: item.showThinking || !!nextReasoning,
         loading: entry.contentTouched ? false : item.loading,
         streaming: true
       };
@@ -782,6 +894,16 @@ Page({
     if (this._activeStream && typeof this._activeStream.abort === "function") {
       this._activeStream.abort();
     }
+    if (this._streamRenderTimer) {
+      clearTimeout(this._streamRenderTimer);
+      this._streamRenderTimer = null;
+    }
+    if (this._streamFlushTimer) {
+      clearTimeout(this._streamFlushTimer);
+      this._streamFlushTimer = null;
+    }
+    this._streamQueues = null;
+    this._pendingDelta = null;
     this._activeStream = null;
   },
 

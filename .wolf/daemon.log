@@ -1,8 +1,0 @@
-[2026-06-18T10:00:00.634Z] [INFO] Executing task: Full anatomy rescan
-[2026-06-18T10:00:00.886Z] [ERROR] Task Full anatomy rescan failed (attempt 1): Cannot read properties of undefined (reading 'push')
-[2026-06-18T10:00:00.886Z] [INFO] Retrying Full anatomy rescan in 30000ms
-[2026-06-18T10:00:30.887Z] [INFO] Executing task: Full anatomy rescan
-[2026-06-18T10:00:31.022Z] [ERROR] Task Full anatomy rescan failed (attempt 2): Cannot read properties of undefined (reading 'push')
-[2026-06-18T10:00:31.022Z] [INFO] Retrying Full anatomy rescan in 60000ms
-[2026-06-18T10:01:31.022Z] [INFO] Executing task: Full anatomy rescan
-[2026-06-18T10:01:31.193Z] [ERROR] Task Full anatomy rescan failed (attempt 3): Cannot read properties of undefined (reading 'push')
