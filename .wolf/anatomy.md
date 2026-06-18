@@ -1,15 +1,17 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-17T10:00:00.114Z
-> Files: 508 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-17T22:00:00.488Z
+> Files: 509 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
-- `.DS_Store` (~3823 tok)
+- `.DS_Store` (~4368 tok)
 - `.gitignore` — Git ignore rules (~136 tok)
 - `AGENTS.md` — AGENTS.md (~895 tok)
 - `CLAUDE.md` — OpenWolf (~2683 tok)
+- `DESIGN.md` — Design System: 云端智诊 (~2187 tok)
 - `miniapp-privacy.json` (~224 tok)
+- `PRODUCT.md` — Product (~243 tok)
 - `project.config.json` (~144 tok)
 - `project.miniapp.json` (~112 tok)
 - `README.md` — Project documentation (~644 tok)
@@ -17,10 +19,155 @@
 ## .claude/
 
 - `settings.json` (~441 tok)
+- `settings.local.json` (~144 tok)
 
 ## .claude/rules/
 
 - `openwolf.md` (~313 tok)
+
+## .claude/skills/impeccable/
+
+- `SKILL.md` — Setup (~4919 tok)
+
+## .claude/skills/impeccable/reference/
+
+- `adapt.md` — Assess Adaptation Challenge (~2529 tok)
+- `animate.md` — Register (~2591 tok)
+- `audit.md` — Diagnostic Scan (~1819 tok)
+- `bolder.md` — Register (~1619 tok)
+- `brand.md` — Brand register (~2613 tok)
+- `clarify.md` — Assess Current Copy (~2661 tok)
+- `codex.md` — Codex: Visual Direction & Asset Production (~1751 tok)
+- `colorize.md` — Register (~3367 tok)
+- `craft.md` — Craft Flow (~2986 tok)
+- `critique.md` — ## Purpose (~9031 tok)
+- `delight.md` — Register (~2433 tok)
+- `distill.md` — Assess Current State (~1411 tok)
+- `document.md` — The frontmatter: token schema (~6958 tok)
+- `extract.md` — Extract Flow (~835 tok)
+- `harden.md` — Assess Hardening Needs (~2146 tok)
+- `hooks.md` — /impeccable hooks (~1883 tok)
+- `init.md` — Init Flow (~3164 tok)
+- `interaction-design.md` — Interaction Design (~1644 tok)
+- `layout.md` — Register (~2167 tok)
+- `live.md` — Prerequisites (~14884 tok)
+- `onboard.md` — Assess Onboarding Needs (~1935 tok)
+- `optimize.md` — Assess Performance Issues (~1898 tok)
+- `overdrive.md` — Assess What "Extraordinary" Means Here (~2247 tok)
+- `polish.md` — Design System Discovery (~3239 tok)
+- `product.md` — Product register (~938 tok)
+- `quieter.md` — Register (~1203 tok)
+- `shape.md` — Philosophy (~2834 tok)
+- `typeset.md` — Register (~3565 tok)
+
+## .claude/skills/impeccable/scripts/
+
+- `command-metadata.json` — Declares feel (~2286 tok)
+- `context-signals.mjs` — Context-signals gatherer for the bare `{{command_prefix}}impeccable` (~2149 tok)
+- `context.mjs` — Context loader: prints PRODUCT.md (and DESIGN.md if present) as one (~2774 tok)
+- `critique-storage.mjs` — Critique persistence helper. (~2400 tok)
+- `detect-csp.mjs` — Scan a project tree for Content-Security-Policy signals and classify the (~1803 tok)
+- `detect.mjs` — Declares __dirname (~166 tok)
+- `hook-admin.mjs` — `/impeccable hooks <on|off|status|reset>` — manage the design hook runtime (~6234 tok)
+- `hook-before-edit.mjs` — Impeccable design hook — Cursor preToolUse write gate. (~4432 tok)
+- `hook-lib.mjs` — Shared library for the Impeccable design hook. (~14864 tok)
+- `hook.mjs` — Impeccable design hook — PostToolUse entry point. (~533 tok)
+- `live-accept.mjs` — CLI helper: deterministic accept/discard of variant sessions. (~8070 tok)
+- `live-browser-dom.js` — Browser-side DOM helpers for Impeccable live mode. (~1215 tok)
+- `live-browser-session.js` — Browser-side durable session helpers for Impeccable live mode. (~942 tok)
+- `live-browser.js` — Impeccable Live Variant Mode - Browser Script (~123942 tok)
+- `live-commit-manual-edits.mjs` — CLI helper: apply pending live copy edits as one AI-owned batch. (~11237 tok)
+- `live-complete.mjs` — Canonical durable completion acknowledgement for Impeccable live sessions. (~785 tok)
+- `live-copy-edit-agent.mjs` — Applies staged live copy-edit batches by waking a local AI coding agent. (~7693 tok)
+- `live-discard-manual-edits.mjs` — CLI helper: discard pending manual edits from the buffer without applying. (~450 tok)
+- `live-inject.mjs` — CLI helper: insert/remove the live variant mode script tag in the project's (~6020 tok)
+- `live-insert.mjs` — CLI helper: find an anchor element in source and splice an insert-variant (~2420 tok)
+- `live-manual-edit-evidence.mjs` — Collect evidence for pending live copy edits. (~3122 tok)
+- `live-poll.mjs` — CLI client for the live variant mode poll/reply protocol. (~3614 tok)
+- `live-resume.mjs` — Recover the next agent action from the durable live-session journal. (~1190 tok)
+- `live-server.mjs` — Live variant mode server (self-contained, zero dependencies). (~11334 tok)
+- `live-status.mjs` — Print durable recovery status for Impeccable live sessions. (~562 tok)
+- `live-wrap.mjs` — CLI helper: find an element in source and wrap it in a variant container. (~9592 tok)
+- `live.mjs` — CLI entry point: prepare everything needed to enter the live variant poll loop. (~2276 tok)
+- `modern-screenshot.umd.js` — v: q, P, W + 29 more (~8369 tok)
+- `palette.mjs` — Brand-seed picker. Returns one OKLCH seed color + the mood it most (~15414 tok)
+- `pin.mjs` — Pin/unpin sub-commands as standalone skill shortcuts. (~1634 tok)
+
+## .claude/skills/impeccable/scripts/detector/
+
+- `design-system.mjs` — DESIGN_NAMES: firstExisting, resolveDesignMdPath, resolveDesignSidecarPath + 27 more (~6592 tok)
+- `detect-antipatterns-browser.js` — Anti-Pattern Browser Detector for Impeccable (~61589 tok)
+- `detect-antipatterns.mjs` — Anti-Pattern Detector for Impeccable (~492 tok)
+- `findings.mjs` — getAP: finding (~97 tok)
+
+## .claude/skills/impeccable/scripts/detector/browser/injected/
+
+- `index.mjs` — IS_BROWSER: getSpotlightBackdrop, updateSpotlightClipPath, showSpotlight + 8 more (~20472 tok)
+
+## .claude/skills/impeccable/scripts/detector/cli/
+
+- `main.mjs` — formatFindings: handleStdin, confirm, printUsage, detectCli (~2961 tok)
+
+## .claude/skills/impeccable/scripts/detector/engines/browser/
+
+- `detect-url.mjs` — serializeDesignSystemForBrowser: runVisualContrastFallback, detectUrl, createBrowserDetector (~2657 tok)
+
+## .claude/skills/impeccable/scripts/detector/engines/regex/
+
+- `detect-text.mjs` — Strip HTML to plain text — drops script/style/comments/tags so (~6524 tok)
+
+## .claude/skills/impeccable/scripts/detector/engines/static-html/
+
+- `css-cascade.mjs` — jsdom CSS-variable border override map (~9167 tok)
+- `detect-html.mjs` — checkStaticPageTypography: checkElementBrokenImage, detectHtml (~2655 tok)
+
+## .claude/skills/impeccable/scripts/detector/engines/visual/
+
+- `screenshot-contrast.mjs` — sanitizeScreenshotClip: compareScreenshotContrast, captureVisualContrastCandidate (~1742 tok)
+
+## .claude/skills/impeccable/scripts/detector/node/
+
+- `file-system.mjs` — Check if a port is listening and optionally verify it matches the expected framework. (~1830 tok)
+
+## .claude/skills/impeccable/scripts/detector/profile/
+
+- `profiler.mjs` — profileNow: createDetectorProfile, recordProfileEvent, extractFindingIds + 6 more (~1214 tok)
+
+## .claude/skills/impeccable/scripts/detector/registry/
+
+- `antipatterns.mjs` — Declares ANTIPATTERNS (~4941 tok)
+
+## .claude/skills/impeccable/scripts/detector/rules/
+
+- `checks.mjs` — DETECTOR_IS_BROWSER: checkBorders, isEmojiOnlyText, checkColors + 5 more (~30656 tok)
+
+## .claude/skills/impeccable/scripts/detector/shared/
+
+- `color.mjs` — ─── Section 2: Color Utilities ───────────────────────────────────────────── (~1172 tok)
+- `constants.mjs` — ─── Section 1: Constants ─────────────────────────────────────────────────── (~1080 tok)
+- `page.mjs` — Check if content looks like a full page (not a component/partial) (~68 tok)
+
+## .claude/skills/impeccable/scripts/lib/
+
+- `design-parser.mjs` — Parse a DESIGN.md (Stitch-spec format) into a structured JSON model that (~6882 tok)
+- `impeccable-config.mjs` — CLI-side reader/writer for the unified `.impeccable` config. (~5730 tok)
+- `impeccable-paths.mjs` — Exports IMPECCABLE_DIR, LIVE_DIR, CRITIQUE_DIR, getImpeccableDir + 18 more (~1046 tok)
+- `is-generated.mjs` — Decide whether a given file is "generated" (regenerated by a build step, (~604 tok)
+
+## .claude/skills/impeccable/scripts/live/
+
+- `browser-script-parts.mjs` — Exports LIVE_BROWSER_SCRIPT_PARTS, resolveLiveBrowserScriptParts, assertLiveBrowserScriptParts, readLiveBrowserScriptParts, assembleLiveBrowserScript (~458 tok)
+- `completion.mjs` — Exports completionTypeForAcceptResult, completionAckForAcceptResult (~259 tok)
+- `event-validation.mjs` — Shared event validation for the live helper server. (~1683 tok)
+- `insert-ui.mjs` — Pure helpers for live-mode insert UI (browser + tests). (~4178 tok)
+- `manual-apply.mjs` — Exports createManualApplyController, manualEditApplyChunkSize, countManualApplyOps, writeManualApplyEvidence (~9307 tok)
+- `manual-edit-routes.mjs` — API routes: GET (10 endpoints) (~3983 tok)
+- `manual-edits-buffer.mjs` — Shared helpers for the pending-manual-edits buffer on disk. (~1364 tok)
+- `session-store.mjs` — Exports createLiveSessionStore (~2852 tok)
+- `svelte-component.mjs` — Svelte live-mode component injection helpers. (~7440 tok)
+- `sveltekit-adapter.mjs` — SvelteKit live-mode adapter. (~2498 tok)
+- `ui-core.mjs` — Framework-neutral Impeccable live chrome contract. (~1478 tok)
+- `vocabulary.mjs` — Canonical design-command vocabulary for Live Mode: each command's value, human (~881 tok)
 
 ## .codegraph/
 
@@ -45,7 +192,8 @@
 
 ## .cursor/
 
-- `.DS_Store` (~2186 tok)
+- `.DS_Store` (~2184 tok)
+- `hooks.json` (~54 tok)
 
 ## .cursor/rules/
 
@@ -151,6 +299,150 @@
 - `toast.md` — Toast 轻提示 (~1520 tok)
 - `tree-select.md` — TreeSelect 树形选择器 (~1609 tok)
 - `upload.md` — Upload 上传 (~3188 tok)
+
+## .cursor/skills/impeccable/
+
+- `SKILL.md` — Setup (~4852 tok)
+
+## .cursor/skills/impeccable/reference/
+
+- `adapt.md` — Assess Adaptation Challenge (~2529 tok)
+- `animate.md` — Register (~2592 tok)
+- `audit.md` — Diagnostic Scan (~1819 tok)
+- `bolder.md` — Register (~1620 tok)
+- `brand.md` — Brand register (~2613 tok)
+- `clarify.md` — Assess Current Copy (~2661 tok)
+- `codex.md` — Codex: Visual Direction & Asset Production (~1751 tok)
+- `colorize.md` — Register (~3368 tok)
+- `craft.md` — Craft Flow (~2986 tok)
+- `critique.md` — ## Purpose (~9034 tok)
+- `delight.md` — Register (~2435 tok)
+- `distill.md` — Assess Current State (~1412 tok)
+- `document.md` — The frontmatter: token schema (~6959 tok)
+- `extract.md` — Extract Flow (~836 tok)
+- `harden.md` — Assess Hardening Needs (~2146 tok)
+- `hooks.md` — /impeccable hooks (~1883 tok)
+- `init.md` — Init Flow (~3170 tok)
+- `interaction-design.md` — Interaction Design (~1644 tok)
+- `layout.md` — Register (~2167 tok)
+- `live.md` — Prerequisites (~14884 tok)
+- `onboard.md` — Assess Onboarding Needs (~1935 tok)
+- `optimize.md` — Assess Performance Issues (~1898 tok)
+- `overdrive.md` — Assess What "Extraordinary" Means Here (~2249 tok)
+- `polish.md` — Design System Discovery (~3239 tok)
+- `product.md` — Product register (~938 tok)
+- `quieter.md` — Register (~1205 tok)
+- `shape.md` — Philosophy (~2837 tok)
+- `typeset.md` — Register (~3565 tok)
+
+## .cursor/skills/impeccable/scripts/
+
+- `command-metadata.json` — Declares feel (~2286 tok)
+- `context-signals.mjs` — Context-signals gatherer for the bare `{{command_prefix}}impeccable` (~2149 tok)
+- `context.mjs` — Context loader: prints PRODUCT.md (and DESIGN.md if present) as one (~2774 tok)
+- `critique-storage.mjs` — Critique persistence helper. (~2400 tok)
+- `detect-csp.mjs` — Scan a project tree for Content-Security-Policy signals and classify the (~1803 tok)
+- `detect.mjs` — Declares __dirname (~166 tok)
+- `hook-admin.mjs` — `/impeccable hooks <on|off|status|reset>` — manage the design hook runtime (~6234 tok)
+- `hook-before-edit.mjs` — Impeccable design hook — Cursor preToolUse write gate. (~4432 tok)
+- `hook-lib.mjs` — Shared library for the Impeccable design hook. (~14864 tok)
+- `hook.mjs` — Impeccable design hook — PostToolUse entry point. (~533 tok)
+- `live-accept.mjs` — CLI helper: deterministic accept/discard of variant sessions. (~8070 tok)
+- `live-browser-dom.js` — Browser-side DOM helpers for Impeccable live mode. (~1215 tok)
+- `live-browser-session.js` — Browser-side durable session helpers for Impeccable live mode. (~942 tok)
+- `live-browser.js` — Impeccable Live Variant Mode - Browser Script (~123942 tok)
+- `live-commit-manual-edits.mjs` — CLI helper: apply pending live copy edits as one AI-owned batch. (~11237 tok)
+- `live-complete.mjs` — Canonical durable completion acknowledgement for Impeccable live sessions. (~785 tok)
+- `live-copy-edit-agent.mjs` — Applies staged live copy-edit batches by waking a local AI coding agent. (~7693 tok)
+- `live-discard-manual-edits.mjs` — CLI helper: discard pending manual edits from the buffer without applying. (~450 tok)
+- `live-inject.mjs` — CLI helper: insert/remove the live variant mode script tag in the project's (~6020 tok)
+- `live-insert.mjs` — CLI helper: find an anchor element in source and splice an insert-variant (~2420 tok)
+- `live-manual-edit-evidence.mjs` — Collect evidence for pending live copy edits. (~3122 tok)
+- `live-poll.mjs` — CLI client for the live variant mode poll/reply protocol. (~3614 tok)
+- `live-resume.mjs` — Recover the next agent action from the durable live-session journal. (~1190 tok)
+- `live-server.mjs` — Live variant mode server (self-contained, zero dependencies). (~11334 tok)
+- `live-status.mjs` — Print durable recovery status for Impeccable live sessions. (~562 tok)
+- `live-wrap.mjs` — CLI helper: find an element in source and wrap it in a variant container. (~9592 tok)
+- `live.mjs` — CLI entry point: prepare everything needed to enter the live variant poll loop. (~2276 tok)
+- `modern-screenshot.umd.js` — v: q, P, W + 29 more (~8369 tok)
+- `palette.mjs` — Brand-seed picker. Returns one OKLCH seed color + the mood it most (~15414 tok)
+- `pin.mjs` — Pin/unpin sub-commands as standalone skill shortcuts. (~1634 tok)
+
+## .cursor/skills/impeccable/scripts/detector/
+
+- `design-system.mjs` — DESIGN_NAMES: firstExisting, resolveDesignMdPath, resolveDesignSidecarPath + 27 more (~6592 tok)
+- `detect-antipatterns-browser.js` — Anti-Pattern Browser Detector for Impeccable (~61589 tok)
+- `detect-antipatterns.mjs` — Anti-Pattern Detector for Impeccable (~492 tok)
+- `findings.mjs` — getAP: finding (~97 tok)
+
+## .cursor/skills/impeccable/scripts/detector/browser/injected/
+
+- `index.mjs` — IS_BROWSER: getSpotlightBackdrop, updateSpotlightClipPath, showSpotlight + 8 more (~20472 tok)
+
+## .cursor/skills/impeccable/scripts/detector/cli/
+
+- `main.mjs` — formatFindings: handleStdin, confirm, printUsage, detectCli (~2961 tok)
+
+## .cursor/skills/impeccable/scripts/detector/engines/browser/
+
+- `detect-url.mjs` — serializeDesignSystemForBrowser: runVisualContrastFallback, detectUrl, createBrowserDetector (~2657 tok)
+
+## .cursor/skills/impeccable/scripts/detector/engines/regex/
+
+- `detect-text.mjs` — Strip HTML to plain text — drops script/style/comments/tags so (~6524 tok)
+
+## .cursor/skills/impeccable/scripts/detector/engines/static-html/
+
+- `css-cascade.mjs` — jsdom CSS-variable border override map (~9167 tok)
+- `detect-html.mjs` — checkStaticPageTypography: checkElementBrokenImage, detectHtml (~2655 tok)
+
+## .cursor/skills/impeccable/scripts/detector/engines/visual/
+
+- `screenshot-contrast.mjs` — sanitizeScreenshotClip: compareScreenshotContrast, captureVisualContrastCandidate (~1742 tok)
+
+## .cursor/skills/impeccable/scripts/detector/node/
+
+- `file-system.mjs` — Check if a port is listening and optionally verify it matches the expected framework. (~1830 tok)
+
+## .cursor/skills/impeccable/scripts/detector/profile/
+
+- `profiler.mjs` — profileNow: createDetectorProfile, recordProfileEvent, extractFindingIds + 6 more (~1214 tok)
+
+## .cursor/skills/impeccable/scripts/detector/registry/
+
+- `antipatterns.mjs` — Declares ANTIPATTERNS (~4941 tok)
+
+## .cursor/skills/impeccable/scripts/detector/rules/
+
+- `checks.mjs` — DETECTOR_IS_BROWSER: checkBorders, isEmojiOnlyText, checkColors + 5 more (~30656 tok)
+
+## .cursor/skills/impeccable/scripts/detector/shared/
+
+- `color.mjs` — ─── Section 2: Color Utilities ───────────────────────────────────────────── (~1172 tok)
+- `constants.mjs` — ─── Section 1: Constants ─────────────────────────────────────────────────── (~1080 tok)
+- `page.mjs` — Check if content looks like a full page (not a component/partial) (~68 tok)
+
+## .cursor/skills/impeccable/scripts/lib/
+
+- `design-parser.mjs` — Parse a DESIGN.md (Stitch-spec format) into a structured JSON model that (~6882 tok)
+- `impeccable-config.mjs` — CLI-side reader/writer for the unified `.impeccable` config. (~5730 tok)
+- `impeccable-paths.mjs` — Exports IMPECCABLE_DIR, LIVE_DIR, CRITIQUE_DIR, getImpeccableDir + 18 more (~1046 tok)
+- `is-generated.mjs` — Decide whether a given file is "generated" (regenerated by a build step, (~604 tok)
+
+## .cursor/skills/impeccable/scripts/live/
+
+- `browser-script-parts.mjs` — Exports LIVE_BROWSER_SCRIPT_PARTS, resolveLiveBrowserScriptParts, assertLiveBrowserScriptParts, readLiveBrowserScriptParts, assembleLiveBrowserScript (~458 tok)
+- `completion.mjs` — Exports completionTypeForAcceptResult, completionAckForAcceptResult (~259 tok)
+- `event-validation.mjs` — Shared event validation for the live helper server. (~1683 tok)
+- `insert-ui.mjs` — Pure helpers for live-mode insert UI (browser + tests). (~4178 tok)
+- `manual-apply.mjs` — Exports createManualApplyController, manualEditApplyChunkSize, countManualApplyOps, writeManualApplyEvidence (~9307 tok)
+- `manual-edit-routes.mjs` — API routes: GET (10 endpoints) (~3983 tok)
+- `manual-edits-buffer.mjs` — Shared helpers for the pending-manual-edits buffer on disk. (~1364 tok)
+- `session-store.mjs` — Exports createLiveSessionStore (~2852 tok)
+- `svelte-component.mjs` — Svelte live-mode component injection helpers. (~7440 tok)
+- `sveltekit-adapter.mjs` — SvelteKit live-mode adapter. (~2498 tok)
+- `ui-core.mjs` — Framework-neutral Impeccable live chrome contract. (~1478 tok)
+- `vocabulary.mjs` — Canonical design-command vocabulary for Live Mode: each command's value, human (~881 tok)
 
 ## .cursor/skills/skyline渲染引擎/
 
@@ -327,9 +619,172 @@
 - `other.md` — Other (~2628 tok)
 - `reference.md` — Reference (~242 tok)
 
+## .impeccable/
+
+- `config.local.json` (~14 tok)
+- `design.json` (~3092 tok)
+
+## .impeccable/critique/
+
+- `2026-06-17T13-55-16Z__miniprogram.md` — UX Critique: miniprogram (云端智诊微信小程序) (~885 tok)
+
 ## .nezha/
 
 - `config.toml` (~184 tok)
+
+## .qoder/
+
+- `.DS_Store` (~1639 tok)
+
+## .qoder/skills/
+
+- `.DS_Store` (~1639 tok)
+
+## .qoder/skills/impeccable/
+
+- `.DS_Store` (~2186 tok)
+- `SKILL.md` — Setup (~4919 tok)
+
+## .qoder/skills/impeccable/reference/
+
+- `adapt.md` — Assess Adaptation Challenge (~2529 tok)
+- `animate.md` — Register (~2592 tok)
+- `audit.md` — Diagnostic Scan (~1819 tok)
+- `bolder.md` — Register (~1620 tok)
+- `brand.md` — Brand register (~2613 tok)
+- `clarify.md` — Assess Current Copy (~2661 tok)
+- `codex.md` — Codex: Visual Direction & Asset Production (~1751 tok)
+- `colorize.md` — Register (~3368 tok)
+- `craft.md` — Craft Flow (~2986 tok)
+- `critique.md` — ## Purpose (~9031 tok)
+- `delight.md` — Register (~2435 tok)
+- `distill.md` — Assess Current State (~1412 tok)
+- `document.md` — The frontmatter: token schema (~6959 tok)
+- `extract.md` — Extract Flow (~836 tok)
+- `harden.md` — Assess Hardening Needs (~2146 tok)
+- `hooks.md` — /impeccable hooks (~1882 tok)
+- `init.md` — Init Flow (~3169 tok)
+- `interaction-design.md` — Interaction Design (~1644 tok)
+- `layout.md` — Register (~2167 tok)
+- `live.md` — Prerequisites (~14880 tok)
+- `onboard.md` — Assess Onboarding Needs (~1935 tok)
+- `optimize.md` — Assess Performance Issues (~1898 tok)
+- `overdrive.md` — Assess What "Extraordinary" Means Here (~2249 tok)
+- `polish.md` — Design System Discovery (~3239 tok)
+- `product.md` — Product register (~938 tok)
+- `quieter.md` — Register (~1205 tok)
+- `shape.md` — Philosophy (~2837 tok)
+- `typeset.md` — Register (~3565 tok)
+
+## .qoder/skills/impeccable/scripts/
+
+- `.DS_Store` (~1638 tok)
+- `command-metadata.json` — Declares feel (~2286 tok)
+- `context-signals.mjs` — Context-signals gatherer for the bare `{{command_prefix}}impeccable` (~2149 tok)
+- `context.mjs` — Context loader: prints PRODUCT.md (and DESIGN.md if present) as one (~2774 tok)
+- `critique-storage.mjs` — Critique persistence helper. (~2400 tok)
+- `detect-csp.mjs` — Scan a project tree for Content-Security-Policy signals and classify the (~1803 tok)
+- `detect.mjs` — Declares __dirname (~166 tok)
+- `hook-admin.mjs` — `/impeccable hooks <on|off|status|reset>` — manage the design hook runtime (~6234 tok)
+- `hook-before-edit.mjs` — Impeccable design hook — Cursor preToolUse write gate. (~4432 tok)
+- `hook-lib.mjs` — Shared library for the Impeccable design hook. (~14864 tok)
+- `hook.mjs` — Impeccable design hook — PostToolUse entry point. (~533 tok)
+- `live-accept.mjs` — CLI helper: deterministic accept/discard of variant sessions. (~8070 tok)
+- `live-browser-dom.js` — Browser-side DOM helpers for Impeccable live mode. (~1215 tok)
+- `live-browser-session.js` — Browser-side durable session helpers for Impeccable live mode. (~942 tok)
+- `live-browser.js` — Impeccable Live Variant Mode - Browser Script (~123942 tok)
+- `live-commit-manual-edits.mjs` — CLI helper: apply pending live copy edits as one AI-owned batch. (~11237 tok)
+- `live-complete.mjs` — Canonical durable completion acknowledgement for Impeccable live sessions. (~785 tok)
+- `live-copy-edit-agent.mjs` — Applies staged live copy-edit batches by waking a local AI coding agent. (~7693 tok)
+- `live-discard-manual-edits.mjs` — CLI helper: discard pending manual edits from the buffer without applying. (~450 tok)
+- `live-inject.mjs` — CLI helper: insert/remove the live variant mode script tag in the project's (~6020 tok)
+- `live-insert.mjs` — CLI helper: find an anchor element in source and splice an insert-variant (~2420 tok)
+- `live-manual-edit-evidence.mjs` — Collect evidence for pending live copy edits. (~3122 tok)
+- `live-poll.mjs` — CLI client for the live variant mode poll/reply protocol. (~3614 tok)
+- `live-resume.mjs` — Recover the next agent action from the durable live-session journal. (~1190 tok)
+- `live-server.mjs` — Live variant mode server (self-contained, zero dependencies). (~11334 tok)
+- `live-status.mjs` — Print durable recovery status for Impeccable live sessions. (~562 tok)
+- `live-wrap.mjs` — CLI helper: find an element in source and wrap it in a variant container. (~9592 tok)
+- `live.mjs` — CLI entry point: prepare everything needed to enter the live variant poll loop. (~2276 tok)
+- `modern-screenshot.umd.js` — v: q, P, W + 29 more (~8369 tok)
+- `palette.mjs` — Brand-seed picker. Returns one OKLCH seed color + the mood it most (~15414 tok)
+- `pin.mjs` — Pin/unpin sub-commands as standalone skill shortcuts. (~1634 tok)
+
+## .qoder/skills/impeccable/scripts/detector/
+
+- `design-system.mjs` — DESIGN_NAMES: firstExisting, resolveDesignMdPath, resolveDesignSidecarPath + 27 more (~6592 tok)
+- `detect-antipatterns-browser.js` — Anti-Pattern Browser Detector for Impeccable (~61589 tok)
+- `detect-antipatterns.mjs` — Anti-Pattern Detector for Impeccable (~492 tok)
+- `findings.mjs` — getAP: finding (~97 tok)
+
+## .qoder/skills/impeccable/scripts/detector/browser/injected/
+
+- `index.mjs` — IS_BROWSER: getSpotlightBackdrop, updateSpotlightClipPath, showSpotlight + 8 more (~20472 tok)
+
+## .qoder/skills/impeccable/scripts/detector/cli/
+
+- `main.mjs` — formatFindings: handleStdin, confirm, printUsage, detectCli (~2961 tok)
+
+## .qoder/skills/impeccable/scripts/detector/engines/browser/
+
+- `detect-url.mjs` — serializeDesignSystemForBrowser: runVisualContrastFallback, detectUrl, createBrowserDetector (~2657 tok)
+
+## .qoder/skills/impeccable/scripts/detector/engines/regex/
+
+- `detect-text.mjs` — Strip HTML to plain text — drops script/style/comments/tags so (~6524 tok)
+
+## .qoder/skills/impeccable/scripts/detector/engines/static-html/
+
+- `css-cascade.mjs` — jsdom CSS-variable border override map (~9167 tok)
+- `detect-html.mjs` — checkStaticPageTypography: checkElementBrokenImage, detectHtml (~2655 tok)
+
+## .qoder/skills/impeccable/scripts/detector/engines/visual/
+
+- `screenshot-contrast.mjs` — sanitizeScreenshotClip: compareScreenshotContrast, captureVisualContrastCandidate (~1742 tok)
+
+## .qoder/skills/impeccable/scripts/detector/node/
+
+- `file-system.mjs` — Check if a port is listening and optionally verify it matches the expected framework. (~1830 tok)
+
+## .qoder/skills/impeccable/scripts/detector/profile/
+
+- `profiler.mjs` — profileNow: createDetectorProfile, recordProfileEvent, extractFindingIds + 6 more (~1214 tok)
+
+## .qoder/skills/impeccable/scripts/detector/registry/
+
+- `antipatterns.mjs` — Declares ANTIPATTERNS (~4941 tok)
+
+## .qoder/skills/impeccable/scripts/detector/rules/
+
+- `checks.mjs` — DETECTOR_IS_BROWSER: checkBorders, isEmojiOnlyText, checkColors + 5 more (~30656 tok)
+
+## .qoder/skills/impeccable/scripts/detector/shared/
+
+- `color.mjs` — ─── Section 2: Color Utilities ───────────────────────────────────────────── (~1172 tok)
+- `constants.mjs` — ─── Section 1: Constants ─────────────────────────────────────────────────── (~1080 tok)
+- `page.mjs` — Check if content looks like a full page (not a component/partial) (~68 tok)
+
+## .qoder/skills/impeccable/scripts/lib/
+
+- `design-parser.mjs` — Parse a DESIGN.md (Stitch-spec format) into a structured JSON model that (~6882 tok)
+- `impeccable-config.mjs` — CLI-side reader/writer for the unified `.impeccable` config. (~5730 tok)
+- `impeccable-paths.mjs` — Exports IMPECCABLE_DIR, LIVE_DIR, CRITIQUE_DIR, getImpeccableDir + 18 more (~1046 tok)
+- `is-generated.mjs` — Decide whether a given file is "generated" (regenerated by a build step, (~604 tok)
+
+## .qoder/skills/impeccable/scripts/live/
+
+- `browser-script-parts.mjs` — Exports LIVE_BROWSER_SCRIPT_PARTS, resolveLiveBrowserScriptParts, assertLiveBrowserScriptParts, readLiveBrowserScriptParts, assembleLiveBrowserScript (~458 tok)
+- `completion.mjs` — Exports completionTypeForAcceptResult, completionAckForAcceptResult (~259 tok)
+- `event-validation.mjs` — Shared event validation for the live helper server. (~1683 tok)
+- `insert-ui.mjs` — Pure helpers for live-mode insert UI (browser + tests). (~4178 tok)
+- `manual-apply.mjs` — Exports createManualApplyController, manualEditApplyChunkSize, countManualApplyOps, writeManualApplyEvidence (~9307 tok)
+- `manual-edit-routes.mjs` — API routes: GET (10 endpoints) (~3983 tok)
+- `manual-edits-buffer.mjs` — Shared helpers for the pending-manual-edits buffer on disk. (~1364 tok)
+- `session-store.mjs` — Exports createLiveSessionStore (~2852 tok)
+- `svelte-component.mjs` — Svelte live-mode component injection helpers. (~7440 tok)
+- `sveltekit-adapter.mjs` — SvelteKit live-mode adapter. (~2498 tok)
+- `ui-core.mjs` — Framework-neutral Impeccable live chrome contract. (~1478 tok)
+- `vocabulary.mjs` — Canonical design-command vocabulary for Live Mode: each command's value, human (~881 tok)
 
 ## .rtk/
 
@@ -346,446 +801,46 @@
 - `profile_screen.html` — CervixDetectAI - Profile (~3834 tok)
 - `records_screen.html` — Checkup Records - Health Management (~4004 tok)
 
-## .zread/wiki/
-
-- `current` (~7 tok)
-
-## .zread/wiki/versions/2026-06-12-220839/
-
-- `1-xiang-mu-gai-lan.md` — 项目定位 (~1991 tok)
-- `10-huan-cun-mo-xing-yu-shu-ju-tong-bu-ce-lue.md` — 缓存分层架构 (~2629 tok)
-- `11-ye-mian-jie-gou-yu-fen-bao-ji-zhi.md` — 整体架构概览 (~3288 tok)
-- `12-qing-qiu-feng-zhuang-yu-tokenguan-li.md` — 整体架构：请求模块的职责分层 (~2390 tok)
-- `13-lu-you-guan-li-yu-ye-mian-zhuang-tai-ji.md` — 路由注册表：统一路径字典 (~2787 tok)
-- `14-gong-gong-zu-jian-she-ji.md` — 设计系统基础 (~1897 tok)
-- `15-expresslu-you-yu-zhong-jian-jian-she-ji.md` — 架构概览与请求处理流程 (~1818 tok)
-- `16-ye-wu-fu-wu-ceng-jia-gou.md` — 服务层整体结构 (~2132 tok)
-- `17-shu-ju-ku-fang-wen-ceng-shi-xian.md` — 架构总览 (~2611 tok)
-- `18-jian-quan-ji-zhi-yu-hui-hua-guan-li.md` — 整体鉴权架构概览 (~1672 tok)
-- `19-shu-ju-ku-biao-jie-gou-she-ji.md` — 数据库概述 (~3035 tok)
-- `2-huan-jing-da-jian-yu-yun-xing.md` — 前置条件 (~1827 tok)
-- `20-he-xin-ye-wu-shi-ti-guan-xi.md` — 实体分类概览 (~1931 tok)
-- `21-shu-ju-ku-sheng-ji-yu-qian-yi-jiao-ben.md` — 迁移脚本整体架构 (~2145 tok)
-- `22-yin-si-xie-yi-shi-xian.md` — 整体架构概览 (~2008 tok)
-- `23-he-gui-ci-lan-jie-ji-zhi.md` — 概述 (~1847 tok)
-- `24-tou-xiang-cun-chu-yu-kua-yu-chu-li.md` — 整体架构概览 (~2076 tok)
-- `25-jian-kang-jian-cha-ji-lu-guan-li.md` — 模块架构概览 (~2561 tok)
-- `26-fu-cha-ti-xing-yu-ding-yue-xiao-xi.md` — 功能架构总览 (~2919 tok)
-- `27-wen-ti-zheng-li-gong-neng.md` — 功能定位与使用场景 (~3092 tok)
-- `28-jian-kang-zhi-shi-wen-zhang-liu-lan.md` — 功能概述 (~1672 tok)
-- `29-yong-hu-deng-lu-yu-zi-liao-guan-li.md` — 登录认证架构概览 (~4135 tok)
-- `3-qian-duan-huan-jing-pei-zhi.md` — 配置文件概览 (~3318 tok)
-- `4-hou-duan-huan-jing-bian-liang-pei-zhi.md` — 环境变量的作用与加载机制 (~2696 tok)
-- `5-shu-ju-ku-chu-shi-hua.md` — 初始化前的准备 (~1760 tok)
-- `6-wei-xin-xiao-cheng-xu-ti-shen-zhi-nan.md` — 1. 提审前配置检查 (~2220 tok)
-- `7-hou-duan-fu-wu-bu-shu.md` — 部署前准备 (~3985 tok)
-- `8-xi-tong-fen-ceng-jia-gou.md` — 架构全景 (~3047 tok)
-- `9-qian-hou-duan-jiao-hu-shi-xu.md` — 一、请求封装层概览 (~3485 tok)
-- `wiki.json` (~1857 tok)
-
-## docs/
-
-- `.DS_Store` (~2186 tok)
-- `数据库存储过程设计图.drawio` (~4816 tok)
-- `数据库视图设计图.drawio` (~5162 tok)
-- `数据库索引设计图.drawio` (~6276 tok)
-- `数据库物理模型图.drawio` (~11653 tok)
-- `数据库ER图.drawio` (~8298 tok)
-- `系统部署架构图.drawio` (~2895 tok)
-- `CervixDetectAI_系统功能结构图.drawio` (~4289 tok)
-
-## miniprogram/
-
-- `.DS_Store` (~2732 tok)
-- `.gitignore` — Git ignore rules (~6 tok)
-- `app.js` — config: createDeviceId, applyNetworkState, checkForUpdate (~546 tok)
-- `app.json` (~742 tok)
-- `app.wxss` (~480 tok)
-- `project.config.json` (~301 tok)
-- `project.private.config.json` (~164 tok)
-- `sitemap.json` (~22 tok)
-
-## miniprogram/assets/
-
-- `.DS_Store` (~2732 tok)
-
-## miniprogram/components/empty-state/
-
-- `index.js` — ICON_MAP: normalizeWeuiIcon (~286 tok)
-- `index.json` (~28 tok)
-- `index.wxml` (~164 tok)
-- `index.wxss` (~386 tok)
-
-## miniprogram/components/privacy-consent/
-
-- `index.js` (~239 tok)
-- `index.json` (~14 tok)
-- `index.wxml` (~410 tok)
-- `index.wxss` (~890 tok)
-
-## miniprogram/components/section-header/
-
-- `index.js` — ICON_MAP: normalizeWeuiIcon (~258 tok)
-- `index.json` (~41 tok)
-- `index.wxml` (~143 tok)
-- `index.wxss` (~173 tok)
-
-## miniprogram/components/setup-sheet/
-
-- `index.js` — Declares avatar (~1962 tok)
-- `index.json` (~28 tok)
-- `index.wxml` (~1149 tok)
-- `index.wxss` (~1828 tok)
-
-## miniprogram/components/skeleton/
-
-- `index.js` (~77 tok)
-- `index.json` (~14 tok)
-- `index.wxml` (~430 tok)
-- `index.wxss` (~534 tok)
-
-## miniprogram/components/weui-confirm/
-
-- `index.js` (~294 tok)
-- `index.json` (~7 tok)
-- `index.wxml` (~236 tok)
-- `index.wxss` (~593 tok)
-
-## miniprogram/config/
-
-- `app.js` (~143 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/
-
-- `.wechatide.ib.json` (~17604 tok)
-- `index.d.ts` (~86 tok)
-- `index.js` (~67 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/action-sheet/
-
-- `action-sheet.d.ts` — Exports ActionSheet (~704 tok)
-- `action-sheet.js` — Declares extends (~718 tok)
-- `action-sheet.json` (~53 tok)
-- `action-sheet.wxml` (~604 tok)
-- `action-sheet.wxs` (~188 tok)
-- `action-sheet.wxss` (~1287 tok)
-- `index.d.ts` — / <reference types="miniprogram-api-typings" /> (~112 tok)
-- `index.js` (~36 tok)
-- `props.d.ts` — Declares props (~31 tok)
-- `props.js` — Declares props (~129 tok)
-- `show.d.ts` — / <reference types="miniprogram-api-typings" /> (~272 tok)
-- `show.js` — Exports show, close (~160 tok)
-- `type.d.ts` — Exports TdActionSheetProps, ActionSheetItem (~384 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/action-sheet/template/
-
-- `grid.wxml` (~454 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/attachments/
-
-- `attachments.d.ts` — Exports AttachmentsProps (~393 tok)
-- `attachments.js` — Declares extends (~882 tok)
-- `attachments.json` (~44 tok)
-- `attachments.wxml` (~703 tok)
-- `attachments.wxs` — imageStyle: getImageMode, getFileTypeClass (~340 tok)
-- `attachments.wxss` (~1069 tok)
-- `index.d.ts` (~23 tok)
-- `index.js` (~20 tok)
-- `props.d.ts` — Declares props (~31 tok)
-- `props.js` — Declares props (~42 tok)
-- `type.d.ts` — Exports TdAttachmentsProps, FileItem (~208 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/avatar-group/
-
-- `avatar-group.d.ts` — Exports AvatarGroup (~209 tok)
-- `avatar-group.js` — Declares extends (~368 tok)
-- `avatar-group.json` (~27 tok)
-- `avatar-group.wxml` (~165 tok)
-- `avatar-group.wxss` (~1885 tok)
-- `props.d.ts` — Declares props (~31 tok)
-- `props.js` — Declares props (~49 tok)
-- `type.d.ts` — Exports TdAvatarGroupProps (~160 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/avatar/
-
-- `avatar.d.ts` — / <reference types="miniprogram-api-typings" /> (~188 tok)
-- `avatar.js` — Declares extends (~326 tok)
-- `avatar.json` (~41 tok)
-- `avatar.wxml` (~473 tok)
-- `avatar.wxs` (~246 tok)
-- `avatar.wxss` (~550 tok)
-- `props.d.ts` — Declares props (~28 tok)
-- `props.js` — Declares props (~80 tok)
-- `type.d.ts` — Exports TdAvatarProps (~259 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/back-top/
-
-- `back-top.d.ts` — Exports BackTop (~178 tok)
-- `back-top.js` — Declares extends (~320 tok)
-- `back-top.json` (~27 tok)
-- `back-top.wxml` (~148 tok)
-- `back-top.wxss` (~519 tok)
-- `props.d.ts` — Declares props (~29 tok)
-- `props.js` — Declares props (~65 tok)
-- `type.d.ts` — Exports TdBackTopProps (~165 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/badge/
-
-- `badge.d.ts` — Exports BadgeProps (~178 tok)
-- `badge.js` — Declares extends (~326 tok)
-- `badge.json` (~21 tok)
-- `badge.wxml` (~336 tok)
-- `badge.wxs` (~462 tok)
-- `badge.wxss` (~1279 tok)
-- `index.d.ts` (~22 tok)
-- `index.js` (~18 tok)
-- `props.d.ts` — Declares props (~28 tok)
-- `props.js` — Declares props (~87 tok)
-- `type.d.ts` — Exports TdBadgeProps (~250 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/button/
-
-- `button.d.ts` — Exports ButtonProps (~324 tok)
-- `button.js` — Declares extends (~594 tok)
-- `button.json` (~37 tok)
-- `button.wxml` (~631 tok)
-- `button.wxss` (~6228 tok)
-- `index.d.ts` (~22 tok)
-- `index.js` (~18 tok)
-- `props.d.ts` — Declares props (~28 tok)
-- `props.js` — Declares props (~295 tok)
-- `type.d.ts` — Exports TdButtonProps (~846 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/calendar/
-
-- `calendar-header.wxml` (~368 tok)
-- `calendar.d.ts` — / <reference types="miniprogram-api-typings" /> (~573 tok)
-- `calendar.js` — Declares extends (~1474 tok)
-- `calendar.json` (~44 tok)
-- `calendar.wxml` (~93 tok)
-- `calendar.wxs` — getDateLabel: isDateSelected, getMonthTitle (~315 tok)
-- `calendar.wxss` (~1660 tok)
-- `index.d.ts` (~15 tok)
-- `index.js` (~13 tok)
-- `props.d.ts` — Declares props (~30 tok)
-- `props.js` — Declares props (~155 tok)
-- `template.wxml` (~767 tok)
-- `type.d.ts` — Exports TdCalendarProps, TDate, CalendarLocaleText (~580 tok)
-- `type.js` (~3 tok)
-- `utils.d.ts` — getMonthByOffset: getYearByOffset (~108 tok)
-- `utils.js` — Exports getMonthByOffset, getYearByOffset, getPrevMonth, getNextMonth + 2 more (~113 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/cascader/
-
-- `cascader.d.ts` — / <reference types="miniprogram-api-typings" /> (~892 tok)
-- `cascader.js` — parseOptions: flattenPaths, buildFragments, defaultFilter (~2901 tok)
-- `cascader.json` (~74 tok)
-- `cascader.wxml` (~834 tok)
-- `cascader.wxss` (~1368 tok)
-- `props.d.ts` — Declares props (~30 tok)
-- `props.js` — Declares props (~134 tok)
-- `type.d.ts` — Exports TdCascaderProps (~452 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/cell-group/
-
-- `cell-group.d.ts` — Exports CellGroup (~106 tok)
-- `cell-group.js` — Declares extends (~206 tok)
-- `cell-group.json` (~15 tok)
-- `cell-group.wxml` (~80 tok)
-- `cell-group.wxss` (~334 tok)
-- `props.d.ts` — Declares props (~30 tok)
-- `props.js` — Declares props (~38 tok)
-- `type.d.ts` — Exports TdCellGroupProps (~83 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/cell/
-
-- `cell.d.ts` — Exports Cell (~186 tok)
-- `cell.js` — Declares extends (~342 tok)
-- `cell.json` (~35 tok)
-- `cell.wxml` (~485 tok)
-- `cell.wxss` (~770 tok)
-- `props.d.ts` — Declares props (~27 tok)
-- `props.js` — Declares props (~109 tok)
-- `type.d.ts` — Exports TdCellProps (~323 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-actionbar/
-
-- `chat-actionbar.d.ts` — Exports ChatActionbar (~385 tok)
-- `chat-actionbar.js` — Declares extends (~1224 tok)
-- `chat-actionbar.json` (~37 tok)
-- `chat-actionbar.wxml` (~664 tok)
-- `chat-actionbar.wxss` (~492 tok)
-- `props.d.ts` — Declares props (~32 tok)
-- `props.js` — Declares props (~94 tok)
-- `type.d.ts` — Exports TdChatActionbarProps, ChatActionbarLongPressPosition, LongPressPositionValue (~321 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-content/
-
-- `chat-content.d.ts` — Exports ChatContentProps (~213 tok)
-- `chat-content.js` — Declares extends (~388 tok)
-- `chat-content.json` (~66 tok)
-- `chat-content.wxml` (~172 tok)
-- `chat-content.wxss` (~279 tok)
-- `index.d.ts` (~24 tok)
-- `index.js` (~20 tok)
-- `props.d.ts` — Declares props (~31 tok)
-- `props.js` — Declares props (~43 tok)
-- `type.d.ts` — Exports TdChatContentProps, TdChatContentType (~177 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-list/
-
-- `chat-list.d.ts` — Exports Chat (~408 tok)
-- `chat-list.js` — Declares extends (~502 tok)
-- `chat-list.json` (~34 tok)
-- `chat-list.wxml` (~307 tok)
-- `chat-list.wxss` (~129 tok)
-- `props.d.ts` — Declares props (~30 tok)
-- `props.js` — Declares props (~46 tok)
-- `type.d.ts` — Exports TdChatListProps, TdChatItemMeta (~166 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-loading/
-
-- `chat-loading.d.ts` — Exports ChatLoading (~84 tok)
-- `chat-loading.js` — Declares extends (~130 tok)
-- `chat-loading.json` (~40 tok)
-- `chat-loading.wxml` (~263 tok)
-- `chat-loading.wxss` (~659 tok)
-- `props.d.ts` — Declares props (~31 tok)
-- `props.js` — Declares props (~30 tok)
-- `type.d.ts` — Exports TdChatLoadingProps (~68 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-markdown/
-
-- `chat-markdown.d.ts` — Exports ChatMarkdownProps (~187 tok)
-- `chat-markdown.js` — resolveTailContent: flatListItems, injectTailToTokens (~588 tok)
-- `chat-markdown.json` (~63 tok)
-- `chat-markdown.wxml` (~68 tok)
-- `chat-markdown.wxss` (~810 tok)
-- `index.d.ts` (~24 tok)
-- `index.js` (~20 tok)
-- `props.d.ts` — Declares props (~32 tok)
-- `props.js` — Declares props (~46 tok)
-- `type.d.ts` — Exports TdChatMarkdownProps, TdChatContentMDOptions, TdChatMarkdownStreamingOptions (~178 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-markdown/chat-markdown-code/
-
-- `chat-markdown-code.d.ts` — Exports ChatMarkdownCode (~129 tok)
-- `chat-markdown-code.js` — Declares extends (~265 tok)
-- `chat-markdown-code.json` (~48 tok)
-- `chat-markdown-code.wxml` (~100 tok)
-- `chat-markdown-code.wxss` (~283 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-markdown/chat-markdown-node/
-
-- `chat-markdown-node.d.ts` — Exports ChatMarkdownNode (~177 tok)
-- `chat-markdown-node.js` — Declares extends (~338 tok)
-- `chat-markdown-node.json` (~97 tok)
-- `chat-markdown-node.wxml` (~1193 tok)
-- `chat-markdown-node.wxss` (~11 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-markdown/chat-markdown-table/
-
-- `chat-markdown-table.d.ts` — Exports ChatMarkdownTable (~128 tok)
-- `chat-markdown-table.js` — Declares extends (~265 tok)
-- `chat-markdown-table.json` (~66 tok)
-- `chat-markdown-table.wxml` (~246 tok)
-- `chat-markdown-table.wxss` (~397 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-markdown/chat-markdown-tail/
-
-- `chat-markdown-tail.d.ts` — Exports ChatMarkdownTail (~105 tok)
-- `chat-markdown-tail.js` — Declares extends (~134 tok)
-- `chat-markdown-tail.json` (~15 tok)
-- `chat-markdown-tail.wxml` (~15 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-message/
-
-- `chat-message.d.ts` — Exports ChatMessage (~287 tok)
-- `chat-message.js` — Declares extends (~520 tok)
-- `chat-message.json` (~71 tok)
-- `chat-message.wxml` (~452 tok)
-- `chat-message.wxss` (~1387 tok)
-- `index.d.ts` (~1 tok)
-- `index.js` (~0 tok)
-- `props.d.ts` — Declares props (~31 tok)
-- `props.js` — Declares props (~98 tok)
-- `type.d.ts` — Exports TdChatMessageProps, ChatMessageContentProps, ThinkingContentData, ChatBaseContent (~651 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-sender/
-
-- `chat-sender.d.ts` — Exports ChatSender (~550 tok)
-- `chat-sender.js` — Declares extends (~1427 tok)
-- `chat-sender.json` (~40 tok)
-- `chat-sender.wxml` (~887 tok)
-- `chat-sender.wxs` — textareaStyle: addUnit (~151 tok)
-- `chat-sender.wxss` (~1130 tok)
-- `props.d.ts` — Declares props (~31 tok)
-- `props.js` — Declares props (~160 tok)
-- `type.d.ts` — Exports TdChatSenderProps, UploadButton, SendButton (~391 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/chat-thinking/
-
-- `chat-thinking.d.ts` — Exports ChatThinking (~213 tok)
-- `chat-thinking.js` — Declares extends (~345 tok)
-- `chat-thinking.json` (~41 tok)
-- `chat-thinking.wxml` (~296 tok)
-- `chat-thinking.wxss` (~594 tok)
-- `index.d.ts` (~24 tok)
-- `index.js` (~20 tok)
-- `props.d.ts` — Declares props (~32 tok)
-- `props.js` — Declares props (~72 tok)
-- `type.d.ts` — Exports TdChatThinkingProps (~208 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/check-tag/
-
-- `check-tag.d.ts` — Exports CheckTag (~199 tok)
-- `check-tag.js` — Declares extends (~355 tok)
-- `check-tag.json` (~27 tok)
-- `check-tag.wxml` (~201 tok)
-- `check-tag.wxss` (~2650 tok)
-- `props.d.ts` — Declares props (~30 tok)
-- `props.js` — Declares props (~88 tok)
-- `type.d.ts` — Exports TdCheckTagProps (~251 tok)
-- `type.js` (~3 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/checkbox-group/
-
-- `checkbox-group.d.ts` — Exports CheckBoxGroup (~309 tok)
-- `checkbox-group.js` — Declares extends (~860 tok)
-- `checkbox-group.json` (~31 tok)
-- `checkbox-group.wxml` (~260 tok)
-- `checkbox-group.wxss` (~10 tok)
-- `props.d.ts` — Declares props (~32 tok)
-- `props.js` — Declares props (~89 tok)
-
-## miniprogram/miniprogram_npm/tdesign-miniprogram/checkbox/
-
-- `checkbox.d.ts` — Exports CheckBox (~748 tok)
-- `checkbox.js` — Declares extends (~478 tok)
-- `checkbox.json` (~27 tok)
-- `checkbox.wxml` (~570 tok)
-- `checkbox.wxss` (~1426 tok)
-- `index.d.ts` (~22 tok)
-- `index.js` (~19 tok)
-- `props.d.ts` — Declares props (~30 tok)
-- `props.js` — Declares props (~164 tok)
-- `type.d.ts` — Exports TdCheckboxProps (~440 tok)
-- `type.js` (~3 tok)
+## .trae/skills/impeccable/
+
+- `SKILL.md` — Setup (~4907 tok)
+
+## .trae/skills/impeccable/reference/
+
+- `adapt.md` — Assess Adaptation Challenge (~2529 tok)
+- `animate.md` — Register (~2592 tok)
+- `audit.md` — Diagnostic Scan (~1819 tok)
+- `bolder.md` — Register (~1620 tok)
+- `brand.md` — Brand register (~2613 tok)
+- `clarify.md` — Assess Current Copy (~2661 tok)
+- `codex.md` — Codex: Visual Direction & Asset Production (~1751 tok)
+- `colorize.md` — Register (~3368 tok)
+- `craft.md` — Craft Flow (~2986 tok)
+- `critique.md` — ## Purpose (~9030 tok)
+- `delight.md` — Register (~2435 tok)
+- `distill.md` — Assess Current State (~1412 tok)
+- `document.md` — The frontmatter: token schema (~6959 tok)
+- `extract.md` — Extract Flow (~836 tok)
+- `harden.md` — Assess Hardening Needs (~2146 tok)
+- `hooks.md` — /impeccable hooks (~1880 tok)
+- `init.md` — Init Flow (~3169 tok)
+- `interaction-design.md` — Interaction Design (~1644 tok)
+- `layout.md` — Register (~2167 tok)
+- `live.md` — Prerequisites (~14877 tok)
+- `onboard.md` — Assess Onboarding Needs (~1935 tok)
+- `optimize.md` — Assess Performance Issues (~1898 tok)
+- `overdrive.md` — Assess What "Extraordinary" Means Here (~2249 tok)
+- `polish.md` — Design System Discovery (~3238 tok)
+- `product.md` — Product register (~938 tok)
+- `quieter.md` — Register (~1205 tok)
+- `shape.md` — Philosophy (~2837 tok)
+- `typeset.md` — Register (~3565 tok)
+
+## .trae/skills/impeccable/scripts/
+
+- `command-metadata.json` — Declares feel (~2286 tok)
+- `context-signals.mjs` — Context-signals gatherer for the bare `{{command_prefix}}impeccable` (~2149 tok)
+- `context.mjs` — Context loader: prints PRODUCT.md (and DESIGN.md if present) as one (~2774 tok)
+- `critique-storage.mjs` — Critique persistence helper. (~2400 tok)
+- `detect-csp.mjs` — Scan a project tree for Content-Security-Policy signals and classify the (~1803 tok)
+- `detect.mjs` — Declares __dirname (~166 tok)
