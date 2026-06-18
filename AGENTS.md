@@ -24,7 +24,6 @@ alwaysApply: true
 - `server/`：Node.js + Express + MySQL API 服务。
 - `server/database/`：建表、升级、迁移脚本。
 - `docs/`：提审和课程/比赛展示材料。
-- `.wolf/hooks/`：仓库已有自动化钩子，非必要不要改。
 
 ## 工作方式
 

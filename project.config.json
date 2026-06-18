@@ -5,19 +5,35 @@
     "minified": true,
     "uglifyFileName": false,
     "enhance": true,
-    "packNpmRelationList": [],
+    "packNpmRelationList": [
+      {
+        "packageJsonPath": "./miniprogram/package.json",
+        "miniprogramNpmDistDir": "./miniprogram"
+      }
+    ],
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
     },
     "useCompilerPlugins": false,
-    "minifyWXML": true
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "packNpmManually": true
   },
   "compileType": "miniprogram",
   "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "miniprogram/packages/assistant/tdesign-lab/"
+      },
+      {
+        "type": "folder",
+        "value": "miniprogram/packages/profile/setup/"
+      }
+    ],
     "include": []
   },
   "appid": "wx1f7b9852c47b2ffd",

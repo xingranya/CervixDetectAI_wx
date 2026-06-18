@@ -5,10 +5,19 @@
 .vscode/
 
 # 本机 AI/索引工具缓存
-.codegraph/*.db
-.codegraph/*.db-*
-.stitch/
+.codegraph/
+.codebuddy/
+.codex/
+.claude/
 .cursor/
+.impeccable/
+.nezha/
+.playwright-cli/
+.qoder/
+.rtk/
+.stitch/
+.trae/
+.zread/
 
 # Node.js 依赖与日志
 node_modules/

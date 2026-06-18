@@ -1,6 +1,7 @@
 {
   "enabledPlugins": {
     "design-to-code@cb_teams_marketplace": true,
-    "gaokao-advisor@cb_teams_marketplace": true
+    "gaokao-advisor@cb_teams_marketplace": true,
+    "ardot-design-generator@cb_teams_marketplace": true
   }
 }

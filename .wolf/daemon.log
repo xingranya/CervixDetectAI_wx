@@ -1,35 +1,8 @@
-[2026-06-16T11:58:39.085Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
-[2026-06-16T11:58:39.086Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
-[2026-06-16T11:58:39.086Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
-[2026-06-16T11:58:39.086Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
-[2026-06-16T11:58:39.086Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
-[2026-06-16T11:58:39.086Z] [INFO] File watcher started on .wolf/
-[2026-06-16T11:58:39.087Z] [INFO] OpenWolf daemon started
-[2026-06-16T11:58:39.087Z] [INFO] Dashboard server listening on port 18791
-[2026-06-16T11:58:40.491Z] [INFO] WebSocket client connected
-[2026-06-16T12:01:31.336Z] [INFO] Executing task: AI suggestions
-[2026-06-16T12:03:16.768Z] [INFO] Task AI suggestions completed in 105432ms
-[2026-06-16T12:03:16.769Z] [INFO] Executing task: AI suggestions
-[2026-06-16T12:04:16.667Z] [INFO] Executing task: AI suggestions
-[2026-06-16T12:05:08.197Z] [INFO] Executing task: AI suggestions
-[2026-06-16T12:06:57.168Z] [INFO] Executing task: AI suggestions
-[2026-06-16T12:08:21.769Z] [INFO] Task AI suggestions completed in 304999ms
-[2026-06-16T12:08:21.770Z] [INFO] Task AI suggestions completed in 245102ms
-[2026-06-16T12:08:21.770Z] [INFO] Task AI suggestions completed in 193573ms
-[2026-06-16T12:08:21.771Z] [INFO] Task AI suggestions completed in 84602ms
-[2026-06-16T12:08:21.788Z] [WARN] Task not found: AI
-[2026-06-16T12:08:21.879Z] [INFO] WebSocket client connected
-[2026-06-16T16:00:00.664Z] [INFO] Executing task: Full anatomy rescan
-[2026-06-16T16:00:00.795Z] [INFO] Task Full anatomy rescan completed in 131ms
-[2026-06-16T18:00:00.120Z] [INFO] Executing task: Consolidate old memory
-[2026-06-16T18:00:00.127Z] [INFO] Task Consolidate old memory completed in 7ms
-[2026-06-16T22:00:00.572Z] [INFO] Executing task: Full anatomy rescan
-[2026-06-16T22:00:00.686Z] [INFO] Task Full anatomy rescan completed in 114ms
-[2026-06-17T04:00:00.741Z] [INFO] Executing task: Full anatomy rescan
-[2026-06-17T04:00:00.859Z] [INFO] Task Full anatomy rescan completed in 118ms
-[2026-06-17T10:00:00.006Z] [INFO] Executing task: Full anatomy rescan
-[2026-06-17T10:00:00.115Z] [INFO] Task Full anatomy rescan completed in 109ms
-[2026-06-17T18:00:00.875Z] [INFO] Executing task: Consolidate old memory
-[2026-06-17T18:00:00.879Z] [INFO] Task Consolidate old memory completed in 6ms
-[2026-06-17T22:00:00.352Z] [INFO] Executing task: Full anatomy rescan
-[2026-06-17T22:00:00.489Z] [INFO] Task Full anatomy rescan completed in 137ms
+[2026-06-18T10:00:00.634Z] [INFO] Executing task: Full anatomy rescan
+[2026-06-18T10:00:00.886Z] [ERROR] Task Full anatomy rescan failed (attempt 1): Cannot read properties of undefined (reading 'push')
+[2026-06-18T10:00:00.886Z] [INFO] Retrying Full anatomy rescan in 30000ms
+[2026-06-18T10:00:30.887Z] [INFO] Executing task: Full anatomy rescan
+[2026-06-18T10:00:31.022Z] [ERROR] Task Full anatomy rescan failed (attempt 2): Cannot read properties of undefined (reading 'push')
+[2026-06-18T10:00:31.022Z] [INFO] Retrying Full anatomy rescan in 60000ms
+[2026-06-18T10:01:31.022Z] [INFO] Executing task: Full anatomy rescan
+[2026-06-18T10:01:31.193Z] [ERROR] Task Full anatomy rescan failed (attempt 3): Cannot read properties of undefined (reading 'push')

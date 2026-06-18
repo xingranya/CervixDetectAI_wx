@@ -1,29 +1,25 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-17T22:00:00.488Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-18T10:01:31.190Z
 > Files: 509 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
-- `.DS_Store` (~4368 tok)
-- `.gitignore` — Git ignore rules (~136 tok)
-- `AGENTS.md` — AGENTS.md (~895 tok)
-- `CLAUDE.md` — OpenWolf (~2683 tok)
+- `.DS_Store` (~4913 tok)
+- `.gitignore` — Git ignore rules (~156 tok)
+- `AGENTS.md` — AGENTS.md (~886 tok)
+- `CLAUDE.md` — CLAUDE.md — CervixDetectAI_wx (~1368 tok)
 - `DESIGN.md` — Design System: 云端智诊 (~2187 tok)
 - `miniapp-privacy.json` (~224 tok)
 - `PRODUCT.md` — Product (~243 tok)
-- `project.config.json` (~144 tok)
+- `project.config.json` (~255 tok)
 - `project.miniapp.json` (~112 tok)
 - `README.md` — Project documentation (~644 tok)
 
 ## .claude/
 
-- `settings.json` (~441 tok)
+- `settings.json` (~6 tok)
 - `settings.local.json` (~144 tok)
-
-## .claude/rules/
-
-- `openwolf.md` (~313 tok)
 
 ## .claude/skills/impeccable/
 
@@ -169,10 +165,16 @@
 - `ui-core.mjs` — Framework-neutral Impeccable live chrome contract. (~1478 tok)
 - `vocabulary.mjs` — Canonical design-command vocabulary for Live Mode: each command's value, human (~881 tok)
 
+## .codebuddy/
+
+- `settings.local.json` (~53 tok)
+
 ## .codegraph/
 
-- `.gitignore` — Git ignore rules (~47 tok)
-- `daemon.log` (~2689 tok)
+- `.gitignore` — Git ignore rules (~61 tok)
+- `codegraph.db-shm` (~8738 tok)
+- `daemon.log` (~3209 tok)
+- `daemon.pid` (~45 tok)
 
 ## .codex/skills/wechat-miniprogram/
 
@@ -623,6 +625,7 @@
 
 - `config.local.json` (~14 tok)
 - `design.json` (~3092 tok)
+- `hook.cache.json` (~8 tok)
 
 ## .impeccable/critique/
 
@@ -631,6 +634,17 @@
 ## .nezha/
 
 - `config.toml` (~184 tok)
+
+## .playwright-cli/
+
+- `console-2026-06-18T08-17-13-487Z.log` (~1021 tok)
+- `console-2026-06-18T08-22-41-485Z.log` (~1059 tok)
+- `page-2026-06-18T08-17-15-877Z.yml` (~3543 tok)
+- `page-2026-06-18T08-22-43-541Z.yml` (~14778 tok)
+- `page-2026-06-18T08-22-47-613Z.yml` (~15076 tok)
+- `page-2026-06-18T08-22-48-292Z.yml` (~15104 tok)
+- `page-2026-06-18T08-23-28-826Z.yml` (~1029 tok)
+- `page-2026-06-18T08-23-29-100Z.yml` (~5677 tok)
 
 ## .qoder/
 
@@ -790,6 +804,12 @@
 
 - `filters.toml` — Project-local RTK filters — commit this file with your repo. (~136 tok)
 
+## .serena/
+
+- `.gitignore` — Git ignore rules (~7 tok)
+- `project.local.yml` — This file allows you to locally override settings in project.yml for development purposes. (~115 tok)
+- `project.yml` — the name by which the project can be referenced within Serena (~2152 tok)
+
 ## .stitch/
 
 - `DESIGN.md` — Brand & Style (~1851 tok)
@@ -827,20 +847,3 @@
 - `interaction-design.md` — Interaction Design (~1644 tok)
 - `layout.md` — Register (~2167 tok)
 - `live.md` — Prerequisites (~14877 tok)
-- `onboard.md` — Assess Onboarding Needs (~1935 tok)
-- `optimize.md` — Assess Performance Issues (~1898 tok)
-- `overdrive.md` — Assess What "Extraordinary" Means Here (~2249 tok)
-- `polish.md` — Design System Discovery (~3238 tok)
-- `product.md` — Product register (~938 tok)
-- `quieter.md` — Register (~1205 tok)
-- `shape.md` — Philosophy (~2837 tok)
-- `typeset.md` — Register (~3565 tok)
-
-## .trae/skills/impeccable/scripts/
-
-- `command-metadata.json` — Declares feel (~2286 tok)
-- `context-signals.mjs` — Context-signals gatherer for the bare `{{command_prefix}}impeccable` (~2149 tok)
-- `context.mjs` — Context loader: prints PRODUCT.md (and DESIGN.md if present) as one (~2774 tok)
-- `critique-storage.mjs` — Critique persistence helper. (~2400 tok)
-- `detect-csp.mjs` — Scan a project tree for Content-Security-Policy signals and classify the (~1803 tok)
-- `detect.mjs` — Declares __dirname (~166 tok)
