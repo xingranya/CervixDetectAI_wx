@@ -1,0 +1,140 @@
+<t-config-provider>
+  <view class="lab-page">
+    <t-message id="t-message" />
+    <t-toast id="t-toast" />
+    <t-notice-bar prefix-icon="info-circle" content="本页用于管理健康记录、复查准备和反馈辅助能力。" />
+    <t-sticky>
+      <t-navbar title="辅助工具面板" left-arrow />
+    </t-sticky>
+
+    <t-result theme="default" title="组件能力面板" description="按需组合健康记录、复查准备和助手输入能力。" />
+    <t-empty icon="chat" description="没有更多待处理事项。" />
+    <t-pull-down-refresh loading="{{false}}">
+      <view class="lab-refresh-row">
+        <t-icon name="refresh" size="32rpx" />
+        <text>下拉刷新容器已启用</text>
+      </view>
+    </t-pull-down-refresh>
+
+    <t-tabs value="{{tabValue}}" bind:change="setValue" data-field="tabValue">
+      <t-tab-panel label="工具" value="tools" />
+      <t-tab-panel label="记录" value="records" />
+      <t-tab-panel label="反馈" value="feedback" />
+    </t-tabs>
+    <t-segmented value="{{segmentedValue}}" options="{{segmentedOptions}}" bind:change="setValue" data-field="segmentedValue" />
+
+    <t-row gutter="{{16}}" class="lab-row">
+      <t-col span="{{6}}"><t-button block theme="primary" icon="calendar" bind:tap="open" data-field="calendarVisible">日历</t-button></t-col>
+      <t-col span="{{6}}"><t-button block theme="light" icon="layers" bind:tap="open" data-field="cascaderVisible">分类</t-button></t-col>
+    </t-row>
+    <t-row gutter="{{16}}" class="lab-row">
+      <t-col span="{{4}}"><t-button block size="small" variant="outline" bind:tap="open" data-field="actionSheetVisible">动作</t-button></t-col>
+      <t-col span="{{4}}"><t-button block size="small" variant="outline" bind:tap="open" data-field="dialogVisible">提示</t-button></t-col>
+      <t-col span="{{4}}"><t-button block size="small" variant="outline" bind:tap="open" data-field="guideVisible">引导</t-button></t-col>
+    </t-row>
+    <t-row gutter="{{16}}" class="lab-row">
+      <t-col span="{{6}}"><t-button block size="small" variant="outline" bind:tap="open" data-field="pickerVisible">选择器</t-button></t-col>
+      <t-col span="{{6}}"><t-button block size="small" variant="outline" bind:tap="open" data-field="dateTimeVisible">时间</t-button></t-col>
+    </t-row>
+
+    <t-popover content="按需打开辅助能力" placement="bottom">
+      <t-button slot="trigger" size="small" variant="outline">气泡提示</t-button>
+    </t-popover>
+
+    <t-grid column="{{2}}" border="{{false}}">
+      <t-grid-item text="筛查常识" icon="book" />
+      <t-grid-item text="复查准备" icon="calendar" />
+    </t-grid>
+
+    <t-side-bar value="{{sideValue}}" bind:change="setValue" data-field="sideValue">
+      <t-side-bar-item label="科普" value="{{0}}" icon="book" />
+      <t-side-bar-item label="提醒" value="{{1}}" icon="notification" />
+    </t-side-bar>
+
+    <t-steps current="{{1}}">
+      <t-step-item title="记录" content="整理问题" />
+      <t-step-item title="复查" content="准备材料" />
+      <t-step-item title="跟进" content="维护提醒" />
+    </t-steps>
+
+    <t-form label-width="88px" class="lab-form">
+      <t-form-item label="搜索" name="search">
+        <t-search value="{{searchValue}}" placeholder="搜索健康知识" bind:change="setValue" data-field="searchValue" />
+      </t-form-item>
+      <t-form-item label="标题" name="title">
+        <t-input value="{{inputValue}}" placeholder="记录标题" bind:change="setValue" data-field="inputValue" />
+      </t-form-item>
+      <t-form-item label="备注" name="note">
+        <t-textarea value="{{textareaValue}}" placeholder="补充说明" autosize bind:change="setValue" data-field="textareaValue" />
+      </t-form-item>
+    </t-form>
+
+    <t-cell-group title="偏好设置">
+      <t-cell title="提醒开关" note="已开启"><t-switch slot="right-icon" value="{{switchValue}}" bind:change="setValue" data-field="switchValue" /></t-cell>
+      <t-cell title="进度" note="{{sliderValue}}%"><t-slider slot="description" value="{{sliderValue}}" bind:change="setValue" data-field="sliderValue" /></t-cell>
+      <t-cell title="复查次数"><t-stepper slot="right-icon" value="{{stepperValue}}" min="{{0}}" max="{{12}}" bind:change="setValue" data-field="stepperValue" /></t-cell>
+      <t-cell title="体验评分"><t-rate slot="right-icon" value="{{rateValue}}" bind:change="setValue" data-field="rateValue" /></t-cell>
+    </t-cell-group>
+
+    <t-radio-group value="{{radioValue}}" bind:change="setValue" data-field="radioValue">
+      <t-radio value="science" label="科普解释" />
+      <t-radio value="record" label="记录整理" />
+    </t-radio-group>
+    <t-checkbox-group value="{{checkboxValue}}" bind:change="setValue" data-field="checkboxValue">
+      <t-checkbox value="record" label="记录症状" />
+      <t-checkbox value="remind" label="复查提醒" />
+    </t-checkbox-group>
+    <t-tree-select value="{{treeValue}}" options="{{treeOptions}}" bind:change="setValue" data-field="treeValue" />
+
+    <t-dropdown-menu>
+      <t-dropdown-item label="用途" value="{{dropdownValue}}" options="{{dropdownOptions}}" bind:change="setValue" data-field="dropdownValue" />
+    </t-dropdown-menu>
+
+    <t-color-picker value="{{colorValue}}" bind:change="setValue" data-field="colorValue" />
+    <t-upload files="{{uploadFiles}}" max="{{3}}" media-type="{{uploadMediaType}}" bind:select-change="onUploadSelect" />
+
+    <t-divider content="展示信息" />
+    <t-title level="h3">健康记录摘要</t-title>
+    <t-text theme="primary">筛查、复查和症状记录会以时间线方式整理。</t-text>
+    <t-paragraph>本页工具用于辅助记录与科普理解，不生成医学诊断结论。</t-paragraph>
+    <t-swiper list="{{swiperList}}" height="180" navigation="{{swiperNavigation}}" />
+    <t-image src="{{imagePreview}}" mode="aspectFill" class="lab-image" bind:tap="open" data-field="imageViewerVisible" />
+    <t-progress percentage="{{progress}}" theme="plump" />
+    <t-count-down time="{{countdownTime}}" format="HH:mm:ss" />
+    <t-qrcode value="{{qrcodeValue}}" size="{{180}}" />
+    <t-table columns="{{tableColumns}}" data="{{tableData}}" row-key="id" stripe bordered />
+    <t-collapse value="{{collapseValue}}" bind:change="setValue" data-field="collapseValue">
+      <t-collapse-panel value="guide" header="使用边界">健康助手提供科普信息和记录整理，不提供诊断或治疗建议。</t-collapse-panel>
+    </t-collapse>
+    <t-indexes index-list="{{indexList}}">
+      <t-indexes-anchor index="A">ASC-US</t-indexes-anchor>
+      <t-indexes-anchor index="B">Bethesda 系统</t-indexes-anchor>
+    </t-indexes>
+    <t-swipe-cell><t-cell title="复查提醒" description="左滑可管理" /></t-swipe-cell>
+    <t-skeleton row-col="{{skeletonRowCol}}" loading="{{false}}" />
+    <t-loading theme="dots" text="同步中" />
+    <t-avatar image="{{imagePreview}}" />
+    <t-badge count="{{2}}"><t-tag theme="primary">待整理</t-tag></t-badge>
+    <t-link theme="primary" content="查看能力说明" href="https://tdesign.tencent.com/miniprogram/overview" />
+    <t-tab-bar value="{{tabBarValue}}" bind:change="setValue" data-field="tabBarValue">
+      <t-tab-bar-item value="home" icon="home" text="首页" />
+      <t-tab-bar-item value="assistant" icon="chat" text="助手" />
+    </t-tab-bar>
+    <t-footer text="云端智诊 · 健康信息管理助手" />
+    <t-fab icon="app" text="组件" />
+    <t-back-top text="顶部" />
+    <t-watermark content="云端智诊" alpha="{{0.08}}" />
+
+    <t-drawer wx:if="{{drawerVisible}}" visible="{{drawerVisible}}" title="辅助工具" placement="right" bind:close="close" data-field="drawerVisible" />
+    <t-calendar wx:if="{{calendarVisible}}" visible="{{calendarVisible}}" value="{{dateValue}}" title="选择日期" bind:confirm="onCalendarConfirm" bind:close="close" data-field="calendarVisible" />
+    <t-cascader wx:if="{{cascaderVisible}}" visible="{{cascaderVisible}}" value="{{cascaderValue}}" title="选择分类" options="{{cascaderOptions}}" bind:change="onCascaderChange" bind:close="close" data-field="cascaderVisible" />
+    <t-picker wx:if="{{pickerVisible}}" visible="{{pickerVisible}}" value="{{pickerValue}}" title="选择用途" columns="{{pickerColumns}}" bind:confirm="onPickerConfirm" bind:cancel="close" data-field="pickerVisible" />
+    <t-date-time-picker wx:if="{{dateTimeVisible}}" visible="{{dateTimeVisible}}" value="{{dateValue}}" title="选择复查时间" mode="date" bind:confirm="onDateConfirm" bind:cancel="close" data-field="dateTimeVisible" />
+    <t-image-viewer wx:if="{{imageViewerVisible}}" visible="{{imageViewerVisible}}" images="{{imageList}}" show-index bind:close="close" data-field="imageViewerVisible" />
+    <t-action-sheet wx:if="{{actionSheetVisible}}" visible="{{actionSheetVisible}}" items="{{actionSheetItems}}" bind:close="close" data-field="actionSheetVisible" />
+    <t-dialog wx:if="{{dialogVisible}}" visible="{{dialogVisible}}" title="健康助手" content="操作已记录到本页，不会产生诊断结论。" confirm-btn="知道了" bind:confirm="close" data-field="dialogVisible" />
+    <t-guide wx:if="{{guideVisible}}" visible="{{guideVisible}}" steps="{{guideSteps}}" bind:finish="close" bind:skip="close" data-field="guideVisible" />
+    <t-overlay wx:if="{{overlayVisible}}" visible="{{overlayVisible}}" bind:click="close" data-field="overlayVisible" />
+    <t-popup wx:if="{{popupVisible}}" visible="{{popupVisible}}" placement="bottom" bind:close="close" data-field="popupVisible"><view class="lab-popup">已为你保留本次记录整理入口。</view></t-popup>
+  </view>
+</t-config-provider>

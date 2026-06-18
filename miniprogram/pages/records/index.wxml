@@ -1,5 +1,5 @@
 <view class="page records-page">
-  <section-header title="检查记录" weui-icon="info">
+  <section-header title="检查记录" weui-icon="record">
     <button slot="extra" class="mini-primary" hover-class="u-hover" bind:tap="createRecord" aria-role="button" aria-label="新增检查记录">
       <view class="button-content">
         <image class="action-inline-icon" src="/assets/icons/plus-active.png" mode="aspectFit" />
@@ -34,16 +34,13 @@
     </view>
   </view>
 
-  <mp-searchbar
+  <t-search
     wx:if="{{allRecords.length}}"
-    ext-class="weui-search"
+    class="records-search"
     placeholder="搜索标题、项目或日期"
     value="{{searchKeyword}}"
-    search="{{searchRecords}}"
-    cancel="{{false}}"
-    bindinput="onSearchInput"
-    bindclear="onSearchClear"
-    bindselectresult="onSearchSelect"
+    bind:change="onSearchInput"
+    bind:clear="onSearchClear"
   />
 
   <view wx:if="{{allRecords.length}}" class="filter-tab-row">
@@ -95,7 +92,7 @@
               </view>
               <view class="pill-wrap">
                 <text class="pill">{{item.status}}</text>
-                <mp-badge wx:if="{{item.status.indexOf('待') > -1 || item.status.indexOf('复查') > -1}}" />
+                <t-badge wx:if="{{item.status.indexOf('待') > -1 || item.status.indexOf('复查') > -1}}" dot="{{true}}" />
               </view>
             </view>
             <view class="record-summary-box">
@@ -140,6 +137,6 @@
     bind:confirm="confirmDeleteRecord"
   />
   <view class="u-back-to-top {{showBackToTop ? '' : 'u-back-to-top-hidden'}}" bind:tap="scrollToTop" aria-role="button" aria-label="回到顶部">
-    <mp-icon icon="arrow" color="rgb(24, 118, 210)" size="{{20}}" />
+    <t-icon name="chevron-right" color="rgb(24, 118, 210)" size="40rpx" />
   </view>
 </view>

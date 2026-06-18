@@ -130,6 +130,7 @@ page {
   --wx-shadow-button-disabled: rgba(11, 28, 48, 0.22);
   --wx-shadow-confirm: rgba(15, 23, 42, 0.18);
   --wx-shadow-bottom-sheet: rgba(15, 23, 42, 0.36);
+  --wx-shadow-soft: 0 8rpx 28rpx rgba(11, 28, 48, 0.06);
 
   /* -------- 遮罩 -------- */
   --wx-overlay: rgba(11, 28, 48, 0.48);

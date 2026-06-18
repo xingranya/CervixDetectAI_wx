@@ -3,6 +3,6 @@
   "usingComponents": {
     "weui-confirm": "/components/weui-confirm/index",
     "skeleton": "/components/skeleton/index",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "t-icon": "tdesign-miniprogram/icon/icon"
   }
 }

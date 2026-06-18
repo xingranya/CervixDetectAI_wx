@@ -134,9 +134,9 @@
 .form-input,
 .form-textarea {
   width: 100%;
-  border: 1rpx solid rgba(193, 198, 212, 0.78);
-  border-radius: 10rpx;
-  background: var(--wx-bg-secondary);
+  border: 1rpx solid var(--wx-border-input-alt);
+  border-radius: var(--wx-radius-sm);
+  background: var(--wx-bg-input);
   color: var(--wx-text-primary);
   font-size: 28rpx;
   box-sizing: border-box;
@@ -154,12 +154,6 @@
   color: var(--wx-text-primary);
   font-size: 28rpx;
   font-weight: 700;
-}
-
-.select-arrow {
-  color: var(--wx-text-secondary);
-  font-size: 40rpx;
-  line-height: 1;
 }
 
 .form-input {
@@ -204,39 +198,29 @@
   line-height: 1.6;
 }
 
-.form-weui-cells,
-.weui-choice-cells {
-  margin: 0 !important;
-  background: transparent !important;
+.form-cells,
+.choice-cells {
+  margin: 0;
+  background: transparent;
 }
 
-.form-weui-cells .weui-cell {
-  display: block !important;
-  padding: 22rpx 0 !important;
+.form-cell {
+  display: block;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid var(--wx-border-divider);
 }
 
-.form-weui-cells .weui-cell__hd,
-.form-weui-cells .weui-cell__bd {
-  display: block !important;
-  width: 100% !important;
+.form-cell:last-child {
+  border-bottom: none;
 }
 
-.form-weui-cells .weui-label {
-  width: 100% !important;
+.form-cell-title {
+  display: block;
+  width: 100%;
   margin-bottom: 14rpx;
   color: var(--wx-text-primary);
   font-size: 26rpx;
   font-weight: 800;
-}
-
-.form-weui-cells .weui-cell__bd {
-  margin-top: 12rpx;
-  min-width: 0 !important;
-}
-
-.form-weui-cells .weui-cell::before {
-  left: 0 !important;
-  right: 0 !important;
 }
 
 /* ---- Attachment Grid ---- */

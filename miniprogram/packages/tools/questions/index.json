@@ -5,10 +5,9 @@
   "usingComponents": {
     "section-header": "/components/section-header/index",
     "weui-confirm": "/components/weui-confirm/index",
-    "mp-searchbar": "weui-miniprogram/searchbar/searchbar",
-    "mp-cells": "weui-miniprogram/cells/cells",
-    "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
-    "mp-checkbox": "weui-miniprogram/checkbox/checkbox",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "t-search": "tdesign-miniprogram/search/search",
+    "t-checkbox-group": "tdesign-miniprogram/checkbox-group/checkbox-group",
+    "t-checkbox": "tdesign-miniprogram/checkbox/checkbox",
+    "t-icon": "tdesign-miniprogram/icon/icon"
   }
 }

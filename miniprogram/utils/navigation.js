@@ -11,7 +11,6 @@ const ROUTES = {
   articles: "/packages/tools/articles/index",
   privacy: "/packages/profile/privacy/index",
   serviceAgreement: "/packages/profile/service/index",
-  profileSetup: "/packages/profile/setup/index",
   compliance: "/packages/profile/compliance/index",
   feedback: "/packages/profile/feedback/index",
   assistantChat: "/packages/assistant/chat/index",

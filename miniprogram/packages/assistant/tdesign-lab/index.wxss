@@ -1,0 +1,45 @@
+@import '../../../styles/design-tokens.wxss';
+
+.lab-page {
+  min-height: 100vh;
+  padding: 24rpx;
+  box-sizing: border-box;
+  background: var(--wx-bg-secondary);
+}
+
+.lab-row {
+  margin: 20rpx 0;
+}
+
+.lab-refresh-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 20rpx;
+  color: var(--wx-text-secondary);
+  font-size: 24rpx;
+}
+
+.lab-form {
+  margin: 20rpx 0;
+  border-radius: var(--wx-radius-md);
+  overflow: hidden;
+  background: var(--wx-bg-primary);
+}
+
+.lab-image {
+  display: block;
+  width: 100%;
+  height: 180rpx;
+  margin: 20rpx 0;
+  border-radius: var(--wx-radius-md);
+  overflow: hidden;
+}
+
+.lab-popup {
+  min-height: 180rpx;
+  padding: 40rpx 32rpx;
+  color: var(--wx-text-primary);
+  background: var(--wx-bg-primary);
+  font-size: 28rpx;
+}

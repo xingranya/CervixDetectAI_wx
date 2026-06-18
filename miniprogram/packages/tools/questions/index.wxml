@@ -1,9 +1,9 @@
 <view class="page questions-page">
-  <section-header title="问题整理" weui-icon="info" desc="把线下咨询前想确认的重点提前列好。" />
+  <section-header title="问题整理" weui-icon="question" desc="把线下咨询前想确认的重点提前列好。" />
 
   <view class="question-hero">
     <view class="hero-icon">
-      <mp-icon icon="info" color="#1f53c9" size="{{32}}" />
+      <t-icon name="chat-bubble-help" color="#1f53c9" size="64rpx" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">保存线下沟通重点</text>
@@ -25,14 +25,12 @@
   </view>
 
   <block wx:else>
-    <mp-searchbar
-      ext-class="weui-search"
+    <t-search
+      class="questions-search"
       placeholder="搜索模板或已保存问题"
       value="{{searchKeyword}}"
-      search="{{searchQuestions}}"
-      cancel="{{false}}"
-      bindinput="onSearchInput"
-      bindclear="onSearchClear"
+      bind:change="onSearchInput"
+      bind:clear="onSearchClear"
     />
 
     <view class="question-panel">
@@ -40,11 +38,11 @@
         <text class="panel-title">常用问题</text>
         <text class="panel-desc">点击选择，可一次保存多条。</text>
       </view>
-      <mp-cells ext-class="question-weui-cells">
-        <mp-checkbox-group multi="{{true}}" bindchange="onTemplateChange">
-          <mp-checkbox wx:for="{{templateOptions}}" wx:key="value" label="{{item.label}}" value="{{item.value}}" checked="{{item.selected}}"></mp-checkbox>
-        </mp-checkbox-group>
-      </mp-cells>
+      <view class="question-cells">
+        <t-checkbox-group value="{{selected}}" bind:change="onTemplateChange">
+          <t-checkbox wx:for="{{templateOptions}}" wx:key="value" label="{{item.label}}" value="{{item.value}}" />
+        </t-checkbox-group>
+      </view>
     </view>
 
     <view class="question-panel">
@@ -55,7 +53,7 @@
       <textarea class="form-textarea" value="{{customQuestion}}" bind:input="onCustomInput" maxlength="255" placeholder="例如：复查前需要准备哪些历史资料？" />
       <button class="primary-button save-button" bind:tap="saveSelected">
         <view class="button-content">
-          <mp-icon icon="info" color="#ffffff" size="{{18}}" />
+          <t-icon name="check" color="#ffffff" size="36rpx" />
           <text class="button-text">{{isGuest ? '登录后保存' : '保存到问题清单'}}</text>
         </view>
       </button>
@@ -74,11 +72,11 @@
           <textarea class="answer-textarea" value="{{item.answerText}}" data-id="{{item.id}}" bind:input="onAnswerInput" maxlength="1000" placeholder="记录线下咨询后的个人备忘。" />
           <view class="question-actions">
             <button class="text-button" bind:tap="saveAnswer" data-id="{{item.id}}">
-              <mp-icon icon="info" color="#1f53c9" size="{{16}}" />
+              <t-icon name="check" color="#1f53c9" size="32rpx" />
               <text class="button-text">保存备忘</text>
             </button>
             <button class="text-button danger" bind:tap="deleteQuestion" data-id="{{item.id}}">
-              <mp-icon icon="delete" color="#ba1a1a" size="{{16}}" />
+              <t-icon name="delete" color="#ba1a1a" size="32rpx" />
               <text class="button-text">删除</text>
             </button>
           </view>

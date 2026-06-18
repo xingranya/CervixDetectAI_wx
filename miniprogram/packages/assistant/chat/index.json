@@ -2,5 +2,17 @@
   "navigationBarTitleText": "健康助手",
   "navigationBarBackgroundColor": "#f8fafc",
   "navigationBarTextStyle": "black",
-  "usingComponents": {}
+  "styleIsolation": "shared",
+  "usingComponents": {
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-chat": "tdesign-miniprogram/chat-list/chat-list",
+    "t-chat-message": "tdesign-miniprogram/chat-message/chat-message",
+    "t-chat-content": "tdesign-miniprogram/chat-content/chat-content",
+    "t-chat-thinking": "tdesign-miniprogram/chat-thinking/chat-thinking",
+    "t-chat-loading": "tdesign-miniprogram/chat-loading/chat-loading",
+    "t-chat-markdown": "tdesign-miniprogram/chat-markdown/chat-markdown",
+    "t-chat-sender": "tdesign-miniprogram/chat-sender/chat-sender",
+    "t-chat-actionbar": "tdesign-miniprogram/chat-actionbar/chat-actionbar",
+    "t-attachments": "tdesign-miniprogram/attachments/attachments"
+  }
 }

@@ -21,7 +21,7 @@
           <!-- 未同意协议时：纯 view，不触发原生选择器 -->
           <view wx:if="{{!setupEnabled}}" class="login-avatar-picker login-avatar-picker-disabled" catch:tap="onAvatarPickerTap">
             <view class="login-avatar-placeholder">
-              <mp-icon icon="info" color="#a8b3c7" size="{{32}}" />
+              <t-icon name="user" color="#a8b3c7" size="64rpx" />
               <text class="login-avatar-placeholder-text">点击选择头像</text>
             </view>
           </view>
@@ -29,7 +29,7 @@
           <button wx:else class="login-avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
             <image wx:if="{{avatarPreviewUrl}}" class="login-avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
             <view wx:else class="login-avatar-placeholder">
-              <mp-icon icon="info" color="#5f6f86" size="{{32}}" />
+              <t-icon name="user" color="#5f6f86" size="64rpx" />
               <text class="login-avatar-placeholder-text">点击选择头像</text>
             </view>
           </button>
@@ -43,13 +43,14 @@
         <input
           class="login-nickname-input"
           type="nickname"
-          maxlength="20"
+          name="nickname"
           value="{{profileForm.nickname}}"
           bind:input="onNicknameInput"
+          maxlength="20"
           placeholder="点击可输入，或从微信昵称中选择"
           placeholder-class="login-nickname-placeholder"
         />
-        <text class="login-nickname-hint">昵称将保存在云端，可随时修改。</text>
+        <text class="login-nickname-hint">提交登录前请先阅读并同意资料设置说明；不填写会使用默认昵称。</text>
       </view>
 
       <view class="agreement-panel">
@@ -64,7 +65,7 @@
 
       <button class="primary-button login-button" hover-class="u-hover" disabled="{{loading}}" form-type="submit" aria-role="button" aria-label="登录并继续">
         <view class="button-content">
-          <mp-icon icon="info" color="#ffffff" size="{{18}}" />
+          <t-icon name="login" color="#ffffff" size="36rpx" />
           <text class="button-text">{{loading ? '正在登录' : '登录并继续'}}</text>
         </view>
       </button>

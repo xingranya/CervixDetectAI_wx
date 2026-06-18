@@ -49,7 +49,8 @@
 
 .mini-primary {
   white-space: nowrap;
-  width: 128rpx;
+  width: auto;
+  min-width: 128rpx;
   height: 58rpx;
   margin: 0;
   padding: 0 22rpx;
@@ -338,24 +339,19 @@
   box-sizing: border-box;
 }
 
-.weui-search {
+/* t-search 项目样式：药丸形容器 + 卡片背景，替代原 mp-searchbar ext-class */
+.reminders-search {
   margin: -2rpx 0 24rpx;
-  padding: 0 !important;
+  --td-search-bg-color: var(--wx-bg-card-92);
+  --td-search-padding: 10rpx 12rpx;
+  --td-search-square-radius: var(--wx-radius-pill);
+  --td-search-icon-color: var(--wx-text-tertiary);
+  --td-search-placeholder-color: var(--wx-text-tertiary);
+  --td-search-text-color: var(--wx-text-primary);
   border: 1rpx solid var(--wx-border-subtle);
   border-radius: var(--wx-radius-pill);
-  background: var(--wx-bg-card-92) !important;
   overflow: hidden;
   box-shadow: 0 10rpx 26rpx rgba(var(--wx-brand-500-rgb), 0.05);
-}
-
-.weui-search .weui-search-bar {
-  padding: 10rpx 12rpx !important;
-  background: transparent !important;
-}
-
-.weui-search .weui-search-bar__form {
-  border-radius: 16rpx !important;
-  background: var(--wx-bg-primary) !important;
 }
 
 .pill-wrap {

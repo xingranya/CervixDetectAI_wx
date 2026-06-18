@@ -76,15 +76,6 @@ const recordTemplates = [
     }
   }
 ];
-const formRules = [
-  { name: "date", rules: { required: true, message: "请选择检查日期" } },
-  { name: "title", rules: { required: true, message: "请填写记录标题" } },
-  { name: "project", rules: { required: true, message: "请填写检查项目" } },
-  { name: "summary", rules: { required: true, message: "请填写摘要" } },
-  { name: "suggestion", rules: { required: true, message: "请填写提醒建议" } },
-  { name: "status", rules: { required: true, message: "请选择记录状态" } }
-];
-
 function normalizeRecordAttachment(item) {
   if (!item) return null;
   if (typeof item === "string") {
@@ -181,7 +172,6 @@ Page({
   data: {
     id: "",
     ...buildFormState(defaultForm),
-    formRules,
     submitText: "保存记录",
     errorMessage: "",
     loading: false,
@@ -440,14 +430,6 @@ Page({
     if (!field) return;
     const error = this.validateField(field);
     this.setData({ [`fieldErrors.${field}`]: error });
-  },
-
-  onFormFail(event) {
-    const errors = event.detail && event.detail.errors;
-    const firstError = Array.isArray(errors) && errors[0] ? errors[0] : null;
-    this.setData({
-      errorMessage: firstError && firstError.message ? firstError.message : "请完善必填信息"
-    });
   },
 
   async submitForm() {

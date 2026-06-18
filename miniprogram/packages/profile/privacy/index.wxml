@@ -3,7 +3,7 @@
 
   <view class="privacy-hero">
     <view class="hero-icon">
-      <mp-icon icon="success" color="#1f53c9" size="{{34}}" />
+      <t-icon name="check-circle" color="#1f53c9" size="68rpx" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">数据只用于你的健康记录管理</text>

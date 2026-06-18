@@ -182,9 +182,10 @@ router.post("/feedback", asyncRoute(async (req, res) => {
 router.post("/assistant/chat", aiLimiter, asyncRoute(async (req, res) => {
   const stream = req.body?.stream === true;
   if (stream) {
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-transform");
     res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
     res.flushHeaders();
     await aiAssistant.chatStream(req.user.id, req.body?.messages || [], res);
   } else {

@@ -129,6 +129,7 @@
   display: block;
   width: 48rpx;
   height: 48rpx;
+  border-radius: 12rpx;
   flex: 0 0 auto;
 }
 

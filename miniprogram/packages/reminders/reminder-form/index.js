@@ -89,11 +89,6 @@ const quickDateOptions = [
   { label: "1周后", offsetDays: 7 },
   { label: "1个月后", offsetDays: 30 }
 ];
-const formRules = [
-  { name: "title", rules: { required: true, message: "请选择或填写提醒标题" } },
-  { name: "date", rules: { required: true, message: "请选择提醒日期" } },
-  { name: "desc", rules: { required: true, message: "请填写提醒内容" } }
-];
 const templateMap = reminderTemplates.reduce((result, item) => {
   result[item.name] = item;
   return result;
@@ -188,7 +183,6 @@ Page({
   data: {
     id: "",
     ...buildFormState(defaultForm),
-    formRules,
     submitText: "保存提醒",
     errorMessage: "",
     loading: false,
@@ -439,14 +433,6 @@ Page({
     }
     this.setData({ errorMessage: "" });
     return true;
-  },
-
-  onFormFail(event) {
-    const errors = event.detail && event.detail.errors;
-    const firstError = Array.isArray(errors) && errors[0] ? errors[0] : null;
-    this.setData({
-      errorMessage: firstError && firstError.message ? firstError.message : "请完善必填信息"
-    });
   },
 
   async submitForm() {

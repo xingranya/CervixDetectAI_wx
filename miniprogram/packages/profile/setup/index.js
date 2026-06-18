@@ -2,6 +2,18 @@ const { request, uploadAvatar, getToken } = require("../../../utils/request");
 const { ROUTES, openRoute } = require("../../../utils/navigation");
 const { normalizeStoredUser, persistAvatarFile, readFileBase64, resolveAvatarFileType, isDevToolsTempUrl } = require("../../../utils/avatar");
 
+function getNicknameFromEvent(event, fallback) {
+  const detail = event && event.detail ? event.detail : {};
+  const value = detail.value;
+  if (value && typeof value === "object" && value.nickname !== undefined) {
+    return String(value.nickname || "").trim();
+  }
+  if (value !== undefined && typeof value !== "object") {
+    return String(value || "").trim();
+  }
+  return String(fallback || "").trim();
+}
+
 Page({
   data: {
     profileForm: {
@@ -71,10 +83,9 @@ Page({
     openRoute(ROUTES.home, {}, { reLaunch: true });
   },
 
+  // 昵称输入：type=nickname 选择"使用微信昵称"时需配合 value 绑定才能正确填入显示
   onNicknameInput(event) {
-    this.setData({
-      "profileForm.nickname": event.detail.value
-    });
+    this.setData({ "profileForm.nickname": event.detail.value });
   },
 
   async onChooseAvatar(event) {
@@ -128,13 +139,14 @@ Page({
     this.setData({ avatarPreviewUrl: "" });
   },
 
-  async saveProfile() {
+  async saveProfile(event) {
     if (!this.data.setupEnabled) {
       this.showConsentPopup();
       return;
     }
 
-    const nickname = String(this.data.profileForm.nickname || "").trim() || "微信用户";
+    const nickname = getNicknameFromEvent(event, this.data.profileForm.nickname) || "微信用户";
+    this.setData({ "profileForm.nickname": nickname });
     this.setData({ saving: true });
 
     try {

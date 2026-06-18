@@ -32,7 +32,6 @@
       "pages": [
         "privacy/index",
         "service/index",
-        "setup/index",
         "compliance/index",
         "feedback/index"
       ]
@@ -56,8 +55,7 @@
       "packages": [
         "packages/records",
         "packages/reminders",
-        "packages/tools",
-        "packages/assistant"
+        "packages/tools"
       ]
     },
     "pages/profile/index": {
@@ -67,20 +65,17 @@
       ]
     }
   },
-  "useExtendedLib": {
-    "weui": true
-  },
   "window": {
     "navigationBarTitleText": "云端智诊",
-    "navigationBarBackgroundColor": "#f8fafc",
-    "navigationBarTextStyle": "black",
-    "backgroundColor": "#f8fafc"
+    "navigationBarBackgroundColor": "@navBg",
+    "navigationBarTextStyle": "@navTextStyle",
+    "backgroundColor": "@bgColor"
   },
   "tabBar": {
-    "color": "#66748a",
-    "selectedColor": "#2563eb",
-    "backgroundColor": "#f8f9ff",
-    "borderStyle": "white",
+    "color": "@tabColor",
+    "selectedColor": "@tabSelectedColor",
+    "backgroundColor": "@tabBgColor",
+    "borderStyle": "@tabBorderStyle",
     "list": [
       {
         "pagePath": "pages/home/index",
@@ -108,7 +103,6 @@
       }
     ]
   },
-  "style": "v2",
   "darkmode": true,
   "themeLocation": "styles/theme.json",
   "lazyCodeLoading": "requiredComponents",

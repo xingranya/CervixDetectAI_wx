@@ -6,7 +6,7 @@
     <view class="setup-sheet-header">
       <text class="setup-sheet-title">完善你的资料</text>
       <view class="setup-sheet-close" catch:tap="onCloseTap" aria-label="关闭">
-        <mp-icon icon="close" color="#5f6f86" size="{{20}}" />
+        <t-icon name="close" size="40rpx" color="#5f6f86" />
       </view>
     </view>
 
@@ -23,14 +23,15 @@
             <text class="setup-sheet-agreement-link" catch:tap="openPrivacy">《隐私与服务说明》</text>
           </view>
 
-          <view wx:if="{{setupEnabled}}" class="setup-sheet-form">
+          <form wx:if="{{setupEnabled}}" class="setup-sheet-form" bindsubmit="saveProfile">
             <text class="setup-sheet-label">昵称</text>
             <input
               class="setup-sheet-input"
               type="nickname"
-              maxlength="20"
+              name="nickname"
               value="{{profileForm.nickname}}"
               bind:input="onNicknameInput"
+              maxlength="20"
               placeholder="点击输入框可填写或选择微信昵称"
               placeholder-class="setup-sheet-placeholder"
             />
@@ -39,18 +40,18 @@
             <button class="setup-sheet-avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
               <image wx:if="{{avatarPreviewUrl}}" class="setup-sheet-avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
               <view wx:else class="setup-sheet-avatar-placeholder">
-                <mp-icon icon="info" color="#5f6f86" size="{{32}}" />
+                <t-icon name="user" size="56rpx" color="#5f6f86" />
                 <text class="setup-sheet-avatar-placeholder-text">点击选择头像</text>
               </view>
             </button>
             <text wx:if="{{avatarUploadPending}}" class="setup-sheet-avatar-note">头像已选中，保存资料后会上传并更新显示。</text>
 
-            <button class="setup-sheet-primary-button" disabled="{{saving}}" catch:tap="saveProfile">
+            <button class="setup-sheet-primary-button" disabled="{{saving}}" form-type="submit">
               <view class="setup-sheet-button-content">
                 <text class="setup-sheet-button-text">{{saving ? '正在保存' : '保存资料'}}</text>
               </view>
             </button>
-          </view>
+          </form>
 
           <view wx:else class="setup-sheet-actions">
             <button class="setup-sheet-primary-button" catch:tap="showConsentPopup">

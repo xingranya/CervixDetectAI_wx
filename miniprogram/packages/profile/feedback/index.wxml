@@ -1,9 +1,9 @@
 <view class="page feedback-page">
-  <section-header title="意见反馈" weui-icon="info" desc="提交使用问题、改进建议或隐私数据疑问。" />
+  <section-header title="意见反馈" weui-icon="feedback" desc="提交使用问题、改进建议或隐私数据疑问。" />
 
   <view class="feedback-hero">
     <view class="hero-icon">
-      <mp-icon icon="info" color="#ffffff" size="{{28}}" />
+      <t-icon name="chat" color="#ffffff" size="56rpx" />
     </view>
     <view class="hero-copy">
       <text class="hero-title">告诉我们哪里不好用</text>
@@ -12,56 +12,58 @@
   </view>
 
   <view class="feedback-panel">
-    <mp-toptips msg="{{errorMessage}}" type="error" show="{{!!errorMessage}}" />
+    <t-message theme="error" visible="{{!!errorMessage}}" content="{{errorMessage}}" />
     <text wx:if="{{isGuest}}" class="guest-tip">当前可先浏览反馈入口与填写方式；站内反馈会在你登录后保存，未登录时可直接使用下方微信官方反馈入口。</text>
 
-    <mp-form id="form" rules="{{formRules}}" models="{{form}}" bindfail="onFormFail">
-    <mp-cells ext-class="form-weui-cells">
-    <mp-cell title="反馈类型" inline="{{false}}">
-      <picker mode="selector" range="{{feedbackTypes}}" value="{{feedbackTypeIndex}}" bind:change="onTypeChange">
-        <view class="select-field">
-          <text class="select-value">{{form.type}}</text>
-          <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
-        </view>
-      </picker>
-    </mp-cell>
+    <view class="form-cells">
+      <view class="form-cell">
+        <text class="form-cell-title">反馈类型</text>
+        <picker mode="selector" range="{{feedbackTypes}}" value="{{feedbackTypeIndex}}" bind:change="onTypeChange">
+          <view class="select-field">
+            <text class="select-value">{{form.type}}</text>
+            <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
+          </view>
+        </picker>
+      </view>
 
-    <mp-cell title="反馈内容" prop="content" show-error="{{true}}" inline="{{false}}">
-      <textarea
-        class="form-textarea"
-        value="{{form.content}}"
-        data-field="content"
-        bind:input="onInput"
-        maxlength="1000"
-        placeholder="请描述你遇到的问题、希望改进的功能或隐私数据相关疑问。"
-        placeholder-class="form-placeholder"
+      <view class="form-cell">
+        <text class="form-cell-title">反馈内容</text>
+        <textarea
+          class="form-textarea"
+          value="{{form.content}}"
+          data-field="content"
+          bind:input="onInput"
+          maxlength="1000"
+          placeholder="请描述你遇到的问题、希望改进的功能或隐私数据相关疑问。"
+          placeholder-class="form-placeholder"
+        />
+      </view>
+
+      <view class="form-cell">
+        <text class="form-cell-title">联系方式（选填）</text>
+        <input
+          class="form-input"
+          value="{{form.contact}}"
+          data-field="contact"
+          bind:input="onInput"
+          maxlength="120"
+          placeholder="可填写微信号或邮箱，便于后续联系"
+          placeholder-class="form-placeholder"
+        />
+      </view>
+    </view>
+
+    <view class="upload-section">
+      <text class="upload-title">附件（选填）</text>
+      <text class="upload-tips">可添加最多 3 张截图用于说明问题；当前站内反馈只保存文字内容，截图可通过下方微信官方反馈入口一并提交。</text>
+      <t-upload
+        max="{{3}}"
+        config="{{uploadConfig}}"
+        files="{{attachmentFiles}}"
+        bind:select-change="onAttachmentSelect"
+        bind:remove="onAttachmentDelete"
       />
-    </mp-cell>
-
-    <mp-cell title="联系方式（选填）" inline="{{false}}">
-      <input
-        class="form-input"
-        value="{{form.contact}}"
-        data-field="contact"
-        bind:input="onInput"
-        maxlength="120"
-        placeholder="可填写微信号或邮箱，便于后续联系"
-        placeholder-class="form-placeholder"
-      />
-    </mp-cell>
-    </mp-cells>
-
-    <mp-uploader
-      title="附件（选填）"
-      tips="可添加最多 3 张截图用于说明问题；当前站内反馈只保存文字内容，截图可通过下方微信官方反馈入口一并提交。"
-      delete="{{true}}"
-      max-count="{{3}}"
-      size-type="{{['compressed']}}"
-      source-type="{{['album', 'camera']}}"
-      files="{{attachmentFiles}}"
-      bindselect="onAttachmentSelect"
-      binddelete="onAttachmentDelete"
-    />
+    </view>
     <view wx:if="{{attachmentFiles.length}}" class="attachment-preview-row">
       <button
         wx:for="{{attachmentFiles}}"
@@ -73,11 +75,10 @@
         <image class="attachment-preview-image" src="{{item.url}}" mode="aspectFill" lazy-load />
       </button>
     </view>
-    </mp-form>
 
     <button class="primary-button form-submit" disabled="{{loading}}" bind:tap="submitFeedback">
       <view class="button-content">
-        <mp-icon icon="info" color="#ffffff" size="{{18}}" />
+        <t-icon name="check" color="#ffffff" size="36rpx" />
         <text class="button-text">{{loading ? '正在提交' : (isGuest ? '登录后提交' : '提交反馈')}}</text>
       </view>
     </button>
@@ -99,15 +100,15 @@
   </view>
 
   <view class="safe-note">反馈内容仅用于改进小程序服务体验，请不要填写诊断结论、处方、身份证号等敏感信息。</view>
-  <mp-gallery
+  <t-image-viewer
     wx:if="{{galleryShow}}"
-    show="{{galleryShow}}"
-    imgUrls="{{galleryUrls}}"
-    current="{{galleryCurrent}}"
-    showDelete="{{true}}"
-    bindchange="onGalleryChange"
-    binddelete="onGalleryDelete"
-    bindhide="hideGallery"
+    visible="{{galleryShow}}"
+    images="{{galleryUrls}}"
+    initial-index="{{galleryCurrent}}"
+    delete-btn="{{true}}"
+    bind:change="onGalleryChange"
+    bind:delete="onGalleryDelete"
+    bind:close="hideGallery"
   />
   <view wx:if="{{showOfficialActions}}" class="official-sheet-mask" bind:tap="closeOfficialActions">
     <view class="official-sheet" catch:tap="noop">

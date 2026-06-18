@@ -1,6 +1,8 @@
 @import './styles/design-tokens.wxss';
 @import './styles/design-tokens-dark.wxss';
 @import './styles/utilities.wxss';
+@import './miniprogram_npm/tdesign-miniprogram/common/style/theme/_index.wxss';
+@import './styles/tdesign-bridge.wxss';
 
 page {
   background: var(--wx-bg-secondary);
@@ -62,8 +64,9 @@ button[disabled] {
   background: var(--wx-bg-secondary);
 }
 
-mp-icon + .button-text,
-mp-icon + .plain-link-text {
+/* TDesign t-icon 与相邻文字间距 */
+t-icon + .button-text,
+t-icon + .plain-link-text {
   margin-left: 8rpx;
 }
 

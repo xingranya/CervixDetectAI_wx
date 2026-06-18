@@ -19,6 +19,18 @@ function wxLoginCode() {
   });
 }
 
+function getNicknameFromEvent(event, fallback) {
+  const detail = event && event.detail ? event.detail : {};
+  const value = detail.value;
+  if (value && typeof value === "object" && value.nickname !== undefined) {
+    return String(value.nickname || "").trim();
+  }
+  if (value !== undefined && typeof value !== "object") {
+    return String(value || "").trim();
+  }
+  return String(fallback || "").trim();
+}
+
 Page({
   data: {
     loading: false,
@@ -63,15 +75,19 @@ Page({
     });
   },
 
-  // 昵称输入
+  // 昵称输入：type=nickname 选择"使用微信昵称"时需配合 value 绑定才能正确填入显示
   onNicknameInput(event) {
     this.setData({ "profileForm.nickname": event.detail.value });
+  },
+
+  showConsentPopup() {
+    this.setData({ consentPopupVisible: true });
   },
 
   // 头像点击拦截：未同意资料设置时先弹窗
   onAvatarPickerTap() {
     if (!this.data.setupEnabled) {
-      this.setData({ consentPopupVisible: true });
+      this.showConsentPopup();
     }
   },
 
@@ -81,7 +97,7 @@ Page({
     if (!avatarUrl) return;
 
     if (!this.data.setupEnabled) {
-      this.setData({ consentPopupVisible: true });
+      this.showConsentPopup();
       return;
     }
 
@@ -139,11 +155,18 @@ Page({
   },
 
   // 主按钮：登录 + 资料保存
-  async submitLogin() {
+  async submitLogin(event) {
     // 必须先同意隐私协议才能登录
     if (!wx.getStorageSync("privacyConsentAgreed")) {
       this.setData({ privacyConsentVisible: true });
       showErrorToast("请先阅读并同意隐私协议与服务协议", "登录前提示");
+      return;
+    }
+    const nickname = getNicknameFromEvent(event, this.data.profileForm.nickname);
+    this.setData({ "profileForm.nickname": nickname });
+    if (nickname && !this.data.setupEnabled) {
+      this.showConsentPopup();
+      showErrorToast("请先同意资料设置说明", "登录前提示");
       return;
     }
     await withPageLoading(this, async () => {
@@ -171,7 +194,7 @@ Page({
   async _performLogin({ uploadProfile }) {
     // 若用户想上传资料但还没同意隐私说明，先弹窗
     if (uploadProfile && (this.data.avatarUploadPending || String(this.data.profileForm.nickname || "").trim()) && !this.data.setupEnabled) {
-      this.setData({ consentPopupVisible: true });
+      this.showConsentPopup();
       throw new Error("请先同意资料设置说明");
     }
 
@@ -218,18 +241,8 @@ Page({
       profileSaved = await this._saveProfileAfterLogin({ nickname, hasAvatar });
     }
 
-    // 如果资料已经保存完毕（nickname + avatar 都 ready），直接跳到首页；
-    // 否则跳到 setup 弹窗页（或 home 让用户后续通过弹窗补填）。
-    const nicknameReady = !!wx.getStorageSync("profileNicknameReady");
-    const avatarReady = !!wx.getStorageSync("profileAvatarReady");
     showSuccessToast(profileSaved ? "已登录，资料已保存" : "已登录");
-
-    if (nicknameReady && avatarReady) {
-      openRoute(ROUTES.home);
-    } else {
-      // 保持与旧逻辑一致：跳到 profileSetup（setup-sheet）继续引导
-      openRoute(ROUTES.home);
-    }
+    openRoute(ROUTES.home);
   },
 
   // 登录成功后异步保存资料，失败时不阻塞登录

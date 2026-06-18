@@ -1,0 +1,120 @@
+/* ============================================================
+ *  TDesign 主题桥接 (tdesign-bridge)
+ *  让 TDesign --td-* 变量消费项目 --wx-* 设计令牌
+ *  品牌色保留项目医疗蓝 #2563eb（已入审核材料），不采用 TDesign 默认腾讯蓝
+ *  必须在 TDesign _index.wxss 之后引入，同级 page 选择器后定义优先
+ * ============================================================ */
+
+page {
+  /* -------- 品牌色（核心：TDesign 组件主色用项目医疗蓝） -------- */
+  --td-brand-color: var(--wx-brand-500);
+  --td-brand-color-hover: var(--wx-brand-600);
+  --td-brand-color-active: var(--wx-brand-700);
+  --td-brand-color-focus: var(--wx-brand-500);
+  --td-brand-color-disabled: var(--wx-brand-300);
+  --td-brand-color-light: var(--wx-brand-50);
+
+  /* 品牌色阶 1~10（浅→深），对齐项目色阶 */
+  --td-brand-color-1: var(--wx-brand-50);
+  --td-brand-color-2: var(--wx-brand-100);
+  --td-brand-color-3: var(--wx-brand-200);
+  --td-brand-color-4: var(--wx-brand-300);
+  --td-brand-color-5: var(--wx-brand-400);
+  --td-brand-color-6: var(--wx-brand-500);
+  --td-brand-color-7: var(--wx-brand-600);
+  --td-brand-color-8: var(--wx-brand-700);
+  --td-brand-color-9: var(--wx-brand-800);
+  --td-brand-color-10: var(--wx-brand-900);
+
+  /* -------- 背景色 -------- */
+  --td-bg-color-page: var(--wx-bg-secondary);
+  --td-bg-color-container: var(--wx-bg-primary);
+  --td-bg-color-secondarycontainer: var(--wx-bg-tertiary);
+  --td-bg-color-brand: var(--wx-brand-500);
+  --td-bg-color-component: var(--wx-bg-secondary);
+  --td-bg-color-specialcomponent: var(--wx-bg-primary);
+
+  /* -------- 文字色 -------- */
+  --td-text-color-primary: var(--wx-text-primary);
+  --td-text-color-secondary: var(--wx-text-secondary);
+  --td-text-color-placeholder: var(--wx-text-tertiary);
+  --td-text-color-disabled: var(--wx-text-tertiary);
+  --td-text-color-anti: var(--wx-text-on-primary);
+  --td-text-color-brand: var(--wx-brand-500);
+  --td-text-color-link: var(--wx-brand-500);
+
+  /* -------- 边框/分隔线 -------- */
+  --td-component-border: var(--wx-border-default);
+  --td-component-stroke: var(--wx-border-light);
+  --td-component-divider: var(--wx-border-divider);
+
+  /* -------- 圆角（对齐项目规范） -------- */
+  --td-radius-small: var(--wx-radius-xs);
+  --td-radius-default: var(--wx-radius-sm);
+  --td-radius-large: var(--wx-radius-md);
+  --td-radius-extraLarge: var(--wx-radius-lg);
+
+  /* -------- 语义色 -------- */
+  --td-error-color: var(--wx-danger);
+  --td-success-color: var(--wx-success);
+  --td-warning-color: var(--wx-warning);
+
+  /* -------- Chat 专用（TDesign 聊天套件文字色） -------- */
+  --td-chat-content-user-text-color: var(--wx-text-on-primary);
+  --td-chat-content-assistant-text-color: var(--wx-text-primary);
+}
+
+/* ============================================================
+ *  暗色模式覆盖
+ *  --wx-* 在 design-tokens-dark.wxss 内已自动切换暗色值，
+ *  --td-* 引用 var(--wx-*) 会跟随变化；
+ *  此处显式覆盖品牌色与 chat 相关变量，确保覆盖 TDesign 自带暗色定义
+ * ============================================================ */
+@media (prefers-color-scheme: dark) {
+  page {
+    /* 品牌色暗色（跟随 --wx-* 暗色令牌） */
+    --td-brand-color: var(--wx-brand-500);
+    --td-brand-color-hover: var(--wx-brand-600);
+    --td-brand-color-active: var(--wx-brand-700);
+    --td-brand-color-focus: var(--wx-brand-500);
+    --td-brand-color-disabled: var(--wx-brand-800);
+    --td-brand-color-light: var(--wx-brand-800);
+
+    --td-brand-color-1: var(--wx-brand-50);
+    --td-brand-color-2: var(--wx-brand-100);
+    --td-brand-color-3: var(--wx-brand-200);
+    --td-brand-color-4: var(--wx-brand-500);
+    --td-brand-color-5: var(--wx-brand-600);
+    --td-brand-color-6: var(--wx-brand-600);
+    --td-brand-color-7: var(--wx-brand-700);
+    --td-brand-color-8: var(--wx-brand-700);
+    --td-brand-color-9: var(--wx-brand-800);
+    --td-brand-color-10: var(--wx-brand-900);
+
+    /* 背景色暗色 */
+    --td-bg-color-page: var(--wx-bg-secondary);
+    --td-bg-color-container: var(--wx-bg-primary);
+    --td-bg-color-secondarycontainer: var(--wx-bg-tertiary);
+    --td-bg-color-specialcomponent: var(--wx-bg-primary);
+
+    /* 文字色暗色 */
+    --td-text-color-primary: var(--wx-text-primary);
+    --td-text-color-secondary: var(--wx-text-secondary);
+    --td-text-color-placeholder: var(--wx-text-tertiary);
+    --td-text-color-anti: var(--wx-text-on-primary);
+
+    /* 边框暗色 */
+    --td-component-border: var(--wx-border-default);
+    --td-component-stroke: var(--wx-border-light);
+    --td-component-divider: var(--wx-border-divider);
+
+    /* 语义色暗色 */
+    --td-error-color: var(--wx-danger);
+    --td-success-color: var(--wx-success);
+    --td-warning-color: var(--wx-warning);
+
+    /* Chat 专用暗色 */
+    --td-chat-content-user-text-color: var(--wx-text-on-primary);
+    --td-chat-content-assistant-text-color: var(--wx-text-primary);
+  }
+}

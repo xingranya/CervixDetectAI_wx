@@ -13,14 +13,15 @@
       <text class="agreement-link" bind:tap="openPrivacy">《隐私与服务说明》</text>
     </view>
 
-    <view wx:if="{{setupEnabled}}" class="setup-form">
+    <form wx:if="{{setupEnabled}}" class="setup-form" bindsubmit="saveProfile">
       <text class="editor-label">昵称</text>
       <input
         class="editor-input"
         type="nickname"
-        maxlength="20"
+        name="nickname"
         value="{{profileForm.nickname}}"
         bind:input="onNicknameInput"
+        maxlength="20"
         placeholder="点击输入框可填写或选择微信昵称"
         placeholder-class="editor-placeholder"
       />
@@ -29,18 +30,18 @@
       <button class="avatar-picker" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
         <image wx:if="{{avatarPreviewUrl}}" class="avatar-preview" src="{{avatarPreviewUrl}}" mode="aspectFill" bind:error="onAvatarPreviewError" />
         <view wx:else class="avatar-placeholder">
-          <mp-icon icon="info" color="#5f6f86" size="{{32}}" />
+          <t-icon name="user" color="#5f6f86" size="64rpx" />
           <text class="avatar-placeholder-text">点击选择头像</text>
         </view>
       </button>
       <text wx:if="{{avatarUploadPending}}" class="avatar-upload-note">头像已选中，保存资料后会上传并更新显示。</text>
 
-      <button class="primary-button setup-save-button" disabled="{{saving}}" bind:tap="saveProfile">
+      <button class="primary-button setup-save-button" disabled="{{saving}}" form-type="submit">
         <view class="button-content">
           <text class="button-text">{{saving ? '正在保存' : '保存资料'}}</text>
         </view>
       </button>
-    </view>
+    </form>
 
     <view wx:else class="setup-actions">
       <button class="primary-button setup-start-button" bind:tap="showConsentPopup">

@@ -12,7 +12,7 @@
           bind:error="onAvatarLoadError"
         />
         <view wx:else class="profile-avatar-default">
-          <mp-icon icon="info" color="#ffffff" size="{{34}}" />
+          <t-icon name="user" color="#ffffff" size="68rpx" />
         </view>
       </view>
       <view class="profile-user-body">
@@ -23,9 +23,9 @@
         <text class="profile-title">{{user.nickname || '微信用户'}}</text>
         <text class="profile-desc">{{isGuest ? '可先查看说明、知识与功能入口，确认需要后再自愿登录。' : '健康记录与复查安排已为你整理'}}</text>
         <view wx:if="{{!isGuest}}" class="profile-setup-hint" hover-class="u-hover" catch:tap="goProfileSetup">
-          <mp-icon icon="info" color="#1f53c9" size="{{14}}" />
+          <t-icon name="edit-1" color="#1f53c9" size="28rpx" />
           <text class="profile-setup-hint-text">点击头像编辑资料</text>
-          <mp-icon icon="arrow" color="#1f53c9" size="{{12}}" />
+          <t-icon name="chevron-right" color="#1f53c9" size="24rpx" />
         </view>
       </view>
     </view>
@@ -42,7 +42,7 @@
       <text class="guest-panel-desc">你可以先浏览隐私说明、健康知识、服务边界和功能入口；需要保存个人记录时，再自行选择登录。</text>
       <button class="guest-login-button" hover-class="u-hover" bind:tap="goLogin">
         <view class="button-content">
-          <mp-icon icon="info" color="#ffffff" size="{{18}}" />
+          <t-icon name="login" color="#ffffff" size="36rpx" />
           <text class="button-text">去登录</text>
         </view>
       </button>
@@ -69,20 +69,20 @@
       >
           <view class="profile-menu-icon-wrap">
           <image wx:if="{{item.icon}}" class="profile-menu-icon" src="{{item.icon}}" mode="aspectFit" />
-          <mp-icon wx:elif="{{item.weuiIcon}}" icon="{{item.weuiIcon}}" color="#1f53c9" size="{{24}}" />
+          <t-icon wx:elif="{{item.weuiIcon}}" name="{{item.weuiIcon}}" color="#1f53c9" size="48rpx" />
         </view>
         <view class="profile-menu-body">
           <text class="menu-title">{{item.title}}</text>
           <text class="menu-desc">{{item.desc}}</text>
         </view>
-        <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
+        <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
       </view>
     </view>
   </view>
 
   <button wx:if="{{!isGuest}}" class="logout-button" hover-class="u-hover" bind:tap="logout" aria-role="button" aria-label="退出登录">
     <view class="button-content">
-      <mp-icon icon="close" color="#ba1a1a" size="{{18}}" />
+      <t-icon name="close" color="#ba1a1a" size="36rpx" />
       <text class="button-text">退出登录</text>
     </view>
   </button>

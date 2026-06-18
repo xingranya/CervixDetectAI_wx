@@ -1,7 +1,7 @@
 <view class="page reminder-form-page">
-  <section-header title="{{pageTitle}}" weui-icon="info" desc="设置线下复查、资料准备或咨询前整理提醒。" />
+  <section-header title="{{pageTitle}}" weui-icon="reminder" desc="设置线下复查、资料准备或咨询前整理提醒。" />
 
-  <mp-toptips msg="{{errorMessage}}" type="error" show="{{!!errorMessage}}" />
+  <t-message theme="error" visible="{{!!errorMessage}}" content="{{errorMessage}}" />
 
   <view wx:if="{{!id}}" class="form-panel template-panel">
     <view class="panel-heading">
@@ -30,107 +30,111 @@
     </view>
   </view>
 
-  <mp-form id="form" rules="{{formRules}}" models="{{formModel}}" bindfail="onFormFail">
-    <view class="form-panel">
-      <view class="panel-heading">
-        <text class="panel-title">提醒类型</text>
-        <text class="panel-desc">选择当前提醒最接近的用途。</text>
-      </view>
-      <view class="chip-row type-row">
-        <button wx:for="{{remTypeOptions}}" wx:key="value" class="{{item.className}}" data-value="{{item.value}}" bind:tap="selectRemType">
-          <text>{{item.label}}</text>
-        </button>
-      </view>
-      <mp-cells ext-class="form-weui-cells">
-        <mp-cell title="提醒标题" prop="title" show-error="{{true}}" inline="{{false}}">
-          <input class="form-input" value="{{title}}" bind:input="onTitleInput" bind:blur="onFieldBlur" data-field="title" maxlength="60" placeholder="例如：复查提醒" placeholder-class="form-placeholder" />
-          <text wx:if="{{fieldErrors.title}}" class="field-error">{{fieldErrors.title}}</text>
-        </mp-cell>
-      </mp-cells>
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">提醒类型</text>
+      <text class="panel-desc">选择当前提醒最接近的用途。</text>
     </view>
-
-    <view class="form-panel">
-      <view class="panel-heading">
-        <text class="panel-title">时间安排</text>
-        <text class="panel-desc">可选择具体日期，也可以使用快捷时间。</text>
-      </view>
-      <mp-cells ext-class="form-weui-cells">
-        <mp-cell title="提醒日期" prop="date" show-error="{{true}}" inline="{{false}}">
-          <picker mode="date" value="{{date}}" start="{{today}}" bind:change="onDateChange">
-            <view class="select-field">
-              <text class="select-value">{{dateDisplay}}</text>
-              <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
-            </view>
-          </picker>
-        </mp-cell>
-      </mp-cells>
-
-      <view class="quick-date-row">
-        <button class="quick-date-chip" data-offset="0" bind:tap="selectQuickDate">
-          <text>今天</text>
-        </button>
-        <button class="quick-date-chip" data-offset="3" bind:tap="selectQuickDate">
-          <text>3天后</text>
-        </button>
-        <button class="quick-date-chip" data-offset="7" bind:tap="selectQuickDate">
-          <text>1周后</text>
-        </button>
-        <button class="quick-date-chip" data-offset="30" bind:tap="selectQuickDate">
-          <text>1个月后</text>
-        </button>
+    <view class="chip-row type-row">
+      <button wx:for="{{remTypeOptions}}" wx:key="value" class="{{item.className}}" data-value="{{item.value}}" bind:tap="selectRemType">
+        <text>{{item.label}}</text>
+      </button>
+    </view>
+    <view class="form-cells">
+      <view class="form-cell">
+        <text class="form-cell-title">提醒标题</text>
+        <input class="form-input" value="{{title}}" bind:input="onTitleInput" bind:blur="onFieldBlur" data-field="title" maxlength="60" placeholder="例如：复查提醒" placeholder-class="form-placeholder" />
+        <text wx:if="{{fieldErrors.title}}" class="field-error">{{fieldErrors.title}}</text>
       </view>
     </view>
+  </view>
 
-    <view class="form-panel">
-      <view class="panel-heading">
-        <text class="panel-title">提醒内容</text>
-        <text class="panel-desc">写清楚到时需要完成的准备事项。</text>
-      </view>
-      <mp-cells ext-class="form-weui-cells">
-        <mp-cell title="内容" prop="desc" show-error="{{true}}" inline="{{false}}">
-          <view class="label-row">
-            <text class="field-hint">{{descLength}} / 500</text>
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">时间安排</text>
+      <text class="panel-desc">可选择具体日期，也可以使用快捷时间。</text>
+    </view>
+    <view class="form-cells">
+      <view class="form-cell">
+        <text class="form-cell-title">提醒日期</text>
+        <picker mode="date" value="{{date}}" start="{{today}}" bind:change="onDateChange">
+          <view class="select-field">
+            <text class="select-value">{{dateDisplay}}</text>
+            <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
           </view>
-          <textarea class="form-textarea" value="{{desc}}" bind:input="onDescInput" bind:blur="onFieldBlur" data-field="desc" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" placeholder-class="form-placeholder" />
-          <text wx:if="{{fieldErrors.desc}}" class="field-error">{{fieldErrors.desc}}</text>
-        </mp-cell>
-      </mp-cells>
-
-      <mp-cells ext-class="weui-choice-cells">
-        <mp-checkbox-group multi="{{true}}" bindchange="onDoneChange">
-          <mp-checkbox wx:for="{{doneItems}}" wx:key="value" label="{{item.label}}" value="{{item.value}}" checked="{{item.checked}}"></mp-checkbox>
-        </mp-checkbox-group>
-      </mp-cells>
-    </view>
-
-    <view class="form-panel">
-      <view class="panel-heading">
-        <text class="panel-title">补充信息</text>
-        <text class="panel-desc">选填，可添加备注和优先级。</text>
+        </picker>
+        <text wx:if="{{fieldErrors.date}}" class="field-error">{{fieldErrors.date}}</text>
       </view>
-      <mp-cells ext-class="form-weui-cells">
-        <mp-cell title="优先级" inline="{{false}}">
-          <view class="chip-row priority-row">
-            <button wx:for="{{priorityOptions}}" wx:key="value" class="{{item.className}}" data-value="{{item.value}}" bind:tap="selectPriority">
-              <text>{{item.label}}</text>
-            </button>
-          </view>
-        </mp-cell>
-
-        <mp-cell title="备注" inline="{{false}}">
-          <view class="label-row">
-            <text class="field-hint">{{notesLength}} / 500</text>
-          </view>
-          <textarea class="form-textarea" value="{{notes}}" bind:input="onNotesInput" maxlength="500" placeholder="选填，补充提醒详情。" placeholder-class="form-placeholder" />
-        </mp-cell>
-      </mp-cells>
     </view>
-  </mp-form>
+
+    <view class="quick-date-row">
+      <button class="quick-date-chip" data-offset="0" bind:tap="selectQuickDate">
+        <text>今天</text>
+      </button>
+      <button class="quick-date-chip" data-offset="3" bind:tap="selectQuickDate">
+        <text>3天后</text>
+      </button>
+      <button class="quick-date-chip" data-offset="7" bind:tap="selectQuickDate">
+        <text>1周后</text>
+      </button>
+      <button class="quick-date-chip" data-offset="30" bind:tap="selectQuickDate">
+        <text>1个月后</text>
+      </button>
+    </view>
+  </view>
+
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">提醒内容</text>
+      <text class="panel-desc">写清楚到时需要完成的准备事项。</text>
+    </view>
+    <view class="form-cells">
+      <view class="form-cell">
+        <text class="form-cell-title">内容</text>
+        <view class="label-row">
+          <text class="field-hint">{{descLength}} / 500</text>
+        </view>
+        <textarea class="form-textarea" value="{{desc}}" bind:input="onDescInput" bind:blur="onFieldBlur" data-field="desc" maxlength="500" placeholder="例如：提前准备近期检查摘要和问题清单。" placeholder-class="form-placeholder" />
+        <text wx:if="{{fieldErrors.desc}}" class="field-error">{{fieldErrors.desc}}</text>
+      </view>
+    </view>
+
+    <view class="choice-cells">
+      <t-checkbox-group value="{{done ? ['done'] : []}}" bind:change="onDoneChange">
+        <t-checkbox wx:for="{{doneItems}}" wx:key="value" label="{{item.label}}" value="{{item.value}}" />
+      </t-checkbox-group>
+    </view>
+  </view>
+
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">补充信息</text>
+      <text class="panel-desc">选填，可添加备注和优先级。</text>
+    </view>
+    <view class="form-cells">
+      <view class="form-cell">
+        <text class="form-cell-title">优先级</text>
+        <view class="chip-row priority-row">
+          <button wx:for="{{priorityOptions}}" wx:key="value" class="{{item.className}}" data-value="{{item.value}}" bind:tap="selectPriority">
+            <text>{{item.label}}</text>
+          </button>
+        </view>
+      </view>
+
+      <view class="form-cell">
+        <text class="form-cell-title">备注</text>
+        <view class="label-row">
+          <text class="field-hint">{{notesLength}} / 500</text>
+        </view>
+        <textarea class="form-textarea" value="{{notes}}" bind:input="onNotesInput" maxlength="500" placeholder="选填，补充提醒详情。" placeholder-class="form-placeholder" />
+      </view>
+    </view>
+  </view>
 
   <view class="submit-panel">
     <button class="primary-button form-submit" hover-class="u-hover" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
-        <mp-icon icon="info" color="#ffffff" size="{{18}}" />
+        <t-icon name="check" color="#ffffff" size="36rpx" />
         <text class="button-text">{{submitText}}</text>
       </view>
     </button>

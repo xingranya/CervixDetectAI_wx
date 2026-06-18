@@ -5,6 +5,6 @@
   "usingComponents": {
     "weui-confirm": "/components/weui-confirm/index",
     "setup-sheet": "/components/setup-sheet/index",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "t-icon": "tdesign-miniprogram/icon/icon"
   }
 }

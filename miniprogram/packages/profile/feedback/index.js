@@ -7,15 +7,6 @@ const DEFAULT_FORM = {
   contact: "",
   content: ""
 };
-const formRules = [
-  {
-    name: "content",
-    rules: [
-      { required: true, message: "请填写反馈内容" },
-      { minlength: 8, message: "请至少填写 8 个字，帮助我们更准确地理解问题。" }
-    ]
-  }
-];
 
 function normalizeAttachmentItem(item) {
   if (!item) return null;
@@ -59,7 +50,6 @@ function buildGalleryUrls(files) {
 Page({
   data: {
     form: { ...DEFAULT_FORM },
-    formRules,
     attachmentFiles: [],
     galleryShow: false,
     galleryCurrent: 0,
@@ -69,7 +59,12 @@ Page({
     feedbackTypeIndex: 0,
     errorMessage: "",
     loading: false,
-    isGuest: !isLoggedIn()
+    isGuest: !isLoggedIn(),
+    uploadConfig: {
+      count: 3,
+      sizeType: ["compressed"],
+      sourceType: ["album", "camera"]
+    }
   },
 
   onShow() {
@@ -94,8 +89,14 @@ Page({
   },
 
   onAttachmentSelect(event) {
-    const nextFiles = normalizeAttachmentFiles(event.detail);
-    const files = this.data.attachmentFiles.concat(nextFiles).slice(0, 3);
+    const detail = event.detail || {};
+    const selectedFiles = []
+      .concat(Array.isArray(detail.files) ? detail.files : [])
+      .concat(Array.isArray(detail.currentSelectedFiles) ? detail.currentSelectedFiles : [])
+      .flat()
+      .map(normalizeAttachmentItem)
+      .filter(Boolean);
+    const files = selectedFiles.slice(0, 3);
     this.setData({
       attachmentFiles: files,
       galleryUrls: buildGalleryUrls(files)
@@ -126,7 +127,7 @@ Page({
   },
 
   onGalleryChange(event) {
-    this.setData({ galleryCurrent: event.detail.current || 0 });
+    this.setData({ galleryCurrent: event.detail.index || 0 });
   },
 
   onGalleryDelete(event) {
@@ -146,14 +147,6 @@ Page({
       return false;
     }
     return true;
-  },
-
-  onFormFail(event) {
-    const errors = event.detail && event.detail.errors;
-    const firstError = Array.isArray(errors) && errors[0] ? errors[0] : null;
-    this.setData({
-      errorMessage: firstError && firstError.message ? firstError.message : "请完善反馈内容"
-    });
   },
 
   async submitFeedback() {

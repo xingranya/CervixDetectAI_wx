@@ -20,7 +20,7 @@
         </view>
         <view class="hero-top-spacer"></view>
         <view class="notification-entry" hover-class="u-hover" bind:tap="goPage" data-path="{{notificationPath}}" aria-role="button" aria-label="通知中心，{{unreadCount}}条未读">
-          <mp-icon icon="info" color="#475569" size="{{22}}" />
+          <t-icon name="notification" color="#475569" size="44rpx" />
           <view wx:if="{{unreadCount > 0}}" class="notification-badge">{{unreadCount > 99 ? '99+' : unreadCount}}</view>
         </view>
       </view>
@@ -33,7 +33,7 @@
             mode="aspectFill"
             lazy-load
           />
-          <mp-icon wx:else icon="info" color="{{brandColor}}" size="{{32}}" />
+          <t-icon wx:else name="user" color="{{brandColor}}" size="64rpx" />
           <view class="status-dot status-dot-{{home.healthTone}}"></view>
         </view>
         <view class="hero-top-copy">
@@ -62,7 +62,7 @@
         <text class="guest-entry-desc">登录仅在你需要保存个人记录、提醒和备忘时使用，头像与昵称均为选填。</text>
         <button class="primary-button guest-entry-button" hover-class="u-hover" bind:tap="goLogin">
           <view class="button-content">
-            <mp-icon icon="info" color="#ffffff" size="{{18}}" />
+            <t-icon name="login" color="#ffffff" size="36rpx" />
             <text class="button-text guest-entry-button-text">登录保存数据</text>
           </view>
         </button>
@@ -113,8 +113,8 @@
       <text class="latest-desc">{{home.nextReminder}}</text>
       <button class="primary-button" hover-class="u-hover" bind:tap="goPage" data-path="/pages/records/index" aria-role="button" aria-label="查看检查记录">
         <view class="button-content">
-          <mp-icon icon="info" color="#ffffff" size="{{18}}" />
-          <text class="button-text">查看检查记录</text>
+            <t-icon name="data-search" color="#ffffff" size="36rpx" />
+            <text class="button-text">查看检查记录</text>
         </view>
       </button>
     </view>

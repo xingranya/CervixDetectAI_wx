@@ -1,5 +1,5 @@
 <view class="page">
-  <section-header title="健康知识" weui-icon="info" />
+  <section-header title="健康知识" weui-icon="article" />
 
   <view wx:if="{{pageStatus === 'loading'}}" class="card state-card">
     <view class="local-loading">
@@ -20,17 +20,17 @@
     wx:elif="{{pageStatus === 'empty'}}"
     title="暂时还没有内容"
     desc="稍后会在这里补充适合日常查看的健康管理文章。"
-    weui-icon="info"
+    weui-icon="article"
   />
 
   <block wx:else>
     <view wx:for="{{articles}}" wx:key="id" class="card article-card" bind:tap="openArticle" data-id="{{item.id}}">
-      <mp-icon icon="info" color="#1f53c9" size="{{28}}" />
+      <t-icon name="book-open" color="#1f53c9" size="56rpx" />
       <view class="article-body">
         <text class="article-title">{{item.title}}</text>
         <text class="article-summary">{{item.summary}}</text>
       </view>
-      <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
+      <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
     </view>
   </block>
 

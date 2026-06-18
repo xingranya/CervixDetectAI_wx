@@ -2,12 +2,9 @@
   "navigationBarTitleText": "意见反馈",
   "usingComponents": {
     "section-header": "/components/section-header/index",
-    "mp-form": "weui-miniprogram/form/form",
-    "mp-cells": "weui-miniprogram/cells/cells",
-    "mp-cell": "weui-miniprogram/cell/cell",
-    "mp-toptips": "weui-miniprogram/toptips/toptips",
-    "mp-uploader": "weui-miniprogram/uploader/uploader",
-    "mp-gallery": "weui-miniprogram/gallery/gallery",
-    "mp-icon": "weui-miniprogram/icon/icon"
+    "t-message": "tdesign-miniprogram/message/message",
+    "t-upload": "tdesign-miniprogram/upload/upload",
+    "t-image-viewer": "tdesign-miniprogram/image-viewer/image-viewer",
+    "t-icon": "tdesign-miniprogram/icon/icon"
   }
 }

@@ -211,6 +211,9 @@ function extractStreamDelta(jsonStr) {
 
 function writeStreamEvent(res, payload) {
   res.write(`data: ${JSON.stringify(payload)}\n\n`);
+  if (typeof res.flush === "function") {
+    res.flush();
+  }
 }
 
 function parseSseFrame(frame) {

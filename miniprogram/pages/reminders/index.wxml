@@ -34,15 +34,13 @@
     </view>
   </view>
 
-  <mp-searchbar
+  <t-search
     wx:if="{{allReminders.length}}"
-    ext-class="weui-search"
+    class="reminders-search"
     placeholder="搜索提醒标题、内容或日期"
     value="{{searchKeyword}}"
-    search="{{searchReminders}}"
-    cancel="{{false}}"
-    bindinput="onSearchInput"
-    bindclear="onSearchClear"
+    bind:change="onSearchInput"
+    bind:clear="onSearchClear"
   />
 
   <view wx:if="{{allReminders.length}}" class="filter-tab-row">
@@ -68,7 +66,7 @@
     wx:elif="{{pageStatus === 'empty'}}"
     title="{{isGuest ? '体验模式下不展示个人提醒' : '还没有提醒'}}"
     desc="{{isGuest ? '你可以先浏览提醒页布局和说明；需要保存自己的复查计划时，再自行登录。' : '添加复查或资料准备提醒，把后续安排放进计划里。'}}"
-    weui-icon="info"
+    weui-icon="reminder"
     button-text="{{isGuest ? '前往登录' : '添加提醒'}}"
     bind:action="createReminder"
   />
@@ -94,7 +92,7 @@
           </view>
           <view class="pill-wrap">
             <text class="pill">{{item.statusText}}</text>
-            <mp-badge wx:if="{{!item.done}}" />
+            <t-badge wx:if="{{!item.done}}" dot="{{true}}" />
           </view>
         </view>
         <text class="reminder-desc">{{item.desc}}</text>
@@ -151,6 +149,6 @@
     bind:confirm="confirmDeleteReminder"
   />
   <view class="u-back-to-top {{showBackToTop ? '' : 'u-back-to-top-hidden'}}" bind:tap="scrollToTop" aria-role="button" aria-label="回到顶部">
-    <mp-icon icon="arrow" color="rgb(24, 118, 210)" size="{{20}}" />
+    <t-icon name="chevron-right" color="rgb(24, 118, 210)" size="40rpx" />
   </view>
 </view>

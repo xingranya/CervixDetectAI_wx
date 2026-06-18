@@ -198,10 +198,10 @@ Page({
     if (this.data.setupSheetVisible) return;
     if (!isLoggedIn()) return;
     if (this._setupSheetAutoShown) return;
-    const nicknameReady = !!wx.getStorageSync("profileNicknameReady");
-    const avatarReady = !!wx.getStorageSync("profileAvatarReady");
-    // 昵称和头像都完成时不再自动弹；否则首次进入 profile 页时自动弹起。
-    if (nicknameReady && avatarReady) return;
+    const setupTouched = !!wx.getStorageSync("profileSettingsConsent")
+      || !!wx.getStorageSync("profileNicknameReady")
+      || !!wx.getStorageSync("profileAvatarReady");
+    if (setupTouched) return;
     this._setupSheetAutoShown = true;
     this.setData({ setupSheetVisible: true });
   },
@@ -459,6 +459,7 @@ Page({
   _clearLocalData() {
     wx.removeStorageSync("token");
     wx.removeStorageSync("user");
+    wx.removeStorageSync("profileSettingsConsent");
     wx.removeStorageSync("profileNicknameReady");
     wx.removeStorageSync("profileAvatarReady");
     clearAllCaches();

@@ -1,7 +1,7 @@
 <view class="page record-form-page">
-  <section-header title="{{pageTitle}}" weui-icon="info" desc="保存已有检查摘要，方便后续复查和线下咨询时查看。" />
+  <section-header title="{{pageTitle}}" weui-icon="record" desc="保存已有检查摘要，方便后续复查和线下咨询时查看。" />
 
-  <mp-toptips msg="{{errorMessage}}" type="error" show="{{!!errorMessage}}" />
+  <t-message theme="error" visible="{{!!errorMessage}}" content="{{errorMessage}}" />
 
   <view wx:if="{{!id}}" class="form-panel template-panel">
     <view class="panel-heading">
@@ -30,109 +30,116 @@
     </view>
   </view>
 
-  <mp-form id="form" rules="{{formRules}}" models="{{formModel}}" bindfail="onFormFail">
-    <view class="form-panel">
-      <view class="panel-heading">
-        <text class="panel-title">基础信息</text>
-        <text class="panel-desc">用于在记录列表中快速识别这次内容。</text>
-      </view>
-      <mp-cells ext-class="form-weui-cells">
-        <mp-cell title="检查日期" prop="date" show-error="{{true}}" inline="{{false}}">
-          <picker mode="date" value="{{date}}" start="2000-01-01" end="{{today}}" bind:change="onDateChange">
-            <view class="select-field">
-              <text class="select-value">{{dateDisplay}}</text>
-              <mp-icon icon="arrow" color="#4d5d73" size="{{16}}" />
-            </view>
-          </picker>
-        </mp-cell>
-
-        <mp-cell title="记录标题" prop="title" show-error="{{true}}" inline="{{false}}">
-          <input class="form-input" value="{{title}}" bind:input="onTitleInput" bind:blur="onFieldBlur" data-field="title" maxlength="60" placeholder="例如：女性健康筛查记录" placeholder-class="form-placeholder" />
-          <text wx:if="{{fieldErrors.title}}" class="field-error">{{fieldErrors.title}}</text>
-        </mp-cell>
-
-        <mp-cell title="检查项目" prop="project" show-error="{{true}}" inline="{{false}}">
-          <input class="form-input" value="{{project}}" bind:input="onProjectInput" bind:blur="onFieldBlur" data-field="project" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" placeholder-class="form-placeholder" />
-          <text wx:if="{{fieldErrors.project}}" class="field-error">{{fieldErrors.project}}</text>
-        </mp-cell>
-
-        <mp-cell title="检查医院" inline="{{false}}">
-          <input class="form-input" value="{{hospital}}" bind:input="onHospitalInput" maxlength="100" placeholder="选填，如：北京协和医院" placeholder-class="form-placeholder" />
-        </mp-cell>
-
-        <mp-cell title="主治医生" inline="{{false}}">
-          <input class="form-input" value="{{doctorName}}" bind:input="onDoctorNameInput" maxlength="40" placeholder="选填，如：张医生" placeholder-class="form-placeholder" />
-        </mp-cell>
-      </mp-cells>
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">基础信息</text>
+      <text class="panel-desc">用于在记录列表中快速识别这次内容。</text>
     </view>
-
-    <view class="form-panel">
-      <view class="panel-heading">
-        <text class="panel-title">记录内容</text>
-        <text class="panel-desc">只记录已有检查摘要和个人复查准备事项。</text>
+    <view class="form-cells">
+      <view class="form-cell">
+        <text class="form-cell-title">检查日期</text>
+        <picker mode="date" value="{{date}}" start="2000-01-01" end="{{today}}" bind:change="onDateChange">
+          <view class="select-field">
+            <text class="select-value">{{dateDisplay}}</text>
+            <t-icon name="chevron-right" color="#4d5d73" size="32rpx" />
+          </view>
+        </picker>
+        <text wx:if="{{fieldErrors.date}}" class="field-error">{{fieldErrors.date}}</text>
       </view>
-      <mp-cells ext-class="form-weui-cells">
-        <mp-cell title="摘要" prop="summary" show-error="{{true}}" inline="{{false}}">
-          <view class="label-row">
-            <text class="field-hint">{{summaryLength}} / 500</text>
-          </view>
-          <textarea class="form-textarea" value="{{summary}}" bind:input="onSummaryInput" bind:blur="onFieldBlur" data-field="summary" maxlength="500" placeholder="记录检查摘要，便于后续查看。" placeholder-class="form-placeholder" />
-          <text wx:if="{{fieldErrors.summary}}" class="field-error">{{fieldErrors.summary}}</text>
-        </mp-cell>
 
-        <mp-cell title="提醒建议" prop="suggestion" show-error="{{true}}" inline="{{false}}">
-          <view class="label-row">
-            <text class="field-hint">{{suggestionLength}} / 500</text>
-          </view>
-          <textarea class="form-textarea" value="{{suggestion}}" bind:input="onSuggestionInput" bind:blur="onFieldBlur" data-field="suggestion" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" placeholder-class="form-placeholder" />
-          <text wx:if="{{fieldErrors.suggestion}}" class="field-error">{{fieldErrors.suggestion}}</text>
-        </mp-cell>
+      <view class="form-cell">
+        <text class="form-cell-title">记录标题</text>
+        <input class="form-input" value="{{title}}" bind:input="onTitleInput" bind:blur="onFieldBlur" data-field="title" maxlength="60" placeholder="例如：女性健康筛查记录" placeholder-class="form-placeholder" />
+        <text wx:if="{{fieldErrors.title}}" class="field-error">{{fieldErrors.title}}</text>
+      </view>
 
-        <mp-cell title="检查结论" inline="{{false}}">
-          <view class="label-row">
-            <text class="field-hint">{{conclusionLength}} / 500</text>
-          </view>
-          <textarea class="form-textarea" value="{{conclusion}}" bind:input="onConclusionInput" maxlength="500" placeholder="选填，如：未见异常 / ASCUS 等" placeholder-class="form-placeholder" />
-        </mp-cell>
-      </mp-cells>
+      <view class="form-cell">
+        <text class="form-cell-title">检查项目</text>
+        <input class="form-input" value="{{project}}" bind:input="onProjectInput" bind:blur="onFieldBlur" data-field="project" maxlength="60" placeholder="例如：TCT / HPV 摘要记录" placeholder-class="form-placeholder" />
+        <text wx:if="{{fieldErrors.project}}" class="field-error">{{fieldErrors.project}}</text>
+      </view>
+
+      <view class="form-cell">
+        <text class="form-cell-title">检查医院</text>
+        <input class="form-input" value="{{hospital}}" bind:input="onHospitalInput" maxlength="100" placeholder="选填，如：北京协和医院" placeholder-class="form-placeholder" />
+      </view>
+
+      <view class="form-cell">
+        <text class="form-cell-title">主治医生</text>
+        <input class="form-input" value="{{doctorName}}" bind:input="onDoctorNameInput" maxlength="40" placeholder="选填，如：张医生" placeholder-class="form-placeholder" />
+      </view>
     </view>
+  </view>
 
-    <view class="form-panel">
-      <view class="panel-heading">
-        <text class="panel-title">附件图片</text>
-        <text class="panel-desc">选填，上传检查报告照片等附件（最多9张）。</text>
-      </view>
-      <view class="attachment-grid">
-        <view wx:for="{{attachments}}" wx:key="url" class="attachment-item">
-          <image class="attachment-image" src="{{item.url}}" mode="aspectFill" lazy-load bind:tap="previewAttachment" data-index="{{index}}" />
-          <view class="attachment-remove" catch:tap="removeAttachment" data-index="{{index}}">
-            <text class="attachment-remove-icon">×</text>
-          </view>
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">记录内容</text>
+      <text class="panel-desc">只记录已有检查摘要和个人复查准备事项。</text>
+    </view>
+    <view class="form-cells">
+      <view class="form-cell">
+        <text class="form-cell-title">摘要</text>
+        <view class="label-row">
+          <text class="field-hint">{{summaryLength}} / 500</text>
         </view>
-        <view wx:if="{{attachments.length < 9}}" class="attachment-add" bind:tap="chooseAttachment">
-          <text class="attachment-add-icon">+</text>
-          <text class="attachment-add-text">添加图片</text>
+        <textarea class="form-textarea" value="{{summary}}" bind:input="onSummaryInput" bind:blur="onFieldBlur" data-field="summary" maxlength="500" placeholder="记录检查摘要，便于后续查看。" placeholder-class="form-placeholder" />
+        <text wx:if="{{fieldErrors.summary}}" class="field-error">{{fieldErrors.summary}}</text>
+      </view>
+
+      <view class="form-cell">
+        <text class="form-cell-title">提醒建议</text>
+        <view class="label-row">
+          <text class="field-hint">{{suggestionLength}} / 500</text>
+        </view>
+        <textarea class="form-textarea" value="{{suggestion}}" bind:input="onSuggestionInput" bind:blur="onFieldBlur" data-field="suggestion" maxlength="500" placeholder="记录复查安排、资料准备等提醒。" placeholder-class="form-placeholder" />
+        <text wx:if="{{fieldErrors.suggestion}}" class="field-error">{{fieldErrors.suggestion}}</text>
+      </view>
+
+      <view class="form-cell">
+        <text class="form-cell-title">检查结论</text>
+        <view class="label-row">
+          <text class="field-hint">{{conclusionLength}} / 500</text>
+        </view>
+        <textarea class="form-textarea" value="{{conclusion}}" bind:input="onConclusionInput" maxlength="500" placeholder="选填，如：未见异常 / ASCUS 等" placeholder-class="form-placeholder" />
+      </view>
+    </view>
+  </view>
+
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">附件图片</text>
+      <text class="panel-desc">选填，上传检查报告照片等附件（最多9张）。</text>
+    </view>
+    <view class="attachment-grid">
+      <view wx:for="{{attachments}}" wx:key="url" class="attachment-item">
+        <image class="attachment-image" src="{{item.url}}" mode="aspectFill" lazy-load bind:tap="previewAttachment" data-index="{{index}}" />
+        <view class="attachment-remove" catch:tap="removeAttachment" data-index="{{index}}">
+          <text class="attachment-remove-icon">×</text>
         </view>
       </view>
-    </view>
-
-    <view class="form-panel">
-      <view class="panel-heading">
-        <text class="panel-title">记录状态</text>
-        <text class="panel-desc">选择当前最适合的管理状态。</text>
+      <view wx:if="{{attachments.length < 9}}" class="attachment-add" bind:tap="chooseAttachment">
+        <text class="attachment-add-icon">+</text>
+        <text class="attachment-add-text">添加图片</text>
       </view>
-      <mp-cells ext-class="weui-choice-cells">
-        <mp-checkbox-group prop="status" multi="{{false}}" bindchange="onStatusChange">
-          <mp-checkbox wx:for="{{statusItems}}" wx:key="value" label="{{item.label}}" value="{{item.value}}" checked="{{item.checked}}"></mp-checkbox>
-        </mp-checkbox-group>
-      </mp-cells>
     </view>
-  </mp-form>
+  </view>
+
+  <view class="form-panel">
+    <view class="panel-heading">
+      <text class="panel-title">记录状态</text>
+      <text class="panel-desc">选择当前最适合的管理状态。</text>
+    </view>
+    <view class="choice-cells">
+      <t-radio-group value="{{status}}" bind:change="onStatusChange">
+        <t-radio wx:for="{{statusItems}}" wx:key="value" label="{{item.label}}" value="{{item.value}}" />
+      </t-radio-group>
+    </view>
+  </view>
 
   <view class="submit-panel">
     <button class="primary-button form-submit" hover-class="u-hover" disabled="{{loading}}" bind:tap="submitForm">
       <view class="button-content">
-        <mp-icon icon="info" color="#ffffff" size="{{18}}" />
+        <t-icon name="check" color="#ffffff" size="36rpx" />
         <text class="button-text">{{submitText}}</text>
       </view>
     </button>

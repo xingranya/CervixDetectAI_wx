@@ -1,7 +1,7 @@
 {
   "navigationBarTitleText": "登录云端智诊",
   "usingComponents": {
-    "mp-icon": "weui-miniprogram/icon/icon",
+    "t-icon": "tdesign-miniprogram/icon/icon",
     "privacy-consent": "/components/privacy-consent/index"
   }
 }

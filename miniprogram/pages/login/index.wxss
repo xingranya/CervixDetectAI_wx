@@ -265,6 +265,13 @@
   box-sizing: border-box;
 }
 
+.login-nickname-input-disabled {
+  display: flex;
+  align-items: center;
+  background: var(--wx-bg-secondary);
+  color: var(--wx-text-tertiary);
+}
+
 .login-nickname-placeholder {
   color: #64748b;
 }
