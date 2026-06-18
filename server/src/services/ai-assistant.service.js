@@ -198,19 +198,26 @@ function extractStreamDelta(jsonStr) {
   if (provider === "openai") {
     const delta = data?.choices?.[0]?.delta || {};
     return {
-      content: delta.content || "",
-      reasoning: delta.reasoning_content || ""
+      content: delta.content || delta.text || "",
+      reasoning: delta.reasoning_content || delta.reasoning || delta.reasoningContent || delta.thinking_content || delta.thinking || ""
     };
   }
   const msg = data?.output?.choices?.[0]?.message || {};
   return {
     content: msg.content || "",
-    reasoning: msg.reasoning_content || ""
+    reasoning: msg.reasoning_content || msg.reasoning || msg.reasoningContent || msg.thinking_content || msg.thinking || ""
   };
 }
 
 function writeStreamEvent(res, payload) {
   res.write(`data: ${JSON.stringify(payload)}\n\n`);
+  if (typeof res.flush === "function") {
+    res.flush();
+  }
+}
+
+function writeStreamComment(res, text) {
+  res.write(`: ${text || ""}\n\n`);
   if (typeof res.flush === "function") {
     res.flush();
   }
@@ -332,12 +339,21 @@ async function chat(userId, userMessages) {
 }
 
 async function chatStream(userId, userMessages, res) {
+  if (res.socket && typeof res.socket.setNoDelay === "function") {
+    res.socket.setNoDelay(true);
+  }
+  writeStreamComment(res, "stream-open");
+  const heartbeat = setInterval(() => {
+    writeStreamComment(res, "stream-waiting");
+  }, 1000);
+
   const lastMessage = Array.isArray(userMessages) && userMessages.length > 0
     ? userMessages[userMessages.length - 1]
     : null;
 
   const complianceError = checkCompliance(lastMessage?.content);
   if (complianceError) {
+    clearInterval(heartbeat);
     writeStreamEvent(res, {
       text: ensureDisclaimer(complianceError),
       done: true,
@@ -349,6 +365,7 @@ async function chatStream(userId, userMessages, res) {
 
   const { apiKey } = env.ai;
   if (!apiKey) {
+    clearInterval(heartbeat);
     writeStreamEvent(res, {
       text: "AI服务未配置，请联系管理员。",
       done: true,
@@ -363,6 +380,7 @@ async function chatStream(userId, userMessages, res) {
   res.on("close", () => {
     controller.abort();
     clearTimeout(timeout);
+    clearInterval(heartbeat);
   });
 
   let response;
@@ -380,6 +398,7 @@ async function chatStream(userId, userMessages, res) {
     });
   } catch (error) {
     clearTimeout(timeout);
+    clearInterval(heartbeat);
     writeStreamEvent(res, {
       text: error && error.name === "AbortError"
         ? "AI响应超时，请稍后重试。"
@@ -393,6 +412,7 @@ async function chatStream(userId, userMessages, res) {
 
   if (!response.ok || !response.body) {
     clearTimeout(timeout);
+    clearInterval(heartbeat);
     writeStreamEvent(res, {
       text: "AI服务暂时不可用，请稍后重试。",
       done: true,
@@ -412,9 +432,11 @@ async function chatStream(userId, userMessages, res) {
         try {
           const delta = extractStreamDelta(payload);
           if (delta.reasoning) {
+            clearInterval(heartbeat);
             writeStreamEvent(res, { reasoning: delta.reasoning, done: false });
           }
           if (delta.content) {
+            clearInterval(heartbeat);
             accumulated += delta.content;
             const sanitized = sanitizeOutput(delta.content);
             if (sanitized) {
@@ -431,9 +453,11 @@ async function chatStream(userId, userMessages, res) {
       try {
         const delta = extractStreamDelta(payload);
         if (delta.reasoning) {
+          clearInterval(heartbeat);
           writeStreamEvent(res, { reasoning: delta.reasoning, done: false });
         }
         if (delta.content) {
+          clearInterval(heartbeat);
           accumulated += delta.content;
           const sanitized = sanitizeOutput(delta.content);
           if (sanitized) {
@@ -446,10 +470,12 @@ async function chatStream(userId, userMessages, res) {
     }, true);
 
     clearTimeout(timeout);
+    clearInterval(heartbeat);
     writeStreamEvent(res, { text: "", done: true, disclaimer: DISCLAIMER });
     res.end();
   } catch (error) {
     clearTimeout(timeout);
+    clearInterval(heartbeat);
     writeStreamEvent(res, {
       text: accumulated ? "" : "AI响应中断，请稍后重试。",
       done: true,

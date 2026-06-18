@@ -585,6 +585,7 @@ Page({
     this._streamDone = false;
     this._streamHasChunk = false;
     this._streamHasPayload = false;
+    this._streamRenderedAny = false;
     this._streamBuffer = "";
     this._streamCarryBytes = new Uint8Array(0);
     this._pageUnmounted = false;
@@ -720,6 +721,7 @@ Page({
   },
 
   _appendAssistantDelta(msgId, delta) {
+    const shouldRenderImmediately = !this._streamRenderedAny && (delta.content || delta.reasoning);
     if (!this._streamQueues) this._streamQueues = {};
     const queue = this._streamQueues[msgId] || { content: "", reasoning: "", finalUpdates: null };
     if (delta.content) {
@@ -729,6 +731,10 @@ Page({
       queue.reasoning += delta.reasoning;
     }
     this._streamQueues[msgId] = queue;
+    if (shouldRenderImmediately) {
+      this._drainStreamQueue();
+      return;
+    }
     this._scheduleStreamRender(0);
   },
 
@@ -741,6 +747,9 @@ Page({
     }
     if (delta.reasoning) {
       entry.reasoning += delta.reasoning;
+    }
+    if (delta.content || delta.reasoning) {
+      this._streamRenderedAny = true;
     }
     this._pendingDelta[msgId] = entry;
     this._scheduleStreamFlush();
